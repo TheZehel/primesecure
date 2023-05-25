@@ -12,17 +12,18 @@ const Banner = () => {
   const [delta, setDelta] = useState(300 - Math.random() * 100);
   const [index, setIndex] = useState(1);
   const toRotate = ["Seguros", "Planos de Saúde"];
-  const period = 2000;
+  const period = 500;
 
   useEffect(() => {
     let ticker = setInterval(() => {
       tick();
     }, delta);
 
+    // Limpa o intervalo quando o componente for desmontado
     return () => {
       clearInterval(ticker);
     };
-  }, [text]);
+  }, [text, delta]); // Adicione 'delta' como dependência para atualizar o intervalo
 
   const tick = () => {
     let i = loopNum % toRotate.length;
@@ -43,7 +44,7 @@ const Banner = () => {
       setDelta(period);
     } else if (isDeleting && updatedText === "") {
       setIsDeleting(false);
-      setLoopNum(loopNum + 1);
+      setLoopNum((prevLoopNum) => prevLoopNum + 1);
       setIndex(1);
       setDelta(500);
     } else {
@@ -61,7 +62,7 @@ const Banner = () => {
               Prime Secure{" "}
               <span
                 className="txt-rotate inline-block"
-                data-period="1000"
+                data-period="500"
                 data-rotate='["Seguros", "Planos de Saúde"]'
               >
                 <span className="wrap">{text}</span>
