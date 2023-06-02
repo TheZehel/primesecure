@@ -39,7 +39,7 @@
 
 .banner {
   margin-top: 0;
-  padding: 0px 0 100px 0;
+  padding: 0px 0 0 0;
   background-position: top center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -57,7 +57,7 @@
 }
 
 .banner h1 {
-  font-size: 65px;
+  font-size: 40px;
   font-weight: 700;
   letter-spacing: 0.8px;
   line-height: 1;
@@ -66,7 +66,7 @@
 }
 
 .banner p {
-  color: #B8B8B8;
+  color: #313131;
   font-size: 18px;
   letter-spacing: 0.8px;
   line-height: 1.5em;
@@ -77,10 +77,11 @@
   color: #fff;
   font-weight: 700;
   font-size: 20px;
-  margin-top: 60px;
+  margin-top: 20px;
   letter-spacing: 0.8px;
   display: flex;
   align-items: center;
+  border-radius: 8px;
 }
 
 .banner button svg {
@@ -114,46 +115,35 @@
   border-right: 0.08em solid #666;
 }
 
-.skill {
-  padding: 0 0 50px 0;
-  position: relative;
+/************ Skills Css ************/
+.background-skills{
   background: linear-gradient(90.21deg, #0095cf -5.91%, #273377 111.58%);
-}
-
-.skill-bx {
-  background: #151515;
-  border-radius: 64px;
-  text-align: center;
-  padding: 60px 50px;
-  margin-top: -60px;
+  padding: 10px
 }
 
 .skill h2 {
-  font-size: 45px;
-  font-weight: 700;
+  @apply text-4xl font-bold;
 }
 
 .skill p {
-  color: #B8B8B8;
-  font-size: 18px;
+  @apply text-gray-300 text-lg;
   letter-spacing: 0.8px;
   line-height: 1.5em;
   margin: 14px 0 75px 0;
 }
 
 .skill-slider {
-  width: 80%;
-  margin: 0 auto;
-  position: relative;
+  @apply w-4/5 mx-auto relative;
 }
 
 .skill-slider .item img {
-  width: 50%;
-  margin: 0 auto 15px auto;
+  @apply w-1/2 mx-auto mb-3;
 }
 
 .background-image-left {
   top: 28%;
   position: absolute;
   bottom: 0;
+  width: 40%;
+  z-index: -4;
 }
