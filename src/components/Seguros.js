@@ -24,7 +24,7 @@ export const Skills = () => {
 
   return (
     <section className="background-skills" id="skills">
-      <div className="container mx-auto">
+      <div className="container p-10">
         <div className="mx-5">
           <div className="text-center">
             <h2 className="text-4xl font-bold text-white">Nossos Seguros</h2>
@@ -69,3 +69,5 @@ export const Skills = () => {
     </section>
   );
 };
+
+export default Skills;

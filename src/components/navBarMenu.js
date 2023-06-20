@@ -51,7 +51,11 @@ export default function NavBarMenu() {
         <div className="flex lg:flex-1">
           <a href="#" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
-            <img className="h-5 w-auto" src={logoprime} alt="" />
+            <img
+              className="h-5 w-auto"
+              src={logoprime}
+              alt="Logo Prime Secure"
+            />
           </a>
         </div>
         <div className="flex lg:hidden">
@@ -92,7 +96,7 @@ export default function NavBarMenu() {
                     >
                       <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
                         <item.icon
-                          className="h-6 w-6 text-gray-600 group-hover:text-blue-600"
+                          className="h-6 w-6 text-gray-600 group-hover:text-bluePrime"
                           aria-hidden="true"
                         />
                       </div>
