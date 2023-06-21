@@ -33,7 +33,7 @@ const features = [
 
 export default function Example() {
   return (
-    <div className="overflow-hidden bg-white">
+    <div className="overflow-hidden bg-white font-sans">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
           <div className="lg:pr-8 lg:pt-4">
@@ -70,7 +70,7 @@ export default function Example() {
             <img
               src={Image}
               alt="Product screenshot"
-              className=" inset-0 w-full h-full object-cover object-center rounded-xl shadow-xl ring-1 ring-gray-400/10 sm:relative sm:w-[57rem] sm:h-auto sm:max-w-none sm:rounded-none sm:shadow-none sm:ring-0 sm:ring-transparent sm:border sm:mx-10 sm:my-2 sm:border-2 sm:rounded-lg"
+              className=" inset-0 w-full h-full object-cover object-center rounded-xl shadow-xl   sm:relative sm:w-[57rem] sm:h-auto sm:max-w-none  sm:shadow-none sm:ring-0 sm:ring-transparent  sm:mx-10 sm:my-2  sm:rounded-lg"
             />
           </div>
         </div>

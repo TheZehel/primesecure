@@ -1,9 +1,6 @@
 import { useState, useEffect } from "react";
 import "animate.css";
-import { Transition } from "@headlessui/react";
-import TrackVisibility from "react-on-screen";
 import headerImg from "../assets/img/cel-prime.webp";
-import { Bars3Icon } from "@heroicons/react/24/outline";
 
 const Banner = () => {
   const [loopNum, setLoopNum] = useState(0);
@@ -74,12 +71,6 @@ const Banner = () => {
               ever since the 1500s, when an unknown printer took a galley of
               type and scrambled it to make a type specimen book.
             </p>
-            <button
-              className="bg-bluePrime hover:bg-bluePrime text-white px-4 py-2 flex "
-              onClick={() => console.log("connect")}
-            >
-              Ver Seguros <Bars3Icon className="w-4 h-4 ml-2" />
-            </button>
           </div>
           <div className="animate__animated animate__zoomIn">
             <img src={headerImg} alt="Header Img" />

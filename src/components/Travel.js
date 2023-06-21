@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "../assets/img/seguro-residencial-prime-secure-porto-seguro.png";
+import imageManager from "./bancoDeImagens";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHouse,
@@ -38,9 +38,9 @@ export default function Example() {
         <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
           <div className="relative order-2 sm:order-1">
             <img
-              src={Image}
+              src={imageManager.imgProdutos.imgPrimeTravel}
               alt="Product screenshot"
-              className="w-full h-full object-cover object-center rounded-xl shadow-xl ring-1 sm:relative sm:w-[57rem] sm:h-auto sm:max-w-none sm:rounded-none sm:shadow-none sm:ring-0 sm:ring-transparent sm:border sm:mx-10 sm:my-2 sm:border-2 sm:rounded-lg ml-auto mr-0 lg:transform lg:-translate-x-[45%] z-[-1] sm:z-10"
+              className="w-full h-full object-cover object-center rounded-xl sm:relative sm:w-[57rem] sm:h-auto sm:max-w-none  sm:shadow-none sm:ring-0 sm:ring-transparent  sm:mx-10 sm:my-2  sm:rounded-lg ml-auto mr-0 lg:transform lg:-translate-x-[45%] z-[-1] sm:z-10"
             />
           </div>
           <div className="lg:pl-8 lg:pt-4 order-1 sm:order-2">

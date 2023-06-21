@@ -2,7 +2,7 @@ import { FaHome, FaPlane } from "react-icons/fa";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
-export const Skills = () => {
+export const Seguros = () => {
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
@@ -24,7 +24,7 @@ export const Skills = () => {
 
   return (
     <section className="background-skills" id="skills">
-      <div className="container p-10">
+      <div className=" p-10">
         <div className="mx-5">
           <div className="text-center">
             <h2 className="text-4xl font-bold text-white">Nossos Seguros</h2>
@@ -70,4 +70,4 @@ export const Skills = () => {
   );
 };
 
-export default Skills;
+export default Seguros;

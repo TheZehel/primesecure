@@ -7,7 +7,7 @@ module.exports = {
         bluePrime: "#03a8db",
       },
       fontFamily: {
-        sans: ["Montserrat", "sans-serif"],
+        montserrat: ["Montserrat", "sans-serif"],
       },
     },
   },

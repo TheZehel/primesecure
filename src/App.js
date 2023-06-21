@@ -8,6 +8,7 @@ import Faq from "./components/Faq";
 import Logos from "./components/Logos";
 import Footer from "./components/Footer";
 import Selos from "./components/Selos";
+import SobrePrime from "./components/SobrePrime";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Seguros />
       <Travel />
       <Residencial />
+      <SobrePrime />
       <Faq />
       <Logos />
       <Selos />
