@@ -5,11 +5,12 @@ module.exports = {
     extend: {
       colors: {
         bluePrime: "#03a8db",
+        grayPrime: "#313131",
       },
       fontFamily: {
         montserrat: ["Montserrat", "sans-serif"],
       },
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/forms")],
 };

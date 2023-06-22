@@ -9,16 +9,33 @@ import Logos from "./components/Logos";
 import Footer from "./components/Footer";
 import Selos from "./components/Selos";
 import SobrePrime from "./components/SobrePrime";
+import Contato from "./components/Contato";
 
 function App() {
   return (
     <div className="App">
       <NavBarMenu />
+
       <Banner />
       <Seguros />
-      <Travel />
-      <Residencial />
-      <SobrePrime />
+      <div
+        id="Travel1"
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
+      >
+        <Travel />
+      </div>
+      <div id="Residencial">
+        <Residencial />
+      </div>
+      <div id="sobrePrime">
+        <SobrePrime />
+      </div>
+      <div id="Contato">
+        <Contato />
+      </div>
       <Faq />
       <Logos />
       <Selos />
