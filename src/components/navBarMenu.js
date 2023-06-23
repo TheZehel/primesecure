@@ -1,10 +1,10 @@
 import React, { Fragment } from "react";
 import { useState } from "react";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
-import { scroller, Link } from "react-scroll";
+import { scroller, Link as LinkScroller } from "react-scroll";
 import logoprime from "../assets/img/logo-prime-secure.png";
 import classNames from "classnames";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 
 import {
   Bars3Icon,
@@ -21,11 +21,12 @@ import {
 let splitUrl = window.location.href.split("/");
 let slug = splitUrl[splitUrl.length - 1];
 console.log(slug);
+
 const products = [
   {
     name: "Seguro Viagem",
     description: "Contratação 100% Online",
-    href: slug === "" ? "#Travel1" : "/",
+    href: "#Travel1",
     icon: ChartPieIcon,
   },
   {
@@ -40,18 +41,40 @@ const callsToAction = [
   { name: "Fale Conosco", href: "#Residencial", icon: PhoneIcon },
 ];
 
+const menu = [
+  {
+    name: "Contato",
+    href: "#Contato",
+  },
+  {
+    name: "Sobre a Prime",
+    href: "#sobrePrime",
+  },
+];
+
 function NavBarMenu() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const scrollToSection = (sectionId) => {
-    scroller.scrollTo(sectionId, {
-      duration: 800,
-      delay: 0,
-      smooth: "easeInOutQuart",
-    });
-
-    setMobileMenuOpen(false); // Fechar o menu móvel após clicar no link
+  const scrollToSection = (itemHref) => {
+    if (location.pathname === "/login") {
+      navigate("/"); // navigate to the homepage
+      setTimeout(() => {
+        // then scroll to the item after the homepage has loaded
+        scroller.scrollTo(itemHref.substring(1), {
+          duration: 800,
+          delay: 0,
+          smooth: "easeInOutQuart",
+        });
+      }, 500); // this delay should be adjusted according to your page load time
+    } else {
+      scroller.scrollTo(itemHref.substring(1), {
+        duration: 800,
+        delay: 0,
+        smooth: "easeInOutQuart",
+      });
+    }
   };
 
   const [linkClicked, setLinkClicked] = useState(false);
@@ -118,22 +141,20 @@ function NavBarMenu() {
                         />
                       </div>
                       <div className="flex-auto">
-                        <Link
-                          to={item.href.substring(1)}
-                          className="block font-semibold text-gray-900"
-                          onClick={() => {
+                        <a
+                          href={item.href}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            scrollToSection(item.href);
                             document.getElementById("option-produtos").click();
                             setLinkClicked(!linkClicked);
                             setMobileMenuOpen(false);
                           }}
-                          spy={true}
-                          smooth={true}
-                          offset={-70}
-                          duration={500}
+                          className="block font-semibold text-gray-900"
                         >
                           {item.name}
                           <span className="absolute inset-0" />
-                        </Link>
+                        </a>
                         <p className="mt-1 text-gray-600">{item.description}</p>
                       </div>
                     </div>
@@ -145,7 +166,6 @@ function NavBarMenu() {
                       key={item.name}
                       href={item.href}
                       onClick={(e) => {
-                        console.log("abc");
                         scrollToSection(item.href.substring(1));
                       }}
                       className="flex items-center justify-center gap-x-2.5 p-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100"
@@ -162,40 +182,33 @@ function NavBarMenu() {
             </Transition>
           </Popover>
 
-          <a
-            href="#Contato"
-            onClick={() => scrollToSection("Contato")}
-            className="text-sm font-semibold leading-6 text-gray-900"
-          >
-            Contato
-          </a>
-          <a
-            href="#sobrePrime"
-            onClick={() => scrollToSection("sobrePrime")}
-            className="text-sm font-semibold leading-6 text-gray-900"
-          >
-            Sobre a Prime Secure
-          </a>
-          <a
-            href="#blog"
-            onClick={() => scrollToSection("blog")}
-            className="text-sm font-semibold leading-6 text-gray-900"
-          >
-            Blog
-          </a>
+          {menu.map((item) => (
+            <a
+              key={item.name}
+              href={item.href}
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection(item.href);
+              }}
+              className="text-sm font-semibold leading-6 text-gray-900"
+            >
+              {item.name}
+            </a>
+          ))}
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <button>
-            <a
-              href="/login"
+            <Link
+              to="/login"
               onClick={(event) => {
                 event.preventDefault();
                 navigate("/login");
+                setMobileMenuOpen(false);
               }}
               className="text-sm font-semibold leading-6 text-gray-900"
             >
               Login <span aria-hidden="true">&rarr;</span>
-            </a>
+            </Link>
           </button>
         </div>
       </nav>
@@ -239,57 +252,54 @@ function NavBarMenu() {
                       </Disclosure.Button>
                       <Disclosure.Panel className="mt-2 space-y-2">
                         {[...products, ...callsToAction].map((item) => (
-                          <Link
+                          <LinkScroller
                             key={item.name}
                             to={item.href.substring(1)}
                             className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                            onClick={() => setMobileMenuOpen(false)}
+                            onClick={() => {
+                              scrollToSection(item.href);
+                              setMobileMenuOpen(false);
+                            }}
                             spy={true}
                             smooth={true}
                             offset={-70}
                             duration={500}
                           >
                             {item.name}
-                          </Link>
+                          </LinkScroller>
                         ))}
                       </Disclosure.Panel>
                     </>
                   )}
                 </Disclosure>
-                <a
-                  href="#Contato"
-                  onClick={() => scrollToSection("Contato")}
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Contato
-                </a>
-                <a
-                  href="#sobrePrime"
-                  onClick={() => scrollToSection("sobrePrime")}
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Sobre a Prime Secure
-                </a>
-                <a
-                  href="#blog"
-                  onClick={() => scrollToSection("blog")}
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Blog
-                </a>
+                {menu.map((item) => (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection(item.href);
+                      setMobileMenuOpen(false);
+                    }}
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  >
+                    {item.name}
+                  </a>
+                ))}
               </div>
               <div className="py-6">
                 <button>
-                  <a
-                    href="/login"
-                    className="text-sm font-semibold leading-6 text-gray-900"
+                  <Link
+                    to="/login"
                     onClick={(event) => {
                       event.preventDefault();
                       navigate("/login");
+                      setMobileMenuOpen(false);
                     }}
+                    className="text-sm font-semibold leading-6 text-gray-900"
                   >
                     Login <span aria-hidden="true">&rarr;</span>
-                  </a>
+                  </Link>
                 </button>
               </div>
             </div>
