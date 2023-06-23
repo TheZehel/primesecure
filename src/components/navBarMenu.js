@@ -1,8 +1,11 @@
-import logoprime from "../assets/img/logo-prime-secure.png";
-import { useState } from "react";
 import React, { Fragment } from "react";
-import classNames from "classnames";
+import { useState } from "react";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
+import { scroller, Link } from "react-scroll";
+import logoprime from "../assets/img/logo-prime-secure.png";
+import classNames from "classnames";
+import { useNavigate } from "react-router-dom";
+
 import {
   Bars3Icon,
   ChartPieIcon,
@@ -15,11 +18,14 @@ import {
   PlayCircleIcon,
 } from "@heroicons/react/20/solid";
 
+let splitUrl = window.location.href.split("/");
+let slug = splitUrl[splitUrl.length - 1];
+console.log(slug);
 const products = [
   {
     name: "Seguro Viagem",
     description: "Contratação 100% Online",
-    href: "#Travel1",
+    href: slug === "" ? "#Travel1" : "/",
     icon: ChartPieIcon,
   },
   {
@@ -30,20 +36,25 @@ const products = [
   },
 ];
 const callsToAction = [
-  { name: "Conheça a Prime", href: "#", icon: PlayCircleIcon },
-  { name: "Fale Conosco", href: "#", icon: PhoneIcon },
+  { name: "Conheça a Prime", href: "#Travel1", icon: PlayCircleIcon },
+  { name: "Fale Conosco", href: "#Residencial", icon: PhoneIcon },
 ];
 
 function NavBarMenu() {
+  const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const scrollToSection = (sectionId) => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
-      setMobileMenuOpen(false); // Fechar o menu móvel após clicar no link
-    }
+    scroller.scrollTo(sectionId, {
+      duration: 800,
+      delay: 0,
+      smooth: "easeInOutQuart",
+    });
+
+    setMobileMenuOpen(false); // Fechar o menu móvel após clicar no link
   };
+
+  const [linkClicked, setLinkClicked] = useState(false);
 
   return (
     <header className="bg-white font-montserrat">
@@ -73,7 +84,10 @@ function NavBarMenu() {
         </div>
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
           <Popover className="relative">
-            <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
+            <Popover.Button
+              id="option-produtos"
+              className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
+            >
               Produtos
               <ChevronDownIcon
                 className="h-5 w-5 flex-none text-gray-400"
@@ -104,18 +118,22 @@ function NavBarMenu() {
                         />
                       </div>
                       <div className="flex-auto">
-                        <a
-                          href={item.href}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            scrollToSection(item.href.substring(1));
-                          }}
+                        <Link
+                          to={item.href.substring(1)}
                           className="block font-semibold text-gray-900"
+                          onClick={() => {
+                            document.getElementById("option-produtos").click();
+                            setLinkClicked(!linkClicked);
+                            setMobileMenuOpen(false);
+                          }}
+                          spy={true}
+                          smooth={true}
+                          offset={-70}
+                          duration={500}
                         >
                           {item.name}
                           <span className="absolute inset-0" />
-                        </a>
+                        </Link>
                         <p className="mt-1 text-gray-600">{item.description}</p>
                       </div>
                     </div>
@@ -126,6 +144,10 @@ function NavBarMenu() {
                     <a
                       key={item.name}
                       href={item.href}
+                      onClick={(e) => {
+                        console.log("abc");
+                        scrollToSection(item.href.substring(1));
+                      }}
                       className="flex items-center justify-center gap-x-2.5 p-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100"
                     >
                       <item.icon
@@ -163,13 +185,18 @@ function NavBarMenu() {
           </a>
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a
-            href="#login"
-            onClick={() => scrollToSection("login")}
-            className="text-sm font-semibold leading-6 text-gray-900"
-          >
-            Login <span aria-hidden="true">&rarr;</span>
-          </a>
+          <button>
+            <a
+              href="/login"
+              onClick={(event) => {
+                event.preventDefault();
+                navigate("/login");
+              }}
+              className="text-sm font-semibold leading-6 text-gray-900"
+            >
+              Login <span aria-hidden="true">&rarr;</span>
+            </a>
+          </button>
         </div>
       </nav>
       <Dialog
@@ -212,17 +239,18 @@ function NavBarMenu() {
                       </Disclosure.Button>
                       <Disclosure.Panel className="mt-2 space-y-2">
                         {[...products, ...callsToAction].map((item) => (
-                          <Disclosure.Button
+                          <Link
                             key={item.name}
-                            as="a"
-                            href={item.href}
-                            onClick={() =>
-                              scrollToSection(item.href.substring(1))
-                            }
+                            to={item.href.substring(1)}
                             className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                            onClick={() => setMobileMenuOpen(false)}
+                            spy={true}
+                            smooth={true}
+                            offset={-70}
+                            duration={500}
                           >
                             {item.name}
-                          </Disclosure.Button>
+                          </Link>
                         ))}
                       </Disclosure.Panel>
                     </>
@@ -251,13 +279,18 @@ function NavBarMenu() {
                 </a>
               </div>
               <div className="py-6">
-                <a
-                  href="#login"
-                  onClick={() => scrollToSection("login")}
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Log in
-                </a>
+                <button>
+                  <a
+                    href="/login"
+                    className="text-sm font-semibold leading-6 text-gray-900"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      navigate("/login");
+                    }}
+                  >
+                    Login <span aria-hidden="true">&rarr;</span>
+                  </a>
+                </button>
               </div>
             </div>
           </div>

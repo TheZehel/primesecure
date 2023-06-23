@@ -25,11 +25,11 @@ export default function Contato() {
                 autoComplete="email"
                 required
                 className="min-w-0 flex-auto rounded-md border-0 bg-white/5 px-3.5 py-2 text-grayPrime shadow-sm ring-1 ring-inset ring-grayPrime/25 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
-                placeholder="Enter your email"
+                placeholder="Insira o seu e-mail"
               />
               <button
                 type="submit"
-                className="flex-none rounded-md bg-bluePrime px-3.5 py-2.5 text-sm font-semibold text-grayPrimee shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bluePrime"
+                className="flex-none rounded-md bg-bluePrime px-3.5 py-2.5 text-sm font-semibold text-grayPrimee shadow-sm hover:bg-bluePrime2 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bluePrime"
               >
                 Inscrever
               </button>
@@ -45,7 +45,7 @@ export default function Contato() {
                 />
               </div>
               <dt className="mt-4 font-semibold text-grayPrime">
-                Weekly articles
+                Notícias Semanais
               </dt>
               <dd className="mt-2 leading-7 text-grayPrime text-left">
                 Non laboris consequat cupidatat laborum magna. Eiusmod non irure
@@ -60,7 +60,7 @@ export default function Contato() {
                   aria-hidden="true"
                 />
               </div>
-              <dt className="mt-4 font-semibold text-grayPrime">No spam</dt>
+              <dt className="mt-4 font-semibold text-grayPrime">Sem Spam</dt>
               <dd className="mt-2 leading-7 text-grayPrime text-left">
                 Officia excepteur ullamco ut sint duis proident non adipisicing.
                 Voluptate incididunt anim.

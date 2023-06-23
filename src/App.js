@@ -1,4 +1,9 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+// CSS
 import "./App.css";
+
+// COMPONENTES
 import Banner from "./components/Banner";
 import NavBarMenu from "./components/navBarMenu.js";
 import Travel from "./components/Travel";
@@ -10,37 +15,43 @@ import Footer from "./components/Footer";
 import Selos from "./components/Selos";
 import SobrePrime from "./components/SobrePrime";
 import Contato from "./components/Contato";
+import PaginaLogin from "./components/PaginaLogin";
 
 function App() {
   return (
-    <div className="App">
-      <NavBarMenu />
-
-      <Banner />
-      <Seguros />
-      <div
-        id="Travel1"
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-        }}
-      >
-        <Travel />
+    <Router>
+      <div className="App">
+        <NavBarMenu />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <Banner />
+                <Seguros />
+                <div id="Travel1">
+                  <Travel />
+                </div>
+                <div id="Residencial">
+                  <Residencial />
+                </div>
+                <div id="sobrePrime">
+                  <SobrePrime />
+                </div>
+                <div id="Contato">
+                  <Contato />
+                </div>
+                <Faq />
+                <Logos />
+                <Selos />
+              </>
+            }
+          />
+          <Route path="/login" element={<PaginaLogin />} />
+        </Routes>
+        <Footer />
       </div>
-      <div id="Residencial">
-        <Residencial />
-      </div>
-      <div id="sobrePrime">
-        <SobrePrime />
-      </div>
-      <div id="Contato">
-        <Contato />
-      </div>
-      <Faq />
-      <Logos />
-      <Selos />
-      <Footer />
-    </div>
+    </Router>
   );
 }
 
