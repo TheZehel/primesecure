@@ -1,6 +1,6 @@
 import imageManager from "./bancoDeImagens";
 const stats = [
-  { name: " Mercado", value: "8 Anos" },
+  { name: " De Mercado", value: "8 Anos" },
   { name: "De Cotações", value: "+ de 1 Milhão" },
   { name: "Contratos", value: "+ de 100 Mil" },
   { name: "Clientes Ativos", value: "+ de 30 Mil" },
@@ -43,10 +43,13 @@ export default function SobrePrime() {
           <h2 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
             Por que a Prime Secure?
           </h2>
-          <p className="mt-6 text-lg leading-8 text-gray-300">
-            Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui
-            lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat
-            fugiat aliqua.
+          <p className="mt-6 text-lg leading-8 text-white">
+            Optar pela Prime Secure é escolher credibilidade, experiência e
+            transparência. Desde 2015, o nosso compromisso incansável é com o
+            sucesso e segurança de nossos clientes. Inovamos no setor de
+            seguros, combinando tecnologia e eficiência para proteger e
+            assegurar patrimônios. Escolha a Prime Secure, seu parceiro
+            confiável em seguros.<b> Protegendo Todos os Seus Momentos!</b>
           </p>
         </div>
         <div className="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">

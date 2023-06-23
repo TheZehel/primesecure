@@ -1,7 +1,11 @@
 import React from "react";
 import imageManager from "./bancoDeImagens";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock, faHouse, faSliders } from "@fortawesome/free-solid-svg-icons";
+import {
+  faClock,
+  faShieldHalved,
+  faSliders,
+} from "@fortawesome/free-solid-svg-icons";
 
 const features = [
   {
@@ -9,7 +13,7 @@ const features = [
     description:
       "Cobertura COVID-19, assistência médica, bagagem perdida e cancelamentos. +30 de Cobeturas!",
     icon: FontAwesomeIcon,
-    iconProps: { icon: faHouse },
+    iconProps: { icon: faShieldHalved },
   },
   {
     name: "Assistências 24H.",
@@ -48,9 +52,8 @@ export default function Example() {
                 Seguro Viagem Prime Travel
               </p>
               <p className="mt-6 text-lg leading-8 text-gray-600 font-sans">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                Maiores impedit perferendis suscipit eaque, iste dolor
-                cupiditate blanditiis ratione.
+                Um Seguro de Viagem completo com mais de 30 coberturas e
+                assistências 24H com suporte premium.
               </p>
               <button class="bg-bluePrime hover:bg-bluePrime2 text-white font-bold py-2 px-4 rounded w-2/4">
                 Cotar Agora

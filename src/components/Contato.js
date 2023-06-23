@@ -11,8 +11,9 @@ export default function Contato() {
               Inscreva-se em Nossa Newsletter.
             </h2>
             <p className="mt-4 text-lg leading-8 text-grayPrime">
-              Nostrud amet eu ullamco nisi aute in ad minim nostrud adipisicing
-              velit quis. Duis tempor incididunt dolore.
+              Fique por dentro das últimas notícias e atualizações do setor de
+              seguros. Nosso compromisso é fornecer a você conteúdo relevante e
+              atualizado para te ajudar a proteger o que é mais importante.
             </p>
             <div className="mt-6 flex max-w-md gap-x-4">
               <label htmlFor="email-address" className="sr-only">
@@ -48,8 +49,9 @@ export default function Contato() {
                 Notícias Semanais
               </dt>
               <dd className="mt-2 leading-7 text-grayPrime text-left">
-                Non laboris consequat cupidatat laborum magna. Eiusmod non irure
-                cupidatat duis commodo amet.
+                Receba diretamente em seu e-mail informações e insights semanais
+                sobre o mercado de seguros. Esteja sempre a par das últimas
+                tendências e novidades.
               </dd>
             </div>
             <div className="flex flex-col items-start">
@@ -62,8 +64,9 @@ export default function Contato() {
               </div>
               <dt className="mt-4 font-semibold text-grayPrime">Sem Spam</dt>
               <dd className="mt-2 leading-7 text-grayPrime text-left">
-                Officia excepteur ullamco ut sint duis proident non adipisicing.
-                Voluptate incididunt anim.
+                Respeitamos sua caixa de entrada. Nos comprometemos a enviar
+                apenas o conteúdo que é importante para você. Mantemos sua
+                privacidade e nunca compartilhamos seus dados.
               </dd>
             </div>
           </dl>

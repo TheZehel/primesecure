@@ -11,21 +11,21 @@ const features = [
   {
     name: "Coberturas Exclusivas.",
     description:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.",
+      "Proteção para todo o tipo de situação, como por exemplo, incêncios, problemas elétricos ou de encanamento, desastres naturais e muito mais...",
     icon: FontAwesomeIcon,
     iconProps: { icon: faHouse },
   },
   {
     name: "Assistências 24H.",
     description:
-      "Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo.",
+      "Acione serviços de assistência em qualquer momento do seu dia.",
     icon: FontAwesomeIcon,
     iconProps: { icon: faHouseMedicalFlag },
   },
   {
     name: "Planos 100% Personalizados.",
     description:
-      "Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.",
+      "Planos feitos sob medida. Você pode personalizar cada centavos das suas coberturas..",
     icon: FontAwesomeIcon,
     iconProps: { icon: faHouseUser },
   },
@@ -45,9 +45,8 @@ export default function Example() {
                 Seguro Residencial
               </p>
               <p className="mt-6 text-lg leading-8 text-gray-600">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                Maiores impedit perferendis suscipit eaque, iste dolor
-                cupiditate blanditiis ratione.
+                Garanta que nenhum imprevisto venha a atrapalhar a paz do seu
+                lar com um Seguro Residencial.
               </p>
               <button class="bg-bluePrime hover:bg-bluePrime2 text-white font-bold py-2 px-4 rounded w-2/4">
                 Cotar Agora

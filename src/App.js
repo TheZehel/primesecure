@@ -42,7 +42,9 @@ function App() {
                   <Contato />
                 </div>
                 <Faq />
-                <Logos />
+                <div id="Logos">
+                  <Logos />
+                </div>
                 <Selos />
               </>
             }

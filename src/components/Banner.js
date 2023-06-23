@@ -54,7 +54,9 @@ const Banner = () => {
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           <div className="animate__animated animate__fadeIn">
-            <span className="text-xl text-gray-500">Bem Vindos</span>
+            <span className="text-xl text-bluePrime">
+              Protegendo Todos Seus Momentos
+            </span>
             <h1 className="text-4xl font-bold mb-4">
               Prime Secure{" "}
               <span
@@ -66,10 +68,12 @@ const Banner = () => {
               </span>
             </h1>
             <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book.
+              A Prime Secure é sinônimo de credibilidade, experiência e
+              transparência. Desde 2015, nossa missão tem sido redefinir o
+              mercado de seguros, combinando tecnologia e eficiência para
+              entregar serviços de alta qualidade. Nosso objetivo? Proteger e
+              assegurar os bens e patrimônios dos nossos clientes e parceiros
+              com inovação e compromisso.
             </p>
           </div>
           <div className="animate__animated animate__zoomIn">

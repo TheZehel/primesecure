@@ -1,18 +1,49 @@
 import { Typography } from "@material-tailwind/react";
 import imageManager from "./bancoDeImagens";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 
 const LINKS = [
   {
     title: "Produtos",
-    items: ["Residencial", "Viagem"],
+    items: [
+      { title: "Residencial", link: "#Residencial" },
+      { title: "Viagem", link: "#Travel1" },
+    ],
   },
   {
     title: "Sobre Nós",
-    items: ["Prime Secure", "Parceiros"],
+    items: [
+      { title: "Prime Secure", link: "#" },
+      { title: "Parceiros", link: "#Logos" },
+    ],
   },
   {
     title: "Dúvidas",
-    items: ["FAQ"],
+    items: [{ title: "FAQ", link: "#" }],
+  },
+];
+
+const products = [
+  {
+    name: "Seguro Viagem",
+    description: "Contratação 100% Online",
+    href: "#Travel1",
+  },
+  {
+    name: "Seguro Residencial",
+    description: "Planos de Proteção Para a Sua Residencia.",
+    href: "#Residencial",
+  },
+];
+
+const menu = [
+  {
+    name: "Sobre a Prime",
+    href: "#sobrePrime",
+  },
+  {
+    name: "Contato",
+    href: "#Contato",
   },
 ];
 
@@ -41,14 +72,14 @@ export default function Footer() {
                   {title}
                 </Typography>
                 {items.map((link) => (
-                  <li key={link}>
+                  <li key={link.title}>
                     <Typography
                       as="a"
-                      href="#"
+                      href={link.link}
                       color="gray"
                       className="py-1.5 font-normal transition-colors hover:text-bluePrime"
                     >
-                      {link}
+                      {link.title}
                     </Typography>
                   </li>
                 ))}
@@ -61,9 +92,8 @@ export default function Footer() {
             variant="small"
             className="mb-4 text-center font-normal text-blue-gray-900 md:mb-0"
           >
-            &copy; {currentYear}{" "}
-            <a href="https://material-tailwind.com/">Prime Secure</a>. Todos os
-            Direitos Reservados.
+            &copy; {currentYear} <a href="#">Prime Secure</a>. Todos os Direitos
+            Reservados.
           </Typography>
           <div className="flex gap-4 text-blue-gray-900 sm:justify-center">
             <Typography

@@ -43,12 +43,12 @@ const callsToAction = [
 
 const menu = [
   {
-    name: "Contato",
-    href: "#Contato",
-  },
-  {
     name: "Sobre a Prime",
     href: "#sobrePrime",
+  },
+  {
+    name: "Contato",
+    href: "#Contato",
   },
 ];
 
@@ -58,7 +58,8 @@ function NavBarMenu() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const scrollToSection = (itemHref) => {
-    if (location.pathname === "/login") {
+    let paths = ["/login"];
+    if (paths.includes(location.pathname)) {
       navigate("/"); // navigate to the homepage
       setTimeout(() => {
         // then scroll to the item after the homepage has loaded
