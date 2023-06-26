@@ -62,7 +62,7 @@ const Banner = () => {
               <span
                 className="txt-rotate inline-block"
                 data-period="500"
-                data-rotate='["Seguros", "Planos de Saúde"]'
+                data-rotate='["Seguros"]'
               >
                 <span className="wrap">{text}</span>
               </span>

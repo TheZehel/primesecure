@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "../assets/img/seguro-residencial-prime-secure-porto-seguro.png";
+import imageManager from "./bancoDeImagens";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHouse,
@@ -70,7 +70,7 @@ export default function Example() {
           </div>
           <div className="relative">
             <img
-              src={Image}
+              src={imageManager.imgProdutos.imgResidencial}
               alt="Product screenshot"
               className=" inset-0 w-full h-full object-cover object-center rounded-xl shadow-xl   sm:relative sm:w-[57rem] sm:h-auto sm:max-w-none  sm:shadow-none sm:ring-0 sm:ring-transparent  sm:mx-10 sm:my-2  sm:rounded-lg"
             />

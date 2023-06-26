@@ -2,21 +2,24 @@
 import logoPrimeSecure from "../assets/img/logo-prime-secure.png";
 
 //Travel.js
-import imgPrimeTravel from "../assets/img/seguro-viagem-prime-travel.png";
+import imgPrimeTravel from "../assets/img/seguro-viagem-prime-travel.webp";
+
+//Residencial
+import imgResidencial from "../assets/img/seguro-residencial-prime-secure-porto-seguro.webp";
 
 //Logos.js
-import logoPortoSeguro from "../assets/img/logos-parceiros/seguradora-portoseguro.png";
-import logoSulAmerica from "../assets/img/logos-parceiros/seguradora-sulamerica.png";
-import logoOmint from "../assets/img/logos-parceiros/seguradora-omint.png";
-import logoAzos from "../assets/img/logos-parceiros/seguradora-azos.png";
-import logoSuhai from "../assets/img/logos-parceiros/seguradora-suhai.png";
+import logoPortoSeguro from "../assets/img/logos-parceiros/seguradora-portoseguro.webp";
+import logoSulAmerica from "../assets/img/logos-parceiros/seguradora-sulamerica.webp";
+import logoOmint from "../assets/img/logos-parceiros/seguradora-omint.webp";
+import logoAzos from "../assets/img/logos-parceiros/seguradora-azos.webp";
+import logoSuhai from "../assets/img/logos-parceiros/seguradora-suhai.webp";
 
 //Selos.js
-import seloAws from "../assets/img/selos-parceiros/selo-aws.png";
-import seloPagarme from "../assets/img/selos-parceiros/selo-pagarme.png";
+import seloAws from "../assets/img/selos-parceiros/selo-aws.webp";
+import seloPagarme from "../assets/img/selos-parceiros/selo-pagarme.webp";
 
 //SobrePrime.js
-import bgSobrePrime from "../assets/img/porque-a-primesecure.png";
+import bgSobrePrime from "../assets/img/porque-a-primesecure.webp";
 
 const imageManager = {
   brand: {
@@ -24,6 +27,7 @@ const imageManager = {
   },
   imgProdutos: {
     imgPrimeTravel,
+    imgResidencial,
   },
   parceiros: {
     logoPortoSeguro,
