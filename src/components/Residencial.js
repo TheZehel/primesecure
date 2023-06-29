@@ -31,7 +31,13 @@ const features = [
   },
 ];
 
-export default function Example() {
+export default function Residencial() {
+  //Direciona Click do botão para url externa
+  const handleClick = () => {
+    window.location.href =
+      "https://primesecure.com.br/seguro-residencial-porto-2/";
+  };
+
   return (
     <div className="overflow-hidden bg-white font-sans">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -48,7 +54,10 @@ export default function Example() {
                 Garanta que nenhum imprevisto venha a atrapalhar a paz do seu
                 lar com um Seguro Residencial.
               </p>
-              <button class="bg-bluePrime hover:bg-bluePrime2 text-white font-bold py-2 px-4 rounded w-2/4">
+              <button
+                onClick={handleClick}
+                class="bg-bluePrime hover:bg-bluePrime2 text-white font-bold py-2 px-4 rounded w-2/4"
+              >
                 Cotar Agora
               </button>
               <dl className="mt-10 max-w-xl space-y-8 text-base leading-7 text-gray-600 lg:max-w-none">
@@ -71,7 +80,7 @@ export default function Example() {
           <div className="relative">
             <img
               src={imageManager.imgProdutos.imgResidencial}
-              alt="Product screenshot"
+              alt="Seguro Residencial"
               className=" inset-0 w-full h-full object-cover object-center rounded-xl shadow-xl   sm:relative sm:w-[57rem] sm:h-auto sm:max-w-none  sm:shadow-none sm:ring-0 sm:ring-transparent  sm:mx-10 sm:my-2  sm:rounded-lg"
             />
           </div>

@@ -31,7 +31,11 @@ const features = [
   },
 ];
 
-export default function Example() {
+export default function Travel() {
+  //Direciona Click do botão para url externa
+  const handleClick = () => {
+    window.location.href = "https://primesecure.com.br/primetravel";
+  };
   return (
     <div className="overflow-hidden bg-white py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -55,7 +59,10 @@ export default function Example() {
                 Um Seguro de Viagem completo com mais de 30 coberturas e
                 assistências 24H com suporte premium.
               </p>
-              <button class="bg-bluePrime hover:bg-bluePrime2 text-white font-bold py-2 px-4 rounded w-2/4">
+              <button
+                onClick={handleClick}
+                class="bg-bluePrime hover:bg-bluePrime2 text-white font-bold py-2 px-4 rounded w-2/4"
+              >
                 Cotar Agora
               </button>
               <dl className="mt-10 max-w-xl space-y-8 text-base leading-7 text-gray-600 lg:max-w-none font-sans">

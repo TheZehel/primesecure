@@ -8,9 +8,9 @@ import { useNavigate, Link, useLocation } from "react-router-dom";
 
 import {
   Bars3Icon,
-  ChartPieIcon,
-  CursorArrowRaysIcon,
   XMarkIcon,
+  HomeIcon,
+  PaperAirplaneIcon,
 } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
@@ -18,22 +18,18 @@ import {
   PlayCircleIcon,
 } from "@heroicons/react/20/solid";
 
-let splitUrl = window.location.href.split("/");
-let slug = splitUrl[splitUrl.length - 1];
-console.log(slug);
-
 const products = [
   {
     name: "Seguro Viagem",
     description: "Contratação 100% Online",
     href: "#Travel1",
-    icon: ChartPieIcon,
+    icon: PaperAirplaneIcon,
   },
   {
     name: "Seguro Residencial",
     description: "Planos de Proteção Para a Sua Residencia.",
     href: "#Residencial",
-    icon: CursorArrowRaysIcon,
+    icon: HomeIcon,
   },
 ];
 const callsToAction = [
@@ -47,8 +43,12 @@ const menu = [
     href: "#sobrePrime",
   },
   {
-    name: "Contato",
-    href: "#Contato",
+    name: "Newsletter",
+    href: "#Newsletter",
+  },
+  {
+    name: "FAQ",
+    href: "#Faq",
   },
 ];
 
@@ -58,11 +58,11 @@ function NavBarMenu() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const scrollToSection = (itemHref) => {
-    let paths = ["/login"];
+    let paths = ["/login", "/primetravel"];
     if (paths.includes(location.pathname)) {
-      navigate("/"); // navigate to the homepage
+      navigate("/"); //redirecionar para a página
       setTimeout(() => {
-        // then scroll to the item after the homepage has loaded
+        // scrolla até o item quando a página é carregada.
         scroller.scrollTo(itemHref.substring(1), {
           duration: 800,
           delay: 0,

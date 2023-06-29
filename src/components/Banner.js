@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "animate.css";
-import headerImg from "../assets/img/cel-prime.webp";
+import headerImg from "../assets/img/img-banner.png";
 
 const Banner = () => {
   const [loopNum, setLoopNum] = useState(0);
@@ -68,16 +68,13 @@ const Banner = () => {
               </span>
             </h1>
             <p>
-              A Prime Secure é sinônimo de credibilidade, experiência e
-              transparência. Desde 2015, nossa missão tem sido redefinir o
-              mercado de seguros, combinando tecnologia e eficiência para
-              entregar serviços de alta qualidade. Nosso objetivo? Proteger e
-              assegurar os bens e patrimônios dos nossos clientes e parceiros
-              com inovação e compromisso.
+              A Prime Secure, desde 2015, combina tecnologia e eficiência para
+              inovar no mercado de seguros, protegendo com compromisso os bens e
+              patrimônios de nossos clientes.
             </p>
           </div>
           <div className="animate__animated animate__zoomIn">
-            <img src={headerImg} alt="Header Img" />
+            <img src={headerImg} alt="Prime Secure Marketplace de Seguros" />
           </div>
         </div>
       </div>

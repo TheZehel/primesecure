@@ -47,7 +47,7 @@ export default function PaginaLogin() {
                 </label>
                 <div className="text-sm">
                   <a
-                    href="#"
+                    href="www.primesecure.com.br"
                     className="font-semibold text-bluePrime hover:text-bluePrime2"
                   >
                     Esqueceu a Senha?
@@ -79,7 +79,7 @@ export default function PaginaLogin() {
           <p className="mt-10 text-center text-sm text-gray-500">
             Não possui uma conta ainda?{" "}
             <a
-              href="#"
+              href="www.primesecure.com.br"
               className="font-semibold leading-6 text-bluePrime hover:text-bluePrime2"
             >
               Criar Conta

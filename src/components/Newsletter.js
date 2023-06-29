@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar, faHandPeace } from "@fortawesome/free-solid-svg-icons";
 
-export default function Contato() {
+export default function Newsletter() {
   return (
     <div className="relative isolate overflow-hidden  py-16 sm:py-24 lg:py-10">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">

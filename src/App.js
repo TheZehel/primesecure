@@ -14,8 +14,9 @@ import Logos from "./components/Logos";
 import Footer from "./components/Footer";
 import Selos from "./components/Selos";
 import SobrePrime from "./components/SobrePrime";
-import Contato from "./components/Contato";
+import Newsletter from "./components/Newsletter";
 import PaginaLogin from "./components/PaginaLogin";
+import IndexTravel from "./components/primetravel/IndexTravel";
 
 function App() {
   return (
@@ -38,10 +39,12 @@ function App() {
                 <div id="sobrePrime">
                   <SobrePrime />
                 </div>
-                <div id="Contato">
-                  <Contato />
+                <div id="Newsletter">
+                  <Newsletter />
                 </div>
-                <Faq />
+                <div id="Faq">
+                  <Faq />
+                </div>
                 <div id="Logos">
                   <Logos />
                 </div>
@@ -50,6 +53,7 @@ function App() {
             }
           />
           <Route path="/login" element={<PaginaLogin />} />
+          <Route path="/primetravel" element={<IndexTravel />} />
         </Routes>
         <Footer />
       </div>
