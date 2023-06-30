@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
-import { DatePicker, DatePickerProps, Space } from "antd";
+import { DatePicker, Space } from "antd";
 import InputMask from "react-input-mask";
 import Modal from "react-modal";
 import imageManager from "../../bancoDeImagens";
