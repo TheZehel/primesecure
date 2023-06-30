@@ -1,3 +1,6 @@
+//Banners
+import bannerPrimeTravel from "../assets/img/primetravel/seguro-viagem-prime-travel-banner.png";
+
 //Logo Prime Secure
 import logoPrimeSecure from "../assets/img/logo-prime-secure.png";
 
@@ -42,6 +45,9 @@ const imageManager = {
   },
   sobrePrime: {
     bgSobrePrime,
+  },
+  banners: {
+    bannerPrimeTravel,
   },
 };
 

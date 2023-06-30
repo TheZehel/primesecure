@@ -1,18 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import { DatePicker, DatePickerProps, Space } from "antd";
 import InputMask from "react-input-mask";
 import Modal from "react-modal";
-
-const options = [
-  { value: "Brasil", label: "Brasil", regiao: "Brasil" },
-  {
-    value: "Estados Unidos",
-    label: "Estados Unidos",
-    regiao: "Estados Unidos e Canadá",
-  },
-  { value: "Espanha", label: "Espanha", regiao: "Europa" },
-];
+import imageManager from "../../bancoDeImagens";
+import { Chip } from "@material-tailwind/react";
+import ListaPaises from "./ListaPaises";
 
 export default function FormTravelBanner() {
   const [formData, setFormData] = useState({
@@ -38,55 +31,57 @@ export default function FormTravelBanner() {
     console.log(`Option selected:`, selectedOption);
   };
 
-  const onChange: DatePickerProps["onChange"] = (date, dateString) => {
+  const onChange = (date, dateString) => {
     console.log(date, dateString);
   };
 
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [old0, setOld0] = useState(0);
-  const [old1, setOld1] = useState(0);
-  const [old2, setOld2] = useState(0);
-  const [old3, setOld3] = useState(0);
+  const [modalOpen, setModalIsOpen] = useState(false);
+  const [olds, setOlds] = useState([0, 0, 0, 0]);
+  const [total, setTotal] = useState(0);
 
-  const openModal = () => {
-    setModalIsOpen(true);
-  };
+  useEffect(() => {
+    setTotal(olds.reduce((a, b) => a + b, 0));
+  }, [olds]);
 
-  const closeModal = () => {
-    setModalIsOpen(false);
-  };
+  const openModal = () => setModalIsOpen(true);
+  const closeModal = () => setModalIsOpen(false);
 
-  const handleOld0 = (value) => {
-    setOld0(old0 + value);
-  };
-
-  const handleOld1 = (value) => {
-    setOld1(old1 + value);
-  };
-
-  const handleOld2 = (value) => {
-    setOld2(old2 + value);
-  };
-
-  const handleOld3 = (value) => {
-    setOld3(old3 + value);
+  const handleOld = (index, value) => {
+    if ((value > 0 && total < 10) || (value < 0 && olds[index] > 0)) {
+      setOlds(olds.map((old, i) => (i === index ? old + value : old)));
+    }
   };
 
   return (
-    <section className="banner" id="home">
+    <section
+      className="p-10"
+      id="banner-travel"
+      style={{
+        backgroundImage: `url(${imageManager.banners.bannerPrimeTravel})`,
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+      }}
+    >
       <div className="container mx-auto pt-10">
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
           <div className="animate__animated animate__fadeIn">
-            <span className="text-xl text-bluePrime">
-              Sua Viagem Mais Segura Com
-            </span>
-            <h1 className="text-4xl font-bold mb-4">Prime Travel </h1>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Praesentium asperiores officia officiis!
+            <Chip value="Sua Viagem Mais Segura Com" className="bg-bluePrime" />
+            <h1 className="text-4xl font-bold mb-4 text-white">
+              Prime Travel{" "}
+            </h1>
+            <p className="text-white">
+              Não importa como e para onde você viaja, nós te protegemos. Ainda
+              Contamos Com + de 30 Coberturas.
             </p>
           </div>
-          <div className="animate__animated animate__zoomIn p-10 sm:p-0">
+          <div className="animate__animated animate__zoomIn rounded-lg bg-white p-10 sm:p-4">
+            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+              Faça Sua Cotação Gratuita
+            </h2>
+            <p className="mt-2 text-lg leading-8 text-gray-600">
+              Inicie sua cotação online preenchendo o formulário abaixo.
+            </p>
             <form
               action=""
               className="sm:flex flex-col sm:flex-row justify-center items-center mx-auto gap-x-6 gap-y-4 mt-10 max-w-xl sm:mt-10"
@@ -103,9 +98,10 @@ export default function FormTravelBanner() {
                     <Select
                       value={selectedOption}
                       onChange={handleChange}
-                      options={options}
+                      options={ListaPaises}
                       isSearchable
                       placeholder="Selecione o Destino..."
+                      className="cursor-pointer"
                     />
                   </div>
                 </div>
@@ -149,7 +145,7 @@ export default function FormTravelBanner() {
                   </label>
                   <input
                     type="text"
-                    className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6 cursor-pointer"
                     id="ages"
                     name="ages"
                     value="Selecione as Idades"
@@ -159,7 +155,7 @@ export default function FormTravelBanner() {
                   />
 
                   <Modal
-                    isOpen={modalIsOpen}
+                    isOpen={modalOpen}
                     onRequestClose={closeModal}
                     className="fixed inset-0 flex items-center justify-center p-6 bg-gray-800 bg-opacity-50"
                   >
@@ -188,26 +184,94 @@ export default function FormTravelBanner() {
                         <h3 className="text-xl">0 a 40 anos</h3>
                         <div className="flex items-center justify-around w-32">
                           <button
-                            onClick={() => handleOld0(-1)}
+                            onClick={() => handleOld(0, -1)}
                             className="bg-bluePrime hover:bg-bluePrime2 text-white w-8 h-8 rounded-full flex items-center justify-center focus:outline-none"
                           >
                             -
                           </button>
                           <input
                             type="text"
-                            value={old0}
+                            value={olds[0]}
                             readOnly
                             className=" text-center block w-12 h-8 text-lg rounded-lg border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
                           />
                           <button
-                            onClick={() => handleOld0(1)}
+                            onClick={() => handleOld(0, 1)}
                             className="bg-bluePrime hover:bg-bluePrime2 text-white w-8 h-8 rounded-full flex items-center justify-center focus:outline-none"
                           >
                             +
                           </button>
                         </div>
                       </div>
-                      {/* outras divs abaixo: */}
+                      <div className="flex items-center justify-between mb-2">
+                        <h3 className="text-xl">41 a 64 anos</h3>
+                        <div className="flex items-center justify-around w-32">
+                          <button
+                            onClick={() => handleOld(1, -1)}
+                            className="bg-bluePrime hover:bg-bluePrime2 text-white w-8 h-8 rounded-full flex items-center justify-center focus:outline-none"
+                          >
+                            -
+                          </button>
+                          <input
+                            type="text"
+                            value={olds[1]}
+                            readOnly
+                            className=" text-center block w-12 h-8 text-lg rounded-lg border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
+                          />
+                          <button
+                            onClick={() => handleOld(1, 1)}
+                            className="bg-bluePrime hover:bg-bluePrime2 text-white w-8 h-8 rounded-full flex items-center justify-center focus:outline-none"
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between mb-2">
+                        <h3 className="text-xl">65 a 75 anos</h3>
+                        <div className="flex items-center justify-around w-32">
+                          <button
+                            onClick={() => handleOld(2, -1)}
+                            className="bg-bluePrime hover:bg-bluePrime2 text-white w-8 h-8 rounded-full flex items-center justify-center focus:outline-none"
+                          >
+                            -
+                          </button>
+                          <input
+                            type="text"
+                            value={olds[2]}
+                            readOnly
+                            className=" text-center block w-12 h-8 text-lg rounded-lg border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
+                          />
+                          <button
+                            onClick={() => handleOld(2, 1)}
+                            className="bg-bluePrime hover:bg-bluePrime2 text-white w-8 h-8 rounded-full flex items-center justify-center focus:outline-none"
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between mb-2">
+                        <h3 className="text-xl">76 a 99 anos</h3>
+                        <div className="flex items-center justify-around w-32">
+                          <button
+                            onClick={() => handleOld(3, -1)}
+                            className="bg-bluePrime hover:bg-bluePrime2 text-white w-8 h-8 rounded-full flex items-center justify-center focus:outline-none"
+                          >
+                            -
+                          </button>
+                          <input
+                            type="text"
+                            value={olds[3]}
+                            readOnly
+                            className=" text-center block w-12 h-8 text-lg rounded-lg border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
+                          />
+                          <button
+                            onClick={() => handleOld(3, 1)}
+                            className="bg-bluePrime hover:bg-bluePrime2 text-white w-8 h-8 rounded-full flex items-center justify-center focus:outline-none"
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
                       <button
                         onClick={closeModal}
                         className="bg-bluePrime hover:bg-bluePrime2 text-white font-bold py-2 px-4 rounded w-2/4 items-center "
@@ -270,6 +334,9 @@ export default function FormTravelBanner() {
                 </div>
               </div>
             </form>
+            <button class="bg-bluePrime hover:bg-bluePrime2 text-white font-bold py-2 px-4 rounded w-full flex mt-3 justify-center items-center">
+              Cotar Agora
+            </button>
           </div>
         </div>
       </div>
