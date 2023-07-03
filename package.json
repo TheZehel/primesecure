@@ -28,6 +28,7 @@
     "react-scroll": "^1.8.9",
     "react-select": "^5.7.3",
     "react-spring": "^9.7.1",
+    "swiper": "^10.0.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

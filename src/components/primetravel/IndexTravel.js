@@ -2,12 +2,13 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 //Components
 import FormTravelBanner from "./components/FormTravelBanner";
-import CardTravel from "./components/subcomponents/CardTravel";
+import SliderPlanos from "./components/SliderPlanos";
 
 function IndexTravel() {
   return (
     <div className="IndexTravel">
       <FormTravelBanner />
+      <SliderPlanos />
     </div>
   );
 }

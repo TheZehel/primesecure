@@ -5,12 +5,13 @@ import {
   CardFooter,
   Tooltip,
   Avatar,
+  Button,
   Typography,
 } from "@material-tailwind/react";
 
-export default function CardTravel() {
+export default function CardPlano({ title, description, price }) {
   return (
-    <Card className="max-w-[24rem] overflow-hidden">
+    <Card className="max-w-[24rem] overflow-hidden m-6">
       <CardHeader
         floated={false}
         shadow={false}
@@ -23,18 +24,23 @@ export default function CardTravel() {
         />
       </CardHeader>
       <CardBody>
-        <Typography variant="h4" color="blue-gray">
-          UI/UX Review Check
+        <Typography variant="h4" color="blue-gray" className="text-2x1">
+          {title}
         </Typography>
+        <Typography>{price}</Typography>
         <Typography variant="lead" color="gray" className="mt-3 font-normal">
-          Because it&apos;s about motivating the doers. Because I&apos;m here to
-          follow my dreams and inspire others.
+          {description}
         </Typography>
+        <Button
+          size="lg"
+          color="white"
+          className="text-white hover:scale-[1.02] focus:scale-[1.02] active:scale-100 p-3 bg-bluePrime mt-3"
+          ripple={false}
+          fullWidth={true}
+        >
+          Cotar Agora
+        </Button>
       </CardBody>
-      <CardFooter className="flex items-center justify-between">
-        <div className="flex items-center -space-x-3"></div>
-        <Typography className="font-normal">January 10</Typography>
-      </CardFooter>
     </Card>
   );
 }

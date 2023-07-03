@@ -34,7 +34,7 @@ const features = [
 export default function Travel() {
   //Direciona Click do botão para url externa
   const handleClick = () => {
-    window.location.href = "https://primesecure.com.br/primetravel";
+    window.location.href = "https://primetravel.primesecure.com.br";
   };
   return (
     <div className="overflow-hidden bg-white py-24 sm:py-32">
