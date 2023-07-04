@@ -58,7 +58,7 @@ function NavBarMenu() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const scrollToSection = (itemHref) => {
-    let paths = ["/login", "/primetravel"];
+    let paths = ["/login", "/primetravel", "/seguro-de-vida"];
     if (paths.includes(location.pathname)) {
       navigate("/"); //redirecionar para a página
       setTimeout(() => {

@@ -1,22 +1,77 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import CardPlano from "./subcomponents/CardPlano";
+import imageManagerPrimeTravel from "../bancodeimagens/BancoDeImagensPrimeTravel";
+
+const {
+  ImgSliderBrasil,
+  ImgSliderAfrica,
+  ImgSliderEuropa,
+  ImgSliderAsia,
+  ImgSliderEstadosUnidos,
+  ImgSliderMultiplosDestinos,
+  ImgSliderAmerica,
+  ImgSliderOceania,
+} = imageManagerPrimeTravel.SliderPrecos;
+console.log(ImgSliderEuropa);
 
 const planos = [
   {
     id: 1,
     title: "Brasil",
-    price: "a Partir de:",
+    price: "4,04",
     description: "Este é o plano 1",
+    image: ImgSliderBrasil,
   },
-  { id: 2, title: "Europa", price: "R$100", description: "Este é o plano 2" },
+  {
+    id: 2,
+    title: "Europa",
+    price: "15,39",
+    description: "Este é o plano 2",
+    image: ImgSliderEuropa,
+  },
   {
     id: 3,
     title: "Estados Únidos e Canadá",
-    price: "A Partir de R$4,04/dia",
+    price: "12,95",
     description: "Este é o plano 3",
+    image: ImgSliderEstadosUnidos,
   },
-  { id: 4, title: "Ásia 4", price: "R$200", description: "Este é o plano 4" },
+  {
+    id: 4,
+    title: "Ásia",
+    price: "12,95",
+    description: "Este é o plano 4",
+    image: ImgSliderAsia,
+  },
+  {
+    id: 5,
+    title: "América(Inclui México)",
+    price: "10,61",
+    description: "Este é o plano 4",
+    image: ImgSliderAmerica,
+  },
+  {
+    id: 6,
+    title: "Oceania",
+    price: "4,04",
+    description: "Este é o plano 4",
+    image: ImgSliderOceania,
+  },
+  {
+    id: 7,
+    title: "África",
+    price: "12,95",
+    description: "Este é o plano 4",
+    image: ImgSliderAfrica,
+  },
+  {
+    id: 8,
+    title: "Múltiplos Destinos",
+    price: "12,95",
+    description: "Este é o plano 4",
+    image: ImgSliderMultiplosDestinos,
+  },
 ];
 
 export default function SliderPlanos() {
@@ -26,8 +81,16 @@ export default function SliderPlanos() {
       <p>Arraste os slider para o lado</p>
       <Swiper
         spaceBetween={50}
-        slidesPerView={4}
+        slidesPerView={1}
         cursor-pointer
+        breakpoints={{
+          640: {
+            slidesPerView: 3,
+          },
+          1920: {
+            slidesPerView: 4,
+          },
+        }}
         style={{ cursor: "pointer" }}
       >
         {planos.map((plano) => (
@@ -36,6 +99,7 @@ export default function SliderPlanos() {
               title={plano.title}
               description={plano.description}
               price={plano.price}
+              image={plano.image}
             />
           </SwiperSlide>
         ))}

@@ -16,7 +16,10 @@ import Selos from "./components/Selos";
 import SobrePrime from "./components/SobrePrime";
 import Newsletter from "./components/Newsletter";
 import PaginaLogin from "./components/PaginaLogin";
+
+//Páginas
 import IndexTravel from "./components/primetravel/IndexTravel";
+import IndexVida from "./components/seguro-de-vida/IndexVida";
 
 function App() {
   return (
@@ -54,6 +57,7 @@ function App() {
           />
           <Route path="/login" element={<PaginaLogin />} />
           <Route path="/primetravel" element={<IndexTravel />} />
+          <Route path="/seguro-de-vida" element={<IndexVida />} />
         </Routes>
         <Footer />
       </div>

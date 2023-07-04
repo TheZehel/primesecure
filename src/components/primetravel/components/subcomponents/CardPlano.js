@@ -2,32 +2,33 @@ import {
   CardHeader,
   Card,
   CardBody,
-  CardFooter,
-  Tooltip,
-  Avatar,
   Button,
   Typography,
 } from "@material-tailwind/react";
 
-export default function CardPlano({ title, description, price }) {
+export default function CardPlano({ title, description, price, image }) {
   return (
-    <Card className="max-w-[24rem] overflow-hidden m-6">
+    <Card className=" max-w-[24rem]overflow-hidden m-6">
       <CardHeader
         floated={false}
         shadow={false}
         color="transparent"
-        className="m-0 rounded-none"
+        className="m-0 rounded"
       >
         <img
-          src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80"
-          alt="ui/ux review check"
+          src={image}
+          alt={`Imagem Promocional Apresentando o Destino ${title}`}
         />
       </CardHeader>
       <CardBody>
         <Typography variant="h4" color="blue-gray" className="text-2x1">
           {title}
         </Typography>
-        <Typography>{price}</Typography>
+        <Typography variant="h2">
+          <span className="text-base">A Partir de:</span> <br />
+          <span className="text-x1">R$</span> <span>{price}</span>
+          <span className="text-sm"> /dia</span>
+        </Typography>
         <Typography variant="lead" color="gray" className="mt-3 font-normal">
           {description}
         </Typography>
