@@ -20,6 +20,7 @@ import PaginaLogin from "./components/PaginaLogin";
 //Páginas
 import IndexTravel from "./components/primetravel/IndexTravel";
 import IndexVida from "./components/seguro-de-vida/IndexVida";
+import PaginaObrigadoLP from "./components/globalsubcomponentes/PaginaObrigadoLp";
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
           <Route path="/login" element={<PaginaLogin />} />
           <Route path="/primetravel" element={<IndexTravel />} />
           <Route path="/seguro-de-vida" element={<IndexVida />} />
+          <Route path="/obrigado" element={<PaginaObrigadoLP />} />
         </Routes>
         <Footer />
       </div>

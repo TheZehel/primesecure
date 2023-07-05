@@ -1,41 +1,78 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar, faHandPeace } from "@fortawesome/free-solid-svg-icons";
+import { useState, useEffect } from "react";
+
+window.dataLayer = window.dataLayer || [];
 
 export default function Newsletter() {
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [showPopover, setShowPopover] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsSubmitted(true);
+    window.dataLayer.push({
+      event: "newsletter",
+    });
+    setShowPopover(true);
+    setTimeout(() => {
+      setShowPopover(false);
+    }, 1000);
+    console.log(handleSubmit);
+  };
+
+  useEffect(() => {
+    let timer;
+    if (showPopover) {
+      timer = setTimeout(() => {
+        setShowPopover(false);
+      }, 4000);
+    }
+    return () => clearTimeout(timer);
+  }, [showPopover]);
+
   return (
     <div className="relative isolate overflow-hidden  py-16 sm:py-24 lg:py-10">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-2">
           <div className="max-w-xl lg:max-w-lg">
-            <h2 className=" font-bold tracking-tight text-2xl text-grayPrime sm:text-2xl">
-              Inscreva-se em Nossa Newsletter.
-            </h2>
-            <p className="mt-4 text-lg leading-8 text-grayPrime">
-              Fique por dentro das últimas notícias e atualizações do setor de
-              seguros. Nosso compromisso é fornecer a você conteúdo relevante e
-              atualizado para te ajudar a proteger o que é mais importante.
-            </p>
-            <div className="mt-6 flex max-w-md gap-x-4">
-              <label htmlFor="email-address" className="sr-only">
-                Email
-              </label>
-              <input
-                id="email-address"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                className="min-w-0 flex-auto rounded-md border-0 bg-white/5 px-3.5 py-2 text-grayPrime shadow-sm ring-1 ring-inset ring-grayPrime/25 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
-                placeholder="Insira o seu e-mail"
-              />
-              <button
-                type="submit"
-                className="flex-none rounded-md bg-bluePrime px-3.5 py-2.5 text-sm font-semibold text-grayPrimee shadow-sm hover:bg-bluePrime2 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bluePrime"
-              >
-                Inscrever
-              </button>
-            </div>
+            <form onSubmit={handleSubmit}>
+              <h2 className=" font-bold tracking-tight text-2xl text-grayPrime sm:text-2xl">
+                Inscreva-se em Nossa Newsletter.
+              </h2>
+              <p className="mt-4 text-lg leading-8 text-grayPrime">
+                Fique por dentro das últimas notícias e atualizações do setor de
+                seguros. Nosso compromisso é fornecer la você conteúdo relevante
+                e atualizado para te ajudar a proteger o que é mais importante.
+              </p>
+              <div className="mt-6 flex max-w-md gap-x-4">
+                <label htmlFor="email-address" className="sr-only">
+                  Email
+                </label>
+                <input
+                  id="email-address"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  className="min-w-0 flex-auto rounded-md border-0 bg-white/5 px-3.5 py-2 text-grayPrime shadow-sm ring-1 ring-inset ring-grayPrime/25 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
+                  placeholder="Insira o seu e-mail"
+                />
+                <button
+                  type="submit"
+                  className="flex-none rounded-md bg-bluePrime px-3.5 py-2.5 text-sm font-semibold text-grayPrimee shadow-sm hover:bg-bluePrime2 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bluePrime"
+                >
+                  Inscrever
+                </button>
+                {showPopover && (
+                  <div className="absolute min-w-0 flex-auto rounded-md border-0 bg-bluePrime px-3.5 py-2 text-white w-auto">
+                    Obrigado por se inscrever!
+                  </div>
+                )}
+              </div>
+            </form>
           </div>
+
           <dl className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:pt-2">
             <div className="flex flex-col items-start">
               <div className="rounded-md bg-white/5 p-2 ring-1 ring-bluePrime">

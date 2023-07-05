@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
 import { scroller, Link as LinkScroller } from "react-scroll";
 import logoprime from "../assets/img/logo-prime-secure.png";
@@ -56,9 +56,10 @@ function NavBarMenu() {
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isMenuFixed, setIsMenuFixed] = useState(false);
 
   const scrollToSection = (itemHref) => {
-    let paths = ["/login", "/primetravel", "/seguro-de-vida"];
+    let paths = ["/login", "/primetravel", "/seguro-de-vida", "/obrigado"];
     if (paths.includes(location.pathname)) {
       navigate("/"); //redirecionar para a página
       setTimeout(() => {
@@ -68,7 +69,7 @@ function NavBarMenu() {
           delay: 0,
           smooth: "easeInOutQuart",
         });
-      }, 500); // this delay should be adjusted according to your page load time
+      }, 500); //Delay
     } else {
       scroller.scrollTo(itemHref.substring(1), {
         duration: 800,
@@ -78,16 +79,40 @@ function NavBarMenu() {
     }
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      const scrollThreshold = 200;
+
+      if (scrollPosition > scrollThreshold && !isMenuFixed) {
+        setIsMenuFixed(true);
+      } else if (scrollPosition <= scrollThreshold && isMenuFixed) {
+        setIsMenuFixed(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [isMenuFixed]);
+
   const [linkClicked, setLinkClicked] = useState(false);
 
   return (
-    <header className="bg-white font-montserrat">
+    <header
+      className={`bg-white font-montserrat z-1 ${
+        isMenuFixed
+          ? "fixed top-0 w-full z-50 transition-all duration-300 fade-in-out"
+          : ""
+      }`}
+    >
       <nav
         className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
-          <a href="#Home" className="-m-1.5 p-1.5">
+          <a href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Prime Secure</span>
             <img
               className="h-5 w-auto"
