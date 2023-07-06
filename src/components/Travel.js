@@ -61,7 +61,7 @@ export default function Travel() {
               </p>
               <button
                 onClick={handleClick}
-                class="bg-bluePrime hover:bg-bluePrime2 text-white font-bold py-2 px-4 rounded w-2/4"
+                className="bg-bluePrime hover:bg-bluePrime2 text-white font-bold py-2 px-4 rounded w-2/4"
               >
                 Cotar Agora
               </button>

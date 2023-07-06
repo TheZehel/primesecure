@@ -20,6 +20,9 @@ import PaginaLogin from "./components/PaginaLogin";
 //Páginas
 import IndexTravel from "./components/primetravel/IndexTravel";
 import IndexVida from "./components/seguro-de-vida/IndexVida";
+import IndexSeguroCelular from "./components/seguro-celular/indexSeguroCelular";
+
+//Página de Obrigado
 import PaginaObrigadoLP from "./components/globalsubcomponentes/PaginaObrigadoLp";
 
 function App() {
@@ -59,6 +62,10 @@ function App() {
           <Route path="/login" element={<PaginaLogin />} />
           <Route path="/primetravel" element={<IndexTravel />} />
           <Route path="/seguro-de-vida" element={<IndexVida />} />
+          <Route
+            path="/equipamentos-portateis-3"
+            element={<IndexSeguroCelular />}
+          />
           <Route path="/obrigado" element={<PaginaObrigadoLP />} />
         </Routes>
         <Footer />

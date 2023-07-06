@@ -1,4 +1,4 @@
-import { useState, createRef } from "react";
+import { useState, createRef, useEffect } from "react";
 import InputMask from "react-input-mask";
 import { useNavigate } from "react-router-dom";
 
@@ -38,18 +38,33 @@ export default function SimpleFormSection({
   };
 
   const handleSubmit = (e) => {
-    //e.preventdefault();
+    e.preventDefault();
 
     if (validateForm()) {
+      // Armazenar os dados preenchidos no sessionStorage
+      sessionStorage.setItem("formData", JSON.stringify(formData));
+
       navigate("/obrigado");
     }
   };
 
   const handleButtonClick = () => {
     if (validateForm()) {
+      // Armazenar os dados preenchidos no sessionStorage
+      sessionStorage.setItem("formData", JSON.stringify(formData));
+
       navigate("/obrigado");
     }
   };
+
+  useEffect(() => {
+    // Recuperar os dados do sessionStorage ao carregar a página
+    const storedFormData = sessionStorage.getItem("formData");
+
+    if (storedFormData) {
+      setFormData(JSON.parse(storedFormData));
+    }
+  }, []);
 
   return (
     <div className="animate__animated animate__zoomIn rounded-lg bg-white p-5 sm:px-10 sm:mx-20 xl:mx-32">
@@ -125,7 +140,7 @@ export default function SimpleFormSection({
       <div className="xl:mx-20">
         <button
           onClick={handleButtonClick}
-          class="bg-bluePrime hover:bg-bluePrime2 text-white font-bold py-2 px-4 rounded w-full flex mt-3 justify-center items-center "
+          className="bg-bluePrime hover:bg-bluePrime2 text-white font-bold py-2 px-4 rounded w-full flex mt-3 justify-center items-center"
         >
           Cotar Agora
         </button>
