@@ -65,6 +65,7 @@ function NavBarMenu() {
       "/seguro-de-vida",
       "/equipamentos-portateis-3",
       "/obrigado",
+      "*",
     ];
     if (paths.includes(location.pathname)) {
       navigate("/"); //redirecionar para a página

@@ -17,13 +17,15 @@ import SobrePrime from "./components/SobrePrime";
 import Newsletter from "./components/Newsletter";
 import PaginaLogin from "./components/PaginaLogin";
 
-//Páginas
+//Páginas de Produtos
 import IndexTravel from "./components/primetravel/IndexTravel";
 import IndexVida from "./components/seguro-de-vida/IndexVida";
 import IndexSeguroCelular from "./components/seguro-celular/indexSeguroCelular";
+import IndexSeguroPet from "./components/seguro-pet/IndexSeguroPet";
 
-//Página de Obrigado
+//Páginas de Aviso
 import PaginaObrigadoLP from "./components/globalsubcomponentes/PaginaObrigadoLp";
+import PageNotFound from "./components/PageNotFound";
 
 function App() {
   return (
@@ -66,7 +68,9 @@ function App() {
             path="/equipamentos-portateis-3"
             element={<IndexSeguroCelular />}
           />
+          <Route path="/seguro-pet-porto" element={<IndexSeguroPet />} />
           <Route path="/obrigado" element={<PaginaObrigadoLP />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
         <Footer />
       </div>
