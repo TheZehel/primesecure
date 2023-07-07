@@ -1,5 +1,3 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
 //Components
 import FormVidaBanner from "./components/FormVidaBanner";
 
