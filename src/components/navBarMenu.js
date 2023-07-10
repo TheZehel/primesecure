@@ -63,7 +63,10 @@ function NavBarMenu() {
       "/login",
       "/primetravel",
       "/seguro-de-vida",
+      "/seguro-pet-porto",
+      "/seguro-residencial-porto-2/",
       "/equipamentos-portateis-3",
+      "/sulamerica-odonto",
       "/obrigado",
       "*",
     ];

@@ -1,18 +1,17 @@
-//Components
-import FormVidaBanner from "./components/FormVidaBanner";
+import FormOdontoBanner from "./components/subcomponents/FormOdontoBanner";
 import SessaoInformativaProdutosLp from "../globalsubcomponentes/SessaoInformativaProdutosLp";
 import InformacoesProdutos from "../modules/ModuleInformacoesProdutos";
 
-function IndexVida() {
+function IndexOdonto() {
   return (
-    <div className="IndexVida">
-      <FormVidaBanner />
+    <div>
+      <FormOdontoBanner />
       <SessaoInformativaProdutosLp
         InformacoesProdutos={InformacoesProdutos}
-        productId="4"
+        productId="3"
       />
     </div>
   );
 }
 
-export default IndexVida;
+export default IndexOdonto;

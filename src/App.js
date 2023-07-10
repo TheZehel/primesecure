@@ -23,6 +23,7 @@ import IndexVida from "./components/seguro-de-vida/IndexVida";
 import IndexSeguroCelular from "./components/seguro-celular/indexSeguroCelular";
 import IndexSeguroPet from "./components/seguro-pet/IndexSeguroPet";
 import IndexSeguroResidencial from "./components/Residencial/IndexSeguroResidencial";
+import IndexOdonto from "./components/Odonto/IndexOdonto";
 
 //Páginas de Aviso
 import PaginaObrigadoLP from "./components/globalsubcomponentes/PaginaObrigadoLp";
@@ -74,6 +75,7 @@ function App() {
             path="/seguro-residencial-porto-2"
             element={<IndexSeguroResidencial />}
           />
+          <Route path="/sulamerica-odonto" element={<IndexOdonto />} />
           <Route path="/obrigado" element={<PaginaObrigadoLP />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
