@@ -1,4 +1,4 @@
-//Components
+import React from "react";
 import FormTravelBanner from "./components/FormTravelBanner";
 import SliderPlanos from "./components/SliderPlanos";
 import SessaoInformativaProdutosLp from "../globalsubcomponentes/SessaoInformativaProdutosLp";

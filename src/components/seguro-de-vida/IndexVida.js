@@ -2,6 +2,8 @@
 import FormVidaBanner from "./components/FormVidaBanner";
 import SessaoInformativaProdutosLp from "../globalsubcomponentes/SessaoInformativaProdutosLp";
 import InformacoesProdutos from "../modules/ModuleInformacoesProdutos";
+import PlanoSlider from "../globalsubcomponentes/PlanoSlider";
+import infoPlanos from "../modules/InfoPlanos";
 
 function IndexVida() {
   return (
@@ -11,6 +13,7 @@ function IndexVida() {
         InformacoesProdutos={InformacoesProdutos}
         productId="4"
       />
+      <PlanoSlider infoPlanos={infoPlanos} planId="1" />
     </div>
   );
 }

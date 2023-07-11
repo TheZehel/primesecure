@@ -1,6 +1,8 @@
 import SessaoInformativaProdutosLp from "../globalsubcomponentes/SessaoInformativaProdutosLp";
 import InformacoesProdutos from "../modules/ModuleInformacoesProdutos";
 import FormResidencialBanner from "./components/FormResidencialBanner";
+import PlanoSlider from "../globalsubcomponentes/PlanoSlider";
+import infoPlanos from "../modules/InfoPlanos";
 
 function IndexSeguroResidencial() {
   return (
@@ -10,6 +12,7 @@ function IndexSeguroResidencial() {
         InformacoesProdutos={InformacoesProdutos}
         productId="1"
       />
+      <PlanoSlider infoPlanos={infoPlanos} planId="1" />
     </div>
   );
 }
