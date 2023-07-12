@@ -4,6 +4,8 @@ import SessaoInformativaProdutosLp from "../globalsubcomponentes/SessaoInformati
 import InformacoesProdutos from "../modules/ModuleInformacoesProdutos";
 import PlanoSlider from "../globalsubcomponentes/PlanoSlider";
 import infoPlanos from "../modules/InfoPlanos";
+import ConteudoSessaoInfo from "../globalsubcomponentes/ConteudoSessaoInfo";
+import sessaoInfoLp from "../modules/SessaoInfoLp";
 
 function IndexSeguroCelular() {
   return (
@@ -13,7 +15,8 @@ function IndexSeguroCelular() {
         InformacoesProdutos={InformacoesProdutos}
         productId="6"
       />
-      <PlanoSlider infoPlanos={infoPlanos} planId="1" />
+      <PlanoSlider infoPlanos={infoPlanos} planId="6" />
+      <ConteudoSessaoInfo sessaoInfoLp={sessaoInfoLp} sessaoInfoId="6" />
     </div>
   );
 }

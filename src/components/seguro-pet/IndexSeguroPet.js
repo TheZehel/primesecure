@@ -4,6 +4,8 @@ import SessaoInformativaProdutosLp from "../globalsubcomponentes/SessaoInformati
 import InformacoesProdutos from "../modules/ModuleInformacoesProdutos";
 import PlanoSlider from "../globalsubcomponentes/PlanoSlider";
 import infoPlanos from "../modules/InfoPlanos";
+import ConteudoSessaoInfo from "../globalsubcomponentes/ConteudoSessaoInfo";
+import sessaoInfoLp from "../modules/SessaoInfoLp";
 
 function IndexSeguroPet() {
   return (
@@ -11,9 +13,10 @@ function IndexSeguroPet() {
       <FormSeguroPetBanner />
       <SessaoInformativaProdutosLp
         InformacoesProdutos={InformacoesProdutos}
-        productId="5"
+        productId="3"
       />
-      <PlanoSlider infoPlanos={infoPlanos} planId="1" />
+      <PlanoSlider infoPlanos={infoPlanos} planId="3" />
+      <ConteudoSessaoInfo sessaoInfoLp={sessaoInfoLp} sessaoInfoId="3" />
     </div>
   );
 }

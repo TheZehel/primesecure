@@ -3,6 +3,8 @@ import SessaoInformativaProdutosLp from "../globalsubcomponentes/SessaoInformati
 import InformacoesProdutos from "../modules/ModuleInformacoesProdutos";
 import PlanoSlider from "../globalsubcomponentes/PlanoSlider";
 import infoPlanos from "../modules/InfoPlanos";
+import ConteudoSessaoInfo from "../globalsubcomponentes/ConteudoSessaoInfo";
+import sessaoInfoLp from "../modules/SessaoInfoLp";
 
 function IndexOdonto() {
   return (
@@ -10,9 +12,10 @@ function IndexOdonto() {
       <FormOdontoBanner />
       <SessaoInformativaProdutosLp
         InformacoesProdutos={InformacoesProdutos}
-        productId="3"
+        productId="5"
       />
-      <PlanoSlider infoPlanos={infoPlanos} planId="1" />
+      <PlanoSlider infoPlanos={infoPlanos} planId="5" />
+      <ConteudoSessaoInfo sessaoInfoLp={sessaoInfoLp} sessaoInfoId="5" />
     </div>
   );
 }

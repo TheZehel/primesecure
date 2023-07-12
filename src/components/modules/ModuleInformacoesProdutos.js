@@ -74,7 +74,7 @@ const InformacoesProdutos = [
   },
   {
     id: "3",
-    name: "Odonto",
+    name: "Pet",
     image: imageManagerInformacoesProdutos.imgProdutos.imgResidencial,
     buttonText: "Cotar Agora",
     link: "https://primesecure.com.br/seguro-residencial-porto-2/",
@@ -140,7 +140,7 @@ const InformacoesProdutos = [
   },
   {
     id: "5",
-    name: "Pet Seguro",
+    name: "Odonto",
     image: imageManagerInformacoesProdutos.imgProdutos.imgResidencial,
     buttonText: "Cotar Agora",
     link: "https://primesecure.com.br/seguro-residencial-porto-2/",

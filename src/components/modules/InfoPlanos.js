@@ -91,6 +91,96 @@ const infoPlanos = [
       },
     ],
   },
+  {
+    id: "4",
+    planos: [
+      {
+        name: "tete",
+        price: "R$29/mês",
+        features: ["Feature 1", "Feature 2", "Feature 3"],
+        emphasized: false,
+      },
+      {
+        name: "111111",
+        price: "R$59/mês",
+        buttonLink: "www.google.com.br",
+        features: ["Feature 1", "Feature 2", "Feature 3", "Feature 4"],
+        emphasized: true,
+      },
+      {
+        name: "ttt",
+        price: "R$99/mês",
+        features: [
+          "Feature 1",
+          "Feature 2",
+          "Feature 3",
+          "Feature 4",
+          "Feature 5",
+        ],
+        emphasized: false,
+      },
+    ],
+  },
+  {
+    id: "5",
+    planos: [
+      {
+        name: "tete",
+        price: "R$29/mês",
+        features: ["Feature 1", "Feature 2", "Feature 3"],
+        emphasized: false,
+      },
+      {
+        name: "111111",
+        price: "R$59/mês",
+        buttonLink: "www.google.com.br",
+        features: ["Feature 1", "Feature 2", "Feature 3", "Feature 4"],
+        emphasized: true,
+      },
+      {
+        name: "ttt",
+        price: "R$99/mês",
+        features: [
+          "Feature 1",
+          "Feature 2",
+          "Feature 3",
+          "Feature 4",
+          "Feature 5",
+        ],
+        emphasized: false,
+      },
+    ],
+  },
+  {
+    id: "6",
+    planos: [
+      {
+        name: "tete",
+        price: "R$29/mês",
+        features: ["Feature 1", "Feature 2", "Feature 3"],
+        emphasized: false,
+      },
+      {
+        name: "111111",
+        price: "R$59/mês",
+        buttonLink: "www.google.com.br",
+        features: ["Feature 1", "Feature 2", "Feature 3", "Feature 4"],
+        emphasized: true,
+      },
+      {
+        name: "ttt",
+        price: "R$99/mês",
+        features: [
+          "Feature 1",
+          "Feature 2",
+          "Feature 3",
+          "Feature 4",
+          "Feature 5",
+        ],
+        emphasized: false,
+      },
+    ],
+  },
 ];
 
 export default infoPlanos;
