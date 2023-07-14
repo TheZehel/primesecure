@@ -28,7 +28,31 @@ const products = [
   {
     name: "Seguro Residencial",
     description: "Planos de Proteção Para a Sua Residencia.",
-    href: "#Residencial",
+    href: "/seguro-residencial-porto-2",
+    icon: HomeIcon,
+  },
+  {
+    name: "Seguro Pet",
+    description: "Planos de Proteção Para a Sua Residencia.",
+    href: "/seguro-pet-porto",
+    icon: HomeIcon,
+  },
+  {
+    name: "Odonto",
+    description: "Planos de Proteção Para a Sua Residencia.",
+    href: "/sulamerica-odonto",
+    icon: HomeIcon,
+  },
+  {
+    name: "Vida",
+    description: "Planos de Proteção Para a Sua Residencia.",
+    href: "/seguro-de-vida",
+    icon: HomeIcon,
+  },
+  {
+    name: "Celular",
+    description: "Planos de Proteção Para a Sua Residencia.",
+    href: "/equipamentos-portateis-3",
     icon: HomeIcon,
   },
 ];
@@ -40,7 +64,7 @@ const callsToAction = [
 const menu = [
   {
     name: "Sobre a Prime",
-    href: "#sobrePrime",
+    href: "/#sobrePrime",
   },
   {
     name: "Newsletter",
@@ -58,34 +82,48 @@ function NavBarMenu() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isMenuFixed, setIsMenuFixed] = useState(false);
 
-  const scrollToSection = (itemHref) => {
-    let paths = [
-      "/login",
-      "/primetravel",
-      "/seguro-de-vida",
-      "/seguro-pet-porto",
-      "/seguro-residencial-porto-2/",
-      "/equipamentos-portateis-3",
-      "/sulamerica-odonto",
-      "/obrigado",
-      "*",
-    ];
-    if (paths.includes(location.pathname)) {
-      navigate("/"); //redirecionar para a página
+  const scrollToSection = (sectionId) => {
+    scroller.scrollTo(sectionId, {
+      duration: 800,
+      delay: 0,
+      smooth: "easeInOutQuart",
+    });
+  };
+
+  const paths = [
+    "/login",
+    "/primetravel",
+    "/seguro-de-vida",
+    "/seguro-pet-porto",
+    "/seguro-residencial-porto-2/",
+    "/equipamentos-portateis-3",
+    "/sulamerica-odonto",
+    "/obrigado",
+    "*",
+  ];
+
+  const navigateToPath = (path) => {
+    // split the path into pagePath and sectionId
+    const [pagePath, sectionId] = path.split("#");
+
+    // if pagePath exists in the paths array, navigate to the page
+    if (paths.includes(pagePath)) {
+      navigate(pagePath);
       setTimeout(() => {
-        // scrolla até o item quando a página é carregada.
-        scroller.scrollTo(itemHref.substring(1), {
-          duration: 800,
-          delay: 0,
-          smooth: "easeInOutQuart",
-        });
-      }, 500); //Delay
+        // after navigating to the page, if sectionId exists, scroll to the section
+        if (sectionId && document.getElementById(sectionId)) {
+          scrollToSection(sectionId);
+        } else {
+          // Scroll to the top of the new page
+          scroller.scrollTo("top", {
+            duration: 800,
+            delay: 0,
+            smooth: "easeInOutQuart",
+          });
+        }
+      }, 500); // Delay
     } else {
-      scroller.scrollTo(itemHref.substring(1), {
-        duration: 800,
-        delay: 0,
-        smooth: "easeInOutQuart",
-      });
+      console.log(`Page with path ${pagePath} not found`);
     }
   };
 
@@ -177,20 +215,35 @@ function NavBarMenu() {
                         />
                       </div>
                       <div className="flex-auto">
-                        <a
-                          href={item.href}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            scrollToSection(item.href);
-                            document.getElementById("option-produtos").click();
-                            setLinkClicked(!linkClicked);
-                            setMobileMenuOpen(false);
-                          }}
-                          className="block font-semibold text-gray-900"
-                        >
-                          {item.name}
-                          <span className="absolute inset-0" />
-                        </a>
+                        {item.href.startsWith("/") ? (
+                          <Link
+                            to={item.href}
+                            key={item.name}
+                            className="block font-semibold text-gray-900"
+                            onClick={() => {
+                              setLinkClicked(!linkClicked);
+                              setMobileMenuOpen(false);
+                            }}
+                          >
+                            {item.name}
+                          </Link>
+                        ) : (
+                          <a
+                            href={item.href}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              scrollToSection(item.href);
+                              document
+                                .getElementById("option-produtos")
+                                .click();
+                              setLinkClicked(!linkClicked);
+                              setMobileMenuOpen(false);
+                            }}
+                            className="block font-semibold text-gray-900"
+                          >
+                            {item.name}
+                          </a>
+                        )}
                         <p className="mt-1 text-gray-600">{item.description}</p>
                       </div>
                     </div>
@@ -198,9 +251,9 @@ function NavBarMenu() {
                 </div>
                 <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
                   {callsToAction.map((item) => (
-                    <a
+                    <Link
                       key={item.name}
-                      href={item.href}
+                      to={item.href}
                       onClick={(e) => {
                         scrollToSection(item.href.substring(1));
                       }}
@@ -211,7 +264,7 @@ function NavBarMenu() {
                         aria-hidden="true"
                       />
                       {item.name}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </Popover.Panel>
@@ -224,7 +277,9 @@ function NavBarMenu() {
               href={item.href}
               onClick={(e) => {
                 e.preventDefault();
-                scrollToSection(item.href);
+                item.href.startsWith("/")
+                  ? navigateToPath(item.href)
+                  : scrollToSection(item.href);
               }}
               className="text-sm font-semibold leading-6 text-gray-900"
             >
@@ -287,23 +342,34 @@ function NavBarMenu() {
                         />
                       </Disclosure.Button>
                       <Disclosure.Panel className="mt-2 space-y-2">
-                        {[...products, ...callsToAction].map((item) => (
-                          <LinkScroller
-                            key={item.name}
-                            to={item.href.substring(1)}
-                            className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                            onClick={() => {
-                              scrollToSection(item.href);
-                              setMobileMenuOpen(false);
-                            }}
-                            spy={true}
-                            smooth={true}
-                            offset={-70}
-                            duration={500}
-                          >
-                            {item.name}
-                          </LinkScroller>
-                        ))}
+                        {[...products, ...callsToAction].map((item) =>
+                          item.href.startsWith("/") ? (
+                            <Link
+                              to={item.href}
+                              key={item.name}
+                              className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                              onClick={() => setMobileMenuOpen(false)}
+                            >
+                              {item.name}
+                            </Link>
+                          ) : (
+                            <LinkScroller
+                              key={item.name}
+                              to={item.href.substring(1)}
+                              className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                              onClick={() => {
+                                scrollToSection(item.href);
+                                setMobileMenuOpen(false);
+                              }}
+                              spy={true}
+                              smooth={true}
+                              offset={-70}
+                              duration={500}
+                            >
+                              {item.name}
+                            </LinkScroller>
+                          )
+                        )}
                       </Disclosure.Panel>
                     </>
                   )}

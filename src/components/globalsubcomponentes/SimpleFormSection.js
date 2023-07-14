@@ -64,6 +64,18 @@ export default function SimpleFormSection({
     if (storedFormData) {
       setFormData(JSON.parse(storedFormData));
     }
+
+    // Adicionar o script à página
+    const script = document.createElement("script");
+    script.src =
+      "https://d335luupugsy2.cloudfront.net/js/loader-scripts/21470fa9-a2c0-43a4-951c-d2956a0806cd-loader.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      // Remover o script da página quando o componente for desmontado
+      document.body.removeChild(script);
+    };
   }, []);
 
   return (
@@ -75,6 +87,7 @@ export default function SimpleFormSection({
         Inicie sua cotação online preenchendo o formulário abaixo.
       </p>
       <form
+        id="form1"
         onSubmit={handleSubmit}
         className="sm:flex flex-col sm:flex-row justify-center items-center mx-auto gap-x-6 gap-y-4 mt-10 max-w-xl sm:mt-10 xl:mx-20"
       >
@@ -109,7 +122,7 @@ export default function SimpleFormSection({
               <input
                 type="email"
                 name="email"
-                id="email"
+                id="email-address"
                 autoComplete="family-name"
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
                 value={formData.email}
@@ -139,6 +152,7 @@ export default function SimpleFormSection({
       </form>
       <div className="xl:mx-20">
         <button
+          type="submit"
           onClick={handleButtonClick}
           className="bg-bluePrime hover:bg-bluePrime2 text-white font-bold py-2 px-4 rounded w-full flex mt-3 justify-center items-center"
         >

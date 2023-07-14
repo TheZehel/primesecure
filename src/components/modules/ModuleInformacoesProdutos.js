@@ -42,31 +42,28 @@ const InformacoesProdutos = [
   {
     id: "2",
     name: "Seguro Viagem",
-    image: imageManagerInformacoesProdutos.imgProdutos.imgResidencial,
+    image: imageManagerInformacoesProdutos.imgProdutos.imgViagem,
     buttonText: "Cotar Agora",
     link: "https://primesecure.com.br/seguro-residencial-porto-2/",
     title: "Proteção em Todas as categorias de Viagem.",
     description:
-      "Garanta que nenhum imprevisto venha a atrapalhar a paz do seu lar com um Seguro Residencial.",
+      "Tudo o que você e seus companheiros de viagem merecem para uma viagem mais segura.",
     features: [
       {
         name: "Viagens Aéreas",
-        description:
-          "Proteção para todo o tipo de situação, como por exemplo, incêncios, problemas elétricos ou de encanamento, desastres naturais e muito mais...",
+        description: "Coberturas que Garantem Sua segurança em Viagens Aéreas.",
         icon: FontAwesomeIcon,
         iconProps: { icon: faHouse },
       },
       {
         name: "Viagens Marítimas",
-        description:
-          "Acione serviços de assistência em qualquer momento do seu dia.",
+        description: "Serviços exclusivos para as suas viagens marítimas",
         icon: FontAwesomeIcon,
         iconProps: { icon: faHouseMedicalFlag },
       },
       {
         name: "Viagens Terrestres",
-        description:
-          "Planos feitos sob medida. Você pode personalizar cada centavos das suas coberturas..",
+        description: "Proteção também para suas viagens terrestres.",
         icon: FontAwesomeIcon,
         iconProps: { icon: faHouseUser },
       },
@@ -75,31 +72,28 @@ const InformacoesProdutos = [
   {
     id: "3",
     name: "Pet",
-    image: imageManagerInformacoesProdutos.imgProdutos.imgResidencial,
+    image: imageManagerInformacoesProdutos.imgProdutos.imgPet,
     buttonText: "Cotar Agora",
     link: "https://primesecure.com.br/seguro-residencial-porto-2/",
-    title: "+ Proteção Para a Sua Casa Com",
-    description:
-      "Garanta que nenhum imprevisto venha a atrapalhar a paz do seu lar com um Seguro Residencial.",
+    title: "Até 30% de Desconto Mais Frete Grátis em produtos PetLove",
+    description: "As melhores condições em Planos de Saúde para o seu Pet.",
     features: [
       {
-        name: "Coberturas Exclusivas.",
+        name: "Escolha um plano",
         description:
-          "Proteção para todo o tipo de situação, como por exemplo, incêncios, problemas elétricos ou de encanamento, desastres naturais e muito mais...",
+          "São quatro opções de planos de saúde para o seu pet. Conheça as coberturas.",
         icon: FontAwesomeIcon,
         iconProps: { icon: faHouse },
       },
       {
-        name: "Olá 26H.",
-        description:
-          "Acione serviços de assistência em qualquer momento do seu dia.",
+        name: "Solicite um orçamento",
+        description: "Entraremos em contato para sanar todas as suas dúvidas.",
         icon: FontAwesomeIcon,
         iconProps: { icon: faHouseMedicalFlag },
       },
       {
-        name: "Planos 100% Personalizados.",
-        description:
-          "Planos feitos sob medida. Você pode personalizar cada centavos das suas coberturas..",
+        name: "Seu pet em segurança",
+        description: "Prontinho! O seu pet está protegido.",
         icon: FontAwesomeIcon,
         iconProps: { icon: faHouseUser },
       },
@@ -107,32 +101,31 @@ const InformacoesProdutos = [
   },
   {
     id: "4",
-    name: "Vida",
-    image: imageManagerInformacoesProdutos.imgProdutos.imgResidencial,
+    name: "Coberturas e Assistências Exclusivas",
+    image: imageManagerInformacoesProdutos.imgProdutos.imgVida,
     buttonText: "Cotar Agora",
     link: "https://primesecure.com.br/seguro-residencial-porto-2/",
-    title: "+ Proteção Para a Sua Casa Com",
-    description:
-      "Garanta que nenhum imprevisto venha a atrapalhar a paz do seu lar com um Seguro Residencial.",
+    title: "Seguro de Vida com Coberturas Para serem Usadas Ainda em Vida.",
+    description: "",
     features: [
       {
-        name: "Coberturas Exclusivas.",
+        name: "Coberturas:",
         description:
-          "Proteção para todo o tipo de situação, como por exemplo, incêncios, problemas elétricos ou de encanamento, desastres naturais e muito mais...",
+          "Coberturas Para Morte(Natural, Cônjuge ou acidental), Invalidez Total ou Parcial, Doenças Graves, Despesas Médicas, hospitalares e odonto, doenças graves, Diária por incapacidade Temporária e Seguro Funeral.",
         icon: FontAwesomeIcon,
         iconProps: { icon: faHouse },
       },
       {
-        name: "Olá 26H.",
+        name: "Assistências",
         description:
-          "Acione serviços de assistência em qualquer momento do seu dia.",
+          "Assistências feitas para garantir segurança aos seus beneficiários pós vida.",
         icon: FontAwesomeIcon,
         iconProps: { icon: faHouseMedicalFlag },
       },
       {
-        name: "Planos 100% Personalizados.",
+        name: "Médico Na Tela.",
         description:
-          "Planos feitos sob medida. Você pode personalizar cada centavos das suas coberturas..",
+          "Sistema de atendimento médico 100% online onde você realiza sua consulta através do seu celular, computador ou tablet. E ao final do seu atendimento você tem acesso a sua prescrição médica.",
         icon: FontAwesomeIcon,
         iconProps: { icon: faHouseUser },
       },
@@ -141,31 +134,31 @@ const InformacoesProdutos = [
   {
     id: "5",
     name: "Odonto",
-    image: imageManagerInformacoesProdutos.imgProdutos.imgResidencial,
+    image: imageManagerInformacoesProdutos.imgProdutos.imgOdonto,
     buttonText: "Cotar Agora",
     link: "https://primesecure.com.br/seguro-residencial-porto-2/",
-    title: "+ Proteção Para a Sua Casa Com",
+    title: "Faça um plano e cuide de você por inteiro",
     description:
-      "Garanta que nenhum imprevisto venha a atrapalhar a paz do seu lar com um Seguro Residencial.",
+      "Veja abaixo os benefficios que somente um plano odonto pode lhe oferecer.",
     features: [
       {
-        name: "Coberturas Exclusivas.",
+        name: "Saúde Bucal e Saúde Física",
         description:
-          "Proteção para todo o tipo de situação, como por exemplo, incêncios, problemas elétricos ou de encanamento, desastres naturais e muito mais...",
+          "Mantenha a sua saúde bucal e Física sempre em dia, evitando problemas de mastigação e doenças do coração.",
         icon: FontAwesomeIcon,
         iconProps: { icon: faHouse },
       },
       {
-        name: "Olá 26H.",
+        name: "Saúde Emocional",
         description:
-          "Acione serviços de assistência em qualquer momento do seu dia.",
+          "Eles podem gerar dor de cabeça, problemas de mastigação e doenças do coração.",
         icon: FontAwesomeIcon,
         iconProps: { icon: faHouseMedicalFlag },
       },
       {
-        name: "Planos 100% Personalizados.",
+        name: "Saúde Financeira",
         description:
-          "Planos feitos sob medida. Você pode personalizar cada centavos das suas coberturas..",
+          "Tendo um tratamento dental em dia você mantém uma saúde financeira impecável.",
         icon: FontAwesomeIcon,
         iconProps: { icon: faHouseUser },
       },
@@ -173,32 +166,30 @@ const InformacoesProdutos = [
   },
   {
     id: "6",
-    name: "Celular",
-    image: imageManagerInformacoesProdutos.imgProdutos.imgResidencial,
+    name: "Principais Coberturas",
+    image: imageManagerInformacoesProdutos.imgProdutos.imgCelular,
     buttonText: "Cotar Agora",
     link: "https://primesecure.com.br/seguro-residencial-porto-2/",
-    title: "+ Proteção Para a Sua Casa Com",
-    description:
-      "Garanta que nenhum imprevisto venha a atrapalhar a paz do seu lar com um Seguro Residencial.",
+    title: "O Único Seguro Celular no Brasil com Cobertura Para Furto Simplesr",
+    description: "Coberturas Para Aparelhos Novos ou Usados*",
     features: [
       {
-        name: "Coberturas Exclusivas.",
+        name: "Esteja sempre prevenido(a) contra: ",
         description:
-          "Proteção para todo o tipo de situação, como por exemplo, incêncios, problemas elétricos ou de encanamento, desastres naturais e muito mais...",
+          "Acidentes, casos de incêndio, Queda de raio, roubo ou furto, danos por agua ou outros tipos de líquidos.",
         icon: FontAwesomeIcon,
         iconProps: { icon: faHouse },
       },
       {
-        name: "Olá 26H.",
-        description:
-          "Acione serviços de assistência em qualquer momento do seu dia.",
+        name: "Proteção Para o Seu modelo e SmartPhone preferido.",
+        description: "Apple, Samsumg, Motorola, Xiaomi e Outras Marcas.",
         icon: FontAwesomeIcon,
         iconProps: { icon: faHouseMedicalFlag },
       },
       {
-        name: "Planos 100% Personalizados.",
+        name: "Proteção Total Para o Seu SmartPhone.",
         description:
-          "Planos feitos sob medida. Você pode personalizar cada centavos das suas coberturas..",
+          "Garanta proteção para o seu equipamento portátil. Com coberturas Nacionais e Internacionais.",
         icon: FontAwesomeIcon,
         iconProps: { icon: faHouseUser },
       },

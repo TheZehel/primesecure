@@ -1,4 +1,4 @@
-import FormOdontoBanner from "./components/subcomponents/FormOdontoBanner";
+import FormOdontoBanner from "./components/FormOdontoBanner";
 import SessaoInformativaProdutosLp from "../globalsubcomponentes/SessaoInformativaProdutosLp";
 import InformacoesProdutos from "../modules/ModuleInformacoesProdutos";
 import PlanoSlider from "../globalsubcomponentes/PlanoSlider";

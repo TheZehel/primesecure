@@ -5,32 +5,27 @@ const sessaoInfoLp = [
   {
     id: "1",
     title: "Residencial",
-    subtitle: "Everything you need to deploy your app",
-    description:
-      "Quis tellus eget adipiscing convallis sit sit eget aliquet quis. Suspendisse eget egestas a elementum pulvinar et feugiat blandit at. In mi viverra elit nunc.",
+    subtitle: "Confira os Beneficios exclusivos que sua casa vai ter.",
+    description: "",
     features: [
       {
-        name: "Push to deploy",
-        description:
-          "Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.",
+        name: "Garanta até 20% de desconto",
+        description: "",
         icon: <FontAwesomeIcon icon={faHouse} />,
       },
       {
-        name: "Push to deploy",
-        description:
-          "Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.",
+        name: "Incêndio e Explosão",
+        description: "",
         icon: <FontAwesomeIcon icon={faHouse} />,
       },
       {
-        name: "Push to deploy",
-        description:
-          "Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.",
+        name: "Danos Elétricos",
+        description: "",
         icon: <FontAwesomeIcon icon={faHouse} />,
       },
       {
-        name: "Push to deploy",
-        description:
-          "Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.",
+        name: "Mais de 30 Coberturas 24h/dia",
+        description: "",
         icon: <FontAwesomeIcon icon={faHouse} />,
       },
     ],
@@ -43,27 +38,23 @@ const sessaoInfoLp = [
       "Quis tellus eget adipiscing convallis sit sit eget aliquet quis. Suspendisse eget egestas a elementum pulvinar et feugiat blandit at. In mi viverra elit nunc.",
     features: [
       {
-        name: "Push to deploy",
-        description:
-          "Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.",
+        name: "Proteção COVID-19",
+        description: "",
         icon: <FontAwesomeIcon icon={faHouse} />,
       },
       {
-        name: "Push to deploy",
-        description:
-          "Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.",
+        name: "Extravio de Bagagem e Cancelamento de Viagem",
+        description: "",
         icon: <FontAwesomeIcon icon={faHouse} />,
       },
       {
-        name: "Push to deploy",
-        description:
-          "Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.",
+        name: "Despesas Médicas, Hospitalares e Odontológicas",
+        description: "",
         icon: <FontAwesomeIcon icon={faHouse} />,
       },
       {
-        name: "Push to deploy",
-        description:
-          "Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.",
+        name: "100% Online",
+        description: "",
         icon: <FontAwesomeIcon icon={faHouse} />,
       },
     ],

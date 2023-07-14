@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import Select from "react-select";
 import { DatePicker, Space } from "antd";
 import InputMask from "react-input-mask";
@@ -8,20 +9,32 @@ import { Chip } from "@material-tailwind/react";
 import ListaPaises from "./ListaPaises";
 
 export default function FormTravelBanner() {
-  const [formData, setFormData] = useState({
-    destination: "",
-    departureDate: "",
-    returnDate: "",
-    passengers: { "0-40": 0, "41-64": 0, "65-75": 0, "76-99": 0 },
-    name: "",
-    email: "",
-    phone: "",
+  const [formData, setFormData] = useState(() => {
+    // Recuperando os dados do localStorage
+    const savedData = localStorage.getItem("formData");
+    return savedData
+      ? JSON.parse(savedData)
+      : {
+          destination: "",
+          departureDate: "",
+          returnDate: "",
+          passengers: { "0-40": 0, "41-64": 0, "65-75": 0, "76-99": 0 },
+          name: "",
+          email: "",
+          phone: "",
+        };
   });
 
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(JSON.stringify(formData));
+
+    // Armazenando os dados no localStorage
+    localStorage.setItem("formData", JSON.stringify(formData));
+
     // Envie o formData para uma API ou o próximo componente
+    //window.location.href = "https://google.com.br";
+    console.log(formData);
   };
 
   const [selectedOption, setSelectedOption] = useState(null);
@@ -148,7 +161,14 @@ export default function FormTravelBanner() {
                     className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6 cursor-pointer"
                     id="ages"
                     name="ages"
-                    value="Selecione as Idades"
+                    value={
+                      olds.reduce((total, age) => total + age, 0) > 0
+                        ? `${olds.reduce(
+                            (total, age) => total + age,
+                            0
+                          )} Passageiros`
+                        : "Selecionar Passageiros"
+                    }
                     onClick={openModal}
                     readOnly
                     required
@@ -334,7 +354,10 @@ export default function FormTravelBanner() {
                 </div>
               </div>
             </form>
-            <button class="bg-bluePrime hover:bg-bluePrime2 text-white font-bold py-2 px-4 rounded w-full flex mt-3 justify-center items-center">
+            <button
+              class="bg-bluePrime hover:bg-bluePrime2 text-white font-bold py-2 px-4 rounded w-full flex mt-3 justify-center items-center"
+              onClick={handleSubmit}
+            >
               Cotar Agora
             </button>
           </div>

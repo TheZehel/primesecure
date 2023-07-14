@@ -3,6 +3,8 @@ import FormTravelBanner from "./components/FormTravelBanner";
 import SliderPlanos from "./components/SliderPlanos";
 import SessaoInformativaProdutosLp from "../globalsubcomponentes/SessaoInformativaProdutosLp";
 import InformacoesProdutos from "../modules/ModuleInformacoesProdutos";
+import ConteudoSessaoInfo from "../globalsubcomponentes/ConteudoSessaoInfo";
+import sessaoInfoLp from "../modules/SessaoInfoLp";
 
 function IndexTravel() {
   return (
@@ -13,6 +15,7 @@ function IndexTravel() {
         InformacoesProdutos={InformacoesProdutos}
         productId="2"
       />
+      <ConteudoSessaoInfo sessaoInfoLp={sessaoInfoLp} sessaoInfoId="2" />
     </div>
   );
 }

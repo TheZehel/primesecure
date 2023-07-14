@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import BannerSection from "../../globalsubcomponentes/BannerSection";
-import SimpleFormSection from "../../globalsubcomponentes/SimpleFormSection";
+//import SimpleFormSection from "../../globalsubcomponentes/SimpleFormSection";
 import imageManagerVida from "../bancodeimagens/BancoDeImagensVida";
+import Form from "./Form";
 
 export default function FormBannerVida() {
   const [formData, setFormData] = useState({
@@ -25,7 +26,7 @@ export default function FormBannerVida() {
         titleText="Seguro de Vida"
         descriptionText="Não importa como e para onde você viaja, nós te protegemos. Ainda Contamos Com + de 30 Coberturas."
       />
-      <SimpleFormSection formData={formData} setFormData={setFormData} />
+      <Form />
     </section>
   );
 }
