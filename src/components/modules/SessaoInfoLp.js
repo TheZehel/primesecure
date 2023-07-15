@@ -1,5 +1,22 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHouse,
+  faShieldAlt,
+  faHeartbeat,
+  faNotesMedical,
+  faBalanceScale,
+  faShieldVirus,
+  faSuitcase,
+  faHospital,
+  faGlobe,
+  faPhone,
+  faMoneyBill,
+  faMedkit,
+  faTooth,
+  faMobileAlt,
+  faTools,
+  faPlane,
+} from "@fortawesome/free-solid-svg-icons";
 
 const sessaoInfoLp = [
   {
@@ -32,162 +49,159 @@ const sessaoInfoLp = [
   },
   {
     id: "2",
-    title: "Viagem",
-    subtitle: "Everything you need to deploy your app",
-    description:
-      "Quis tellus eget adipiscing convallis sit sit eget aliquet quis. Suspendisse eget egestas a elementum pulvinar et feugiat blandit at. In mi viverra elit nunc.",
+    title: "Seguro de Viagem",
+    subtitle: "Tudo o que você precisa para viajar com tranquilidade",
+    description: "Proteja-se durante suas viagens com Prime Travel.",
     features: [
       {
-        name: "Proteção COVID-19",
-        description: "",
-        icon: <FontAwesomeIcon icon={faHouse} />,
+        name: "Proteção contra COVID-19",
+        description:
+          "Cobertura especial para despesas relacionadas à COVID-19.",
+        icon: <FontAwesomeIcon icon={faShieldVirus} />,
       },
       {
         name: "Extravio de Bagagem e Cancelamento de Viagem",
-        description: "",
-        icon: <FontAwesomeIcon icon={faHouse} />,
+        description:
+          "Cobertura para casos de extravio de bagagem e cancelamento de viagem.",
+        icon: <FontAwesomeIcon icon={faSuitcase} />,
       },
       {
         name: "Despesas Médicas, Hospitalares e Odontológicas",
-        description: "",
-        icon: <FontAwesomeIcon icon={faHouse} />,
+        description:
+          "Reembolso de despesas médicas, hospitalares e odontológicas durante a viagem.",
+        icon: <FontAwesomeIcon icon={faHospital} />,
       },
       {
-        name: "100% Online",
-        description: "",
-        icon: <FontAwesomeIcon icon={faHouse} />,
+        name: "Contratação 100% Online",
+        description:
+          "Facilidade e conveniência na contratação do seguro, tudo online.",
+        icon: <FontAwesomeIcon icon={faGlobe} />,
       },
     ],
   },
   {
     id: "3",
     title: "Pet",
-    subtitle: "Everything you need to deploy your app",
-    description:
-      "Quis tellus eget adipiscing convallis sit sit eget aliquet quis. Suspendisse eget egestas a elementum pulvinar et feugiat blandit at. In mi viverra elit nunc.",
+    subtitle: "Beneficios Plano de Saúde Pet",
+    description: "",
     features: [
       {
-        name: "Push to deploy",
-        description:
-          "Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.",
+        name: "Cirurgias e Internação",
+        description: "",
         icon: <FontAwesomeIcon icon={faHouse} />,
       },
       {
-        name: "Push to deploy",
-        description:
-          "Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.",
+        name: "Exames de Imagem e Laboratorial",
+        description: "",
         icon: <FontAwesomeIcon icon={faHouse} />,
       },
       {
-        name: "Push to deploy",
-        description:
-          "Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.",
+        name: "Vacinas e Castração",
+        description: "",
         icon: <FontAwesomeIcon icon={faHouse} />,
       },
       {
-        name: "Push to deploy",
-        description:
-          "Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.",
+        name: "Coberturas e Assistências Exclusivas",
+        description: "",
         icon: <FontAwesomeIcon icon={faHouse} />,
       },
     ],
   },
   {
     id: "4",
-    title: "Vida",
-    subtitle: "Everything you need to deploy your app",
-    description:
-      "Quis tellus eget adipiscing convallis sit sit eget aliquet quis. Suspendisse eget egestas a elementum pulvinar et feugiat blandit at. In mi viverra elit nunc.",
+    title: "Benefícios Exclusivos em Vida",
+    subtitle: "Tudo o que você precisa para sua tranquilidade",
+    description: "",
     features: [
       {
-        name: "Push to deploy",
+        name: "Proteção Financeira",
         description:
-          "Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.",
-        icon: <FontAwesomeIcon icon={faHouse} />,
+          "Cobertura abrangente para proteger seus entes queridos em caso de falecimento.",
+        icon: <FontAwesomeIcon icon={faShieldAlt} />,
       },
       {
-        name: "Push to deploy",
+        name: "Assistência em Vida",
         description:
-          "Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.",
-        icon: <FontAwesomeIcon icon={faHouse} />,
+          "Serviços exclusivos para cuidar da sua saúde e bem-estar durante a vida.",
+        icon: <FontAwesomeIcon icon={faHeartbeat} />,
       },
       {
-        name: "Push to deploy",
+        name: "Suporte Financeiro em Doenças",
         description:
-          "Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.",
-        icon: <FontAwesomeIcon icon={faHouse} />,
+          "Ajuda financeira em casos de doenças graves, cobrindo despesas médicas e tratamentos.",
+        icon: <FontAwesomeIcon icon={faNotesMedical} />,
       },
       {
-        name: "Push to deploy",
+        name: "Planejamento Sucessório",
         description:
-          "Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.",
-        icon: <FontAwesomeIcon icon={faHouse} />,
+          "Facilidade na transferência de recursos para beneficiários e proteção do seu legado.",
+        icon: <FontAwesomeIcon icon={faBalanceScale} />,
       },
     ],
   },
   {
     id: "5",
-    title: "Odonto",
-    subtitle: "Everything you need to deploy your app",
+    title: "Seguro Odontológico",
+    subtitle: "Tudo o que você precisa para cuidar do seu sorriso",
     description:
-      "Quis tellus eget adipiscing convallis sit sit eget aliquet quis. Suspendisse eget egestas a elementum pulvinar et feugiat blandit at. In mi viverra elit nunc.",
+      "Tenha tranquilidade e cuidado completo com seu sorriso por meio do nosso seguro odontológico.",
     features: [
       {
-        name: "Push to deploy",
+        name: "Ampla Rede de Dentistas",
         description:
-          "Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.",
-        icon: <FontAwesomeIcon icon={faHouse} />,
+          "Acesso a uma ampla rede de dentistas e especialistas em todo o país.",
+        icon: <FontAwesomeIcon icon={faTooth} />,
       },
       {
-        name: "Push to deploy",
+        name: "Cobertura para Procedimentos Básicos e Especiais",
         description:
-          "Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.",
-        icon: <FontAwesomeIcon icon={faHouse} />,
+          "Cobertura abrangente para procedimentos básicos e especiais, como limpeza, restaurações, extrações e mais.",
+        icon: <FontAwesomeIcon icon={faMedkit} />,
       },
       {
-        name: "Push to deploy",
+        name: "Reembolso de Despesas",
         description:
-          "Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.",
-        icon: <FontAwesomeIcon icon={faHouse} />,
+          "Reembolso de despesas com serviços odontológicos realizados fora da rede credenciada.",
+        icon: <FontAwesomeIcon icon={faMoneyBill} />,
       },
       {
-        name: "Push to deploy",
+        name: "Atendimento Emergencial",
         description:
-          "Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.",
-        icon: <FontAwesomeIcon icon={faHouse} />,
+          "Atendimento emergencial 24 horas para casos de dor intensa ou emergências odontológicas.",
+        icon: <FontAwesomeIcon icon={faPhone} />,
       },
     ],
   },
   {
     id: "6",
-    title: "Celular",
-    subtitle: "Everything you need to deploy your app",
+    title: "Seguro para Celular",
+    subtitle: "Tudo o que você precisa para proteger seu celular",
     description:
-      "Quis tellus eget adipiscing convallis sit sit eget aliquet quis. Suspendisse eget egestas a elementum pulvinar et feugiat blandit at. In mi viverra elit nunc.",
+      "Proteja seu celular contra imprevistos e danos com nosso seguro especializado. Quis tellus eget adipiscing convallis sit sit eget aliquet quis. Suspendisse eget egestas a elementum pulvinar et feugiat blandit at. In mi viverra elit nunc.",
     features: [
       {
-        name: "Push to deploy",
+        name: "Cobertura contra Roubo e Furto Qualificado",
         description:
-          "Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.",
-        icon: <FontAwesomeIcon icon={faHouse} />,
+          "Proteção contra roubo e furto qualificado do seu celular, mesmo quando estiver fora de casa.",
+        icon: <FontAwesomeIcon icon={faShieldAlt} />,
       },
       {
-        name: "Push to deploy",
+        name: "Danos Acidentais e Quebra de Tela",
         description:
-          "Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.",
-        icon: <FontAwesomeIcon icon={faHouse} />,
+          "Cobertura para danos acidentais, incluindo quebra de tela e danos por líquidos.",
+        icon: <FontAwesomeIcon icon={faMobileAlt} />,
       },
       {
-        name: "Push to deploy",
+        name: "Assistência Técnica",
         description:
-          "Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.",
-        icon: <FontAwesomeIcon icon={faHouse} />,
+          "Serviço de assistência técnica para reparos e suporte técnico do seu celular.",
+        icon: <FontAwesomeIcon icon={faTools} />,
       },
       {
-        name: "Push to deploy",
+        name: "Cobertura em Viagens",
         description:
-          "Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.",
-        icon: <FontAwesomeIcon icon={faHouse} />,
+          "Cobertura estendida para seu celular durante viagens nacionais e internacionais.",
+        icon: <FontAwesomeIcon icon={faPlane} />,
       },
     ],
   },

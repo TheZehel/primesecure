@@ -355,7 +355,7 @@ export default function FormTravelBanner() {
               </div>
             </form>
             <button
-              class="bg-bluePrime hover:bg-bluePrime2 text-white font-bold py-2 px-4 rounded w-full flex mt-3 justify-center items-center"
+              className="bg-bluePrime hover:bg-bluePrime2 text-white font-bold py-2 px-4 rounded w-full flex mt-3 justify-center items-center"
               onClick={handleSubmit}
             >
               Cotar Agora

@@ -11,11 +11,13 @@ import {
   XMarkIcon,
   HomeIcon,
   PaperAirplaneIcon,
+  HeartIcon,
+  DevicePhoneMobileIcon,
 } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
-  PhoneIcon,
   PlayCircleIcon,
+  PhoneIcon,
 } from "@heroicons/react/20/solid";
 
 const products = [
@@ -47,13 +49,13 @@ const products = [
     name: "Vida",
     description: "Planos de Proteção Para a Sua Residencia.",
     href: "/seguro-de-vida",
-    icon: HomeIcon,
+    icon: HeartIcon,
   },
   {
     name: "Celular",
     description: "Planos de Proteção Para a Sua Residencia.",
     href: "/equipamentos-portateis-3",
-    icon: HomeIcon,
+    icon: DevicePhoneMobileIcon,
   },
 ];
 const callsToAction = [

@@ -10,7 +10,7 @@ function IndexTravel() {
   return (
     <div className="IndexTravel">
       <FormTravelBanner />
-      <SliderPlanos />
+      {<SliderPlanos />}
       <SessaoInformativaProdutosLp
         InformacoesProdutos={InformacoesProdutos}
         productId="2"

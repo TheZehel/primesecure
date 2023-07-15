@@ -2,8 +2,8 @@
 import FormSeguroCelularBanner from "./components/FormSeguroCelularBanner";
 import SessaoInformativaProdutosLp from "../globalsubcomponentes/SessaoInformativaProdutosLp";
 import InformacoesProdutos from "../modules/ModuleInformacoesProdutos";
-import PlanoSlider from "../globalsubcomponentes/PlanoSlider";
-import infoPlanos from "../modules/InfoPlanos";
+//import PlanoSlider from "../globalsubcomponentes/PlanoSlider";
+//import infoPlanos from "../modules/InfoPlanos";
 import ConteudoSessaoInfo from "../globalsubcomponentes/ConteudoSessaoInfo";
 import sessaoInfoLp from "../modules/SessaoInfoLp";
 
@@ -15,7 +15,7 @@ function IndexSeguroCelular() {
         InformacoesProdutos={InformacoesProdutos}
         productId="6"
       />
-      <PlanoSlider infoPlanos={infoPlanos} planId="6" />
+      {/*<PlanoSlider infoPlanos={infoPlanos} planId="6" />*/}
       <ConteudoSessaoInfo sessaoInfoLp={sessaoInfoLp} sessaoInfoId="6" />
     </div>
   );
