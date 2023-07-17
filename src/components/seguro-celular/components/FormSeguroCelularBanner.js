@@ -20,9 +20,15 @@ export default function FormSeguroCelularBanner() {
       }}
     >
       <BannerSection
+<<<<<<< Updated upstream
         chipText="Seu Aparelho Celular em Segurança Com"
         titleText="Seguro de Celular"
         descriptionText="Fique um passo a frente dos imprevistos e proteja se aparelho portátil."
+=======
+        chipText="Proteja Seu SmartPhone com Nosso"
+        titleText="Seguro de Celular Em Parceria Com A Porto Seguro"
+        descriptionText="Esteja sempre um passo à frente dos imprevistos e proteja seu aparelho portátil com nosso seguro de celular."
+>>>>>>> Stashed changes
       />
       <SimpleFormSection formData={formData} setFormData={setFormData} />
     </section>

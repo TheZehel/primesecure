@@ -8,6 +8,7 @@ module.exports = {
         bluePrime2: "#323d93",
         grayPrime: "#313131",
         greenPromo: "#1eea1e",
+        alertRed: "#FF0000",
       },
       fontFamily: {
         montserrat: ["Montserrat", "sans-serif"],

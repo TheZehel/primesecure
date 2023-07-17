@@ -7,6 +7,7 @@ import Modal from "react-modal";
 import imageManager from "../../bancoDeImagens";
 import { Chip } from "@material-tailwind/react";
 import ListaPaises from "./ListaPaises";
+import DataValidation from "../../modules/dataValidation";
 
 export default function FormTravelBanner() {
   const [formData, setFormData] = useState(() => {
@@ -25,27 +26,122 @@ export default function FormTravelBanner() {
         };
   });
 
+  function formatStringDate(dateString){
+    let pattern = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+    if (!pattern.test(dateString)){ return false; }
+    
+    let [, day, month, year] = pattern.exec(dateString);
+    let newDate = `${year}-${month}-${day}`;
+
+    return newDate; 
+  }
+
+  function convertToForm(payload){
+    let form = {
+      destination: payload.destiny,
+      departureDate: payload.departure,
+      returnDate: payload.arrival,
+      passengers: { "0-40": payload.olds0, "41-64": payload.olds1, "65-75": payload.olds2, "76-99": payload.olds3 },
+      name: payload.name,
+      email: payload.email,
+      phone: payload.phone
+    }
+    return form;
+  }
+
+  function todayStringDate(){
+    let today = new Date();
+    today = today.toISOString().split('T')[0];
+    return today;//formatStringDate(today);
+  }
+
+  const customValidation = new DataValidation();
+  const [errorList, setErrorList] = useState([]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(JSON.stringify(formData));
+    //console.log(JSON.stringify(formData));
 
     // Armazenando os dados no localStorage
-    localStorage.setItem("formData", JSON.stringify(formData));
+    //localStorage.setItem("formData", JSON.stringify(formData));
 
     // Envie o formData para uma API ou o próximo componente
     //window.location.href = "https://google.com.br";
-    console.log(formData);
+    
+    //console.log(formData);
+    let destiny = selectedOption || { value: '', label: '', regiao: 0 };
+
+    let totalPassengers = 0;
+    olds.map((qtd, i)=>{ totalPassengers += qtd; });
+    totalPassengers = `${totalPassengers} Passageiro(s)` ;
+
+    let payload = {
+      destiny: destiny,
+      destinyGroup: destiny.regiao,
+      departure: dates[0],
+      arrival: dates[1],
+      ages: totalPassengers,
+      old0: olds[0] || 0,
+      old1: olds[1] || 0,
+      old2: olds[2] || 0,
+      old3: olds[3] || 0,
+      name: inputName,
+      email: inputEmail,
+      phone: inputPhone
+    }
+    
+    let errors = customValidation.validarTravelPayload(payload);
+    console.log(errors);
+    //console.log(payload)
+    if (errors.length > 0){ setErrorList(errors); return; }
+
+    let form = convertToForm(payload);
+    //console.log(form);
+    
+    delete payload.destiny;
+    let fullUrl = 'https://primetravel.primesecure.com.br/cotacao-rapida?';
+
+    for(let key in payload){
+      let value = payload[key] || '';
+      if (key == 'phone'){ value = value.replace('.', ''); }
+      if (key == 'departure' || key == 'arrival'){ value = formatStringDate(value); }
+      value = encodeURIComponent(value);
+
+      let urlEncode = `${key}=${value}`;
+      fullUrl += urlEncode;
+      if (key != 'phone'){ fullUrl += '&'; }
+    }
+
+    //console.log(fullUrl);
+    window.location.href = fullUrl;
   };
 
   const [selectedOption, setSelectedOption] = useState(null);
 
   const handleChange = (selectedOption) => {
     setSelectedOption(selectedOption);
+    if (errorList.includes('destinyGroup')){ let errors = errorList.filter(item=> item != 'destinyGroup'); setErrorList(errors); }
     console.log(`Option selected:`, selectedOption);
   };
 
   const onChange = (date, dateString) => {
     console.log(date, dateString);
+  };
+
+  const [dates, setDates] = useState(['00/00/0000', '00/00/0000']);
+
+  const onChangeDeparture = (date, dateString) => {
+    console.log('Departure', date, dateString);
+    let departure = dateString || todayStringDate();//formatStringDate(dateString) || todayStringDate();
+    if (errorList.includes('departure')){ let errors = errorList.filter(item=> item != 'departure'); setErrorList(errors); }
+    setDates([departure, dates[1]]);    
+  };
+
+  const onChangeArrival = (date, dateString) => {
+    console.log('Arrival', date, dateString);    
+    let arrival = dateString || todayStringDate();//formatStringDate(dateString) || todayStringDate();
+    if (errorList.includes('arrival')){ let errors = errorList.filter(item=> item != 'arrival'); setErrorList(errors); }
+    setDates([dates[0], arrival]);
   };
 
   const [modalOpen, setModalIsOpen] = useState(false);
@@ -60,10 +156,34 @@ export default function FormTravelBanner() {
   const closeModal = () => setModalIsOpen(false);
 
   const handleOld = (index, value) => {
+    if (errorList.includes('ages')){ let errors = errorList.filter(item=> item != 'ages'); setErrorList(errors); }
     if ((value > 0 && total < 10) || (value < 0 && olds[index] > 0)) {
       setOlds(olds.map((old, i) => (i === index ? old + value : old)));
     }
   };
+
+  const [inputName, setInputName] = useState('');
+  const [inputEmail, setInputEmail] = useState('');
+  const [inputPhone, setInputPhone] = useState('');
+
+  const inputHandler = (event)=>{
+    let id = event.target.id;
+    let value = event.target.value;
+
+    console.log(id, value);
+
+    if (errorList.includes(id)){ let errors = errorList.filter(item=> item != id); setErrorList(errors); }
+
+    if (id == 'full-name'){ setInputName(value); }
+    if (id == 'email'){ setInputEmail(value); }
+    if (id == 'phone'){ setInputPhone(value); }
+  }
+
+  var phoneMask = '(99) 9.9999-9999';
+  var phoneValue = inputPhone || '';
+
+  phoneValue = phoneValue.replace(/[^0-9]+/g, '');
+  if (phoneValue.length < 11){ phoneMask = '(99) 9999-99999'; }
 
   return (
     <section
@@ -102,8 +222,9 @@ export default function FormTravelBanner() {
               <div className="w-full gap-x-8 gap-y-6 grid grid-cols-1 ">
                 <div>
                   <label
+                    id="label-destinyGroup"
                     htmlFor=""
-                    className="block text-sm font-semibold leading-6 text-gray-900"
+                    className={errorList.includes("destinyGroup") ? "block text-sm font-semibold leading-6 text-alertRed" : "block text-sm font-semibold leading-6 text-gray-900"}
                   >
                     Destino
                   </label>
@@ -121,15 +242,17 @@ export default function FormTravelBanner() {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="w-full">
                     <label
+                      id="label-departure"
                       htmlFor=""
-                      className="block text-sm font-semibold leading-6 text-gray-900"
+                      className={errorList.includes("departure") ? "block text-sm font-semibold leading-6 text-alertRed" : "block text-sm font-semibold leading-6 text-gray-900"}
                     >
                       Data de Ida
                     </label>
                     <div className="mt-2.5">
                       <Space direction="vertical">
                         <DatePicker
-                          onChange={onChange}
+                          format="DD/MM/YYYY"
+                          onChange={onChangeDeparture}
                           className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
                         />
                       </Space>
@@ -137,28 +260,34 @@ export default function FormTravelBanner() {
                   </div>
                   <div className="w-full">
                     <label
+                      id="label-arrival"
                       htmlFor=""
-                      className="block text-sm font-semibold leading-6 text-gray-900"
+                      className={errorList.includes("arrival") ? "block text-sm font-semibold leading-6 text-alertRed" : "block text-sm font-semibold leading-6 text-gray-900"}
                     >
                       Data de Volta
                     </label>
                     <div className="mt-2.5">
                       <Space direction="vertical">
                         <DatePicker
-                          onChange={onChange}
+                          format="DD/MM/YYYY"
+                          onChange={onChangeArrival}
                           className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
                         />
                       </Space>
                     </div>
                   </div>
                 </div>
-                <div className="mt-2.5">
-                  <label htmlFor="passengers" className="form-label">
+                <div className="">
+                  <label 
+                    htmlFor="passengers" 
+                    className={errorList.includes("ages") ? "form-label block text-sm font-semibold leading-6 text-alertRed" : "form-label block text-sm font-semibold leading-6 text-gray-900"} 
+                    id="label-ages"
+                  >
                     Passageiros
                   </label>
                   <input
                     type="text"
-                    className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6 cursor-pointer"
+                    className="mt-2.5 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6 cursor-pointer"
                     id="ages"
                     name="ages"
                     value={
@@ -305,16 +434,18 @@ export default function FormTravelBanner() {
               <div className="w-full gap-x-8 gap-y-6 grid grid-cols-1 mt-5 sm:m-0">
                 <div>
                   <label
+                    id="label-name"
                     htmlFor=""
-                    className="block text-sm font-semibold leading-6 text-gray-900"
+                    className={errorList.includes("full-name") ? "block text-sm font-semibold leading-6 text-alertRed" : "block text-sm font-semibold leading-6 text-gray-900"}
                   >
                     Nome Completo
                   </label>
                   <div className="mt-2.5">
                     <input
+                      onChange={ (e)=>{ inputHandler(e); } }
                       type="text"
-                      name="last-name"
-                      id="last-name"
+                      name="full-name"
+                      id="full-name"
                       autoComplete="family-name"
                       className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
                     />
@@ -322,31 +453,36 @@ export default function FormTravelBanner() {
                 </div>
                 <div>
                   <label
+                    id="label-email"
                     htmlFor=""
-                    className="block text-sm font-semibold leading-6 text-gray-900"
+                    className={errorList.includes("email") ? "block text-sm font-semibold leading-6 text-alertRed" : "block text-sm font-semibold leading-6 text-gray-900"}
                   >
                     E-mail
                   </label>
                   <div className="mt-2.5">
                     <input
+                      onChange={ (e)=>{ inputHandler(e); } }
                       type="email"
-                      name="last-name"
-                      id="last-name"
-                      autoComplete="family-name"
+                      name="email"
+                      id="email"
+                      autoComplete="email"
                       className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
                     />
                   </div>
                 </div>
                 <div>
                   <label
+                    id="label-phone"
                     htmlFor="phone"
-                    className="block text-sm font-semibold leading-6 text-gray-900"
+                    className={errorList.includes("phone") ? "block text-sm font-semibold leading-6 text-alertRed" : "block text-sm font-semibold leading-6 text-gray-900"}
                   >
                     Telefone
                   </label>
                   <div className="mt-2.5">
                     <InputMask
-                      mask="(99) 9.9999-9999"
+                      id="phone"
+                      onChange={ (e)=>{ inputHandler(e); } }
+                      mask={phoneMask}
                       maskChar={null}
                       className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
                     />

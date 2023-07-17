@@ -172,26 +172,28 @@ const InformacoesProdutos = [
     image: imageManagerInformacoesProdutos.imgProdutos.imgCelular,
     buttonText: "Cotar Agora",
     link: "https://primesecure.com.br/seguro-residencial-porto-2/",
-    title: "O Único Seguro Celular no Brasil com Cobertura Para Furto Simplesr",
+    title:
+      "Somos o Unico Seguro de Celular no Brasil que oferece cobertura para Furto Simples.",
     description: "Coberturas Para Aparelhos Novos ou Usados*",
     features: [
       {
-        name: "Esteja sempre prevenido(a) contra: ",
+        name: "Esteja Sempre Protegido: ",
         description:
-          "Acidentes, casos de incêndio, Queda de raio, roubo ou furto, danos por agua ou outros tipos de líquidos.",
+          "Garanta proteção contra uma variedade de imprevistos, incluindo acidentes, incêndios, quedas de raio, roubo, furto e danos causados por água ou outros líquidos.",
         icon: FontAwesomeIcon,
         iconProps: { icon: faHouse },
       },
       {
-        name: "Proteção Para o Seu modelo e SmartPhone preferido.",
-        description: "Apple, Samsumg, Motorola, Xiaomi e Outras Marcas.",
+        name: "Proteção para o Seu Smartphone Favorito",
+        description:
+          "Oferecemos cobertura para uma ampla gama de marcas, incluindo Apple, Samsung, Motorola, Xiaomi e muitas outras. Escolha a proteção certa para o seu modelo preferido.",
         icon: FontAwesomeIcon,
         iconProps: { icon: faHouseMedicalFlag },
       },
       {
-        name: "Proteção Total Para o Seu SmartPhone.",
+        name: "Segurança Total para o Seu Celular",
         description:
-          "Garanta proteção para o seu equipamento portátil. Com coberturas Nacionais e Internacionais.",
+          "Garanta a segurança do seu equipamento portátil com a nossa proteção total. Oferecemos coberturas abrangentes, válidas tanto nacional quanto internacionalmente.",
         icon: FontAwesomeIcon,
         iconProps: { icon: faHouseUser },
       },

@@ -24,7 +24,11 @@ const products = [
   {
     name: "Seguro Viagem",
     description: "Contratação 100% Online",
+<<<<<<< Updated upstream
     href: "https://primetravel.primesecure.com.br/",
+=======
+    href: "/primetravel",
+>>>>>>> Stashed changes
     icon: PaperAirplaneIcon,
   },
   {
