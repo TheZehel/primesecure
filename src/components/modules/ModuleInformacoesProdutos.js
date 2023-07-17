@@ -71,7 +71,7 @@ const InformacoesProdutos = [
   },
   {
     id: "3",
-    name: "Pet",
+    name: "Garanta a saúde e a felicidade do seu pet com nossos planos de saúde abrangentes",
     image: imageManagerInformacoesProdutos.imgProdutos.imgPet,
     buttonText: "Cotar Agora",
     link: "https://primesecure.com.br/seguro-residencial-porto-2/",
@@ -79,21 +79,23 @@ const InformacoesProdutos = [
     description: "As melhores condições em Planos de Saúde para o seu Pet.",
     features: [
       {
-        name: "Escolha um plano",
+        name: "Escolha o Plano Perfeito para o seu Pet",
         description:
-          "São quatro opções de planos de saúde para o seu pet. Conheça as coberturas.",
+          "Temos quatro opções de planos de saúde personalizados para atender às necessidades únicas do seu pet. Explore cada plano e descubra as coberturas inclusas para escolher a melhor opção para o seu companheiro.",
         icon: FontAwesomeIcon,
         iconProps: { icon: faHouse },
       },
       {
-        name: "Solicite um orçamento",
-        description: "Entraremos em contato para sanar todas as suas dúvidas.",
+        name: "Obtenha um Orçamento Personalizado",
+        description:
+          "Está pronto para dar o próximo passo? Solicite um orçamento hoje mesmo. Nossa equipe de especialistas em saúde pet está à disposição para responder a todas as suas perguntas e ajudá-lo a escolher o plano certo para o seu pet.",
         icon: FontAwesomeIcon,
         iconProps: { icon: faHouseMedicalFlag },
       },
       {
-        name: "Seu pet em segurança",
-        description: "Prontinho! O seu pet está protegido.",
+        name: "Proteção Completa para o seu Pet",
+        description:
+          "Com a inscrição no nosso plano de saúde pet, a segurança do seu pet é imediatamente garantida. Simples assim! Lembre se, algumas coberturas podem ter um período de carência",
         icon: FontAwesomeIcon,
         iconProps: { icon: faHouseUser },
       },

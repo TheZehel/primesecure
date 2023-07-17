@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import BannerSection from "../../globalsubcomponentes/BannerSection";
 import SimpleFormSection from "../../globalsubcomponentes/SimpleFormSection";
 import imageManagerOdonto from "../bancodeimagens/BancoDeImagensOdonto";
-import Form from "./Form";
 
 export default function FormOdontoBanner() {
   const [formData, setFormData] = useState({
@@ -23,10 +22,10 @@ export default function FormOdontoBanner() {
     >
       <BannerSection
         chipText="Seu Sorriso Mais Saudável Com"
-        titleText="Odonto"
-        descriptionText="Não importa como e para onde você viaja, nós te protegemos. Ainda Contamos Com + de 30 Coberturas."
+        titleText="Plano Odonto"
+        descriptionText="A garantia de um sorrio mais feliz e saudável!"
       />
-      <Form />
+      <SimpleFormSection formData={formData} setFormData={setFormData} />
     </section>
   );
 }

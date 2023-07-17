@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState, createRef, useEffect } from "react";
 import InputMask from "react-input-mask";
 import { useNavigate } from "react-router-dom";
@@ -37,23 +38,53 @@ export default function SimpleFormSection({
     return formData.name && formData.email && formData.phone;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const getConversionIdentifier = () => {
+    const pathToIdentifierMap = {
+      "/primetravel": "lead-primetravel-api",
+      "/seguro-de-vida": "lead-seguro-de-vida-api",
+      "/seguro-pet-porto": "lead-seguro-pet-api",
+      "/seguro-residencial-porto-2": "lead-seguro-residencial-api",
+      "/equipamentos-portateis-3": "lead-seguro-celular-api",
+      "/sulamerica-odonto": "lead-sulamerica-odonto-api",
+    };
 
-    if (validateForm()) {
-      // Armazenar os dados preenchidos no sessionStorage
-      sessionStorage.setItem("formData", JSON.stringify(formData));
+    const pathname = window.location.pathname;
 
-      navigate("/obrigado");
-    }
+    return pathToIdentifierMap[pathname] || "lead-de-origem-nao-identificada";
   };
 
   const handleButtonClick = () => {
     if (validateForm()) {
-      // Armazenar os dados preenchidos no sessionStorage
-      sessionStorage.setItem("formData", JSON.stringify(formData));
+      const apiKey = process.env.REACT_APP_API_KEY_RD_STATION;
+      const options = {
+        method: "POST",
+        url: `https://api.rd.services/platform/conversions?api_key=${apiKey}`,
+        headers: {
+          accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        data: {
+          event_type: "CONVERSION",
+          event_family: "CDP",
+          payload: {
+            conversion_identifier: getConversionIdentifier(),
+            email: formData.email,
+            name: formData.name,
+            mobile_phone: formData.phone,
+          },
+        },
+      };
 
-      navigate("/obrigado");
+      axios
+        .request(options)
+        .then(function (response) {
+          console.log(response.data);
+          sessionStorage.setItem("formData", JSON.stringify(formData));
+          navigate("/obrigado");
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
     }
   };
 
@@ -88,7 +119,6 @@ export default function SimpleFormSection({
       </p>
       <form
         id="form1"
-        onSubmit={handleSubmit}
         className="sm:flex flex-col sm:flex-row justify-center items-center mx-auto gap-x-6 gap-y-4 mt-10 max-w-xl sm:mt-10 xl:mx-20"
       >
         <div className="w-full gap-x-8 gap-y-6 grid grid-cols-1 mt-5 sm:m-0">

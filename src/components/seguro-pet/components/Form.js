@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 export default function Form() {
+  const location = useLocation();
+
   useEffect(() => {
     const scriptId = "rdstation-script";
     let script = document.getElementById(scriptId);
@@ -21,7 +24,7 @@ export default function Form() {
         "UA-172743567-1"
       ).createForm();
     };
-  }, []);
+  }, [location.pathname]); // Adicione location.pathname no array de dependências
 
   return (
     <div className="animate__animated animate__zoomIn rounded-lg bg-white p-5 sm:px-10 sm:mx-20 xl:mx-32">

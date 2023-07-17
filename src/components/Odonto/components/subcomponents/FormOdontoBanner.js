@@ -22,8 +22,8 @@ export default function FormOdontoBanner() {
     >
       <BannerSection
         chipText="Seu Sorriso Mais Saudável Com"
-        titleText="Odonto"
-        descriptionText="Não importa como e para onde você viaja, nós te protegemos. Ainda Contamos Com + de 30 Coberturas."
+        titleText="Plano Odonto"
+        descriptionText="A garantia de um sorrio mais feliz e saudável!"
       />
       <SimpleFormSection formData={formData} setFormData={setFormData} />
     </section>

@@ -4,7 +4,7 @@ import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
 import { scroller, Link as LinkScroller } from "react-scroll";
 import logoprime from "../assets/img/logo-prime-secure.png";
 import classNames from "classnames";
-import { useNavigate, Link, useLocation } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import {
   Bars3Icon,
@@ -24,7 +24,7 @@ const products = [
   {
     name: "Seguro Viagem",
     description: "Contratação 100% Online",
-    href: "#Travel1",
+    href: "https://primetravel.primesecure.com.br/",
     icon: PaperAirplaneIcon,
   },
   {
@@ -66,21 +66,20 @@ const callsToAction = [
 const menu = [
   {
     name: "Sobre a Prime",
-    href: "/#sobrePrime",
+    href: "sobrePrime",
   },
   {
     name: "Newsletter",
-    href: "#Newsletter",
+    href: "Newsletter",
   },
   {
     name: "FAQ",
-    href: "#Faq",
+    href: "Faq",
   },
 ];
 
 function NavBarMenu() {
   const navigate = useNavigate();
-  const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isMenuFixed, setIsMenuFixed] = useState(false);
 
@@ -92,21 +91,9 @@ function NavBarMenu() {
     });
   };
 
-  const paths = [
-    "/login",
-    "/primetravel",
-    "/seguro-de-vida",
-    "/seguro-pet-porto",
-    "/seguro-residencial-porto-2/",
-    "/equipamentos-portateis-3",
-    "/sulamerica-odonto",
-    "/obrigado",
-    "*",
-  ];
-
-  const navigateToPath = (path) => {
+  const navigateToPath = (paths) => {
     // split the path into pagePath and sectionId
-    const [pagePath, sectionId] = path.split("#");
+    const [pagePath, sectionId] = paths.split("#");
 
     // if pagePath exists in the paths array, navigate to the page
     if (paths.includes(pagePath)) {
@@ -217,34 +204,35 @@ function NavBarMenu() {
                         />
                       </div>
                       <div className="flex-auto">
-                        {item.href.startsWith("/") ? (
+                        {item.href.startsWith("http") ? (
+                          <a
+                            href={item.href}
+                            className="block font-semibold text-gray-900"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {item.name}
+                          </a>
+                        ) : (
                           <Link
                             to={item.href}
-                            key={item.name}
                             className="block font-semibold text-gray-900"
                             onClick={() => {
                               setLinkClicked(!linkClicked);
                               setMobileMenuOpen(false);
+                              if (!item.href.startsWith("/")) {
+                                window.scrollTo(0, 0); // Scroll to top
+                              }
+                              // Close the Popover
+                              if (document.getElementById("option-produtos")) {
+                                document
+                                  .getElementById("option-produtos")
+                                  .click();
+                              }
                             }}
                           >
                             {item.name}
                           </Link>
-                        ) : (
-                          <a
-                            href={item.href}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              scrollToSection(item.href);
-                              document
-                                .getElementById("option-produtos")
-                                .click();
-                              setLinkClicked(!linkClicked);
-                              setMobileMenuOpen(false);
-                            }}
-                            className="block font-semibold text-gray-900"
-                          >
-                            {item.name}
-                          </a>
                         )}
                         <p className="mt-1 text-gray-600">{item.description}</p>
                       </div>
@@ -256,9 +244,6 @@ function NavBarMenu() {
                     <Link
                       key={item.name}
                       to={item.href}
-                      onClick={(e) => {
-                        scrollToSection(item.href.substring(1));
-                      }}
                       className="flex items-center justify-center gap-x-2.5 p-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100"
                     >
                       <item.icon
@@ -282,6 +267,7 @@ function NavBarMenu() {
                 item.href.startsWith("/")
                   ? navigateToPath(item.href)
                   : scrollToSection(item.href);
+                window.scrollTo(0, 0); // Rola para o topo da página
               }}
               className="text-sm font-semibold leading-6 text-gray-900"
             >
@@ -289,6 +275,7 @@ function NavBarMenu() {
             </a>
           ))}
         </Popover.Group>
+
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <button>
             <Link

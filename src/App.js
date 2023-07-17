@@ -1,4 +1,10 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
+import { useEffect } from "react";
 
 // CSS
 import "./App.css";
@@ -27,11 +33,23 @@ import IndexOdonto from "./components/Odonto/IndexOdonto";
 
 //Páginas de Aviso
 import PaginaObrigadoLP from "./components/globalsubcomponentes/PaginaObrigadoLp";
+import Cotacao from "./components/globalsubcomponentes/Cotacao";
 import PageNotFound from "./components/PageNotFound";
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
 
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <div className="App">
         <NavBarMenu />
         <Routes>
@@ -77,6 +95,7 @@ function App() {
           />
           <Route path="/sulamerica-odonto" element={<IndexOdonto />} />
           <Route path="/obrigado" element={<PaginaObrigadoLP />} />
+          <Route path="/cotacao" element={<Cotacao />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
         <Footer />

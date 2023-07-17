@@ -81,28 +81,45 @@ const sessaoInfoLp = [
   },
   {
     id: "3",
-    title: "Pet",
-    subtitle: "Beneficios Plano de Saúde Pet",
-    description: "",
+    title: "Tudo que o seu Pet precisa e muito mais!",
+    subtitle: "Benefícios do Nosso Plano de Saúde Pet",
+    description:
+      "Ao escolher nosso Plano de Saúde Pet, você garante uma série de benefícios exclusivos para o seu amado companheiro. Aqui estão algumas das vantagens que você e seu pet podem desfrutar:",
     features: [
       {
         name: "Cirurgias e Internação",
-        description: "",
+        description:
+          "Nossos planos cobrem uma ampla gama de procedimentos cirúrgicos e internações, garantindo que seu pet receba o cuidado de que precisa quando mais precisa.",
         icon: <FontAwesomeIcon icon={faHouse} />,
       },
       {
         name: "Exames de Imagem e Laboratorial",
-        description: "",
+        description:
+          "Oferecemos cobertura para uma variedade de exames de imagem e laboratoriais, permitindo diagnósticos precisos e tratamentos eficazes.",
         icon: <FontAwesomeIcon icon={faHouse} />,
       },
       {
         name: "Vacinas e Castração",
-        description: "",
+        description:
+          "Mantenha seu pet protegido contra uma variedade de doenças com nossa cobertura para vacinas. Além disso, oferecemos cobertura para castração, ajudando a prevenir problemas de saúde e comportamentais.",
         icon: <FontAwesomeIcon icon={faHouse} />,
       },
       {
         name: "Coberturas e Assistências Exclusivas",
-        description: "",
+        description:
+          "Nossos planos vão além do básico, oferecendo coberturas e assistências exclusivas para garantir o bem-estar total do seu pet.",
+        icon: <FontAwesomeIcon icon={faHouse} />,
+      },
+      {
+        name: "Atendimento 24/7",
+        description:
+          "Sabemos que emergências podem acontecer a qualquer momento. É por isso que oferecemos assistência qualificada 24 horas por dia para o seu pet.",
+        icon: <FontAwesomeIcon icon={faHouse} />,
+      },
+      {
+        name: "Descontos em Produtos PetLove:",
+        description:
+          "Como um bônus adicional, você receberá até 30% de desconto mais frete grátis em produtos PetLove, tornando mais fácil e acessível cuidar do seu pet.",
         icon: <FontAwesomeIcon icon={faHouse} />,
       },
     ],
