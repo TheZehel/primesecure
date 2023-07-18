@@ -192,16 +192,10 @@ const sessaoInfoLp = [
   {
     id: "6",
     title: "Seguro para Celular",
-<<<<<<< Updated upstream
-    subtitle: "Tudo o que você precisa para proteger seu celular",
-    description:
-      "Proteja seu celular contra imprevistos e danos com nosso seguro especializado. Quis tellus eget adipiscing convallis sit sit eget aliquet quis. Suspendisse eget egestas a elementum pulvinar et feugiat blandit at. In mi viverra elit nunc.",
-=======
     subtitle:
       "Nosso seguro especializado oferece tudo o que você precisa para proteger seu celular contra imprevistos e danos.",
     description:
       "Proteja seu celular contra imprevistos e danos com nosso seguro especializado.",
->>>>>>> Stashed changes
     features: [
       {
         name: "Cobertura contra Roubo e Furto Qualificado",

@@ -46,15 +46,12 @@ export default function SimpleFormSection({
       "/seguro-residencial-porto-2": "lead-seguro-residencial-api",
       "/equipamentos-portateis-3": "lead-seguro-celular-api",
       "/sulamerica-odonto": "lead-sulamerica-odonto-api",
-<<<<<<< Updated upstream
-=======
       "/primetravel/": "lead-primetravel-api",
       "/seguro-de-vida/": "lead-seguro-de-vida-api",
       "/seguro-pet-porto/": "lead-seguro-pet-api",
       "/seguro-residencial-porto-2/": "lead-seguro-residencial-api",
       "/equipamentos-portateis-3/": "lead-seguro-celular-api",
       "/sulamerica-odonto/": "lead-sulamerica-odonto-api",
->>>>>>> Stashed changes
     };
 
     const pathname = window.location.pathname;
@@ -62,36 +59,6 @@ export default function SimpleFormSection({
     return pathToIdentifierMap[pathname] || "lead-de-origem-nao-identificada";
   };
 
-<<<<<<< Updated upstream
-  const handleButtonClick = () => {
-    if (validateForm()) {
-      const apiKey = process.env.REACT_APP_API_KEY_RD_STATION;
-      const options = {
-        method: "POST",
-        url: `https://api.rd.services/platform/conversions?api_key=${apiKey}`,
-        headers: {
-          accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        data: {
-          event_type: "CONVERSION",
-          event_family: "CDP",
-          payload: {
-            conversion_identifier: getConversionIdentifier(),
-            email: formData.email,
-            name: formData.name,
-            mobile_phone: formData.phone,
-          },
-        },
-      };
-
-      axios
-        .request(options)
-        .then(function (response) {
-          console.log(response.data);
-          sessionStorage.setItem("formData", JSON.stringify(formData));
-          navigate("/obrigado");
-=======
   const urlToEventMap = {
     "/primetravel/": "lead-primetravel",
     "/seguro-de-vida/": "lead-seguro-de-vida",
@@ -162,7 +129,6 @@ export default function SimpleFormSection({
           } catch (error) {
             console.error(error);
           }
->>>>>>> Stashed changes
         })
         .catch(function (error) {
           console.error(error);

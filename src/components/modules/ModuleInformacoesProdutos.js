@@ -12,7 +12,7 @@ const InformacoesProdutos = [
     name: "Coberturas e Assistências Para Todos Os Tipos de Residência",
     image: imageManagerInformacoesProdutos.imgProdutos.imgResidencial,
     buttonText: "Realizar Cotação Online",
-    link: "https://primesecure.com.br/seguro-residencial-porto-2/",
+    link: "#",
     title: "Tudo que o seu lar precisa!",
     description: "Conheça um pouco mais sobre os nossos planos.",
     features: [
@@ -44,7 +44,7 @@ const InformacoesProdutos = [
     name: "Seguro Viagem",
     image: imageManagerInformacoesProdutos.imgProdutos.imgViagem,
     buttonText: "Cotar Agora",
-    link: "https://primesecure.com.br/seguro-residencial-porto-2/",
+    link: "#",
     title: "Proteção em Todas as categorias de Viagem.",
     description:
       "Tudo o que você e seus companheiros de viagem merecem para uma viagem mais segura.",
@@ -74,7 +74,7 @@ const InformacoesProdutos = [
     name: "Garanta a saúde e a felicidade do seu pet com nossos planos de saúde abrangentes",
     image: imageManagerInformacoesProdutos.imgProdutos.imgPet,
     buttonText: "Cotar Agora",
-    link: "https://primesecure.com.br/seguro-residencial-porto-2/",
+    link: "#",
     title: "Até 30% de Desconto Mais Frete Grátis em produtos PetLove",
     description: "As melhores condições em Planos de Saúde para o seu Pet.",
     features: [
@@ -106,7 +106,7 @@ const InformacoesProdutos = [
     name: "Coberturas e Assistências Exclusivas",
     image: imageManagerInformacoesProdutos.imgProdutos.imgVida,
     buttonText: "Cotar Agora",
-    link: "https://primesecure.com.br/seguro-residencial-porto-2/",
+    link: "#",
     title: "Seguro de Vida com Coberturas Para serem Usadas Ainda em Vida.",
     description: "",
     features: [
@@ -138,7 +138,7 @@ const InformacoesProdutos = [
     name: "Odonto",
     image: imageManagerInformacoesProdutos.imgProdutos.imgOdonto,
     buttonText: "Cotar Agora",
-    link: "https://primesecure.com.br/seguro-residencial-porto-2/",
+    link: "#",
     title: "Faça um plano e cuide de você por inteiro",
     description:
       "Veja abaixo os benefficios que somente um plano odonto pode lhe oferecer.",
@@ -171,7 +171,7 @@ const InformacoesProdutos = [
     name: "Principais Coberturas",
     image: imageManagerInformacoesProdutos.imgProdutos.imgCelular,
     buttonText: "Cotar Agora",
-    link: "https://primesecure.com.br/seguro-residencial-porto-2/",
+    link: "#",
     title:
       "Somos o Unico Seguro de Celular no Brasil que oferece cobertura para Furto Simples.",
     description: "Coberturas Para Aparelhos Novos ou Usados*",

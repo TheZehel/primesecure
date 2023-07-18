@@ -23,6 +23,7 @@ export default function FormBannerVida() {
         chipText="Invista em Sua Vida Com"
         titleText="Seguro de Vida"
         descriptionText="Não existe investimento melhor do que uma vida Assegura e com Coberturas Exclusivas"
+        imageUrl={imageManagerVida.logos.LogoSulamerica}
       />
       <SimpleFormSection formData={formData} setFormData={setFormData} />
     </section>

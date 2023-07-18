@@ -22,8 +22,9 @@ export default function FormOdontoBanner() {
     >
       <BannerSection
         chipText="Seu Sorriso Mais Saudável Com"
-        titleText="Plano Odonto"
-        descriptionText="A garantia de um sorrio mais feliz e saudável!"
+        titleText="Plano Odonto Em Parceria Com:"
+        descriptionText="Diversos Planos E Benefícios Para O Seu Sorriso!"
+        imageUrl={imageManagerOdonto.logos.SulAmericaLogo}
       />
       <SimpleFormSection formData={formData} setFormData={setFormData} />
     </section>

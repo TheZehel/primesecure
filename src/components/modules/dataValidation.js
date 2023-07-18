@@ -34,8 +34,7 @@ class DataValidation extends Object {
         email = email.toString().trim();
         if (email.length < 5 || !email.includes('@') || !email.includes('.')){ return false; }
         return true;
-    }
-    
+    }    
     validarData(date){
         if (!this.pattern._data.test(date)){ return false; } 
 
@@ -73,6 +72,29 @@ class DataValidation extends Object {
         numero = numero.toString().replace(/[^0-9]+/g, '');
         if (numero.length == 10 || numero.length == 11){ return true; }
         return false;
+    }
+    validarDestino(destino_id){
+        if (!this.pattern.destino.test(destino_id)){ return false; }
+        return true;
+    }
+    retornarDestino(destino_id){
+        destino_id = destino_id || 0;
+        destino_id = parseInt(destino_id);
+        if (!this.validarDestino(destino_id)){ return false; }
+        return this.destinos[destino_id];
+    }
+    aplicarMascara(valor, mascara){
+        let maskValue = '';
+        let index = 0;
+        for (let i = 0; i < mascara.length && index < valor.length; i++) {
+            if (mascara[i] === '#') {
+                maskValue += valor[index];
+                index++;
+            } else {
+                maskValue += mascara[i];
+            }
+        }
+        return maskValue;
     }
     validarTravelPayload(payload){
         let errorList = []

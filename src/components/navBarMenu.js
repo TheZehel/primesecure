@@ -24,11 +24,7 @@ const products = [
   {
     name: "Seguro Viagem",
     description: "Contratação 100% Online",
-<<<<<<< Updated upstream
-    href: "https://primetravel.primesecure.com.br/",
-=======
     href: "/primetravel",
->>>>>>> Stashed changes
     icon: PaperAirplaneIcon,
   },
   {
@@ -39,25 +35,25 @@ const products = [
   },
   {
     name: "Seguro Pet",
-    description: "Planos de Proteção Para a Sua Residencia.",
+    description: "Planos de Proteção Seu Pet.",
     href: "/seguro-pet-porto",
     icon: HomeIcon,
   },
   {
     name: "Odonto",
-    description: "Planos de Proteção Para a Sua Residencia.",
+    description: "Planos de Proteção Odonto.",
     href: "/sulamerica-odonto",
     icon: HomeIcon,
   },
   {
     name: "Vida",
-    description: "Planos de Proteção Para a Sua Residencia.",
+    description: "Planos de Proteção Para Sua Vida",
     href: "/seguro-de-vida",
     icon: HeartIcon,
   },
   {
     name: "Celular",
-    description: "Planos de Proteção Para a Sua Residencia.",
+    description: "Planos de Proteção Para o Seu Celular",
     href: "/equipamentos-portateis-3",
     icon: DevicePhoneMobileIcon,
   },

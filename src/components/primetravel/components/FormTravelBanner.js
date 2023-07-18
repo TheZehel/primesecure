@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Select from "react-select";
@@ -36,23 +37,61 @@ export default function FormTravelBanner() {
     return newDate; 
   }
 
-  function convertToForm(payload){
+  async function submitFormToRD(payload, redirect){
+    const apiKey = process.env.REACT_APP_API_KEY_RD_STATION;
+    const options = {
+      method: "POST",
+      url: `https://api.rd.services/platform/conversions?api_key=${apiKey}`,
+      headers: {
+        accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      data: {
+        event_type: "CONVERSION",
+        event_family: "CDP",
+        payload: payload,
+      },
+    };
+    
+    await axios.request(options)
+      .then( (response)=>{ console.log(response.data); })
+      .catch((error)=>{ console.error(error); });
+    
+    //console.log('Form RD:', options.data.payload);
+    //console.log('Redirect:', redirect);
+    window.location.href = redirect;
+  }
+
+  function convertToForm(payload, leadIdentifier){
+    //console.log(payload);
     let form = {
-      destination: payload.destiny,
-      departureDate: payload.departure,
-      returnDate: payload.arrival,
-      passengers: { "0-40": payload.olds0, "41-64": payload.olds1, "65-75": payload.olds2, "76-99": payload.olds3 },
-      name: payload.name,
-      email: payload.email,
-      phone: payload.phone
+      conversion_identifier: leadIdentifier,
+      cf_destinationcountry: payload.destiny.value,
+      cf_destinationregion: customValidation.retornarDestino(payload.destiny.regiao) || payload.destiny.value,//
+      cf_departuredate: (payload.departure || '').toString(),
+      cf_arrivaldate: (payload.arrival || '').toString(),
+      cf_passengers_0_to_40: (payload.old0 || '0').toString(),
+      cf_passengers_41_to_64: (payload.old1 || '0').toString(),
+      cf_passengers_65_to_75: (payload.old2 || '0').toString(),
+      cf_passengers_76_to_99: (payload.old3 || '0').toString(),
+      name: (payload.name || '').toString(), 
+      email: (payload.email || '').toString(), 
+      mobile_phone: (payload.phone || '').toString(),
+      personal_phone: (payload.phone || '').toString() 
     }
+
+    if (payload.phone.replace(/[^0-9]+/g, '').length == 10){ delete form.mobile_phone; }else{ delete form.personal_phone; }
+    if (form.cf_passengers_0_to_40 == 0){ delete form.cf_passengers_0_to_40; }
+    if (form.cf_passengers_41_to_64 == 0){ delete form.cf_passengers_41_to_64; }
+    if (form.cf_passengers_65_to_75 == 0){ delete form.cf_passengers_65_to_75; }
+    if (form.cf_passengers_76_to_99 == 0){ delete form.cf_passengers_76_to_99; }
     return form;
   }
 
   function todayStringDate(){
     let today = new Date();
     today = today.toISOString().split('T')[0];
-    return today;//formatStringDate(today);
+    return today; //formatStringDate(today);
   }
 
   const customValidation = new DataValidation();
@@ -92,18 +131,17 @@ export default function FormTravelBanner() {
     
     let errors = customValidation.validarTravelPayload(payload);
     console.log(errors);
-    //console.log(payload)
+    console.log(payload)
     if (errors.length > 0){ setErrorList(errors); return; }
 
-    let form = convertToForm(payload);
-    //console.log(form);
+    let form = convertToForm(payload, "lead-primetravel-api");
+    console.log(form);
     
     delete payload.destiny;
     let fullUrl = 'https://primetravel.primesecure.com.br/cotacao-rapida?';
 
     for(let key in payload){
       let value = payload[key] || '';
-      if (key == 'phone'){ value = value.replace('.', ''); }
       if (key == 'departure' || key == 'arrival'){ value = formatStringDate(value); }
       value = encodeURIComponent(value);
 
@@ -112,8 +150,9 @@ export default function FormTravelBanner() {
       if (key != 'phone'){ fullUrl += '&'; }
     }
 
+    submitFormToRD(form, fullUrl);
     //console.log(fullUrl);
-    window.location.href = fullUrl;
+    //window.location.href = fullUrl;
   };
 
   const [selectedOption, setSelectedOption] = useState(null);
@@ -122,10 +161,6 @@ export default function FormTravelBanner() {
     setSelectedOption(selectedOption);
     if (errorList.includes('destinyGroup')){ let errors = errorList.filter(item=> item != 'destinyGroup'); setErrorList(errors); }
     console.log(`Option selected:`, selectedOption);
-  };
-
-  const onChange = (date, dateString) => {
-    console.log(date, dateString);
   };
 
   const [dates, setDates] = useState(['00/00/0000', '00/00/0000']);
@@ -165,26 +200,24 @@ export default function FormTravelBanner() {
   const [inputName, setInputName] = useState('');
   const [inputEmail, setInputEmail] = useState('');
   const [inputPhone, setInputPhone] = useState('');
+  const [phoneMask, setPhoneMask] = useState('(99) 9999-99999');
 
   const inputHandler = (event)=>{
     let id = event.target.id;
     let value = event.target.value;
-
-    console.log(id, value);
+    //console.log(id, value);
 
     if (errorList.includes(id)){ let errors = errorList.filter(item=> item != id); setErrorList(errors); }
 
     if (id == 'full-name'){ setInputName(value); }
     if (id == 'email'){ setInputEmail(value); }
-    if (id == 'phone'){ setInputPhone(value); }
-  }
-
-  var phoneMask = '(99) 9.9999-9999';
-  var phoneValue = inputPhone || '';
-
-  phoneValue = phoneValue.replace(/[^0-9]+/g, '');
-  if (phoneValue.length < 11){ phoneMask = '(99) 9999-99999'; }
-
+    if (id == 'phone'){ 
+      setInputPhone(value); 
+      if (value.replace(/[^0-9]+/g, '').length < 11 && phoneMask == '(99) 99999-9999'){ setPhoneMask('(99) 9999-99999'); }
+      if (value.replace(/[^0-9]+/g, '').length > 10 && phoneMask == '(99) 9999-99999'){ setPhoneMask('(99) 99999-9999'); }      
+    }
+  } 
+  
   return (
     <section
       className="p-10"

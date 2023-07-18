@@ -24,6 +24,7 @@ export default function FormSeguroPetBanner() {
         chipText="Retribua o carinho que seu pet tem por você!"
         titleText="Plano de Saúde Pet"
         descriptionText="Seu pet com assistência qualificada 24h por dia."
+        imageUrl={imageManagerSeguroPet.logos.LogoPetLove}
       />
       <SimpleFormSection formData={formData} setFormData={setFormData} />
     </section>

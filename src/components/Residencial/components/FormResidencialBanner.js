@@ -26,6 +26,7 @@ export default function FormSeguroResidencialBanner() {
         chipText="Sua Casa Mais Segura Com"
         titleText="Seguro Residencial"
         descriptionText="O Seguro Residencial Perfeito Para a Sua Moradia."
+        imageUrl={imageManagerSeguroResidencial.logos.LogoPorto}
       />
       <Form />
       {/*<SimpleFormSection formData={formData} setFormData={setFormData} />*/}
