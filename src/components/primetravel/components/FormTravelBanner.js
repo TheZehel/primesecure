@@ -10,6 +10,8 @@ import { Chip } from "@material-tailwind/react";
 import ListaPaises from "./ListaPaises";
 import DataValidation from "../../modules/dataValidation";
 
+import imageManagerPrimeTravel from "../bancodeimagens/BancoDeImagensPrimeTravel";
+
 export default function FormTravelBanner() {
   const [formData, setFormData] = useState(() => {
     // Recuperando os dados do localStorage
@@ -240,6 +242,7 @@ export default function FormTravelBanner() {
               Não importa como e para onde você viaja, nós te protegemos. Ainda
               Contamos Com + de 30 Coberturas.
             </p>
+            <img src={imageManagerPrimeTravel.ImagensLandPage.ImgEmParceriaCom} alt="Proteção Covid, Preços Imbativeis, 30 Serviços e coberturas, Totalmente Digital" style={{maxWidth: '65%', margin: '20px auto 0px auto'}}/>
           </div>
           <div className="animate__animated animate__zoomIn rounded-lg bg-white p-10 sm:p-4">
             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">

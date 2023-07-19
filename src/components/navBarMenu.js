@@ -5,6 +5,7 @@ import { scroller, Link as LinkScroller } from "react-scroll";
 import logoprime from "../assets/img/logo-prime-secure.png";
 import classNames from "classnames";
 import { useNavigate, Link } from "react-router-dom";
+import GlobalFuntions from "../components/globalsubcomponentes/globalFunctions";
 
 import {
   Bars3Icon,
@@ -19,6 +20,8 @@ import {
   PlayCircleIcon,
   PhoneIcon,
 } from "@heroicons/react/20/solid";
+
+const globalFunctions = new GlobalFuntions();
 
 const products = [
   {
@@ -132,10 +135,35 @@ function NavBarMenu() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
+
+
   }, [isMenuFixed]);
 
-  const [linkClicked, setLinkClicked] = useState(false);
+  var pageSlug = globalFunctions.getPageSlug();
+  var productName = globalFunctions.getPageName(pageSlug);
 
+  var productList = products;
+  productList = products.filter(product => product.name != productName);
+  //console.log(productList)
+
+  //console.log(pageSlug);
+  //console.log(globalFunctions.getPageName(pageSlug));
+
+  useEffect(() => {
+    pageSlug = globalFunctions.getPageSlug();
+    productName = globalFunctions.getPageName(pageSlug);
+
+    productList = products;
+    productList = products.filter(product => product.name != productName);
+
+    console.log(pageSlug);
+    console.log(productName);
+    console.log(productList);
+  }, []);
+
+  const [linkClicked, setLinkClicked] = useState(false);  
+
+  
   return (
     <header
       className={`bg-white font-montserrat z-1 ${
@@ -192,7 +220,7 @@ function NavBarMenu() {
             >
               <Popover.Panel className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
                 <div className="p-4">
-                  {products.map((item) => (
+                  {productList.map((item) => (
                     <div
                       key={item.name}
                       className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50"
@@ -331,7 +359,7 @@ function NavBarMenu() {
                         />
                       </Disclosure.Button>
                       <Disclosure.Panel className="mt-2 space-y-2">
-                        {[...products, ...callsToAction].map((item) =>
+                        {[...productList, ...callsToAction].map((item) =>
                           item.href.startsWith("/") ? (
                             <Link
                               to={item.href}
