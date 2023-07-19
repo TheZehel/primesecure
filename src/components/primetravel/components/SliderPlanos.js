@@ -1,7 +1,9 @@
+import React, { useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import CardPlano from "./subcomponents/CardPlano";
 import imageManagerPrimeTravel from "../bancodeimagens/BancoDeImagensPrimeTravel";
+import { useMediaQuery } from "react-responsive";
 
 const {
   ImgSliderBrasil,
@@ -75,35 +77,53 @@ const planos = [
 ];
 
 export default function SliderPlanos() {
+  const swiperRef = useRef(null);
+  const [hasBounced, setHasBounced] = useState(false);
+
+  const handleSlideBounce = () => {
+    if (!hasBounced) {
+      setHasBounced(true);
+      const swiper = swiperRef.current.swiper;
+
+      swiper.slideNext(750);
+      setTimeout(() => {
+        swiper.slidePrev(750);
+      }, 750);
+    }
+  };
+
   return (
-    <div>
+    <div className="montserrat">
       <h2 className="text-center text-4xl"> Nossos Planos</h2>
-      <p>Arraste os slider para o lado</p>
-      <Swiper
-        spaceBetween={50}
-        slidesPerView={1}
-        cursor-pointer
-        breakpoints={{
-          640: {
-            slidesPerView: 3,
-          },
-          1920: {
-            slidesPerView: 4,
-          },
-        }}
-        style={{ cursor: "pointer" }}
-      >
-        {planos.map((plano) => (
-          <SwiperSlide key={plano.id}>
-            <CardPlano
-              title={plano.title}
-              description={plano.description}
-              price={plano.price}
-              image={plano.image}
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      <p>Arraste para o lado</p>
+      <div onMouseEnter={handleSlideBounce} onTouchStart={handleSlideBounce}>
+        <Swiper
+          ref={swiperRef}
+          spaceBetween={50}
+          slidesPerView={1}
+          cursor-pointer
+          breakpoints={{
+            640: {
+              slidesPerView: 3,
+            },
+            1920: {
+              slidesPerView: 4,
+            },
+          }}
+          style={{ cursor: "pointer" }}
+        >
+          {planos.map((plano) => (
+            <SwiperSlide key={plano.id}>
+              <CardPlano
+                title={plano.title}
+                description={plano.description}
+                price={plano.price}
+                image={plano.image}
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
     </div>
   );
 }

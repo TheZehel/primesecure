@@ -26,6 +26,7 @@
     "react-modal": "^3.16.1",
     "react-multi-carousel": "^2.8.4",
     "react-on-screen": "^2.1.1",
+    "react-responsive": "^9.0.2",
     "react-router": "^6.13.0",
     "react-router-dom": "^6.13.0",
     "react-scripts": "5.0.1",
