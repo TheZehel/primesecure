@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import imageManager from "./bancoDeImagens";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -32,9 +33,10 @@ const features = [
 ];
 
 export default function Travel() {
+  const navigate = useNavigate();
   //Direciona Click do botão para url externa
   const handleClick = () => {
-    window.location.href = "https://primetravel.primesecure.com.br";
+    navigate("/primetravel");
   };
   return (
     <div className="overflow-hidden bg-white py-24 sm:py-32">

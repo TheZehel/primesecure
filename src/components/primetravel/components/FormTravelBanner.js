@@ -9,6 +9,7 @@ import imageManager from "../../bancoDeImagens";
 import { Chip } from "@material-tailwind/react";
 import ListaPaises from "./ListaPaises";
 import DataValidation from "../../modules/dataValidation";
+import moment from "moment";
 
 import imageManagerPrimeTravel from "../bancodeimagens/BancoDeImagensPrimeTravel";
 
@@ -29,17 +30,19 @@ export default function FormTravelBanner() {
         };
   });
 
-  function formatStringDate(dateString){
+  function formatStringDate(dateString) {
     let pattern = /^(\d{2})\/(\d{2})\/(\d{4})$/;
-    if (!pattern.test(dateString)){ return false; }
-    
+    if (!pattern.test(dateString)) {
+      return false;
+    }
+
     let [, day, month, year] = pattern.exec(dateString);
     let newDate = `${year}-${month}-${day}`;
 
-    return newDate; 
+    return newDate;
   }
 
-  async function submitFormToRD(payload, redirect){
+  async function submitFormToRD(payload, redirect) {
     const apiKey = process.env.REACT_APP_API_KEY_RD_STATION;
     const options = {
       method: "POST",
@@ -54,45 +57,64 @@ export default function FormTravelBanner() {
         payload: payload,
       },
     };
-    
-    await axios.request(options)
-      .then( (response)=>{ console.log(response.data); })
-      .catch((error)=>{ console.error(error); });
-    
+
+    await axios
+      .request(options)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
     //console.log('Form RD:', options.data.payload);
     //console.log('Redirect:', redirect);
     window.location.href = redirect;
   }
 
-  function convertToForm(payload, leadIdentifier){
+  function convertToForm(payload, leadIdentifier) {
     //console.log(payload);
     let form = {
       conversion_identifier: leadIdentifier,
       cf_destinationcountry: payload.destiny.value,
-      cf_destinationregion: customValidation.retornarDestino(payload.destiny.regiao) || payload.destiny.value,//
-      cf_departuredate: (payload.departure || '').toString(),
-      cf_arrivaldate: (payload.arrival || '').toString(),
-      cf_passengers_0_to_40: (payload.old0 || '0').toString(),
-      cf_passengers_41_to_64: (payload.old1 || '0').toString(),
-      cf_passengers_65_to_75: (payload.old2 || '0').toString(),
-      cf_passengers_76_to_99: (payload.old3 || '0').toString(),
-      name: (payload.name || '').toString(), 
-      email: (payload.email || '').toString(), 
-      mobile_phone: (payload.phone || '').toString(),
-      personal_phone: (payload.phone || '').toString() 
-    }
+      cf_destinationregion:
+        customValidation.retornarDestino(payload.destiny.regiao) ||
+        payload.destiny.value, //
+      cf_departuredate: (payload.departure || "").toString(),
+      cf_arrivaldate: (payload.arrival || "").toString(),
+      cf_passengers_0_to_40: (payload.old0 || "0").toString(),
+      cf_passengers_41_to_64: (payload.old1 || "0").toString(),
+      cf_passengers_65_to_75: (payload.old2 || "0").toString(),
+      cf_passengers_76_to_99: (payload.old3 || "0").toString(),
+      name: (payload.name || "").toString(),
+      email: (payload.email || "").toString(),
+      mobile_phone: (payload.phone || "").toString(),
+      personal_phone: (payload.phone || "").toString(),
+    };
 
-    if (payload.phone.replace(/[^0-9]+/g, '').length == 10){ delete form.mobile_phone; }else{ delete form.personal_phone; }
-    if (form.cf_passengers_0_to_40 == 0){ delete form.cf_passengers_0_to_40; }
-    if (form.cf_passengers_41_to_64 == 0){ delete form.cf_passengers_41_to_64; }
-    if (form.cf_passengers_65_to_75 == 0){ delete form.cf_passengers_65_to_75; }
-    if (form.cf_passengers_76_to_99 == 0){ delete form.cf_passengers_76_to_99; }
+    if (payload.phone.replace(/[^0-9]+/g, "").length == 10) {
+      delete form.mobile_phone;
+    } else {
+      delete form.personal_phone;
+    }
+    if (form.cf_passengers_0_to_40 == 0) {
+      delete form.cf_passengers_0_to_40;
+    }
+    if (form.cf_passengers_41_to_64 == 0) {
+      delete form.cf_passengers_41_to_64;
+    }
+    if (form.cf_passengers_65_to_75 == 0) {
+      delete form.cf_passengers_65_to_75;
+    }
+    if (form.cf_passengers_76_to_99 == 0) {
+      delete form.cf_passengers_76_to_99;
+    }
     return form;
   }
 
-  function todayStringDate(){
+  function todayStringDate() {
     let today = new Date();
-    today = today.toISOString().split('T')[0];
+    today = today.toISOString().split("T")[0];
     return today; //formatStringDate(today);
   }
 
@@ -108,13 +130,15 @@ export default function FormTravelBanner() {
 
     // Envie o formData para uma API ou o próximo componente
     //window.location.href = "https://google.com.br";
-    
+
     //console.log(formData);
-    let destiny = selectedOption || { value: '', label: '', regiao: 0 };
+    let destiny = selectedOption || { value: "", label: "", regiao: 0 };
 
     let totalPassengers = 0;
-    olds.map((qtd, i)=>{ totalPassengers += qtd; });
-    totalPassengers = `${totalPassengers} Passageiro(s)` ;
+    olds.map((qtd, i) => {
+      totalPassengers += qtd;
+    });
+    totalPassengers = `${totalPassengers} Passageiro(s)`;
 
     let payload = {
       destiny: destiny,
@@ -128,57 +152,95 @@ export default function FormTravelBanner() {
       old3: olds[3] || 0,
       name: inputName,
       email: inputEmail,
-      phone: inputPhone
-    }
-    
+      phone: inputPhone,
+    };
+
     let errors = customValidation.validarTravelPayload(payload);
     console.log(errors);
-    console.log(payload)
-    if (errors.length > 0){ setErrorList(errors); return; }
+    console.log(payload);
+    if (errors.length > 0) {
+      setErrorList(errors);
+      return;
+    }
 
     let form = convertToForm(payload, "lead-primetravel-api");
     console.log(form);
-    
-    delete payload.destiny;
-    let fullUrl = 'https://primetravel.primesecure.com.br/cotacao-rapida?';
 
-    for(let key in payload){
-      let value = payload[key] || '';
-      if (key == 'departure' || key == 'arrival'){ value = formatStringDate(value); }
+    delete payload.destiny;
+    let fullUrl = "https://primetravel.primesecure.com.br/cotacao-rapida?";
+
+    for (let key in payload) {
+      let value = payload[key] || "";
+      if (key == "departure" || key == "arrival") {
+        value = formatStringDate(value);
+      }
       value = encodeURIComponent(value);
 
       let urlEncode = `${key}=${value}`;
       fullUrl += urlEncode;
-      if (key != 'phone'){ fullUrl += '&'; }
+      if (key != "phone") {
+        fullUrl += "&";
+      }
     }
 
     submitFormToRD(form, fullUrl);
     //console.log(fullUrl);
     //window.location.href = fullUrl;
   };
+  const [dates, setDates] = useState(["00/00/0000", "00/00/0000"]);
+
+  const onChangeDeparture = (date, dateString) => {
+    console.log("Departure", date, dateString);
+    let departure = dateString || todayStringDate(); //formatStringDate(dateString) || todayStringDate();
+    if (errorList.includes("departure")) {
+      let errors = errorList.filter((item) => item != "departure");
+      setErrorList(errors);
+    }
+    setDates([departure, dates[1]]);
+  };
+
+  const onChangeArrival = (date, dateString) => {
+    console.log("Arrival", date, dateString);
+    let arrival = dateString || todayStringDate(); //formatStringDate(dateString) || todayStringDate();
+    if (errorList.includes("arrival")) {
+      let errors = errorList.filter((item) => item != "arrival");
+      setErrorList(errors);
+    }
+    setDates([dates[0], arrival]);
+  };
+
+  const disabledDepartureDate = (current) => {
+    let limitAfter = dates[1];
+    if (limitAfter == "00/00/0000") {
+      return current && current < moment().startOf("day");
+    }
+    limitAfter = moment(limitAfter, "DD/MM/YYYY");
+    return (
+      (current && current.isAfter(limitAfter, "day")) ||
+      current < moment().startOf("day")
+    );
+  };
+  const disabledArrivalDate = (current) => {
+    let limitBefore = dates[0];
+    if (limitBefore == "00/00/0000") {
+      return current && current < moment().startOf("day");
+    }
+    limitBefore = moment(limitBefore, "DD/MM/YYYY");
+    return (
+      (current && current < moment().startOf("day")) ||
+      current < limitBefore.startOf("day")
+    );
+  };
 
   const [selectedOption, setSelectedOption] = useState(null);
 
   const handleChange = (selectedOption) => {
     setSelectedOption(selectedOption);
-    if (errorList.includes('destinyGroup')){ let errors = errorList.filter(item=> item != 'destinyGroup'); setErrorList(errors); }
+    if (errorList.includes("destinyGroup")) {
+      let errors = errorList.filter((item) => item != "destinyGroup");
+      setErrorList(errors);
+    }
     console.log(`Option selected:`, selectedOption);
-  };
-
-  const [dates, setDates] = useState(['00/00/0000', '00/00/0000']);
-
-  const onChangeDeparture = (date, dateString) => {
-    console.log('Departure', date, dateString);
-    let departure = dateString || todayStringDate();//formatStringDate(dateString) || todayStringDate();
-    if (errorList.includes('departure')){ let errors = errorList.filter(item=> item != 'departure'); setErrorList(errors); }
-    setDates([departure, dates[1]]);    
-  };
-
-  const onChangeArrival = (date, dateString) => {
-    console.log('Arrival', date, dateString);    
-    let arrival = dateString || todayStringDate();//formatStringDate(dateString) || todayStringDate();
-    if (errorList.includes('arrival')){ let errors = errorList.filter(item=> item != 'arrival'); setErrorList(errors); }
-    setDates([dates[0], arrival]);
   };
 
   const [modalOpen, setModalIsOpen] = useState(false);
@@ -193,33 +255,53 @@ export default function FormTravelBanner() {
   const closeModal = () => setModalIsOpen(false);
 
   const handleOld = (index, value) => {
-    if (errorList.includes('ages')){ let errors = errorList.filter(item=> item != 'ages'); setErrorList(errors); }
+    if (errorList.includes("ages")) {
+      let errors = errorList.filter((item) => item != "ages");
+      setErrorList(errors);
+    }
     if ((value > 0 && total < 10) || (value < 0 && olds[index] > 0)) {
       setOlds(olds.map((old, i) => (i === index ? old + value : old)));
     }
   };
 
-  const [inputName, setInputName] = useState('');
-  const [inputEmail, setInputEmail] = useState('');
-  const [inputPhone, setInputPhone] = useState('');
-  const [phoneMask, setPhoneMask] = useState('(99) 9999-99999');
+  const [inputName, setInputName] = useState("");
+  const [inputEmail, setInputEmail] = useState("");
+  const [inputPhone, setInputPhone] = useState("");
+  const [phoneMask, setPhoneMask] = useState("(99) 9999-99999");
 
-  const inputHandler = (event)=>{
+  const inputHandler = (event) => {
     let id = event.target.id;
     let value = event.target.value;
     //console.log(id, value);
 
-    if (errorList.includes(id)){ let errors = errorList.filter(item=> item != id); setErrorList(errors); }
-
-    if (id == 'full-name'){ setInputName(value); }
-    if (id == 'email'){ setInputEmail(value); }
-    if (id == 'phone'){ 
-      setInputPhone(value); 
-      if (value.replace(/[^0-9]+/g, '').length < 11 && phoneMask == '(99) 99999-9999'){ setPhoneMask('(99) 9999-99999'); }
-      if (value.replace(/[^0-9]+/g, '').length > 10 && phoneMask == '(99) 9999-99999'){ setPhoneMask('(99) 99999-9999'); }      
+    if (errorList.includes(id)) {
+      let errors = errorList.filter((item) => item != id);
+      setErrorList(errors);
     }
-  } 
-  
+
+    if (id == "full-name") {
+      setInputName(value);
+    }
+    if (id == "email") {
+      setInputEmail(value);
+    }
+    if (id == "phone") {
+      setInputPhone(value);
+      if (
+        value.replace(/[^0-9]+/g, "").length < 11 &&
+        phoneMask == "(99) 99999-9999"
+      ) {
+        setPhoneMask("(99) 9999-99999");
+      }
+      if (
+        value.replace(/[^0-9]+/g, "").length > 10 &&
+        phoneMask == "(99) 9999-99999"
+      ) {
+        setPhoneMask("(99) 99999-9999");
+      }
+    }
+  };
+
   return (
     <section
       className="p-10"
@@ -242,7 +324,11 @@ export default function FormTravelBanner() {
               Não importa como e para onde você viaja, nós te protegemos. Ainda
               Contamos Com + de 30 Coberturas.
             </p>
-            <img src={imageManagerPrimeTravel.ImagensLandPage.ImgEmParceriaCom} alt="Proteção Covid, Preços Imbativeis, 30 Serviços e coberturas, Totalmente Digital" style={{maxWidth: '65%', margin: '20px auto 0px auto'}}/>
+            <img
+              src={imageManagerPrimeTravel.ImagensLandPage.ImgEmParceriaCom}
+              alt="Proteção Covid, Preços Imbativeis, 30 Serviços e coberturas, Totalmente Digital"
+              style={{ maxWidth: "65%", margin: "20px auto 0px auto" }}
+            />
           </div>
           <div className="animate__animated animate__zoomIn rounded-lg bg-white p-10 sm:p-4">
             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
@@ -260,7 +346,11 @@ export default function FormTravelBanner() {
                   <label
                     id="label-destinyGroup"
                     htmlFor=""
-                    className={errorList.includes("destinyGroup") ? "block text-sm font-semibold leading-6 text-alertRed" : "block text-sm font-semibold leading-6 text-gray-900"}
+                    className={
+                      errorList.includes("destinyGroup")
+                        ? "block text-sm font-semibold leading-6 text-alertRed"
+                        : "block text-sm font-semibold leading-6 text-gray-900"
+                    }
                   >
                     Destino
                   </label>
@@ -280,13 +370,18 @@ export default function FormTravelBanner() {
                     <label
                       id="label-departure"
                       htmlFor=""
-                      className={errorList.includes("departure") ? "block text-sm font-semibold leading-6 text-alertRed" : "block text-sm font-semibold leading-6 text-gray-900"}
+                      className={
+                        errorList.includes("departure")
+                          ? "block text-sm font-semibold leading-6 text-alertRed"
+                          : "block text-sm font-semibold leading-6 text-gray-900"
+                      }
                     >
                       Data de Ida
                     </label>
                     <div className="mt-2.5">
                       <Space direction="vertical">
                         <DatePicker
+                          disabledDate={disabledDepartureDate}
                           format="DD/MM/YYYY"
                           onChange={onChangeDeparture}
                           className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
@@ -298,13 +393,18 @@ export default function FormTravelBanner() {
                     <label
                       id="label-arrival"
                       htmlFor=""
-                      className={errorList.includes("arrival") ? "block text-sm font-semibold leading-6 text-alertRed" : "block text-sm font-semibold leading-6 text-gray-900"}
+                      className={
+                        errorList.includes("arrival")
+                          ? "block text-sm font-semibold leading-6 text-alertRed"
+                          : "block text-sm font-semibold leading-6 text-gray-900"
+                      }
                     >
                       Data de Volta
                     </label>
                     <div className="mt-2.5">
                       <Space direction="vertical">
                         <DatePicker
+                          disabledDate={disabledArrivalDate}
                           format="DD/MM/YYYY"
                           onChange={onChangeArrival}
                           className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
@@ -314,9 +414,13 @@ export default function FormTravelBanner() {
                   </div>
                 </div>
                 <div className="">
-                  <label 
-                    htmlFor="passengers" 
-                    className={errorList.includes("ages") ? "form-label block text-sm font-semibold leading-6 text-alertRed" : "form-label block text-sm font-semibold leading-6 text-gray-900"} 
+                  <label
+                    htmlFor="passengers"
+                    className={
+                      errorList.includes("ages")
+                        ? "form-label block text-sm font-semibold leading-6 text-alertRed"
+                        : "form-label block text-sm font-semibold leading-6 text-gray-900"
+                    }
                     id="label-ages"
                   >
                     Passageiros
@@ -472,13 +576,19 @@ export default function FormTravelBanner() {
                   <label
                     id="label-name"
                     htmlFor=""
-                    className={errorList.includes("full-name") ? "block text-sm font-semibold leading-6 text-alertRed" : "block text-sm font-semibold leading-6 text-gray-900"}
+                    className={
+                      errorList.includes("full-name")
+                        ? "block text-sm font-semibold leading-6 text-alertRed"
+                        : "block text-sm font-semibold leading-6 text-gray-900"
+                    }
                   >
                     Nome Completo
                   </label>
                   <div className="mt-2.5">
                     <input
-                      onChange={ (e)=>{ inputHandler(e); } }
+                      onChange={(e) => {
+                        inputHandler(e);
+                      }}
                       type="text"
                       name="full-name"
                       id="full-name"
@@ -491,13 +601,19 @@ export default function FormTravelBanner() {
                   <label
                     id="label-email"
                     htmlFor=""
-                    className={errorList.includes("email") ? "block text-sm font-semibold leading-6 text-alertRed" : "block text-sm font-semibold leading-6 text-gray-900"}
+                    className={
+                      errorList.includes("email")
+                        ? "block text-sm font-semibold leading-6 text-alertRed"
+                        : "block text-sm font-semibold leading-6 text-gray-900"
+                    }
                   >
                     E-mail
                   </label>
                   <div className="mt-2.5">
                     <input
-                      onChange={ (e)=>{ inputHandler(e); } }
+                      onChange={(e) => {
+                        inputHandler(e);
+                      }}
                       type="email"
                       name="email"
                       id="email"
@@ -510,14 +626,20 @@ export default function FormTravelBanner() {
                   <label
                     id="label-phone"
                     htmlFor="phone"
-                    className={errorList.includes("phone") ? "block text-sm font-semibold leading-6 text-alertRed" : "block text-sm font-semibold leading-6 text-gray-900"}
+                    className={
+                      errorList.includes("phone")
+                        ? "block text-sm font-semibold leading-6 text-alertRed"
+                        : "block text-sm font-semibold leading-6 text-gray-900"
+                    }
                   >
                     Telefone
                   </label>
                   <div className="mt-2.5">
                     <InputMask
                       id="phone"
-                      onChange={ (e)=>{ inputHandler(e); } }
+                      onChange={(e) => {
+                        inputHandler(e);
+                      }}
                       mask={phoneMask}
                       maskChar={null}
                       className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
