@@ -135,15 +135,13 @@ function NavBarMenu() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-
-
   }, [isMenuFixed]);
 
   var pageSlug = globalFunctions.getPageSlug();
   var productName = globalFunctions.getPageName(pageSlug);
 
   var productList = products;
-  productList = products.filter(product => product.name != productName);
+  productList = products.filter((product) => product.name != productName);
   //console.log(productList)
 
   //console.log(pageSlug);
@@ -154,16 +152,15 @@ function NavBarMenu() {
     productName = globalFunctions.getPageName(pageSlug);
 
     productList = products;
-    productList = products.filter(product => product.name != productName);
+    productList = products.filter((product) => product.name !== productName);
 
     console.log(pageSlug);
     console.log(productName);
     console.log(productList);
   }, []);
 
-  const [linkClicked, setLinkClicked] = useState(false);  
+  const [linkClicked, setLinkClicked] = useState(false);
 
-  
   return (
     <header
       className={`bg-white font-montserrat z-1 ${

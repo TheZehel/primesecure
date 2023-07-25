@@ -31,7 +31,8 @@ export default function ContainerCoberturas() {
               Confira Nossas Coberturas.
             </h1>
             <p className="mt-4 text-xl text-gray-500 text-start">
-              São Mais de 30 Coberturas Exclusivas Para a Sua Próximas Viagem.
+              São Mais de 30 Coberturas Exclusivas Para as Suas Próximas
+              Viagens.
             </p>
           </div>
           <div>

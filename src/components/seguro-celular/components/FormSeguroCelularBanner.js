@@ -8,6 +8,7 @@ export default function FormSeguroCelularBanner() {
     name: "",
     email: "",
     phone: "",
+    marcaCelular: "",
   });
   return (
     <section

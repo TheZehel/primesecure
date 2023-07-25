@@ -1,7 +1,26 @@
 import axios from "axios";
-import { useState, createRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import InputMask from "react-input-mask";
 import { useNavigate } from "react-router-dom";
+
+const getUtmParams = () => {
+  let params = {};
+  let search = window.location.search.substring(1);
+
+  //console.log("URL:", window.location.href); // Add this line
+  //console.log("Search:", search); // Add this line
+
+  if (search) {
+    search.split("&").forEach((item) => {
+      let data = item.split("=");
+      params[data[0]] = decodeURIComponent(data[1]);
+    });
+  }
+
+  //console.log("UTM Params:", params); // Add this line
+
+  return params;
+};
 
 export default function SimpleFormSection({
   title,
@@ -13,10 +32,22 @@ export default function SimpleFormSection({
     name: "",
     email: "",
     phone: "",
+    marcaCelular: "",
+    utm_source: "",
+    utm_medium: "",
+    utm_campaign: "",
   });
 
+  useEffect(() => {
+    const utmParams = getUtmParams();
+    setFormData((prevFormData) => {
+      const updatedFormData = { ...prevFormData, ...utmParams };
+      //console.log('Updated Form Data:', updatedFormData);
+      return updatedFormData;
+    });
+  }, []);
+
   const navigate = useNavigate();
-  const formRef = createRef();
 
   const handleInputChange = (event) => {
     const target = event.target;
@@ -111,6 +142,10 @@ export default function SimpleFormSection({
             email: formData.email,
             name: formData.name,
             mobile_phone: formData.phone,
+            cf_marcacelular: formData.marcaCelular,
+            cf_source: formData.utm_source,
+            cf_medium: formData.utm_medium,
+            cf_campaign: formData.utm_campaign,
           },
         },
       };
@@ -119,7 +154,7 @@ export default function SimpleFormSection({
         .request(options)
         .then(async function (response) {
           // função marcada como assíncrona aqui
-          console.log(response.data);
+          //console.log(response.data);
           sessionStorage.setItem("formData", JSON.stringify(formData));
 
           try {
@@ -225,6 +260,26 @@ export default function SimpleFormSection({
                 onChange={handleInputChange}
               />
             </div>
+          </div>
+          <div>
+            {window.location.pathname === "/equipamentos-portateis-3" && (
+              <div>
+                <select
+                  name="marcaCelular"
+                  id="marcaCelular"
+                  value={formData.marcaCelular}
+                  onChange={handleInputChange}
+                  className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
+                >
+                  <option value="">Escolha uma Opção:</option>
+                  <option value="Apple">Apple</option>
+                  <option value="Samsumg">Samsumg</option>
+                  <option value="Motorola">Motorola</option>
+                  <option value="Xiaomi">Xiaomi</option>
+                  <option value="Outras Marcas">Outras Marcas</option>
+                </select>
+              </div>
+            )}
           </div>
         </div>
       </form>

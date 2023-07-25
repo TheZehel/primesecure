@@ -8,6 +8,9 @@ export default function FormSeguroPetBanner() {
     name: "",
     email: "",
     phone: "",
+    utm_source: "",
+    utm_medium: "",
+    utm_campaign: "",
   });
 
   return (

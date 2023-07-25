@@ -179,7 +179,7 @@ const infoPlanos = [
       {
         name: "111111",
         price: "R$59/mês",
-        buttonLink: "www.google.com.br",
+        buttonLink: "#",
         features: ["Feature 1", "Feature 2", "Feature 3", "Feature 4"],
         emphasized: true,
       },

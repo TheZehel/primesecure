@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import Select from "react-select";
 import { DatePicker, Space } from "antd";
 import InputMask from "react-input-mask";
@@ -14,22 +13,6 @@ import moment from "moment";
 import imageManagerPrimeTravel from "../bancodeimagens/BancoDeImagensPrimeTravel";
 
 export default function FormTravelBanner() {
-  const [formData, setFormData] = useState(() => {
-    // Recuperando os dados do localStorage
-    const savedData = localStorage.getItem("formData");
-    return savedData
-      ? JSON.parse(savedData)
-      : {
-          destination: "",
-          departureDate: "",
-          returnDate: "",
-          passengers: { "0-40": 0, "41-64": 0, "65-75": 0, "76-99": 0 },
-          name: "",
-          email: "",
-          phone: "",
-        };
-  });
-
   function formatStringDate(dateString) {
     let pattern = /^(\d{2})\/(\d{2})\/(\d{4})$/;
     if (!pattern.test(dateString)) {
@@ -89,23 +72,21 @@ export default function FormTravelBanner() {
       name: (payload.name || "").toString(),
       email: (payload.email || "").toString(),
       mobile_phone: (payload.phone || "").toString(),
-      personal_phone: (payload.phone || "").toString(),
     };
 
-    if (payload.phone.replace(/[^0-9]+/g, "").length == 10) {
-      delete form.mobile_phone;
-    } else {
-      delete form.personal_phone;
-    }
+    // eslint-disable-next-line eqeqeq
     if (form.cf_passengers_0_to_40 == 0) {
       delete form.cf_passengers_0_to_40;
     }
+    // eslint-disable-next-line eqeqeq
     if (form.cf_passengers_41_to_64 == 0) {
       delete form.cf_passengers_41_to_64;
     }
+    // eslint-disable-next-line eqeqeq
     if (form.cf_passengers_65_to_75 == 0) {
       delete form.cf_passengers_65_to_75;
     }
+    // eslint-disable-next-line eqeqeq
     if (form.cf_passengers_76_to_99 == 0) {
       delete form.cf_passengers_76_to_99;
     }
@@ -135,6 +116,7 @@ export default function FormTravelBanner() {
     let destiny = selectedOption || { value: "", label: "", regiao: 0 };
 
     let totalPassengers = 0;
+    // eslint-disable-next-line array-callback-return
     olds.map((qtd, i) => {
       totalPassengers += qtd;
     });
@@ -171,14 +153,14 @@ export default function FormTravelBanner() {
 
     for (let key in payload) {
       let value = payload[key] || "";
-      if (key == "departure" || key == "arrival") {
+      if (key === "departure" || key === "arrival") {
         value = formatStringDate(value);
       }
       value = encodeURIComponent(value);
 
       let urlEncode = `${key}=${value}`;
       fullUrl += urlEncode;
-      if (key != "phone") {
+      if (key !== "phone") {
         fullUrl += "&";
       }
     }
@@ -193,7 +175,7 @@ export default function FormTravelBanner() {
     console.log("Departure", date, dateString);
     let departure = dateString || todayStringDate(); //formatStringDate(dateString) || todayStringDate();
     if (errorList.includes("departure")) {
-      let errors = errorList.filter((item) => item != "departure");
+      let errors = errorList.filter((item) => item !== "departure");
       setErrorList(errors);
     }
     setDates([departure, dates[1]]);
@@ -203,7 +185,7 @@ export default function FormTravelBanner() {
     console.log("Arrival", date, dateString);
     let arrival = dateString || todayStringDate(); //formatStringDate(dateString) || todayStringDate();
     if (errorList.includes("arrival")) {
-      let errors = errorList.filter((item) => item != "arrival");
+      let errors = errorList.filter((item) => item !== "arrival");
       setErrorList(errors);
     }
     setDates([dates[0], arrival]);
@@ -211,7 +193,7 @@ export default function FormTravelBanner() {
 
   const disabledDepartureDate = (current) => {
     let limitAfter = dates[1];
-    if (limitAfter == "00/00/0000") {
+    if (limitAfter === "00/00/0000") {
       return current && current < moment().startOf("day");
     }
     limitAfter = moment(limitAfter, "DD/MM/YYYY");
@@ -222,7 +204,7 @@ export default function FormTravelBanner() {
   };
   const disabledArrivalDate = (current) => {
     let limitBefore = dates[0];
-    if (limitBefore == "00/00/0000") {
+    if (limitBefore === "00/00/0000") {
       return current && current < moment().startOf("day");
     }
     limitBefore = moment(limitBefore, "DD/MM/YYYY");
@@ -237,7 +219,7 @@ export default function FormTravelBanner() {
   const handleChange = (selectedOption) => {
     setSelectedOption(selectedOption);
     if (errorList.includes("destinyGroup")) {
-      let errors = errorList.filter((item) => item != "destinyGroup");
+      let errors = errorList.filter((item) => item !== "destinyGroup");
       setErrorList(errors);
     }
     console.log(`Option selected:`, selectedOption);
@@ -256,7 +238,7 @@ export default function FormTravelBanner() {
 
   const handleOld = (index, value) => {
     if (errorList.includes("ages")) {
-      let errors = errorList.filter((item) => item != "ages");
+      let errors = errorList.filter((item) => item !== "ages");
       setErrorList(errors);
     }
     if ((value > 0 && total < 10) || (value < 0 && olds[index] > 0)) {
@@ -275,27 +257,27 @@ export default function FormTravelBanner() {
     //console.log(id, value);
 
     if (errorList.includes(id)) {
-      let errors = errorList.filter((item) => item != id);
+      let errors = errorList.filter((item) => item !== id);
       setErrorList(errors);
     }
 
-    if (id == "full-name") {
+    if (id === "name") {
       setInputName(value);
     }
-    if (id == "email") {
+    if (id === "email") {
       setInputEmail(value);
     }
-    if (id == "phone") {
+    if (id === "phone") {
       setInputPhone(value);
       if (
         value.replace(/[^0-9]+/g, "").length < 11 &&
-        phoneMask == "(99) 99999-9999"
+        phoneMask === "(99) 99999-9999"
       ) {
         setPhoneMask("(99) 9999-99999");
       }
       if (
         value.replace(/[^0-9]+/g, "").length > 10 &&
-        phoneMask == "(99) 9999-99999"
+        phoneMask === "(99) 9999-99999"
       ) {
         setPhoneMask("(99) 99999-9999");
       }
@@ -320,14 +302,14 @@ export default function FormTravelBanner() {
             <h1 className="text-4xl font-bold mb-4 text-white">
               Prime Travel{" "}
             </h1>
-            <p className="text-white">
+            <p className="text-white text-2xl font-semibold">
               Não importa como e para onde você viaja, nós te protegemos. Ainda
               Contamos Com + de 30 Coberturas.
             </p>
             <img
               src={imageManagerPrimeTravel.ImagensLandPage.ImgEmParceriaCom}
               alt="Proteção Covid, Preços Imbativeis, 30 Serviços e coberturas, Totalmente Digital"
-              style={{ maxWidth: "65%", margin: "20px auto 0px auto" }}
+              className="m-auto w-100 justify-center items-center pt-5"
             />
           </div>
           <div className="animate__animated animate__zoomIn rounded-lg bg-white p-10 sm:p-4">
@@ -577,7 +559,7 @@ export default function FormTravelBanner() {
                     id="label-name"
                     htmlFor=""
                     className={
-                      errorList.includes("full-name")
+                      errorList.includes("name")
                         ? "block text-sm font-semibold leading-6 text-alertRed"
                         : "block text-sm font-semibold leading-6 text-gray-900"
                     }
@@ -590,8 +572,8 @@ export default function FormTravelBanner() {
                         inputHandler(e);
                       }}
                       type="text"
-                      name="full-name"
-                      id="full-name"
+                      name="name"
+                      id="name"
                       autoComplete="family-name"
                       className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
                     />
@@ -650,7 +632,11 @@ export default function FormTravelBanner() {
             </form>
             <button
               className="bg-bluePrime hover:bg-bluePrime2 text-white font-bold py-2 px-4 rounded w-full flex mt-3 justify-center items-center"
-              onClick={handleSubmit}
+              onClick={(e) => {
+                handleSubmit(e);
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({ event: "lead-primetravel" });
+              }}
             >
               Cotar Agora
             </button>
