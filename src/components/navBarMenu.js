@@ -62,22 +62,18 @@ const products = [
   },
 ];
 const callsToAction = [
-  { name: "Conheça a Prime", href: "#Travel1", icon: PlayCircleIcon },
-  { name: "Fale Conosco", href: "#Residencial", icon: PhoneIcon },
+  { name: "Conheça a Prime", href: "/sobre", icon: PlayCircleIcon },
+  { name: "Fale Conosco", href: "/contato", icon: PhoneIcon },
 ];
 
 const menu = [
   {
     name: "Sobre a Prime",
-    href: "sobrePrime",
+    href: "/sobre",
   },
   {
-    name: "Newsletter",
-    href: "Newsletter",
-  },
-  {
-    name: "FAQ",
-    href: "Faq",
+    name: "Contato",
+    href: "/contato",
   },
 ];
 

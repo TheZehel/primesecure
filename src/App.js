@@ -35,6 +35,8 @@ import IndexOdonto from "./components/Odonto/IndexOdonto";
 import PaginaObrigadoLP from "./components/globalsubcomponentes/PaginaObrigadoLp";
 import Cotacao from "./components/globalsubcomponentes/Cotacao";
 import PageNotFound from "./components/PageNotFound";
+import IndexSobrePrime from "./components/SobrePrime/IndexSobrePrime";
+import IndexContato from "./components/Contato/IndexContato";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -82,6 +84,8 @@ function App() {
             }
           />
           <Route path="/login" element={<PaginaLogin />} />
+          <Route path="/sobre" element={<IndexSobrePrime />} />
+          <Route path="/contato" element={<IndexContato />} />
           <Route path="/primetravel" element={<IndexTravel />} />
           <Route path="/seguro-de-vida" element={<IndexVida />} />
           <Route

@@ -12,12 +12,31 @@ import moment from "moment";
 
 import imageManagerPrimeTravel from "../bancodeimagens/BancoDeImagensPrimeTravel";
 
+const getUtmParams = () => {
+  let params = {};
+  let search = window.location.search.substring(1);
+
+  if (search) {
+    search.split("&").forEach((item) => {
+      let data = item.split("=");
+      params[data[0]] = decodeURIComponent(data[1]);
+    });
+  }
+  //Retorna os parametros UTM da URL
+  return params;
+};
+
+
+
 export default function FormTravelBanner() {
+  
+  const [errorList, setErrorList] = useState([]);
+  const customValidation = new DataValidation(); //Importa modulo de validação
+
   function formatStringDate(dateString) {
+    //Converte data 00/00/0000 para 00-00-0000
     let pattern = /^(\d{2})\/(\d{2})\/(\d{4})$/;
-    if (!pattern.test(dateString)) {
-      return false;
-    }
+    if (!pattern.test(dateString)) { return false; }
 
     let [, day, month, year] = pattern.exec(dateString);
     let newDate = `${year}-${month}-${day}`;
@@ -26,6 +45,7 @@ export default function FormTravelBanner() {
   }
 
   async function submitFormToRD(payload, redirect) {
+    //Configura o request para a RD
     const apiKey = process.env.REACT_APP_API_KEY_RD_STATION;
     const options = {
       method: "POST",
@@ -41,6 +61,10 @@ export default function FormTravelBanner() {
       },
     };
 
+    //Salva na sessão antes do redirect
+    sessionStorage.setItem("formData-travel", JSON.stringify(formData));
+
+    //Faz o request na RDStation
     await axios
       .request(options)
       .then((response) => {
@@ -49,240 +73,232 @@ export default function FormTravelBanner() {
       .catch((error) => {
         console.error(error);
       });
-
-    //console.log('Form RD:', options.data.payload);
-    //console.log('Redirect:', redirect);
+    
+    //Redireciona para URL de cotação com parametros do formulário
     window.location.href = redirect;
   }
 
   function convertToForm(payload, leadIdentifier) {
-    //console.log(payload);
+    //Cria o payload para ser enviado para RDStation
     let form = {
       conversion_identifier: leadIdentifier,
       cf_destinationcountry: payload.destiny.value,
-      cf_destinationregion:
-        customValidation.retornarDestino(payload.destiny.regiao) ||
-        payload.destiny.value, //
-      cf_departuredate: (payload.departure || "").toString(),
-      cf_arrivaldate: (payload.arrival || "").toString(),
-      cf_passengers_0_to_40: (payload.old0 || "0").toString(),
-      cf_passengers_41_to_64: (payload.old1 || "0").toString(),
-      cf_passengers_65_to_75: (payload.old2 || "0").toString(),
-      cf_passengers_76_to_99: (payload.old3 || "0").toString(),
-      name: (payload.name || "").toString(),
-      email: (payload.email || "").toString(),
-      mobile_phone: (payload.phone || "").toString(),
-    };
+      cf_destinationregion: customValidation.retornarDestino(payload.destiny.regiao) || payload.destiny.value,//
+      cf_departuredate: (payload.departure || '').toString(),
+      cf_arrivaldate: (payload.arrival || '').toString(),
+      cf_passengers_0_to_40: (payload.old0 || '0').toString(),
+      cf_passengers_41_to_64: (payload.old1 || '0').toString(),
+      cf_passengers_65_to_75: (payload.old2 || '0').toString(),
+      cf_passengers_76_to_99: (payload.old3 || '0').toString(),
+      cf_source: payload.utm_source,
+      cf_medium: payload.utm_medium,
+      cf_campaign: payload.utm_campaign,
+      name: (payload.name || '').toString(), 
+      email: (payload.email || '').toString(), 
+      mobile_phone: (payload.phone || '').toString()
+    }
 
-    // eslint-disable-next-line eqeqeq
-    if (form.cf_passengers_0_to_40 == 0) {
-      delete form.cf_passengers_0_to_40;
-    }
-    // eslint-disable-next-line eqeqeq
-    if (form.cf_passengers_41_to_64 == 0) {
-      delete form.cf_passengers_41_to_64;
-    }
-    // eslint-disable-next-line eqeqeq
-    if (form.cf_passengers_65_to_75 == 0) {
-      delete form.cf_passengers_65_to_75;
-    }
-    // eslint-disable-next-line eqeqeq
-    if (form.cf_passengers_76_to_99 == 0) {
-      delete form.cf_passengers_76_to_99;
-    }
+    //Deleta campos de idade que não tem passageiro
+    if (form.cf_passengers_0_to_40 == 0){ delete form.cf_passengers_0_to_40; }
+    if (form.cf_passengers_41_to_64 == 0){ delete form.cf_passengers_41_to_64; }
+    if (form.cf_passengers_65_to_75 == 0){ delete form.cf_passengers_65_to_75; }
+    if (form.cf_passengers_76_to_99 == 0){ delete form.cf_passengers_76_to_99; }
+
+    //Retorna formulario configurado para o payload
     return form;
   }
 
-  function todayStringDate() {
-    let today = new Date();
-    today = today.toISOString().split("T")[0];
-    return today; //formatStringDate(today);
-  }
-
-  const customValidation = new DataValidation();
-  const [errorList, setErrorList] = useState([]);
-
   const handleSubmit = (event) => {
     event.preventDefault();
-    //console.log(JSON.stringify(formData));
+    
+    //Formata variavel de destino caso ela seja null
+    let destiny = formData.selectedOption || { value: "", label: "", regiao: 0 };
 
-    // Armazenando os dados no localStorage
-    //localStorage.setItem("formData", JSON.stringify(formData));
-
-    // Envie o formData para uma API ou o próximo componente
-    //window.location.href = "https://google.com.br";
-
-    //console.log(formData);
-    let destiny = selectedOption || { value: "", label: "", regiao: 0 };
-
+    //Soma total de passageiros
     let totalPassengers = 0;
-    // eslint-disable-next-line array-callback-return
-    olds.map((qtd, i) => {
-      totalPassengers += qtd;
-    });
+    formData.olds.map((qtd, i) => { totalPassengers += qtd; });
     totalPassengers = `${totalPassengers} Passageiro(s)`;
 
-    let payload = {
-      destiny: destiny,
-      destinyGroup: destiny.regiao,
-      departure: dates[0],
-      arrival: dates[1],
-      ages: totalPassengers,
-      old0: olds[0] || 0,
-      old1: olds[1] || 0,
-      old2: olds[2] || 0,
-      old3: olds[3] || 0,
-      name: inputName,
-      email: inputEmail,
-      phone: inputPhone,
-    };
+    //Recebe os parametros UTM da URL
+    let utmParams = getUtmParams();
 
+    //Começa a formatar o payload para a RDStation e para criar URL com parametros para o cotador
+    let payload = {
+      destiny: destiny, //Objeto do select de Destino
+      destinyGroup: destiny.regiao, //String com região de destino
+      departure: formData.departure,
+      arrival: formData.arrival,
+      ages: totalPassengers,
+      old0: formData.olds[0] || 0,
+      old1: formData.olds[1] || 0,
+      old2: formData.olds[2] || 0,
+      old3: formData.olds[3] || 0,
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      ...utmParams
+    };
+    
+    //Valida payload pelo modulo importado
     let errors = customValidation.validarTravelPayload(payload);
-    console.log(errors);
-    console.log(payload);
+
+    //Impede redirect caso haja erros que causem problemas na URL
     if (errors.length > 0) {
       setErrorList(errors);
       return;
     }
 
+    //Cria form da RD
     let form = convertToForm(payload, "lead-primetravel-api");
-    console.log(form);
 
-    delete payload.destiny;
-    let fullUrl = "https://primetravel.primesecure.com.br/cotacao-rapida?";
+    //Deleta objeto que retorna do select de destino
+    delete payload.destiny; 
 
+    //Começo da URL de cotação
+    let fullUrl = 'https://primetravel.primesecure.com.br/cotacao-rapida?';
+
+    //Forma URL de cotação com os parametros do payload
     for (let key in payload) {
+      //Pula UTM parametros
+      if (key === "cf_source" || key === "cf_medium" || key ==="cf_campaign"){ continue; }
       let value = payload[key] || "";
-      if (key === "departure" || key === "arrival") {
-        value = formatStringDate(value);
-      }
+      //Formata data para 00-00-0000
+      if (key === "departure" || key === "arrival") { value = formatStringDate(value); }
+      //URI encode do componente
       value = encodeURIComponent(value);
-
       let urlEncode = `${key}=${value}`;
+      //Soma o campo a URL do cotador
       fullUrl += urlEncode;
-      if (key !== "phone") {
-        fullUrl += "&";
-      }
+      //Telefone como último parametro, senão adiciona o &
+      if (key !== "phone") { fullUrl += "&"; } 
     }
-
-    submitFormToRD(form, fullUrl);
-    //console.log(fullUrl);
-    //window.location.href = fullUrl;
+    
+    //Envia o form e a URL de redirect
+    submitFormToRD(form, fullUrl); 
   };
-  const [dates, setDates] = useState(["00/00/0000", "00/00/0000"]);
+
 
   const onChangeDeparture = (date, dateString) => {
-    console.log("Departure", date, dateString);
-    let departure = dateString || todayStringDate(); //formatStringDate(dateString) || todayStringDate();
+    //Manipula a input de "Data de Ida"
     if (errorList.includes("departure")) {
-      let errors = errorList.filter((item) => item !== "departure");
+      //Retorna e atualiza array de erros no formulário
+      let errors = errorList.filter((item) => item != "departure"); 
       setErrorList(errors);
     }
-    setDates([departure, dates[1]]);
+    setFormData({...formData, departure: dateString});
   };
 
   const onChangeArrival = (date, dateString) => {
-    console.log("Arrival", date, dateString);
-    let arrival = dateString || todayStringDate(); //formatStringDate(dateString) || todayStringDate();
+    //Manipula a input de "Data de Volta"
     if (errorList.includes("arrival")) {
-      let errors = errorList.filter((item) => item !== "arrival");
+      //Retorna e atualiza array de erros no formulário
+      let errors = errorList.filter((item) => item != "arrival");
       setErrorList(errors);
     }
-    setDates([dates[0], arrival]);
+    setFormData({...formData, arrival: dateString});
   };
 
   const disabledDepartureDate = (current) => {
-    let limitAfter = dates[1];
-    if (limitAfter === "00/00/0000") {
-      return current && current < moment().startOf("day");
-    }
+    let limitAfter = formData.arrival;
+    //Gera TimeStamp da "Data de Volta" para interagir com DatePicker
     limitAfter = moment(limitAfter, "DD/MM/YYYY");
     return (
+      //Bloqueia datas após a data da input "Data de Volda"
       (current && current.isAfter(limitAfter, "day")) ||
+      //Bloqueia datas anterios a hoje na input "Data de Ida"
       current < moment().startOf("day")
     );
   };
+
   const disabledArrivalDate = (current) => {
-    let limitBefore = dates[0];
-    if (limitBefore === "00/00/0000") {
-      return current && current < moment().startOf("day");
-    }
+    let limitBefore = formData.departure;
+    //Gera TimeStamp da "Data de Ida" para interagir com DatePicker
     limitBefore = moment(limitBefore, "DD/MM/YYYY");
     return (
+      //Bloqueia datas anteriores a "Data de Ida"
       (current && current < moment().startOf("day")) ||
+      //Bloqueia datas anterios a hoje na input "Data de Volta"
       current < limitBefore.startOf("day")
     );
   };
 
-  const [selectedOption, setSelectedOption] = useState(null);
-
-  const handleChange = (selectedOption) => {
-    setSelectedOption(selectedOption);
+  const selectHandler = (selectedOption) => {
+    //Administra o select de Destino
+    formData.selectedOption = selectedOption;
+    setFormData({...formData})
     if (errorList.includes("destinyGroup")) {
-      let errors = errorList.filter((item) => item !== "destinyGroup");
+      //Retorna e atualiza array de erros no formulário
+      let errors = errorList.filter((item) => item != "destinyGroup");
       setErrorList(errors);
     }
-    console.log(`Option selected:`, selectedOption);
   };
 
   const [modalOpen, setModalIsOpen] = useState(false);
-  const [olds, setOlds] = useState([0, 0, 0, 0]);
-  const [total, setTotal] = useState(0);
-
-  useEffect(() => {
-    setTotal(olds.reduce((a, b) => a + b, 0));
-  }, [olds]);
 
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
 
   const handleOld = (index, value) => {
+    //Administra o número de passageiros por idade
     if (errorList.includes("ages")) {
       let errors = errorList.filter((item) => item !== "ages");
       setErrorList(errors);
     }
-    if ((value > 0 && total < 10) || (value < 0 && olds[index] > 0)) {
-      setOlds(olds.map((old, i) => (i === index ? old + value : old)));
+
+    let ages = 0;
+    let formOlds = [...formData.olds];
+
+    for (let i = 0; i < formOlds.length; i++){ ages += formOlds[i];  }
+    if ((value > 0 && ages < 10) || (value < 0 && formData.olds[index] > 0)){
+      //Impede que tenham mais de 10 passageiros e que o número de passageiros fique negativo
+      formOlds[index] = formOlds[index] + value;      
+      setFormData({...formData, olds: formOlds});
     }
   };
-
-  const [inputName, setInputName] = useState("");
-  const [inputEmail, setInputEmail] = useState("");
-  const [inputPhone, setInputPhone] = useState("");
-  const [phoneMask, setPhoneMask] = useState("(99) 9999-99999");
 
   const inputHandler = (event) => {
-    let id = event.target.id;
-    let value = event.target.value;
-    //console.log(id, value);
+    //Manipula o valor das inputs simples de texto
+    let id = event.target.id; //Encontra o id da input 
+    let value = event.target.value; //Encontra o value da input 
 
-    if (errorList.includes(id)) {
-      let errors = errorList.filter((item) => item !== id);
-      setErrorList(errors);
-    }
+    if (errorList.includes(id)){ let errors = errorList.filter(item=> item != id); setErrorList(errors); }
 
-    if (id === "name") {
-      setInputName(value);
-    }
-    if (id === "email") {
-      setInputEmail(value);
-    }
-    if (id === "phone") {
-      setInputPhone(value);
-      if (
-        value.replace(/[^0-9]+/g, "").length < 11 &&
-        phoneMask === "(99) 99999-9999"
-      ) {
-        setPhoneMask("(99) 9999-99999");
-      }
-      if (
-        value.replace(/[^0-9]+/g, "").length > 10 &&
-        phoneMask === "(99) 9999-99999"
-      ) {
-        setPhoneMask("(99) 99999-9999");
-      }
-    }
+    if (id == 'name'){ setFormData({ ...formData, name: value }); }
+    if (id == 'email'){ setFormData({ ...formData, email: value }); }
+    if (id == 'phone'){ setFormData({ ...formData, phone: value }); }
   };
+
+  const [formData, setFormData] = useState({
+    selectedOption: null,
+    departure: null,
+    departureDate: null,
+    arrival: null,
+    arrivalDate: null,
+    olds: [0, 0, 0, 0],
+    ages: 0,
+    name: '',
+    email: '',
+    phone: '',
+  });
+
+  //console.log('formData:', formData);
+
+  useEffect(() => {
+    const storedFormData = sessionStorage.getItem("formData-travel");
+    if (storedFormData) {
+      let storageData = JSON.parse(storedFormData);
+      //console.log('storage:', storageData);
+      setFormData({
+        ...storageData, 
+        departure: null, //Deleta os dados de data anteriores por darem conflito com o DatePicker
+        departureDate: null, 
+        arrival: null, 
+        arrivalDate: null 
+      });
+    }
+    //Deleta selessionStorage ao carregar pro form;
+    sessionStorage.removeItem("formData-travel");
+  }, []);
 
   return (
     <section
@@ -338,8 +354,8 @@ export default function FormTravelBanner() {
                   </label>
                   <div className="mt-2.5">
                     <Select
-                      value={selectedOption}
-                      onChange={handleChange}
+                      value={formData.selectedOption}
+                      onChange={selectHandler}
                       options={ListaPaises}
                       isSearchable
                       placeholder="Selecione o Destino..."
@@ -413,8 +429,8 @@ export default function FormTravelBanner() {
                     id="ages"
                     name="ages"
                     value={
-                      olds.reduce((total, age) => total + age, 0) > 0
-                        ? `${olds.reduce(
+                      formData.olds.reduce((total, age) => total + age, 0) > 0
+                        ? `${formData.olds.reduce(
                             (total, age) => total + age,
                             0
                           )} Passageiros`
@@ -462,7 +478,7 @@ export default function FormTravelBanner() {
                           </button>
                           <input
                             type="text"
-                            value={olds[0]}
+                            value={formData.olds[0]}
                             readOnly
                             className=" text-center block w-12 h-8 text-lg rounded-lg border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
                           />
@@ -485,7 +501,7 @@ export default function FormTravelBanner() {
                           </button>
                           <input
                             type="text"
-                            value={olds[1]}
+                            value={formData.olds[1]}
                             readOnly
                             className=" text-center block w-12 h-8 text-lg rounded-lg border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
                           />
@@ -508,7 +524,7 @@ export default function FormTravelBanner() {
                           </button>
                           <input
                             type="text"
-                            value={olds[2]}
+                            value={formData.olds[2]}
                             readOnly
                             className=" text-center block w-12 h-8 text-lg rounded-lg border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
                           />
@@ -531,7 +547,7 @@ export default function FormTravelBanner() {
                           </button>
                           <input
                             type="text"
-                            value={olds[3]}
+                            value={formData.olds[3]}
                             readOnly
                             className=" text-center block w-12 h-8 text-lg rounded-lg border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
                           />
@@ -571,6 +587,7 @@ export default function FormTravelBanner() {
                       onChange={(e) => {
                         inputHandler(e);
                       }}
+                      value={formData.name}
                       type="text"
                       name="name"
                       id="name"
@@ -596,6 +613,7 @@ export default function FormTravelBanner() {
                       onChange={(e) => {
                         inputHandler(e);
                       }}
+                      value={formData.email}
                       type="email"
                       name="email"
                       id="email"
@@ -622,7 +640,8 @@ export default function FormTravelBanner() {
                       onChange={(e) => {
                         inputHandler(e);
                       }}
-                      mask={phoneMask}
+                      value={formData.phone}
+                      mask="(99) 9.9999-9999"
                       maskChar={null}
                       className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
                     />

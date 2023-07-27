@@ -5,15 +5,19 @@ const LINKS = [
   {
     title: "Produtos",
     items: [
-      { title: "Residencial", link: "#Residencial" },
-      { title: "Viagem", link: "#Travel1" },
+      { title: "Residencial", link: "/seguro-residencial-porto-2" },
+      { title: "Viagem", link: "/PrimeTravel" },
+      { title: "Vida", link: "/seguro-de-vida" },
+      { title: "Celular", link: "/equipamentos-portateis-3" },
+      { title: "Pet", link: "/seguro-pet-porto" },
+      { title: "Odonto", link: "/sulamerica-odonto" },
     ],
   },
   {
     title: "Sobre Nós",
     items: [
-      { title: "Prime Secure", link: "#" },
-      { title: "Parceiros", link: "#Logos" },
+      { title: "Sobre", link: "/sobre" },
+      { title: "Contato", link: "/contato" },
     ],
   },
   {
@@ -98,7 +102,7 @@ export default function Footer() {
           <div className="flex gap-4 text-blue-gray-900 sm:justify-center">
             <Typography
               as="a"
-              href="#"
+              href="https://www.facebook.com/primesecure"
               className="opacity-80 transition-opacity hover:text-bluePrime"
             >
               <svg
@@ -116,7 +120,7 @@ export default function Footer() {
             </Typography>
             <Typography
               as="a"
-              href="#"
+              href="https://www.instagram.com/primesecureoficial/"
               className="opacity-80 transition-opacity hover:text-bluePrime"
             >
               <svg

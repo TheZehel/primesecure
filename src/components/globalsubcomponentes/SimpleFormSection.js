@@ -197,7 +197,7 @@ export default function SimpleFormSection({
       <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
         Faça Sua Cotação Gratuita
       </h2>
-      <p className="mt-2 text-lg leading-8 text-gray-600">
+      <p className="mt-2 text-sm leading-6 text-gray-600">
         Inicie sua cotação online preenchendo o formulário abaixo.
       </p>
       <form
@@ -264,6 +264,12 @@ export default function SimpleFormSection({
           <div>
             {window.location.pathname === "/equipamentos-portateis-3" && (
               <div>
+                <label
+                  htmlFor="phone"
+                  className="block text-sm font-semibold leading-6 text-gray-900"
+                >
+                  Qual a Marca do Aparelho?
+                </label>
                 <select
                   name="marcaCelular"
                   id="marcaCelular"

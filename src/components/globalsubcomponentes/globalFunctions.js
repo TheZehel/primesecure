@@ -27,7 +27,7 @@ class GlobalFuntions extends Object {
     getPageSlug(){
         var pathname = window.location.pathname.split('/');
         pathname = pathname.filter((element) => element !== '');
-        console.log(pathname);
+        //console.log(pathname);
         pathname = pathname[0] || '';
         return pathname.toLocaleLowerCase();
     }
