@@ -11,6 +11,10 @@ const imageManagerPrimeVida = {
     LogoSulamerica:
       "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/sulamerica-logo.png",
   },
+  sections: {
+    VidaMulher:
+      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/vida-mulher.webp",
+  },
 };
 
 export default imageManagerPrimeVida;

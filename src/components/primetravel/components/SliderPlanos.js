@@ -108,7 +108,7 @@ export default function SliderPlanos() {
               slidesPerView: 4,
             },
           }}
-          style={{ cursor: "pointer" }}
+          className="cursor-grab"
         >
           {planos.map((plano) => (
             <SwiperSlide key={plano.id}>

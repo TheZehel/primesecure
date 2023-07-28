@@ -66,7 +66,16 @@ export default function SimpleFormSection({
   };
 
   const validateForm = () => {
-    return formData.name && formData.email && formData.phone;
+    if (window.location.pathname === "/equipamentos-portateis-3") {
+      return (
+        formData.name &&
+        formData.email &&
+        formData.phone &&
+        formData.marcaCelular
+      );
+    } else {
+      return formData.name && formData.email && formData.phone;
+    }
   };
 
   const getConversionIdentifier = () => {
@@ -125,6 +134,7 @@ export default function SimpleFormSection({
   };
 
   const handleButtonClick = async () => {
+    handleBlur();
     if (validateForm()) {
       const apiKey = process.env.REACT_APP_API_KEY_RD_STATION;
       const options = {
@@ -191,6 +201,12 @@ export default function SimpleFormSection({
       document.body.removeChild(script);
     };
   }, []);
+
+  const [clicado, setClicado] = useState(false);
+
+  function handleBlur() {
+    setClicado(true);
+  }
 
   return (
     <div className="animate__animated animate__zoomIn rounded-lg bg-white p-5 sm:px-10 sm:mx-20 xl:mx-32">
@@ -270,11 +286,16 @@ export default function SimpleFormSection({
                 >
                   Qual a Marca do Aparelho?
                 </label>
+                {clicado && !formData.marcaCelular ? (
+                  <div className="text-red-500">Campo Obrigatório</div>
+                ) : null}
                 <select
+                  required
                   name="marcaCelular"
                   id="marcaCelular"
                   value={formData.marcaCelular}
                   onChange={handleInputChange}
+                  onBlur={handleBlur}
                   className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
                 >
                   <option value="">Escolha uma Opção:</option>

@@ -9,7 +9,7 @@ const imageManagerInformacoesProdutos = {
     imgVida:
       "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/seguro-de-vida.webp",
     imgViagem:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/seguro-viagem.webp",
+      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/seguro-viagemlp.webp",
     imgCelular:
       "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/seguro-celular.webp",
   },

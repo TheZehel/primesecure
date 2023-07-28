@@ -6,6 +6,7 @@ import InformacoesProdutos from "../modules/ModuleInformacoesProdutos";
 //import infoPlanos from "../modules/InfoPlanos";
 import ConteudoSessaoInfo from "../globalsubcomponentes/ConteudoSessaoInfo";
 import sessaoInfoLp from "../modules/SessaoInfoLp";
+import ContainerVidaMulher from "./components/subcomponents/ContainerVidaMulher";
 
 function IndexVida() {
   return (
@@ -17,6 +18,7 @@ function IndexVida() {
       />
       {/*<PlanoSlider infoPlanos={infoPlanos} planId="4" />*/}
       <ConteudoSessaoInfo sessaoInfoLp={sessaoInfoLp} sessaoInfoId="4" />
+      <ContainerVidaMulher />
     </div>
   );
 }

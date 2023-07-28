@@ -9,6 +9,7 @@ module.exports = {
         grayPrime: "#313131",
         greenPromo: "#1eea1e",
         alertRed: "#FF0000",
+        pinkPrime: "#f718f7",
       },
       fontFamily: {
         montserrat: ["Montserrat", "sans-serif"],

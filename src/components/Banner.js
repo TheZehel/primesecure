@@ -53,11 +53,11 @@ const Banner = () => {
     <section className="banner" id="home">
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-          <div className="animate__animated animate__fadeIn">
+          <div className="animate__animated animate__fadeIn ">
             <span className="text-xl text-bluePrime">
               Protegendo Todos Seus Momentos
             </span>
-            <h1 className="text-4xl font-bold mb-4">
+            <h1 className="text-4xl font-bold mb-4 ">
               Prime Secure
               <span
                 className="txt-rotate inline-block"
