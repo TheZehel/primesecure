@@ -1,19 +1,17 @@
-//Residencial
-import imgResidencial from "../../assets/img/seguro-residencial.webp";
-import imgPet from "../../assets/img/seguro-pet.webp";
-import imgOdonto from "../../assets/img/seguro-odonto.webp";
-import imgVida from "../../assets/img/seguro-de-vida.webp";
-import imgViagem from "../../assets/img/seguro-viagem.webp";
-import imgCelular from "../../assets/img/seguro-celular.webp";
-
 const imageManagerInformacoesProdutos = {
   imgProdutos: {
-    imgResidencial,
-    imgPet,
-    imgOdonto,
-    imgVida,
-    imgViagem,
-    imgCelular,
+    imgResidencial:
+      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/seguro-residencial.webp",
+    imgPet:
+      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/seguro-pet.webp",
+    imgOdonto:
+      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/seguro-odonto.webp",
+    imgVida:
+      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/seguro-de-vida.webp",
+    imgViagem:
+      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/seguro-viagem.webp",
+    imgCelular:
+      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/seguro-celular.webp",
   },
 };
 

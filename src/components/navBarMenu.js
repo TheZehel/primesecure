@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { useState, useEffect } from "react";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
 import { scroller, Link as LinkScroller } from "react-scroll";
-import logoprime from "../assets/img/logo-prime-secure.png";
+import imageManager from "./bancoDeImagens";
 import classNames from "classnames";
 import { useNavigate, Link } from "react-router-dom";
 import GlobalFuntions from "../components/globalsubcomponentes/globalFunctions";
@@ -174,7 +174,7 @@ function NavBarMenu() {
             <span className="sr-only">Prime Secure</span>
             <img
               className="h-5 w-auto"
-              src={logoprime}
+              src={imageManager.brand.logoPrimeSecure}
               alt="Logo Prime Secure"
             />
           </a>
@@ -324,7 +324,11 @@ function NavBarMenu() {
           <div className="flex items-center justify-between">
             <a href="#Home" className="-m-1.5 p-1.5">
               <span className="sr-only">Prime Secure</span>
-              <img className="h-8 w-auto" src={logoprime} alt="" />
+              <img
+                className="h-8 w-auto"
+                src={imageManager.brand.logoPrimeSecure}
+                alt=""
+              />
             </a>
             <button
               type="button"

@@ -1,6 +1,6 @@
 // import { useState, useEffect } from "react";
 import "animate.css";
-import headerImg from "../assets/img/img-banner.png";
+import imageManager from "./bancoDeImagens";
 
 const Banner = () => {
   // const [loopNum, setLoopNum] = useState(0);
@@ -74,7 +74,10 @@ const Banner = () => {
             </p>
           </div>
           <div className="animate__animated animate__zoomIn">
-            <img src={headerImg} alt="Prime Secure Marketplace de Seguros" />
+            <img
+              src={imageManager.banners.bannerCelHome}
+              alt="Prime Secure Marketplace de Seguros"
+            />
           </div>
         </div>
       </div>

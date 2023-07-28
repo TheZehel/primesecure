@@ -1,53 +1,41 @@
-//Banners
-import bannerPrimeTravel from "../assets/img/primetravel/seguro-viagem-prime-travel-banner.png";
-
-//Logo Prime Secure
-import logoPrimeSecure from "../assets/img/logo-prime-secure.png";
-
-//Travel.js
-import imgPrimeTravel from "../assets/img/seguro-viagem-prime-travel.webp";
-
-//Residencial
-import imgResidencial from "../assets/img/seguro-residencial-prime-secure-porto-seguro.webp";
-
-//Logos.js
-import logoPortoSeguro from "../assets/img/logos-parceiros/seguradora-portoseguro.webp";
-import logoSulAmerica from "../assets/img/logos-parceiros/seguradora-sulamerica.webp";
-import logoOmint from "../assets/img/logos-parceiros/seguradora-omint.webp";
-import logoAzos from "../assets/img/logos-parceiros/seguradora-azos.webp";
-import logoSuhai from "../assets/img/logos-parceiros/seguradora-suhai.webp";
-
-//Selos.js
-import seloAws from "../assets/img/selos-parceiros/selo-aws.webp";
-import seloPagarme from "../assets/img/selos-parceiros/selo-pagarme.webp";
-
-//SobrePrime.js
-import bgSobrePrime from "../assets/img/porque-a-primesecure.webp";
-
 const imageManager = {
   brand: {
-    logoPrimeSecure,
+    logoPrimeSecure:
+      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/logo-prime-secure.webp",
   },
   imgProdutos: {
-    imgPrimeTravel,
-    imgResidencial,
+    imgPrimeTravel:
+      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/seguro-viagem-prime-travel.webp",
+    imgResidencial:
+      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/seguro-residencial-prime-secure-porto-seguro.webp",
   },
   parceiros: {
-    logoPortoSeguro,
-    logoSulAmerica,
-    logoOmint,
-    logoAzos,
-    logoSuhai,
+    logoPortoSeguro:
+      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/seguradora-portoseguro.webp",
+    logoSulAmerica:
+      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/seguradora-suhai.webp",
+    logoOmint:
+      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/seguradora-omint.webp",
+    logoAzos:
+      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/seguradora-azos.webp",
+    logoSuhai:
+      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/seguradora-suhai.webp",
   },
   selos: {
-    seloAws,
-    seloPagarme,
+    seloAws:
+      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/selo-aws.webp",
+    seloPagarme:
+      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/selo-pagarme.webp",
   },
   sobrePrime: {
-    bgSobrePrime,
+    bgSobrePrime:
+      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/porque-a-primesecure.webp",
   },
   banners: {
-    bannerPrimeTravel,
+    bannerPrimeTravel:
+      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/seguro-viagem-prime-travel-banner.webp",
+    bannerCelHome:
+      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/img-banner.webp",
   },
 };
 
