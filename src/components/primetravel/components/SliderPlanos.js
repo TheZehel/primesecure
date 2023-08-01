@@ -92,8 +92,8 @@ export default function SliderPlanos() {
   };
 
   return (
-    <div className="montserrat">
-      <h2 className="text-center text-4xl"> Nossos Planos</h2>
+    <div className="montserrat ">
+      <h2 className="text-center text-4xl pt-20"> Nossos Planos</h2>
       <p>Arraste para o lado</p>
       <div onMouseEnter={handleSlideBounce} onTouchStart={handleSlideBounce}>
         <Swiper

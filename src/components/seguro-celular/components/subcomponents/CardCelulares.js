@@ -6,9 +6,9 @@ import {
   Typography,
 } from "@material-tailwind/react";
 
-export default function CardPlano({ title, description, price, image }) {
+export default function CardCelulares({ title, description, price, image }) {
   return (
-    <Card className=" max-w-[24rem]overflow-hidden m-6 pt-10">
+    <Card className=" max-w-[24rem]overflow-hidden m-6">
       <CardHeader
         floated={false}
         shadow={false}
@@ -24,11 +24,11 @@ export default function CardPlano({ title, description, price, image }) {
         <Typography variant="h4" color="blue-gray" className="text-2x1">
           {title}
         </Typography>
-        <Typography variant="h2">
+        {/*<Typography variant="h2">
           <span className="text-base">A Partir de:</span> <br />
           <span className="text-x1">R$</span> <span>{price}</span>
           <span className="text-sm"> /dia</span>
-        </Typography>
+  </Typography>*/}
         <Typography variant="lead" color="gray" className="mt-3 font-normal">
           {description}
         </Typography>

@@ -26,17 +26,16 @@ const getUtmParams = () => {
   return params;
 };
 
-
-
 export default function FormTravelBanner() {
-  
   const [errorList, setErrorList] = useState([]);
   const customValidation = new DataValidation(); //Importa modulo de validação
 
   function formatStringDate(dateString) {
     //Converte data 00/00/0000 para 00-00-0000
     let pattern = /^(\d{2})\/(\d{2})\/(\d{4})$/;
-    if (!pattern.test(dateString)) { return false; }
+    if (!pattern.test(dateString)) {
+      return false;
+    }
 
     let [, day, month, year] = pattern.exec(dateString);
     let newDate = `${year}-${month}-${day}`;
@@ -73,7 +72,7 @@ export default function FormTravelBanner() {
       .catch((error) => {
         console.error(error);
       });
-    
+
     //Redireciona para URL de cotação com parametros do formulário
     window.location.href = redirect;
   }
@@ -83,26 +82,36 @@ export default function FormTravelBanner() {
     let form = {
       conversion_identifier: leadIdentifier,
       cf_destinationcountry: payload.destiny.value,
-      cf_destinationregion: customValidation.retornarDestino(payload.destiny.regiao) || payload.destiny.value,//
-      cf_departuredate: (payload.departure || '').toString(),
-      cf_arrivaldate: (payload.arrival || '').toString(),
-      cf_passengers_0_to_40: (payload.old0 || '0').toString(),
-      cf_passengers_41_to_64: (payload.old1 || '0').toString(),
-      cf_passengers_65_to_75: (payload.old2 || '0').toString(),
-      cf_passengers_76_to_99: (payload.old3 || '0').toString(),
+      cf_destinationregion:
+        customValidation.retornarDestino(payload.destiny.regiao) ||
+        payload.destiny.value, //
+      cf_departuredate: (payload.departure || "").toString(),
+      cf_arrivaldate: (payload.arrival || "").toString(),
+      cf_passengers_0_to_40: (payload.old0 || "0").toString(),
+      cf_passengers_41_to_64: (payload.old1 || "0").toString(),
+      cf_passengers_65_to_75: (payload.old2 || "0").toString(),
+      cf_passengers_76_to_99: (payload.old3 || "0").toString(),
       cf_source: payload.utm_source,
       cf_medium: payload.utm_medium,
       cf_campaign: payload.utm_campaign,
-      name: (payload.name || '').toString(), 
-      email: (payload.email || '').toString(), 
-      mobile_phone: (payload.phone || '').toString()
-    }
+      name: (payload.name || "").toString(),
+      email: (payload.email || "").toString(),
+      mobile_phone: (payload.phone || "").toString(),
+    };
 
     //Deleta campos de idade que não tem passageiro
-    if (form.cf_passengers_0_to_40 == 0){ delete form.cf_passengers_0_to_40; }
-    if (form.cf_passengers_41_to_64 == 0){ delete form.cf_passengers_41_to_64; }
-    if (form.cf_passengers_65_to_75 == 0){ delete form.cf_passengers_65_to_75; }
-    if (form.cf_passengers_76_to_99 == 0){ delete form.cf_passengers_76_to_99; }
+    if (form.cf_passengers_0_to_40 == 0) {
+      delete form.cf_passengers_0_to_40;
+    }
+    if (form.cf_passengers_41_to_64 == 0) {
+      delete form.cf_passengers_41_to_64;
+    }
+    if (form.cf_passengers_65_to_75 == 0) {
+      delete form.cf_passengers_65_to_75;
+    }
+    if (form.cf_passengers_76_to_99 == 0) {
+      delete form.cf_passengers_76_to_99;
+    }
 
     //Retorna formulario configurado para o payload
     return form;
@@ -110,13 +119,19 @@ export default function FormTravelBanner() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    
+
     //Formata variavel de destino caso ela seja null
-    let destiny = formData.selectedOption || { value: "", label: "", regiao: 0 };
+    let destiny = formData.selectedOption || {
+      value: "",
+      label: "",
+      regiao: 0,
+    };
 
     //Soma total de passageiros
     let totalPassengers = 0;
-    formData.olds.map((qtd, i) => { totalPassengers += qtd; });
+    formData.olds.map((qtd, i) => {
+      totalPassengers += qtd;
+    });
     totalPassengers = `${totalPassengers} Passageiro(s)`;
 
     //Recebe os parametros UTM da URL
@@ -136,9 +151,9 @@ export default function FormTravelBanner() {
       name: formData.name,
       email: formData.email,
       phone: formData.phone,
-      ...utmParams
+      ...utmParams,
     };
-    
+
     //Valida payload pelo modulo importado
     let errors = customValidation.validarTravelPayload(payload);
 
@@ -152,40 +167,45 @@ export default function FormTravelBanner() {
     let form = convertToForm(payload, "lead-primetravel-api");
 
     //Deleta objeto que retorna do select de destino
-    delete payload.destiny; 
+    delete payload.destiny;
 
     //Começo da URL de cotação
-    let fullUrl = 'https://primetravel.primesecure.com.br/cotacao-rapida?';
+    let fullUrl = "https://primetravel.primesecure.com.br/cotacao-rapida?";
 
     //Forma URL de cotação com os parametros do payload
     for (let key in payload) {
       //Pula UTM parametros
-      if (key === "cf_source" || key === "cf_medium" || key ==="cf_campaign"){ continue; }
+      if (key === "cf_source" || key === "cf_medium" || key === "cf_campaign") {
+        continue;
+      }
       let value = payload[key] || "";
       //Formata data para 00-00-0000
-      if (key === "departure" || key === "arrival") { value = formatStringDate(value); }
+      if (key === "departure" || key === "arrival") {
+        value = formatStringDate(value);
+      }
       //URI encode do componente
       value = encodeURIComponent(value);
       let urlEncode = `${key}=${value}`;
       //Soma o campo a URL do cotador
       fullUrl += urlEncode;
       //Telefone como último parametro, senão adiciona o &
-      if (key !== "phone") { fullUrl += "&"; } 
+      if (key !== "phone") {
+        fullUrl += "&";
+      }
     }
-    
-    //Envia o form e a URL de redirect
-    submitFormToRD(form, fullUrl); 
-  };
 
+    //Envia o form e a URL de redirect
+    submitFormToRD(form, fullUrl);
+  };
 
   const onChangeDeparture = (date, dateString) => {
     //Manipula a input de "Data de Ida"
     if (errorList.includes("departure")) {
       //Retorna e atualiza array de erros no formulário
-      let errors = errorList.filter((item) => item != "departure"); 
+      let errors = errorList.filter((item) => item != "departure");
       setErrorList(errors);
     }
-    setFormData({...formData, departure: dateString});
+    setFormData({ ...formData, departure: dateString });
   };
 
   const onChangeArrival = (date, dateString) => {
@@ -195,7 +215,7 @@ export default function FormTravelBanner() {
       let errors = errorList.filter((item) => item != "arrival");
       setErrorList(errors);
     }
-    setFormData({...formData, arrival: dateString});
+    setFormData({ ...formData, arrival: dateString });
   };
 
   const disabledDepartureDate = (current) => {
@@ -225,7 +245,7 @@ export default function FormTravelBanner() {
   const selectHandler = (selectedOption) => {
     //Administra o select de Destino
     formData.selectedOption = selectedOption;
-    setFormData({...formData})
+    setFormData({ ...formData });
     if (errorList.includes("destinyGroup")) {
       //Retorna e atualiza array de erros no formulário
       let errors = errorList.filter((item) => item != "destinyGroup");
@@ -248,24 +268,35 @@ export default function FormTravelBanner() {
     let ages = 0;
     let formOlds = [...formData.olds];
 
-    for (let i = 0; i < formOlds.length; i++){ ages += formOlds[i];  }
-    if ((value > 0 && ages < 10) || (value < 0 && formData.olds[index] > 0)){
+    for (let i = 0; i < formOlds.length; i++) {
+      ages += formOlds[i];
+    }
+    if ((value > 0 && ages < 10) || (value < 0 && formData.olds[index] > 0)) {
       //Impede que tenham mais de 10 passageiros e que o número de passageiros fique negativo
-      formOlds[index] = formOlds[index] + value;      
-      setFormData({...formData, olds: formOlds});
+      formOlds[index] = formOlds[index] + value;
+      setFormData({ ...formData, olds: formOlds });
     }
   };
 
   const inputHandler = (event) => {
     //Manipula o valor das inputs simples de texto
-    let id = event.target.id; //Encontra o id da input 
-    let value = event.target.value; //Encontra o value da input 
+    let id = event.target.id; //Encontra o id da input
+    let value = event.target.value; //Encontra o value da input
 
-    if (errorList.includes(id)){ let errors = errorList.filter(item=> item != id); setErrorList(errors); }
+    if (errorList.includes(id)) {
+      let errors = errorList.filter((item) => item != id);
+      setErrorList(errors);
+    }
 
-    if (id == 'name'){ setFormData({ ...formData, name: value }); }
-    if (id == 'email'){ setFormData({ ...formData, email: value }); }
-    if (id == 'phone'){ setFormData({ ...formData, phone: value }); }
+    if (id == "name") {
+      setFormData({ ...formData, name: value });
+    }
+    if (id == "email") {
+      setFormData({ ...formData, email: value });
+    }
+    if (id == "phone") {
+      setFormData({ ...formData, phone: value });
+    }
   };
 
   const [formData, setFormData] = useState({
@@ -276,9 +307,9 @@ export default function FormTravelBanner() {
     arrivalDate: null,
     olds: [0, 0, 0, 0],
     ages: 0,
-    name: '',
-    email: '',
-    phone: '',
+    name: "",
+    email: "",
+    phone: "",
   });
 
   //console.log('formData:', formData);
@@ -289,11 +320,11 @@ export default function FormTravelBanner() {
       let storageData = JSON.parse(storedFormData);
       //console.log('storage:', storageData);
       setFormData({
-        ...storageData, 
+        ...storageData,
         departure: null, //Deleta os dados de data anteriores por darem conflito com o DatePicker
-        departureDate: null, 
-        arrival: null, 
-        arrivalDate: null 
+        departureDate: null,
+        arrival: null,
+        arrivalDate: null,
       });
     }
     //Deleta selessionStorage ao carregar pro form;
@@ -641,7 +672,7 @@ export default function FormTravelBanner() {
                         inputHandler(e);
                       }}
                       value={formData.phone}
-                      mask="(99) 9.9999-9999"
+                      mask="(99) 99999-9999"
                       maskChar={null}
                       className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
                     />
