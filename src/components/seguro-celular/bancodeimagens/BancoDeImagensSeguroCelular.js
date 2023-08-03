@@ -23,6 +23,20 @@ const imageManagerSeguroCelular = {
     outrasMarcas:
       "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/outras-marcas.png",
   },
+  beneficios: {
+    celularCrash:
+      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/celular-crash.webp",
+    celularGlobo:
+      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/celular-globo.webp",
+    portoPlus:
+      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/porto-plus.webp",
+    Cards:
+      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/cards.webp",
+    celularPin:
+      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/celular-pin.webp",
+    Calendar:
+      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/calendar.webp",
+  },
 };
 
 export default imageManagerSeguroCelular;

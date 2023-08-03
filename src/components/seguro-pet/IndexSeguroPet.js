@@ -6,6 +6,7 @@ import PlanoSlider from "../globalsubcomponentes/PlanoSlider";
 import infoPlanos from "../modules/InfoPlanos";
 import ConteudoSessaoInfo from "../globalsubcomponentes/ConteudoSessaoInfo";
 import sessaoInfoLp from "../modules/SessaoInfoLp";
+import FaqPet from "./components/subcomponents/FaqPet";
 
 function IndexSeguroPet() {
   return (
@@ -17,6 +18,7 @@ function IndexSeguroPet() {
       />
       <PlanoSlider infoPlanos={infoPlanos} planId="3" />
       <ConteudoSessaoInfo sessaoInfoLp={sessaoInfoLp} sessaoInfoId="3" />
+      <FaqPet />
     </div>
   );
 }

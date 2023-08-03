@@ -63,13 +63,19 @@ export default function SliderCelulares() {
 
   return (
     <div className="montserrat">
-      <h2 className="text-center text-4xl"> Atendemos Diversas marcas</h2>
+      <h2 className="text-center text-4xl pt-20"> Atendemos Diversas marcas</h2>
       <p>Arraste para o lado</p>
-      <div onMouseEnter={handleSlideBounce} onTouchStart={handleSlideBounce}>
+      <div
+        onMouseEnter={handleSlideBounce}
+        onTouchStart={handleSlideBounce}
+        className="cursor-grab"
+      >
         <Swiper
           ref={swiperRef}
           spaceBetween={50}
           slidesPerView={1}
+          effect="slide"
+          speed={1000}
           breakpoints={{
             640: {
               slidesPerView: 3,
@@ -78,7 +84,6 @@ export default function SliderCelulares() {
               slidesPerView: 4,
             },
           }}
-          className="cursor-grab"
         >
           {marcas.map((marca) => (
             <SwiperSlide key={marca.id}>

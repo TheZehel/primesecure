@@ -11,10 +11,16 @@ export default function BannerSection({
       <Chip value={chipText} className="bg-bluePrime" />
       <h1 className="text-4xl font-bold mb-4 text-white">{titleText}</h1>
       {imageUrl && (
-        <img className="w-6/12 mx-auto " src={imageUrl} alt={titleText} />
+        <img
+          className="w-6/12 mx-auto backdrop-blur-sm"
+          src={imageUrl}
+          alt={titleText}
+        />
       )}{" "}
       {/**/}
-      <p className="text-white">{descriptionText}</p>
+      <p className="text-white text-2xl font-semibold underline decoration-wavy decoration-2 decoration-greenPromo">
+        {descriptionText}
+      </p>
     </div>
   );
 }

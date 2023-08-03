@@ -5,6 +5,7 @@ import InformacoesProdutos from "../modules/ModuleInformacoesProdutos";
 //import infoPlanos from "../modules/InfoPlanos";
 import ConteudoSessaoInfo from "../globalsubcomponentes/ConteudoSessaoInfo";
 import sessaoInfoLp from "../modules/SessaoInfoLp";
+import FaqOdonto from "./components/subcomponents/FaqOdonto";
 
 function IndexOdonto() {
   return (
@@ -16,6 +17,7 @@ function IndexOdonto() {
       />
       {/*<PlanoSlider infoPlanos={infoPlanos} planId="5" />*/}
       <ConteudoSessaoInfo sessaoInfoLp={sessaoInfoLp} sessaoInfoId="5" />
+      <FaqOdonto />
     </div>
   );
 }
