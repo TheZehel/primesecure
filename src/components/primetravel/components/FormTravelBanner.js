@@ -43,10 +43,16 @@ export default function FormTravelBanner() {
     return newDate;
   }
 
-  async function submitFormToRD(payload, redirect) {
-    //Configura o request para a RD
+  async function submitFormToRD(payload, redirect, attempts = 0) {
+    // Credenciais para a autenticação Basic Auth
+    const username = "rhscenter";
+    const password = "@#rhscenter";
+    const encodedCredentials = btoa(`${username}:${password}`);
+    const MAX_ATTEMPTS = 3; // Número máximo de tentativas
+
+    // Configuração do pedido para a RD Station
     const apiKey = process.env.REACT_APP_API_KEY_RD_STATION;
-    const options = {
+    const rdOptions = {
       method: "POST",
       url: `https://api.rd.services/platform/conversions?api_key=${apiKey}`,
       headers: {
@@ -60,21 +66,62 @@ export default function FormTravelBanner() {
       },
     };
 
-    //Salva na sessão antes do redirect
-    sessionStorage.setItem("formData-travel", JSON.stringify(formData));
+    // Configuração do pedido para a Prime Secure (preencha os cabeçalhos e dados conforme necessário)
+    const argusOptions = {
+      method: "POST",
+      url: "https://api.primesecure.com.br/apiargus/primetravel/novo",
+      headers: {
+        Authorization: "Basic cmhzY2VudGVyOkAjcmhzY2VudGVy",
+        "Content-Type": "application/json",
+      },
+      data: {
+        nome: payload.name,
+        email: payload.email,
+        telefone1: payload.phone,
+        detalhes: payload.old0,
+        origem: "lead-primetravel-api",
+        fornecedor: "MKT PRIME",
+      },
+    };
 
-    //Faz o request na RDStation
-    await axios
-      .request(options)
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
+    try {
+      const [rdResponse, argusResponse] = await Promise.all([
+        axios.request(rdOptions),
+        axios.request(argusOptions),
+      ]);
+
+      console.log("Resposta da RD Station:", rdResponse.data);
+      console.log("Resposta da Prime Secure:", argusResponse.data);
+
+      // Salva na sessão antes do redirect
+      sessionStorage.setItem("formData-travel", JSON.stringify(payload));
+
+      // Redireciona para URL de cotação com parametros do formulário
+      window.location.href = redirect;
+    } catch (error) {
+      if (
+        error.response &&
+        error.response.status === 400 &&
+        attempts < MAX_ATTEMPTS
+      ) {
+        const logMessage = {
+          timestamp: new Date(),
+          error:
+            "Erro 400 ao enviar o lead para a RD Station. Tentando novamente...",
+          rdStationError: error.response.data,
+          data: payload,
+        };
+        console.error(logMessage);
+
+        // Espera um tempo antes de tentar novamente
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        // Tenta novamente, incrementando o contador de tentativas
+        return submitFormToRD(payload, redirect, attempts + 1);
+      } else {
         console.error(error);
-      });
-
-    //Redireciona para URL de cotação com parametros do formulário
-    window.location.href = redirect;
+      }
+    }
   }
 
   function convertToForm(payload, leadIdentifier) {
