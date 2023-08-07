@@ -63,5 +63,6 @@
   },
   "devDependencies": {
     "tailwindcss": "^3.3.2"
-  }
+  },
+  "proxy": "https://api.primesecure.com.br"
 }

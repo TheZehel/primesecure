@@ -44,14 +44,11 @@ export default function FormTravelBanner() {
   }
 
   async function submitFormToRD(payload, redirect, attempts = 0) {
-    // Credenciais para a autenticação Basic Auth
-    const username = "rhscenter";
-    const password = "@#rhscenter";
-    const encodedCredentials = btoa(`${username}:${password}`);
     const MAX_ATTEMPTS = 3; // Número máximo de tentativas
 
     // Configuração do pedido para a RD Station
     const apiKey = process.env.REACT_APP_API_KEY_RD_STATION;
+
     const rdOptions = {
       method: "POST",
       url: `https://api.rd.services/platform/conversions?api_key=${apiKey}`,
@@ -67,23 +64,26 @@ export default function FormTravelBanner() {
     };
 
     // Configuração do pedido para a Prime Secure (preencha os cabeçalhos e dados conforme necessário)
+    const authorization = process.env.REACT_APP_AUTHORIZATION_ARGUS;
+    //const endpointArgus = process.env.REACT_APP_ENDPOINT_ARGUS;
+    //const cleanedPhone = payload.phone ? payload.phone.replace(/\D/g, "") : "";
     const argusOptions = {
       method: "POST",
-      url: "https://api.primesecure.com.br/apiargus/primetravel/novo",
+      url: "/apiargus/primetravel/novo",
       headers: {
-        Authorization: "Basic cmhzY2VudGVyOkAjcmhzY2VudGVy",
+        Authorization: authorization,
         "Content-Type": "application/json",
       },
       data: {
-        nome: payload.name,
-        email: payload.email,
-        telefone1: payload.phone,
-        detalhes: payload.old0,
+        nome: formData.name,
+        email: formData.email,
+        telefone1: formData.phone,
+        detalhes: `0 a 40: ${formData.olds[0]} | 41 a 64: ${formData.olds[1]} | 65 a 75: ${formData.olds[2]} | 76 a 99: ${formData.olds[3]} | Data de Ida: ${formData.departure} | Data de Volta: ${formData.arrival}`,
         origem: "lead-primetravel-api",
         fornecedor: "MKT PRIME",
       },
     };
-
+    console.log(formData.olds[0]);
     try {
       const [rdResponse, argusResponse] = await Promise.all([
         axios.request(rdOptions),
@@ -365,6 +365,9 @@ export default function FormTravelBanner() {
     const storedFormData = sessionStorage.getItem("formData-travel");
     if (storedFormData) {
       let storageData = JSON.parse(storedFormData);
+      if (!Array.isArray(storageData.olds)) {
+        storageData.olds = [0, 0, 0, 0];
+      }
       //console.log('storage:', storageData);
       setFormData({
         ...storageData,
@@ -508,10 +511,14 @@ export default function FormTravelBanner() {
                     name="ages"
                     value={
                       formData.olds.reduce((total, age) => total + age, 0) > 0
-                        ? `${formData.olds.reduce(
-                            (total, age) => total + age,
-                            0
-                          )} Passageiros`
+                        ? `${
+                            Array.isArray(formData.olds)
+                              ? formData.olds.reduce(
+                                  (total, age) => total + age,
+                                  0
+                                )
+                              : 0
+                          } Passageiros`
                         : "Selecionar Passageiros"
                     }
                     onClick={openModal}
