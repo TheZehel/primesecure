@@ -69,7 +69,7 @@ export default function FormTravelBanner() {
     //const cleanedPhone = payload.phone ? payload.phone.replace(/\D/g, "") : "";
     const argusOptions = {
       method: "POST",
-      url: "/apiargus/primetravel/novo",
+      url: "https://api.primesecure.com.br/apiargus/primetravel/novo",
       headers: {
         Authorization: authorization,
         "Content-Type": "application/json",
