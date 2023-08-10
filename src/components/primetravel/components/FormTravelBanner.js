@@ -63,7 +63,7 @@ export default function FormTravelBanner() {
       },
     };
 
-    // Configuração do pedido para a Prime Secure (preencha os cabeçalhos e dados conforme necessário)
+    /*// Configuração do pedido para a Prime Secure (preencha os cabeçalhos e dados conforme necessário)
     const authorization = process.env.REACT_APP_AUTHORIZATION_ARGUS;
     //const endpointArgus = process.env.REACT_APP_ENDPOINT_ARGUS;
     //const cleanedPhone = payload.phone ? payload.phone.replace(/\D/g, "") : "";
@@ -82,22 +82,44 @@ export default function FormTravelBanner() {
         origem: "lead-primetravel-api",
         fornecedor: "MKT PRIME",
       },
-    };
-    console.log(formData.olds[0]);
+    };*/
+
     try {
-      const [rdResponse, argusResponse] = await Promise.all([
+      const [rdResponse /*argusResponse*/] = await Promise.all([
         axios.request(rdOptions),
-        axios.request(argusOptions),
+        //axios.request(argusOptions),
       ]);
 
       console.log("Resposta da RD Station:", rdResponse.data);
-      console.log("Resposta da Prime Secure:", argusResponse.data);
+
+      //console.log("Resposta da Prime Secure:", argusResponse.data);
 
       // Salva na sessão antes do redirect
       sessionStorage.setItem("formData-travel", JSON.stringify(payload));
 
+      //Envia Log de Sucesso do envio para a RD Station
+      let logPayload = {
+        tipo: "info",
+        mensagem: {
+          rdResponse: rdResponse.data,
+          mensagem: payload,
+        },
+      };
+      await axios
+        .post(
+          "https://primetravel.primesecure.com.br/logs/webapp",
+          logPayload,
+          { headers: { "Content-Type": "application/json" } }
+        )
+        .then((response) => {
+          console.log("Log - OK");
+        })
+        .catch((e) => {
+          console.error("Log - Error", e.response.data);
+        });
+
       // Redireciona para URL de cotação com parametros do formulário
-      window.location.href = redirect;
+      //window.location.href = redirect;
     } catch (error) {
       if (
         error.response &&
@@ -112,6 +134,21 @@ export default function FormTravelBanner() {
           data: payload,
         };
         console.error(logMessage);
+
+        //Envia o erro para aplicação
+        let errorPayload = { tipo: "error", mensagem: logMessage };
+        await axios
+          .post(
+            "https://primetravel.primesecure.com.br/logs/webapp",
+            errorPayload,
+            { headers: { "Content-Type": "application/json" } }
+          )
+          .then((response) => {
+            console.log("Log - OK");
+          })
+          .catch((e) => {
+            console.error("Log - Error", e.response.data);
+          });
 
         // Espera um tempo antes de tentar novamente
         await new Promise((resolve) => setTimeout(resolve, 1000));
