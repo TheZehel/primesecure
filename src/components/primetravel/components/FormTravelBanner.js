@@ -119,7 +119,7 @@ export default function FormTravelBanner() {
         });
 
       // Redireciona para URL de cotação com parametros do formulário
-      //window.location.href = redirect;
+      window.location.href = redirect;
     } catch (error) {
       if (
         error.response &&
@@ -273,9 +273,9 @@ export default function FormTravelBanner() {
       //Soma o campo a URL do cotador
       fullUrl += urlEncode;
       //Telefone como último parametro, senão adiciona o &
-      if (key !== "phone") {
-        fullUrl += "&";
-      }
+      //if (key !== "phone") {
+      fullUrl += "&";
+      //}
     }
 
     //Envia o form e a URL de redirect

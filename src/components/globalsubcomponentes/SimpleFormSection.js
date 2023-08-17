@@ -170,7 +170,11 @@ export default function SimpleFormSection({
           try {
             // Aguarda emitDataLayerEvent antes de navegar
             await emitDataLayerEvent();
-            navigate("/obrigado");
+            if (window.location.pathname === "/seguro-residencial-porto-2") {
+              window.location.href = "https://residencial.primesecure.com.br/";
+            } else {
+              navigate("/obrigado");
+            }
           } catch (error) {
             console.error(error);
           }
