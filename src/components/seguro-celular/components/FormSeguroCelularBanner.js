@@ -23,7 +23,7 @@ export default function FormSeguroCelularBanner() {
       <BannerSection
         chipText="Proteja Seu SmartPhone com Nosso"
         titleText="Seguro de Celular Em Parceria Com:"
-        descriptionText="Esteja sempre um passo à frente dos imprevistos e proteja seu aparelho portátil com nosso seguro de celular."
+        descriptionText="Obtenha Agora Mesmo 15% de Desconto e proteja seu aparelho portátil com nosso Seguro de Celular."
         imageUrl={imageManagerSeguroCelular.logos.LogoPorto}
       />
       <SimpleFormSection formData={formData} setFormData={setFormData} />

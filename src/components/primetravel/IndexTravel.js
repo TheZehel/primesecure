@@ -1,4 +1,10 @@
+//Configs
 import React, { useRef } from "react";
+
+//Seo
+import { Helmet } from "react-helmet";
+
+//Componentes
 import FormTravelBanner from "./components/FormTravelBanner";
 import SliderPlanos from "./components/SliderPlanos";
 import SessaoInformativaProdutosLp from "../globalsubcomponentes/SessaoInformativaProdutosLp";
@@ -26,6 +32,36 @@ function IndexTravel() {
   };
   return (
     <div className="IndexTravel">
+      <Helmet>
+        <title>
+          Prime Travel Seguro Viagem | Contratação 100% Online | by Prime Secure
+        </title>
+        <meta
+          name="description"
+          content="Realize a Contratação do Seu Seguro de Viagem de maneira 100% Online. Você ainda pode parcelar em até 12x Sem Juros ou Pagar Com Pix."
+        />
+        <meta
+          name="keywords"
+          content="Prime Secure, Seguros, Insurance, Insurtech, Corretora de Seguros, MarketPlace de Seguros, Seguro Viagem, Seguro de Viagem, Prime Travel, Prime"
+        />
+        <meta
+          property="og:title"
+          content="Prime Travel Seguro Viagem - by Prime Secure"
+        />
+        <meta
+          property="og:description"
+          content="Realize a Contratação do Seu Seguro de Viagem de maneira 100% Online. Você ainda pode parcelar em até 12x Sem Juros ou Pagar Com Pix."
+        />
+        <meta
+          property="og:image"
+          content="https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/social-primetravel-by-primesecure.png"
+        />
+        <meta
+          property="og:url"
+          content="https://primesecure.com.br/primetravel"
+        />
+        <link rel="canonical" href="https://primesecure.com.br/primetravel" />
+      </Helmet>
       <FormTravelBanner />
       <FaixaBanner />
       <BrindeTravel />
