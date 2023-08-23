@@ -75,10 +75,6 @@ const menu = [
     name: "Contato",
     href: "/contato",
   },
-  {
-    name: "LGPD",
-    href: "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/LGPD+SITE+-+PRIME+SECURE.pdf",
-  },
 ];
 
 function NavBarMenu() {
@@ -287,18 +283,14 @@ function NavBarMenu() {
             <a
               key={item.name}
               href={item.href}
-              target={item.name === "LGPD" ? "_blank" : ""}
               onClick={(e) => {
-                if (item.name !== "LGPD") {
-                  e.preventDefault();
-                  item.href.startsWith("/")
-                    ? navigateToPath(item.href)
-                    : scrollToSection(item.href);
-                  window.scrollTo(0, 0); // Rola para o topo da página
-                }
+                e.preventDefault();
+                item.href.startsWith("/")
+                  ? navigateToPath(item.href)
+                  : scrollToSection(item.href);
+                window.scrollTo(0, 0); // Rola para o topo da página
               }}
               className="text-sm font-semibold leading-6 text-gray-900"
-              rel="noreferrer"
             >
               {item.name}
             </a>
@@ -400,16 +392,12 @@ function NavBarMenu() {
                   <a
                     key={item.name}
                     href={item.href}
-                    target={item.name === "LGPD" ? "_blank" : ""}
                     onClick={(e) => {
-                      if (item.name !== "LGPD") {
-                        e.preventDefault();
-                        scrollToSection(item.href);
-                        setMobileMenuOpen(false);
-                      }
+                      e.preventDefault();
+                      scrollToSection(item.href);
+                      setMobileMenuOpen(false);
                     }}
                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                    rel={item.name === "LGPD" ? "noreferrer" : ""}
                   >
                     {item.name}
                   </a>

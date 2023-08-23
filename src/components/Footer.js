@@ -22,7 +22,13 @@ const LINKS = [
   },
   {
     title: "Dúvidas",
-    items: [{ title: "FAQ", link: "#" }],
+    items: [
+      { title: "FAQ", link: "#" },
+      {
+        title: "LGPD",
+        link: "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/LGPD+SITE+-+PRIME+SECURE.pdf",
+      },
+    ],
   },
 ];
 

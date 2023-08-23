@@ -5,6 +5,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import { useEffect } from "react";
+import { Helmet } from "react-helmet";
 
 // CSS
 import "./App.css";
@@ -37,6 +38,7 @@ import Cotacao from "./components/globalsubcomponentes/Cotacao";
 import PageNotFound from "./components/PageNotFound";
 import IndexSobrePrime from "./components/SobrePrime/IndexSobrePrime";
 import IndexContato from "./components/Contato/IndexContato";
+import IndexCotacaoPetlove from "./components/cotacao-pet-love/indexCotacaoPet";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -53,6 +55,25 @@ function App() {
     <Router>
       <ScrollToTop />
       <div className="App">
+        <Helmet>
+          <title>
+            Um MarketPlace de Seguros | Prime Secure - Protejendo Todos os Seus
+            Momentos
+          </title>
+          <meta
+            name="description"
+            content="Escolha o seguro que mais se enquadra em seu perfil e contrate 100% online sem dores de cabeça."
+          />
+          <meta
+            name="keywords"
+            content="Prime Secure, Seguros, Insurance, Insurtech, Corretora de Seguros, MarketPlace de Seguros, Seguro Celular, seguro de vida, plano de saúde pet, prime, corretora, seguro viagem, secure"
+          />
+          <meta
+            property="og:url"
+            content="https://primesecure.com.br/contato"
+          />
+          <link rel="canonical" href="https://primesecure.com.br/contato" />
+        </Helmet>
         <NavBarMenu />
         <Routes>
           <Route
@@ -84,6 +105,7 @@ function App() {
             }
           />
           <Route path="/login" element={<PaginaLogin />} />
+          <Route path="/cotacao-pet-love" element={<IndexCotacaoPetlove />} />
           <Route path="/sobre" element={<IndexSobrePrime />} />
           <Route path="/contato" element={<IndexContato />} />
           <Route path="/primetravel" element={<IndexTravel />} />
@@ -98,6 +120,7 @@ function App() {
             element={<IndexSeguroResidencial />}
           />
           <Route path="/sulamerica-odonto" element={<IndexOdonto />} />
+
           <Route path="/obrigado" element={<PaginaObrigadoLP />} />
           <Route path="/cotacao" element={<Cotacao />} />
           <Route path="*" element={<PageNotFound />} />

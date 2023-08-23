@@ -11,9 +11,9 @@ const imageManager = {
   },
   parceiros: {
     logoPortoSeguro:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/seguradora-portoseguro.webp",
+      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/Porto.png",
     logoSulAmerica:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/seguradora-suhai.webp",
+      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/seguradora-sulamerica.webp",
     logoOmint:
       "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/seguradora-omint.webp",
     logoAzos:

@@ -12,6 +12,7 @@ import sessaoInfoLp from "../modules/SessaoInfoLp";
 import ContainerVidaMulher from "./components/subcomponents/ContainerVidaMulher";
 import CoberturasSlider from "./components/subcomponents/CoberturasSlider";
 import BeneficiosSlider from "./components/subcomponents/BeneficiosSlider copy";
+import FaqVida from "./components/subcomponents/FaqVida";
 
 function IndexVida() {
   return (
@@ -28,7 +29,7 @@ function IndexVida() {
         />
         <meta
           property="og:title"
-          content="Plano de Saúde Pet Love - Prime Secure"
+          content="Seguro de Vida SulAmérica - Prime Secure"
         />
         <meta
           property="og:description"
@@ -40,11 +41,11 @@ function IndexVida() {
         />
         <meta
           property="og:url"
-          content="https://primesecure.com.br/seguro-pet-porto"
+          content="https://primesecure.com.br/seguro-de-vida"
         />
         <link
           rel="canonical"
-          href="https://primesecure.com.br/seguro-pet-porto"
+          href="https://primesecure.com.br/seguro-de-vida"
         />
       </Helmet>
       <FormVidaBanner />
@@ -57,6 +58,7 @@ function IndexVida() {
       {/*<PlanoSlider infoPlanos={infoPlanos} planId="4" />*/}
       <ConteudoSessaoInfo sessaoInfoLp={sessaoInfoLp} sessaoInfoId="4" />
       <ContainerVidaMulher />
+      <FaqVida />
     </div>
   );
 }
