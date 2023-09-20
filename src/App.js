@@ -39,6 +39,7 @@ import PageNotFound from "./components/PageNotFound";
 import IndexSobrePrime from "./components/SobrePrime/IndexSobrePrime";
 import IndexContato from "./components/Contato/IndexContato";
 import IndexCotacaoPetlove from "./components/cotacao-pet-love/indexCotacaoPet";
+import SliderSegurosHome from "./components/SliderSegurosHome";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -57,7 +58,7 @@ function App() {
       <div className="App">
         <Helmet>
           <title>
-            Um MarketPlace de Seguros | Prime Secure - Protejendo Todos os Seus
+            Um MarketPlace de Seguros | Prime Secure - Protegendo Todos os Seus
             Momentos
           </title>
           <meta
@@ -81,13 +82,14 @@ function App() {
             element={
               <>
                 <Banner />
-                <Seguros />
+
                 <div id="Travel1">
                   <Travel />
                 </div>
                 <div id="Residencial">
                   <Residencial />
                 </div>
+                <SliderSegurosHome />
                 <div id="sobrePrime">
                   <SobrePrime />
                 </div>
@@ -128,6 +130,7 @@ function App() {
         <Footer />
       </div>
     </Router>
+    //TESTE DEPLPYS
   );
 }
 

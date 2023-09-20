@@ -10,8 +10,11 @@ import SliderCelulares from "./components/SliderCelulares";
 import ContainerBenficios from "./components/subcomponents/ContainerBeneficios";
 import FaqCelular from "./components/subcomponents/FaqCelular";
 import { Helmet } from "react-helmet";
+import CountDown from "./components/subcomponents/CountDownBanner";
 
 function IndexSeguroCelular() {
+  const targetDate = new Date("September 17, 2023 00:00:00");
+
   return (
     <div className="IndexSeguroCelular">
       <Helmet>
@@ -42,13 +45,14 @@ function IndexSeguroCelular() {
           href="https://primesecure.com.br/equipamentos-portateis-3"
         />
       </Helmet>
+      <CountDown targetDate={targetDate} />
       <FormSeguroCelularBanner />
+      <SliderCelulares />
       <ContainerBenficios />
       <SessaoInformativaProdutosLp
         InformacoesProdutos={InformacoesProdutos}
         productId="6"
       />
-      {<SliderCelulares />}
       {/*<PlanoSlider infoPlanos={infoPlanos} planId="6" />*/}
       <ConteudoSessaoInfo sessaoInfoLp={sessaoInfoLp} sessaoInfoId="6" />
       <FaqCelular />

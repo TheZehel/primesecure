@@ -65,27 +65,21 @@ const infoPlanos = [
     id: "3",
     planos: [
       {
-        name: "Tranquilo",
-        price: "",
+        name: "Leve",
+        price: "R$19,90",
         features: [
-          "Consultas em horário de plantão",
-          "Vacinas obrigatórias",
-          "Procedimentos clínicos",
           "Consultas em horário normal",
-          "Microchipagem gratuita",
-          "Clínico geral a domicílio",
-          "Exames laboratoriais simples",
-          "Exames laboratoriais complexos",
-          "Exames de imagem",
+          "Vacinas obrigatórias",
+          "Exames de Sangue",
         ],
         emphasized: false,
       },
       {
-        name: "Ideal",
-        price: "R$59/mês",
+        name: "Tranquilo",
+        price: "R$49,90",
         buttonLink: "",
         features: [
-          "Todas as Coberturas do plano Tranquilo+",
+          "Plano Ambulatorial",
           "Consultas com Especialistas",
           "Exames cardiológicos",
           "Cirurgias",
@@ -95,8 +89,8 @@ const infoPlanos = [
         emphasized: true,
       },
       {
-        name: "Essencial",
-        price: "",
+        name: "Ideal",
+        price: "R$99,90",
         features: [
           "Todas as coberturas do plano Ideal +",
           "Fisioterapia e Acupuntura",
@@ -105,8 +99,14 @@ const infoPlanos = [
         emphasized: false,
       },
       {
+        name: "Essencial",
+        price: "R$159,90",
+        features: ["Todas as coberturas do plano Essencial +", "Rede premium"],
+        emphasized: false,
+      },
+      {
         name: "Completo",
-        price: "",
+        price: "R$299,90",
         features: ["Todas as coberturas do plano Essencial +", "Rede premium"],
         emphasized: false,
       },

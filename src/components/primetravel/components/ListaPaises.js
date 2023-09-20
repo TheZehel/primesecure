@@ -70,7 +70,11 @@ const ListaPaises = [
   { value: "País de Gales", label: "País de Gales", regiao: "3" },
   { value: "Sérvia", label: "Sérvia", regiao: "3" },
   { value: "Eslovênia", label: "Eslovênia", regiao: "3" },
-  { value: "Ilhas Svalbard e Jan Mayen", label: "Ilhas Svalbard e Jan Mayen", regiao: "3" },
+  {
+    value: "Ilhas Svalbard e Jan Mayen",
+    label: "Ilhas Svalbard e Jan Mayen",
+    regiao: "3",
+  },
   { value: "Suíça", label: "Suíça", regiao: "3" },
   { value: "Ucrânia", label: "Ucrânia", regiao: "3" },
   { value: "País de Gales", label: "País de Gales", regiao: "3" },
@@ -87,6 +91,7 @@ const ListaPaises = [
   { value: "Suriname", label: "Suriname", regiao: "2" },
   { value: "Uruguai", label: "Uruguai", regiao: "2" },
   { value: "Venezuela", label: "Venezuela", regiao: "2" },
+  { value: "El Salvador", label: "El Salvador", regiao: "2" },
 
   //Ásia
   { value: "Afeganistão", label: "Afeganistão", regiao: "5" },

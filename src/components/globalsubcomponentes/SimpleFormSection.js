@@ -185,7 +185,7 @@ export default function SimpleFormSection({
     }
   };
 
-  useEffect(() => {
+  /*useEffect(() => {
     // Recuperar os dados do sessionStorage ao carregar a página
     const storedFormData = sessionStorage.getItem("formData");
 
@@ -204,7 +204,7 @@ export default function SimpleFormSection({
       // Remover o script da página quando o componente for desmontado
       document.body.removeChild(script);
     };
-  }, []);
+  }, []);*/
 
   const [clicado, setClicado] = useState(false);
 
@@ -274,7 +274,10 @@ export default function SimpleFormSection({
               <InputMask
                 mask="(99) 9.9999-9999"
                 maskChar={null}
+                maxLength="16"
+                type="text"
                 name="phone"
+                id="phone"
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
                 value={formData.phone}
                 onChange={handleInputChange}

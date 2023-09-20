@@ -13,8 +13,10 @@ import ContainerVidaMulher from "./components/subcomponents/ContainerVidaMulher"
 import CoberturasSlider from "./components/subcomponents/CoberturasSlider";
 import BeneficiosSlider from "./components/subcomponents/BeneficiosSlider copy";
 import FaqVida from "./components/subcomponents/FaqVida";
+import CountDown from "./components/subcomponents/CountDownBannerVida";
 
 function IndexVida() {
+  const targetDate = new Date("September 17, 2023 00:00:00");
   return (
     <div className="IndexVida">
       <Helmet>
@@ -48,6 +50,7 @@ function IndexVida() {
           href="https://primesecure.com.br/seguro-de-vida"
         />
       </Helmet>
+      <CountDown targetDate={targetDate} />
       <FormVidaBanner />
       <CoberturasSlider />
       <SessaoInformativaProdutosLp

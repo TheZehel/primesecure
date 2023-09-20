@@ -10,6 +10,7 @@ import infoPlanos from "../modules/InfoPlanos";
 import ConteudoSessaoInfo from "../globalsubcomponentes/ConteudoSessaoInfo";
 import sessaoInfoLp from "../modules/SessaoInfoLp";
 import FaqPet from "./components/subcomponents/FaqPet";
+import PlanSlider from "./components/planSlider";
 
 function IndexSeguroPet() {
   return (
@@ -50,7 +51,7 @@ function IndexSeguroPet() {
         InformacoesProdutos={InformacoesProdutos}
         productId="3"
       />
-      <PlanoSlider infoPlanos={infoPlanos} planId="3" />
+      <PlanSlider />
       <ConteudoSessaoInfo sessaoInfoLp={sessaoInfoLp} sessaoInfoId="3" />
       <FaqPet />
     </div>

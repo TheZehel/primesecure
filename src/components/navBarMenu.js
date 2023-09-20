@@ -7,19 +7,24 @@ import classNames from "classnames";
 import { useNavigate, Link } from "react-router-dom";
 import GlobalFuntions from "../components/globalsubcomponentes/globalFunctions";
 
-import {
-  Bars3Icon,
-  XMarkIcon,
-  HomeIcon,
-  PaperAirplaneIcon,
-  HeartIcon,
-  DevicePhoneMobileIcon,
-} from "@heroicons/react/24/outline";
+//Icones - HeroIcon
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
   PlayCircleIcon,
   PhoneIcon,
 } from "@heroicons/react/20/solid";
+
+//Icones - FontAwesome
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPaw,
+  faTooth,
+  faHeart,
+  faHouse,
+  faPlane,
+  faMobile,
+} from "@fortawesome/free-solid-svg-icons";
 
 const globalFunctions = new GlobalFuntions();
 
@@ -28,37 +33,43 @@ const products = [
     name: "Seguro Viagem",
     description: "Contratação 100% Online",
     href: "/primetravel",
-    icon: PaperAirplaneIcon,
+    icon: FontAwesomeIcon,
+    iconProps: { icon: faPlane },
   },
   {
     name: "Seguro Residencial",
     description: "Planos de Proteção Para a Sua Residencia.",
     href: "/seguro-residencial-porto-2",
-    icon: HomeIcon,
+    icon: FontAwesomeIcon,
+    iconProps: { icon: faHouse },
   },
   {
     name: "Seguro Pet",
     description: "Planos de Proteção Seu Pet.",
     href: "/seguro-pet-porto",
-    icon: HomeIcon,
+    icon: FontAwesomeIcon,
+    iconProps: { icon: faPaw },
   },
   {
     name: "Odonto",
     description: "Planos de Proteção Odonto.",
     href: "/sulamerica-odonto",
-    icon: HomeIcon,
+    icon: FontAwesomeIcon,
+    iconProps: { icon: faTooth },
   },
   {
     name: "Vida",
     description: "Planos de Proteção Para Sua Vida",
     href: "/seguro-de-vida",
-    icon: HeartIcon,
+    icon: FontAwesomeIcon,
+    iconProps: { icon: faHeart },
   },
   {
     name: "Celular",
     description: "Planos de Proteção Para o Seu Celular",
     href: "/equipamentos-portateis-3",
-    icon: DevicePhoneMobileIcon,
+    icon: FontAwesomeIcon,
+    iconProps: { icon: faMobile },
   },
 ];
 const callsToAction = [
@@ -150,9 +161,9 @@ function NavBarMenu() {
     productList = products;
     productList = products.filter((product) => product.name !== productName);
 
-    console.log(pageSlug);
-    console.log(productName);
-    console.log(productList);
+    //console.log(pageSlug);
+    //console.log(productName);
+    //console.log(productList);
   }, []);
 
   const [linkClicked, setLinkClicked] = useState(false);
@@ -214,50 +225,51 @@ function NavBarMenu() {
               <Popover.Panel className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
                 <div className="p-4">
                   {productList.map((item) => (
-                    <div
-                      key={item.name}
-                      className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50"
+                    <Link
+                      to={item.href}
+                      className="block font-semibold text-gray-900"
+                      onClick={() => {
+                        setLinkClicked(!linkClicked);
+                        setMobileMenuOpen(false);
+                        if (!item.href.startsWith("/")) {
+                          window.scrollTo(0, 0); // Scroll to top
+                        }
+                        // Close the Popover
+                        if (document.getElementById("option-produtos")) {
+                          document.getElementById("option-produtos").click();
+                        }
+                      }}
                     >
-                      <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                        <item.icon
-                          className="h-6 w-6 text-gray-600 group-hover:text-bluePrime"
-                          aria-hidden="true"
-                        />
-                      </div>
-                      <div className="flex-auto">
-                        {item.href.startsWith("http") ? (
-                          <a
-                            href={item.href}
-                            className="block font-semibold text-gray-900"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
+                      <div
+                        key={item.name}
+                        className="group relative flex items-start gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-blue-200 hover:text-white cursor-pointer"
+                      >
+                        <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                          {typeof item.icon === "string" ? (
+                            <img
+                              src={item.icon}
+                              className="h-6 w-6 text-gray-600 group-hover:text-bluePrime"
+                              aria-hidden="true"
+                              alt="Ícone"
+                            />
+                          ) : (
+                            <item.icon
+                              {...(item.iconProps || {})}
+                              className="h-6 w-6 text-gray-600 group-hover:text-bluePrime"
+                              aria-hidden="true"
+                            />
+                          )}
+                        </div>
+                        <div className="flex-auto">
+                          <span className="block font-semibold text-gray-900">
                             {item.name}
-                          </a>
-                        ) : (
-                          <Link
-                            to={item.href}
-                            className="block font-semibold text-gray-900"
-                            onClick={() => {
-                              setLinkClicked(!linkClicked);
-                              setMobileMenuOpen(false);
-                              if (!item.href.startsWith("/")) {
-                                window.scrollTo(0, 0); // Scroll to top
-                              }
-                              // Close the Popover
-                              if (document.getElementById("option-produtos")) {
-                                document
-                                  .getElementById("option-produtos")
-                                  .click();
-                              }
-                            }}
-                          >
-                            {item.name}
-                          </Link>
-                        )}
-                        <p className="mt-1 text-gray-600">{item.description}</p>
+                          </span>
+                          <p className="mt-1 text-gray-600">
+                            {item.description}
+                          </p>
+                        </div>
                       </div>
-                    </div>
+                    </Link>
                   ))}
                 </div>
                 <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
@@ -266,6 +278,17 @@ function NavBarMenu() {
                       key={item.name}
                       to={item.href}
                       className="flex items-center justify-center gap-x-2.5 p-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100"
+                      onClick={() => {
+                        setLinkClicked(!linkClicked);
+                        setMobileMenuOpen(false);
+                        if (!item.href.startsWith("/")) {
+                          window.scrollTo(0, 0); // Scroll to top
+                        }
+                        // Close the Popover
+                        if (document.getElementById("option-produtos")) {
+                          document.getElementById("option-produtos").click();
+                        }
+                      }}
                     >
                       <item.icon
                         className="h-5 w-5 flex-none text-gray-400"

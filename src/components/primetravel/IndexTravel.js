@@ -19,6 +19,7 @@ import FaqTravel from "./components/subcomponents/FaqTravel";
 //import ContainerParceiros from "./components/subcomponents/ContainerParceiros";
 import ContainerCoberturas from "./components/subcomponents/ContainerCoberturas";
 import ContainerDepoimetos from "./components/subcomponents/ContainerDepoimentos";
+import CountDown from "./components/subcomponents/countdownPromo";
 
 function IndexTravel() {
   const FaqRef = useRef();
@@ -30,6 +31,7 @@ function IndexTravel() {
       behavior: "smooth",
     });
   };
+  const targetDate = new Date("September 17, 2023 00:00:00");
   return (
     <div className="IndexTravel">
       <Helmet>
@@ -62,6 +64,7 @@ function IndexTravel() {
         />
         <link rel="canonical" href="https://primesecure.com.br/primetravel" />
       </Helmet>
+      <CountDown targetDate={targetDate} />
       <FormTravelBanner />
       <FaixaBanner />
       <BrindeTravel />

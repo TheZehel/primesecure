@@ -18,7 +18,7 @@ export default function BannerSection({
         />
       )}{" "}
       {/**/}
-      <p className="text-white text-2xl font-semibold underline decoration-wavy decoration-2 decoration-greenPromo">
+      <p className="text-white text-2xl font-semibold  ddecoration-wavy decoration-2 ddecoration-greenPromo">
         {descriptionText}
       </p>
     </div>
