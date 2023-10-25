@@ -5,37 +5,31 @@
 const imageManagerSeguroCelular = {
   banners: {
     BannerSeguroCelular:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/banner-seguro-celular.webp",
+      "https://storage.googleapis.com/primesecure/banner-seguro-celular.webp",
   },
   logos: {
-    LogoPorto:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/logo-porto.png",
+    LogoPorto: "https://storage.googleapis.com/primesecure/logo-porto.webp",
   },
   marcasCelulares: {
-    imgMotorola:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/motorola.png",
-    imgSamsumg:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/samsumg.png",
-    imgApple:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/apple.png",
-    imgXiaomi:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/xiaomi.png",
+    imgMotorola: "https://storage.googleapis.com/primesecure/motorola.webp",
+    imgSamsumg: "https://storage.googleapis.com/primesecure/samsumg.webp",
+    imgApple: "https://storage.googleapis.com/primesecure/apple.webp",
+    imgXiaomi: "https://storage.googleapis.com/primesecure/xiaomi.webp",
     outrasMarcas:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/outras-marcas.png",
+      "https://storage.googleapis.com/primesecure/outras-marcas.webp",
   },
   beneficios: {
     celularCrash:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/celular-crash.webp",
+      "https://storage.googleapis.com/primesecure/celular-crash.webp",
     celularGlobo:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/celular-globo.webp",
-    portoPlus:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/porto-plus.webp",
-    Cards:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/cards.webp",
-    celularPin:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/celular-pin.webp",
-    Calendar:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/calendar.webp",
+      "https://storage.googleapis.com/primesecure/celular-globo.webp",
+    portoPlus: "https://storage.googleapis.com/primesecure/porto-plus.webp",
+    Cards: "https://storage.googleapis.com/primesecure/cards.webp",
+    celularPin: "https://storage.googleapis.com/primesecure/celular-pin.webp",
+    Calendar: "https://storage.googleapis.com/primesecure/calendar.webp",
+  },
+  promo: {
+    outubroRosa: "https://storage.googleapis.com/primesecure/Outubro.png",
   },
 };
 

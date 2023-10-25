@@ -3,7 +3,7 @@
 const imageManagerSobrePrime = {
   sectionImages: {
     ImgSobrePrime:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/img-sobre-prime.webp",
+      "https://storage.googleapis.com/primesecure/img-sobre-prime.webp",
   },
 };
 

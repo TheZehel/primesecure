@@ -15,7 +15,7 @@ import Banner from "./components/Banner";
 import NavBarMenu from "./components/navBarMenu.js";
 import Travel from "./components/Travel";
 import Residencial from "./components/Residencial";
-import Seguros from "./components/Seguros";
+//import Seguros from "./components/Seguros";
 import Faq from "./components/Faq";
 import Logos from "./components/Logos";
 import Footer from "./components/Footer";
@@ -58,22 +58,19 @@ function App() {
       <div className="App">
         <Helmet>
           <title>
-            Um MarketPlace de Seguros | Prime Secure - Protegendo Todos os Seus
-            Momentos
+            Prime Secure Marketplace - Protegendo Todos os Seus Momentos
           </title>
           <meta
             name="description"
-            content="Escolha o seguro que mais se enquadra em seu perfil e contrate 100% online sem dores de cabeça."
+            content="A Prime Secure é um marketplace de seguros que oferece uma variedade de seguros para proteger todos os seus momentos. Encontre o seguro perfeito para você e contrate online em minutos."
           />
           <meta
             name="keywords"
-            content="Prime Secure, Seguros, Insurance, Insurtech, Corretora de Seguros, MarketPlace de Seguros, Seguro Celular, seguro de vida, plano de saúde pet, prime, corretora, seguro viagem, secure"
+            content="Prime Secure, Seguros, Insurance, Insurtech, Corretora de Seguros, Marketplace de Seguros, Seguro Celular, Seguro de Vida, Plano de Saúde, Seguro Pet, Seguro Auto, Seguro Residencial, Seguro Odontológico, Plano de Saúde Pet, Prime, Corretora, Seguro Viagem, Secure, Seguro Empresarial, Seguro de Acidentes Pessoais, Seguro de Responsabilidade Civil, Seguro de Equipamentos, Seguro Garantia, Seguro de Transporte, Seguro de Crédito, Seguro Ambiental, Seguro Agrícola, Seguro de Eventos"
           />
-          <meta
-            property="og:url"
-            content="https://primesecure.com.br/contato"
-          />
-          <link rel="canonical" href="https://primesecure.com.br/contato" />
+
+          <meta property="og:url" content="https://primesecure.com.br" />
+          <link rel="canonical" href="https://primesecure.com.br" />
         </Helmet>
         <NavBarMenu />
         <Routes>
@@ -130,7 +127,6 @@ function App() {
         <Footer />
       </div>
     </Router>
-    //TESTE DEPLPYS
   );
 }
 

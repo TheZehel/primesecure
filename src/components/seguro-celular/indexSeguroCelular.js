@@ -10,24 +10,28 @@ import SliderCelulares from "./components/SliderCelulares";
 import ContainerBenficios from "./components/subcomponents/ContainerBeneficios";
 import FaqCelular from "./components/subcomponents/FaqCelular";
 import { Helmet } from "react-helmet";
-import CountDown from "./components/subcomponents/CountDownBanner";
+//import CountDown from "./components/subcomponents/CountDownBanner";
 
 function IndexSeguroCelular() {
-  const targetDate = new Date("September 17, 2023 00:00:00");
+  //const targetDate = new Date("September 17, 2023 00:00:00");
 
   return (
     <div className="IndexSeguroCelular">
       <Helmet>
-        <title>Seguro Celular Porto Seguro | Prime Secure</title>
+        <title>Seguro Celular Porto | Prime Secure Marketplace</title>
         <meta
           name="description"
           content="Proteja seu celular contra imprevistos e danos com nosso seguro especializado."
         />
         <meta
           name="keywords"
-          content="Prime Secure, Seguros, Insurance, Insurtech, Corretora de Seguros, MarketPlace de Seguros, Seguro Celular, Seguros, porto seguro, porto, porto celular"
+          content="Prime Secure, Seguros, Insurance, Insurtech, Corretora de Seguros, MarketPlace de Seguros, Seguro Celular, Seguros, Porto Seguro, Porto, Porto Celular, Cobertura para Celular, Seguro para Smartphone, Proteção para Celular, Seguro contra Roubo de Celular, Seguro contra Danos de Celular, Seguro para iPhone, Seguro para Android, Seguro para Dispositivos Móveis, Seguro para Gadgets, Seguro Celular Online, Seguro Celular Confiável, Plano de Seguro para Celular, Seguro Celular Completo"
         />
-        <meta property="og:title" content="Seguro Celular - by Porto Seguro" />
+
+        <meta
+          property="og:title"
+          content="Seguro Celular Porto | Prime Secure Marketplace"
+        />
         <meta
           property="og:description"
           content="Proteja seu celular contra imprevistos e danos com nosso seguro especializado."
@@ -45,7 +49,7 @@ function IndexSeguroCelular() {
           href="https://primesecure.com.br/equipamentos-portateis-3"
         />
       </Helmet>
-      <CountDown targetDate={targetDate} />
+      {/*<CountDown targetDate={targetDate} />*/}
       <FormSeguroCelularBanner />
       <SliderCelulares />
       <ContainerBenficios />

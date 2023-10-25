@@ -1,41 +1,37 @@
 const imageManager = {
   brand: {
     logoPrimeSecure:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/logo-prime-secure.webp",
+      "https://storage.googleapis.com/primesecure/logo-prime-secure.webp",
   },
   imgProdutos: {
     imgPrimeTravel:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/seguro-viagem-prime-travel.webp",
+      "https://storage.googleapis.com/primesecure/seguro-viagem-prime-travel.webp",
     imgResidencial:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/seguro-residencial-prime-secure-porto-seguro.webp",
+      "https://storage.googleapis.com/primesecure/seguro-residencial.webp",
   },
   parceiros: {
-    logoPortoSeguro:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/Porto.png",
+    logoPortoSeguro: "https://storage.googleapis.com/primesecure/Porto.webp",
     logoSulAmerica:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/seguradora-sulamerica.webp",
+      "https://storage.googleapis.com/primesecure/seguradora-sulamerica.webp",
     logoOmint:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/seguradora-omint.webp",
-    logoAzos:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/seguradora-azos.webp",
+      "https://storage.googleapis.com/primesecure/seguradora-omint.webp",
+    logoAzos: "https://storage.googleapis.com/primesecure/seguradora-azos.webp",
     logoSuhai:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/seguradora-suhai.webp",
+      "https://storage.googleapis.com/primesecure/seguradora-suhai.webp",
   },
   selos: {
-    seloAws:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/selo-aws.webp",
-    seloPagarme:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/selo-pagarme.webp",
+    seloAws: "https://storage.googleapis.com/primesecure/selo-aws.webp",
+    seloPagarme: "https://storage.googleapis.com/primesecure/selo-pagarme.webp",
+    seloSusep: "https://storage.googleapis.com/primesecure/selo%20susep.png",
   },
   sobrePrime: {
     bgSobrePrime:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/porque-a-primesecure.webp",
+      "https://storage.googleapis.com/primesecure/porque-a-primesecure.webp",
   },
   banners: {
     bannerPrimeTravel:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/seguro-viagem-prime-travel-banner.webp",
-    bannerCelHome:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/img-banner.webp",
+      "https://storage.googleapis.com/primesecure/seguro-viagem-prime-travel-banner.webp",
+    bannerCelHome: "https://storage.googleapis.com/primesecure/img-banner.webp",
   },
 };
 

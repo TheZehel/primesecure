@@ -1,3 +1,10 @@
-# https://www.robotstxt.org/robotstxt.html
+# Permite que todos os robôs acessem todo o site
 User-agent: *
-Disallow:
+Disallow: 
+
+# Especificações para o Googlebot
+User-agent: Googlebot
+Crawl-delay: 10
+
+# Localização do Sitemap
+Sitemap: https://primesecure.com.br/sitemap.xml

@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "webapp-primesecure",
+  "name": "Prime Secure - Um Marketplace de Seguros",
   "icons": [
     {
       "src": "favicon.svg",

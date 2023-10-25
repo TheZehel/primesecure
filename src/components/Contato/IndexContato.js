@@ -10,7 +10,7 @@ function IndexContato() {
         <title>Entre Em Contato | Prime Secure</title>
         <meta
           name="description"
-          content="Entre em contato conosco e resolva todas as suas dúvnidas."
+          content="Entre em contato conosco e resolva todas as suas dúvidas."
         />
         <meta
           name="keywords"

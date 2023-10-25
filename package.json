@@ -4,7 +4,9 @@
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
-    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@fortawesome/free-brands-svg-icons": "^6.4.2",
+    "@fortawesome/free-regular-svg-icons": "^6.4.2",
+    "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@headlessui/react": "^1.7.15",
     "@heroicons/react": "^2.0.18",
@@ -34,12 +36,14 @@
     "react-scroll": "^1.8.9",
     "react-select": "^5.7.3",
     "react-spring": "^9.7.1",
+    "sitemap": "^7.1.1",
     "swiper": "^10.0.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "npm run generate:sitemap && react-scripts build",
+    "generate:sitemap": "node ./utils/sitemap.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

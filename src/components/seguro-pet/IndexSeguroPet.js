@@ -5,33 +5,36 @@ import { Helmet } from "react-helmet";
 import FormSeguroPetBanner from "./components/FormSeguroPetBanner";
 import SessaoInformativaProdutosLp from "../globalsubcomponentes/SessaoInformativaProdutosLp";
 import InformacoesProdutos from "../modules/ModuleInformacoesProdutos";
-import PlanoSlider from "../globalsubcomponentes/PlanoSlider";
-import infoPlanos from "../modules/InfoPlanos";
+//import PlanoSlider from "../globalsubcomponentes/PlanoSlider";
+//import infoPlanos from "../modules/InfoPlanos";
 import ConteudoSessaoInfo from "../globalsubcomponentes/ConteudoSessaoInfo";
 import sessaoInfoLp from "../modules/SessaoInfoLp";
 import FaqPet from "./components/subcomponents/FaqPet";
 import PlanSlider from "./components/planSlider";
+import CountDown from "./components/subcomponents/CountDownBanner";
 
 function IndexSeguroPet() {
+  const targetDate = new Date("September 17, 2023 00:00:00");
   return (
     <div className="IndexSeguroPet">
       <Helmet>
-        <title>Plano de Saúde PetLove | by Prime Secure</title>
+        <title>Plano de Saúde PetLove | Prime Secure Marketplace</title>
         <meta
           name="description"
-          content="Um Plano de Saúde Feito Para Pets Com Ampla Rede Credenciada e Profissionais Qualificados."
+          content="O Plano de Saúde Pet oferece uma ampla rede de clínicas e profissionais qualificados para o bem-estar completo do seu pet."
         />
+
         <meta
           name="keywords"
-          content="Prime Secure, Seguros, Insurance, Insurtech, Corretora de Seguros, MarketPlace de Seguros, Plano de Saúde Pet, Saúde Pet, Plano Pet, Prime"
+          content="Prime Secure, Seguros, Insurance, Insurtech, Corretora de Seguros, MarketPlace de Seguros, Plano de Saúde Pet, Saúde Pet, Plano Pet, Prime, Cobertura para Pets, Seguro para Cães, Seguro para Gatos, Plano de Saúde para Animais, Assistência Veterinária, Cobertura Veterinária, Plano de Saúde Animal, Seguro Pet Online, Seguro Pet Confiável, Seguro para Animais de Estimação, Cuidados com Pets, Bem-estar Animal, Plano Pet Completo, Plano Pet Personalizado, Seguro Pet Integral, Seguro Pet Emergencial"
         />
         <meta
           property="og:title"
-          content="Plano de Saúde Pet Love - Prime Secure"
+          content="Plano de Saúde PetLove | Prime Secure Marketplace"
         />
         <meta
           property="og:description"
-          content="Um Plano de Saúde Feito Para Pets Com Ampla Rede Credenciada e Profissionais Qualificados."
+          content="O Plano de Saúde Pet oferece uma ampla rede de clínicas e profissionais qualificados para o bem-estar completo do seu pet."
         />
         <meta
           property="og:image"
@@ -46,6 +49,7 @@ function IndexSeguroPet() {
           href="https://primesecure.com.br/seguro-pet-porto"
         />
       </Helmet>
+      <CountDown targetDate={targetDate} />
       <FormSeguroPetBanner />
       <SessaoInformativaProdutosLp
         InformacoesProdutos={InformacoesProdutos}
