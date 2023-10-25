@@ -1,66 +1,139 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import GlobalFuntions from "../../globalsubcomponentes/globalFunctions";
 import InputMask from "react-input-mask";
 import { Checkbox, Typography } from "@material-tailwind/react";
+import LayoutCotacaoPlanos from "./layoutCotacaoPlanos";
 
-export default function PetAdded() {
-  //const [nome, setNome] = useState("");
-  const [email, setEmail] = useState("");
-  const [telefone, setTelefone] = useState("");
-
+export default function PetAdded({ formData, submitForm, updateForm, returnTo }) {
+  const [errorList, setErrorList] = useState([]);
+  const [userData, setUserData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    check: false
+  });
   //instância da classe GlobalFuntions
-  const globalFunctions = new GlobalFuntions();
+  const functions = new GlobalFuntions();
 
-  const handleTelefoneChange = (e) => {
-    const valor = e.target.value;
-    // Remove caracteres que não são números, '-', '(', ou ')'
-    const valorFiltrado = valor.replace(/[^0-9()-]/g, "");
-    setTelefone(valorFiltrado);
-  };
-
-  const handleEmailChange = (e) => {
-    const valor = e.target.value;
-    // Validação de email será aqui
-    setEmail(valor);
-  };
-
-  const handleSubmit = () => {
-    let patternToUse;
-
-    const len = telefone.replace(/\D/g, "").length; // Conta apenas os números
-
-    if (len <= 10) {
-      patternToUse = globalFunctions.pattern.telefone;
-    } else {
-      patternToUse = globalFunctions.pattern.celular;
+  const inputHandler = (e) => {
+    var value = e.target.value;
+    var name = e.target.name;   
+    
+    if (errorList.includes(name)){
+      var errors = [...errorList].filter((item) => item !== name);
+      console.log(errors);
+      setErrorList(errors);
     }
 
-    if (!patternToUse.test(telefone)) {
-      // Mostrar mensagem de erro
-      console.error("Número de telefone inválido");
+    if (name == 'checkbox'){
+      value = !userData.check;
+      setUserData({...userData, check: value});
+      updateForm("userData", name, value);
+      return;
+    }    
+
+    userData[name] = value;    
+    setUserData({...userData});
+    updateForm("userData", name, value);
+  }
+
+  const handleSubmit = () => {
+    let errorList = [];
+
+    if (!functions.validateName(userData.name)){
+      errorList.push('name');
+    }
+
+    if (!functions.validatePhone(userData.phone)){
+      errorList.push('phone');
+    }
+
+    if (!functions.validateEmail(userData.email)){
+      errorList.push('email');
+    }
+
+    if (!userData.check){
+      errorList.push('check');
+    }
+
+    if (errorList.length > 0){
+      setErrorList(errorList);
       return;
     }
 
-    // Teste envio do form
-    //console.log("Formulário enviado com sucesso");
+    var sessionForm = sessionStorage.getItem("formPetData");
+    try{ sessionForm = JSON.parse(sessionForm); }catch(error){ sessionForm = null; }
+
+    sessionForm = sessionForm || {};
+    sessionForm.userData = userData;
+
+    sessionStorage.setItem("formPetData", JSON.stringify(sessionForm));
+
+    submitForm(3, userData);
   };
+
+  //console.log('userData', userData);
+
+  useEffect(()=>{
+    const dataValidation = () => {
+      let data = sessionStorage.getItem("formPetData");
+      try{ data = JSON.parse(data); }catch(error){ data = null; }
+
+      if (!data || !Array.isArray(data.petList) || data.petList.length < 1){ 
+        returnTo(1);
+        return; 
+      }
+
+      let petArray = [];
+
+      for(let i in data.petList){
+        let pet = data.petList[i] || {};
+
+        if (!pet.name || !pet.plan){ continue; }
+
+        if (!pet.plan.price || !pet.plan.title){ continue; }
+
+        if (!/^[0-9]{1,}$/.test(pet.plan.id)){ continue; }
+
+        petArray.push(pet);
+      }
+
+      if (petArray.length < 1){
+        returnTo(1);
+        return;
+      }
+
+      let buyerData = data.userData || {};
+
+      buyerData = {
+        name: buyerData.name || '',
+        email: buyerData.email || '',
+        phone: buyerData.phone || '',
+        check: buyerData.check || false
+      };
+      
+      //console.log('Buyer Data:', buyerData);
+      setUserData(buyerData);
+    };
+
+    dataValidation();
+  }, []);
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <div className="text-center text-grayPrime sm:text-5xl text-lg font-extrabold font-montserrat mx-10">
-          Agora Precisamos de Algumas Informações Suas:
-        </div>
-        <div className="flex flex-col justify-center items-center my-5">
+        <LayoutCotacaoPlanos title="Agora Precisamos de Algumas Informações Suas:" position={1} />
+        <div className="flex flex-col justify-center items-center my-5 mt-10">
           <div className="h-20 sm:w-2/4 flex ">
             <input
+              name="name"
               type="text"
-              className="w-full h-full px-4 py-2 ring-bluePrime border-0 text-3xl placeholder ring-1 rounded-md focus:ring-2 focus:ring-inset focus:ring-bluePrime"
+              className={`w-full h-full px-4 py-2 border-0 text-3xl ring-1 rounded-md focus:ring-2 focus:ring-inset focus:ring-bluePrime ${(errorList.includes("name")) ? "ring-alertRed placeholder-alertRed" : "ring-bluePrime placeholder"}`}
               placeholder="Nome"
               maxLength="60"
               pattern="[A-Za-zÀ-ÖØ-öø-ÿ\s]*"
-              value=""
-              onChange="{(e) => setPetName(e.target.value)}"
+              value={userData.name}
+              onChange={inputHandler}
               title="Por favor, use apenas letras e acentos comuns."
               style={{
                 fontSize: "24px",
@@ -70,13 +143,14 @@ export default function PetAdded() {
           </div>
           <div className="h-20 sm:w-2/4 flex mt-5">
             <input
+              name="email"
               type="text"
-              className="w-full h-full px-4 py-2 ring-bluePrime border-0 text-3xl placeholder ring-1 rounded-md focus:ring-2 focus:ring-inset focus:ring-bluePrime"
+              className={`w-full h-full px-4 py-2 border-0 text-3xl ring-1 rounded-md focus:ring-2 focus:ring-inset focus:ring-bluePrime ${(errorList.includes("email")) ? "ring-alertRed placeholder-alertRed" : "ring-bluePrime placeholder"}`}
               placeholder="E-mail"
               maxLength="60"
               pattern="[A-Za-zÀ-ÖØ-öø-ÿ\s]*"
-              value={email}
-              onChange={handleEmailChange}
+              value={userData.email}
+              onChange={inputHandler}
               title="Por favor, use apenas letras e acentos comuns."
               style={{
                 fontSize: "24px",
@@ -86,14 +160,14 @@ export default function PetAdded() {
           </div>
           <div className="h-20 sm:w-2/4 flex mt-5 mx-10">
             <InputMask
+              name="phone"
               type="text"
-              className="w-full h-full px-4 py-2 ring-bluePrime border-0 text-3xl placeholder ring-1 rounded-md focus:ring-2 focus:ring-inset focus:ring-bluePrime"
+              className={`w-full h-full px-4 py-2 border-0 text-3xl ring-1 rounded-md focus:ring-2 focus:ring-inset focus:ring-bluePrime ${(errorList.includes("phone")) ? "ring-alertRed placeholder-alertRed" : "ring-bluePrime placeholder"}`}
               placeholder="Telefone"
               mask="(99) 9.9999-9999"
               maskChar={null}
-              maxLength="16"
-              value={telefone}
-              onChange={handleTelefoneChange}
+              value={userData.phone}
+              onChange={inputHandler}
               title="Preencha com o seu numero de celular ou telefone"
               style={{
                 fontSize: "24px",
@@ -103,8 +177,11 @@ export default function PetAdded() {
           </div>
           <div className="sm:w-2/4 flex mt-5 text-start">
             <Checkbox
+              name="checkbox"
+              checked={userData.check}
+              onChange={inputHandler}
               label={
-                <Typography variant="small" color="gray">
+                <Typography variant="small" color={`${errorList.includes("check") ? "red" : "gray"}`}>
                   Eu aceito os
                   <a
                     href="https://www.google.com.br"
@@ -119,7 +196,10 @@ export default function PetAdded() {
           </div>
         </div>
         <div class="flex items-center space-x-4">
-          <div class="h-14 w-3/5 bg-cyan-500 hover:bg-bluePrime2 rounded-2xl shadow mx-auto text-white flex items-center justify-center cursor-pointer">
+          <div 
+            class="h-14 w-3/5 bg-cyan-500 hover:bg-bluePrime2 rounded-2xl shadow mx-auto text-white flex items-center justify-center cursor-pointer"
+            onClick={handleSubmit}
+          >
             <span class="font-bold">Prosseguir</span>
           </div>
         </div>
