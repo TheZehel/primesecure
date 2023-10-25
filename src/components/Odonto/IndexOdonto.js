@@ -17,7 +17,7 @@ function IndexOdonto() {
   return (
     <div>
       <Helmet>
-        <title>Plano Odontológico SulAmérica | Prime Secure</title>
+        <title>Plano Odontológico SulAmérica | Prime Secure Marketplace</title>
         <meta
           name="description"
           content="Tenha tranquilidade e cuidado completo com seu sorriso por meio do nosso seguro odontológico."

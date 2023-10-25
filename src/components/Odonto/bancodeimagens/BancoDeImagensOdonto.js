@@ -1,11 +1,14 @@
 const imageManagerOdonto = {
   banners: {
     BannerOdonto:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/banner-odonto.webp",
+      "https://storage.googleapis.com/primesecure/banner-odonto.webp",
   },
   logos: {
     SulAmericaLogo:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/sulamerica-logo.png",
+      "https://storage.googleapis.com/primesecure/sulamerica-logo.webp",
+  },
+  promo: {
+    outubroRosa: "https://storage.googleapis.com/primesecure/Outubro.png",
   },
 };
 

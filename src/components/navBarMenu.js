@@ -24,29 +24,32 @@ import {
   faHouse,
   faPlane,
   faMobile,
+  faBuilding,
 } from "@fortawesome/free-solid-svg-icons";
 
 const globalFunctions = new GlobalFuntions();
+
+const utmParams = globalFunctions.getCampaignParams("string");
 
 const products = [
   {
     name: "Seguro Viagem",
     description: "Contratação 100% Online",
-    href: "/primetravel",
+    href: `/primetravel${utmParams ? "?" + utmParams : ""}`,
     icon: FontAwesomeIcon,
     iconProps: { icon: faPlane },
   },
   {
     name: "Seguro Residencial",
     description: "Planos de Proteção Para a Sua Residencia.",
-    href: "/seguro-residencial-porto-2",
+    href: `/seguro-residencial-porto-2${utmParams ? "?" + utmParams : ""}`,
     icon: FontAwesomeIcon,
     iconProps: { icon: faHouse },
   },
   {
     name: "Seguro Pet",
     description: "Planos de Proteção Seu Pet.",
-    href: "/seguro-pet-porto",
+    href: `/seguro-pet-porto${utmParams ? "?" + utmParams : ""}`,
     icon: FontAwesomeIcon,
     iconProps: { icon: faPaw },
   },
@@ -71,6 +74,13 @@ const products = [
     icon: FontAwesomeIcon,
     iconProps: { icon: faMobile },
   },
+  {
+    name: "Consorcio",
+    description: "Para quem planeja grandes realizações",
+    href: "https://primesecureprodutos.com.br/consorcio/",
+    icon: FontAwesomeIcon,
+    iconProps: { icon: faBuilding },
+  },
 ];
 const callsToAction = [
   { name: "Conheça a Prime", href: "/sobre", icon: PlayCircleIcon },
@@ -85,6 +95,10 @@ const menu = [
   {
     name: "Contato",
     href: "/contato",
+  },
+  {
+    name: "Blog",
+    href: "https://blog.primesecure.com.br/",
   },
 ];
 
@@ -108,6 +122,7 @@ function NavBarMenu() {
     // if pagePath exists in the paths array, navigate to the page
     if (paths.includes(pagePath)) {
       navigate(pagePath);
+
       setTimeout(() => {
         // after navigating to the page, if sectionId exists, scroll to the section
         if (sectionId && document.getElementById(sectionId)) {
@@ -170,7 +185,7 @@ function NavBarMenu() {
 
   return (
     <header
-      className={`bg-white font-montserrat z-1 ${
+      className={`bg-white font-montserrat z-1 shadow ${
         isMenuFixed
           ? "fixed top-0 w-full z-50 transition-all duration-300 fade-in-out"
           : ""
@@ -307,7 +322,6 @@ function NavBarMenu() {
               key={item.name}
               href={item.href}
               onClick={(e) => {
-                e.preventDefault();
                 item.href.startsWith("/")
                   ? navigateToPath(item.href)
                   : scrollToSection(item.href);
@@ -321,7 +335,7 @@ function NavBarMenu() {
         </Popover.Group>
 
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <button>
+          {/*<button>
             <Link
               to="/login"
               onClick={(event) => {
@@ -333,7 +347,7 @@ function NavBarMenu() {
             >
               Login <span aria-hidden="true">&rarr;</span>
             </Link>
-          </button>
+            </button>*/}
         </div>
       </nav>
       <Dialog
@@ -416,7 +430,6 @@ function NavBarMenu() {
                     key={item.name}
                     href={item.href}
                     onClick={(e) => {
-                      e.preventDefault();
                       scrollToSection(item.href);
                       setMobileMenuOpen(false);
                     }}
@@ -427,7 +440,7 @@ function NavBarMenu() {
                 ))}
               </div>
               <div className="py-6">
-                <button>
+                {/*<button>
                   <Link
                     to="/login"
                     onClick={(event) => {
@@ -439,7 +452,7 @@ function NavBarMenu() {
                   >
                     Login <span aria-hidden="true">&rarr;</span>
                   </Link>
-                </button>
+                  </button>*/}
               </div>
             </div>
           </div>

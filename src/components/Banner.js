@@ -1,6 +1,7 @@
 // import { useState, useEffect } from "react";
 import "animate.css";
 import imageManager from "./bancoDeImagens";
+import { useEffect } from "react";
 
 const Banner = () => {
   // const [loopNum, setLoopNum] = useState(0);
@@ -49,11 +50,19 @@ const Banner = () => {
   //   }
   // };
 
+  useEffect(() => {
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = imageManager.banners.bannerCelHome; // ou o URL da imagem que você quer pré-carregar
+    document.head.appendChild(link);
+  }, []);
+
   return (
     <section className="banner" id="home">
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-          <div className="animate__animated animate__fadeIn ">
+          <div className="animate__animated animate__fadeIn">
             <span className="text-xl text-bluePrime">
               Protegendo Todos Seus Momentos
             </span>

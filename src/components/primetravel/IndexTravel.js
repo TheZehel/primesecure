@@ -18,8 +18,10 @@ import ContainerContato from "./components/subcomponents/ContainerContato";
 import FaqTravel from "./components/subcomponents/FaqTravel";
 //import ContainerParceiros from "./components/subcomponents/ContainerParceiros";
 import ContainerCoberturas from "./components/subcomponents/ContainerCoberturas";
-import ContainerDepoimetos from "./components/subcomponents/ContainerDepoimentos";
-import CountDown from "./components/subcomponents/countdownPromo";
+import BannerPixAndCard from "./components/subcomponents/BannerPixAndCard";
+//import BannerPix from "./components/subcomponents/BannerPix";
+//import ContainerDepoimetos from "./components/subcomponents/ContainerDepoimentos";
+//import CountDown from "./components/subcomponents/countdownPromo";
 
 function IndexTravel() {
   const FaqRef = useRef();
@@ -31,28 +33,27 @@ function IndexTravel() {
       behavior: "smooth",
     });
   };
-  const targetDate = new Date("September 17, 2023 00:00:00");
+  // time do countdown
+  //const targetDate = new Date("October 02, 2023 00:00:00");
   return (
     <div className="IndexTravel">
       <Helmet>
-        <title>
-          Prime Travel Seguro Viagem | Contratação 100% Online | by Prime Secure
-        </title>
+        <title>Seguro de Viagem Prime Travel | Prime Secure Marketplace</title>
         <meta
           name="description"
-          content="Realize a Contratação do Seu Seguro de Viagem de maneira 100% Online. Você ainda pode parcelar em até 12x Sem Juros ou Pagar Com Pix."
+          content="Contrate o Seguro de Viagem Prime Travel online na Prime Secure. Parcelamento em até 12x sem juros ou pagamento via Pix para sua viagem nacional ou internacional."
         />
         <meta
           name="keywords"
-          content="Prime Secure, Seguros, Insurance, Insurtech, Corretora de Seguros, MarketPlace de Seguros, Seguro Viagem, Seguro de Viagem, Prime Travel, Prime"
+          content="Prime Secure, Seguros, Insurance, Insurtech, Corretora de Seguros, Marketplace de Seguros, Seguro Viagem, Seguro de Viagem, Prime Travel, Prime"
         />
         <meta
           property="og:title"
-          content="Prime Travel Seguro Viagem - by Prime Secure"
+          content="Seguro de Viagem Prime Travel | Prime Secure Marketplace"
         />
         <meta
           property="og:description"
-          content="Realize a Contratação do Seu Seguro de Viagem de maneira 100% Online. Você ainda pode parcelar em até 12x Sem Juros ou Pagar Com Pix."
+          content="Contrate seu Seguro de Viagem Prime Travel 100% online na Prime Secure Marketplace. Opções de parcelamento em até 12x sem juros ou pagamento via Pix. Explore coberturas amplas para sua viagem nacional ou internacional, seja ela terrestre, marítima ou aérea."
         />
         <meta
           property="og:image"
@@ -64,7 +65,7 @@ function IndexTravel() {
         />
         <link rel="canonical" href="https://primesecure.com.br/primetravel" />
       </Helmet>
-      <CountDown targetDate={targetDate} />
+      {/*<CountDown targetDate={targetDate} />*/}
       <FormTravelBanner />
       <FaixaBanner />
       <BrindeTravel />
@@ -86,8 +87,9 @@ function IndexTravel() {
       {/*<ContainerParceiros />*/}
       <div ref={FaqRef}>
         {" "}
-        <FaqTravel />{" "}
+        <FaqTravel />
       </div>
+      <BannerPixAndCard />
     </div>
   );
 }

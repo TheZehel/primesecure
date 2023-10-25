@@ -10,6 +10,7 @@ module.exports = {
         greenPromo: "#1eea1e",
         alertRed: "#FF0000",
         pinkPrime: "#f718f7",
+        whitePrime: "#f1f1f1",
       },
       fontFamily: {
         montserrat: ["Montserrat", "sans-serif"],
@@ -17,12 +18,9 @@ module.exports = {
       screens: {
         xl: "1800px",
       },
-<<<<<<< Updated upstream
-=======
       boxShadow: {
         "uniform-shadow": "0 0 20px rgba(0, 0, 0, 0.1)",
       },
->>>>>>> Stashed changes
     },
   },
   plugins: [require("@tailwindcss/forms")],

@@ -22,56 +22,49 @@
 
 const imageManagerPrimeTravel = {
   SliderPrecos: {
-    ImgSliderBrasil:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/brasil.webp",
-    ImgSliderAfrica:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/africa.webp",
-    ImgSliderOceania:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/oceania.webp",
-    ImgSliderAmerica:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/america.webp",
+    ImgSliderBrasil: "https://storage.googleapis.com/primesecure/brasil.webp",
+    ImgSliderAfrica: "https://storage.googleapis.com/primesecure/africa.webp",
+    ImgSliderOceania: "https://storage.googleapis.com/primesecure/oceania.webp",
+    ImgSliderAmerica: "https://storage.googleapis.com/primesecure/america.webp",
     ImgSliderEstadosUnidos:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/estados-unidos.webp",
-    ImgSliderAsia:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/asia.webp",
-    ImgSliderEuropa:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/europa.webp",
+      "https://storage.googleapis.com/primesecure/estados-unidos.webp",
+    ImgSliderAsia: "https://storage.googleapis.com/primesecure/asia.webp",
+    ImgSliderEuropa: "https://storage.googleapis.com/primesecure/europa.webp",
     ImgSliderMultiplosDestinos:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/multiplos-destinos.webp",
+      "https://storage.googleapis.com/primesecure/multiplos-destinos.webp",
   },
   ImagensLandPage: {
     ImgEmParceriaCom:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/em-parceria.webp",
+      "https://storage.googleapis.com/primesecure/em-parceria.webp",
     ImgLogoTooSeguros:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/too-seguros.webp",
-    ImgAlmofadas2:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/almofadas2.webp",
-    ImgAlmofadas:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/almofadas.webp",
+      "https://storage.googleapis.com/primesecure/too-seguros.webp",
+    ImgAlmofadas2: "https://storage.googleapis.com/primesecure/almofadas2.webp",
+    ImgAlmofadas: "https://storage.googleapis.com/primesecure/almofadas.webp",
     ImgTelemedicina:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/telemedicina.webp",
-    ImgBgContato:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/bg-contatos.webp",
+      "https://storage.googleapis.com/primesecure/telemedicina.webp",
+    ImgBgContato: "https://storage.googleapis.com/primesecure/bg-contatos.webp",
     ImgLogoTooSeguros2:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/logo-too-seguros.webp",
+      "https://storage.googleapis.com/primesecure/logo-too-seguros.webp",
     ImgLogoPactual:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/btg-pactual.webp",
+      "https://storage.googleapis.com/primesecure/btg-pactual.webp",
   },
   ContainerCoberturas: {
     ImgAtradoDeVoos:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/atraso-de-voos.webp",
+      "https://storage.googleapis.com/primesecure/atraso-de-voos.webp",
     ImgDespesasMedicas:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/despesas-medicas.webp",
+      "https://storage.googleapis.com/primesecure/despesas-medicas.webp",
     ImgSeguroViagem:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/seguro-viagem.webp",
+      "https://storage.googleapis.com/primesecure/seguro-viagem.webp",
     ImgDespesasFarmaceuticas:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/despesas-farmaceuticas.webp",
+      "https://storage.googleapis.com/primesecure/despesas-farmaceuticas.webp",
     ImgPraticaEsportivaAmadora:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/pratica-esportiva-amadora.webp",
+      "https://storage.googleapis.com/primesecure/pratica-esportiva-amadora.webp",
     ImgDanosMala:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/danos-a-mala.webp",
-    ImgConcierge:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/concierge.webp",
+      "https://storage.googleapis.com/primesecure/danos-a-mala.webp",
+    ImgConcierge: "https://storage.googleapis.com/primesecure/concierge.webp",
+  },
+  promo: {
+    outubroRosa: "https://storage.googleapis.com/primesecure/Outubro.png",
   },
 };
 

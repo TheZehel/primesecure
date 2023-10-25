@@ -26,11 +26,13 @@ class GlobalFuntions extends Object {
     }
     getPageSlug(){
         var pathname = window.location.pathname.split('/');
+
         pathname = pathname.filter((element) => element !== '');
-        //console.log(pathname);
         pathname = pathname[0] || '';
+
         return pathname.toLocaleLowerCase();
     }
+
     getPageName(slug){
         slug = slug || '';
         slug = slug.toLocaleLowerCase();
@@ -41,6 +43,48 @@ class GlobalFuntions extends Object {
             continue; 
         }
         return name;
+    }
+
+    getCampaignParams(retunType){
+        var url = window.location.search;
+        url = url.substring(1); 
+
+        var params = url.split('&');
+
+        var utmParams = {};
+
+        for(let key in params){
+            var [ name, value ] = params[key].split("=");
+            name = name.toLowerCase();
+            
+            if (!['utm_source', 'utm_medium', 'utm_campaign'].includes(name)){
+                continue;
+            }
+
+            let decodedValue = decodeURIComponent(value);
+            try { 
+                decodedValue = JSON.parse(decodedValue); 
+            } catch (error) { 
+                //Caso ocorre erro, igonarar decode
+            }
+
+            utmParams[name] = decodedValue;
+        }
+
+        if (retunType == 'object'){
+            return utmParams;
+        }
+
+        params = [];
+
+        for(let utm in utmParams){
+            let value = utmParams[utm];
+            params.push(`${utm}=${encodeURIComponent(value)}`);
+        }
+
+        params = params.join('&');
+
+        return params;
     }
 }
 

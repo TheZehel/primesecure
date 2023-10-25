@@ -1,0 +1,22 @@
+steps:
+  # Acessar o segredo REACT_APP_API_KEY_RD_STATION do Google Secret Manager e armazená-lo em um arquivo
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+    - '-c'
+    - 'gcloud secrets versions access latest --secret=REACT_APP_API_KEY_RD_STATION > .env.secret'
+
+  # Acessar o segredo PORT do Google Secret Manager e armazená-lo em um arquivo
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+    - '-c'
+    - 'gcloud secrets versions access latest --secret=PORT_REACT > .env.port'
+
+  # Construir a imagem Docker
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '--build-arg', 'REACT_APP_API_KEY_RD_STATION=$(cat .env.secret)', '--build-arg', 'PORT_REACT=$(cat .env.port)', '.']
+
+  # Executar um comando em um contêiner Ubuntu
+  - name: 'ubuntu:latest'
+    args: ['bash', '-c', 'echo "Executando no Ubuntu latest" && uname -a']

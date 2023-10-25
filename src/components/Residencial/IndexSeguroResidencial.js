@@ -12,18 +12,18 @@ function IndexSeguroResidencial() {
   return (
     <div className="IndexSeguroResidencial">
       <Helmet>
-        <title>Seguro Residencial Porto Seguro | Prime Secure</title>
+        <title>Seguro Residencial Porto | Prime Secure Marketplace</title>
         <meta
           name="description"
-          content="Mais de 10 coberturas para a sua casa, como amparo em caso de danos elétricos, roubos e furtos, danos à terceiros e mais. Conta também com diversos serviços 24H"
+          content="Com o Seguro Residencial Porto, proteja seu lar contra incêndios, roubos e danos elétricos. Garanta paz e segurança para sua família."
         />
         <meta
           name="keywords"
-          content="Prime Secure, Seguros, Insurance, Insurtech, Corretora de Seguros, MarketPlace de Seguros, Seguro Celular, Seguros, porto seguro, porto, porto celular"
+          content="Prime Secure, Seguros, Insurance, Insurtech, Corretora de Seguros, MarketPlace de Seguros, Seguro Residencial, Seguros, Porto Seguro, Porto, Seguro, Seguro Online, Seguro Residencial Online, Cobertura de Incêndio, Cobertura de Roubo, Danos Elétricos, Proteção Residencial, Segurança para Casa, Seguro para Casa, Seguro para Apartamento, Seguro para Condomínio, Seguro Residencial Porto 2, Seguro Residencial Completo, Seguro Residencial Personalizado, Seguro Residencial Confiável, Cotar Seguro Online"
         />
         <meta
           property="og:title"
-          content="Seguro Residencial Porto Seguro - Prime Secure"
+          content="Seguro Residencial Porto | Prime Secure Marketplace"
         />
         <meta
           property="og:description"

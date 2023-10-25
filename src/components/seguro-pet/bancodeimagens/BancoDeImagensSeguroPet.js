@@ -5,11 +5,14 @@
 const imageManagerSeguroPet = {
   banners: {
     BannerSeguroPet:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/banner-seguro-pet.webp",
+      "https://storage.googleapis.com/primesecure/banner-seguro-pet.webp",
   },
   logos: {
     LogoPetLove:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/pet-love-logo.png",
+      "https://storage.googleapis.com/primesecure/pet-love-logo.webp",
+  },
+  promo: {
+    outubroRosa: "https://storage.googleapis.com/primesecure/Outubro.png",
   },
 };
 

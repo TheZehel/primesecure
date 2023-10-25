@@ -5,11 +5,13 @@
 const imageManagerSeguroResidencial = {
   banners: {
     BannerSeguroResidencial:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/banner-seguro-residencial.webp",
+      "https://storage.googleapis.com/primesecure/banner-seguro-residencial.webp",
   },
   logos: {
-    LogoPorto:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/logo-porto.png",
+    LogoPorto: "https://storage.googleapis.com/primesecure/logo-porto.webp",
+  },
+  promo: {
+    outubroRosa: "https://storage.googleapis.com/primesecure/Outubro.png",
   },
 };
 
