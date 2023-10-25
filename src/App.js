@@ -38,8 +38,12 @@ import Cotacao from "./components/globalsubcomponentes/Cotacao";
 import PageNotFound from "./components/PageNotFound";
 import IndexSobrePrime from "./components/SobrePrime/IndexSobrePrime";
 import IndexContato from "./components/Contato/IndexContato";
-import IndexCotacaoPetlove from "./components/cotacao-pet-love/indexCotacaoPet";
 import SliderSegurosHome from "./components/SliderSegurosHome";
+
+//Páginas de Cotação
+import IndexCotacaoPetlove from "./components/cotacao-pet-love/indexCotacaoPet";
+import IndexCotacaoVidaSulamerica from "./components/cotacao-vida-sulamerica/indexCotacaoVidaSulamerica";
+import StepAddres from "./components/cotacao-vida-sulamerica/components/StepAddress";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -105,6 +109,10 @@ function App() {
           />
           <Route path="/login" element={<PaginaLogin />} />
           <Route path="/cotacao-pet-love" element={<IndexCotacaoPetlove />} />
+          <Route
+            path="/cotacao-vida-sulamerica"
+            element={<IndexCotacaoVidaSulamerica />}
+          />
           <Route path="/sobre" element={<IndexSobrePrime />} />
           <Route path="/contato" element={<IndexContato />} />
           <Route path="/primetravel" element={<IndexTravel />} />

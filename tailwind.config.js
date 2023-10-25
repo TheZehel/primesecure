@@ -19,8 +19,7 @@ module.exports = {
         xl: "1800px",
       },
       boxShadow: {
-        "b-shadow":
-          "0 7px 3px -4px rgba(179,179,179,0.81), 0 7px 3px -4px rgba(179,179,179,0.81)",
+        "uniform-shadow": "0 0 20px rgba(0, 0, 0, 0.1)",
       },
     },
   },

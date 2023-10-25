@@ -24,7 +24,7 @@ export default function PlanSlider({ onPetAdded, pets, setPets }) {
 
     return (
       <div
-        className={`sm:w-82 w-90 h-[500px] m-4 rounded-2xl shadow border flex flex-col justify-between ${
+        className={`sm:w-82 w-90 h-[550px] m-4 rounded-2xl shadow border flex flex-col justify-between ${
           isSelected ? "blue" : "red"
         }`}
       >
@@ -101,7 +101,6 @@ export default function PlanSlider({ onPetAdded, pets, setPets }) {
 
   const plans = [
     {
-      headTitle: "O mais em Conta",
       title: "Leve",
       price: "R$ 19,90",
       resume: "Coberturas Do Plano:",
@@ -116,7 +115,6 @@ export default function PlanSlider({ onPetAdded, pets, setPets }) {
       planId: 1,
     },
     {
-      headTitle: "Para Cuidados de Rotina",
       title: "Tranquilo",
       price: "R$ 49,90",
       resume: "Coberturas Do Plano:",
@@ -136,7 +134,6 @@ export default function PlanSlider({ onPetAdded, pets, setPets }) {
       planId: 2,
     },
     {
-      headTitle: "Melhor Custo Benefício",
       title: "Ideal",
       price: "R$ 99,90",
       resume: "Todas as coberturas do plano Tranquilo +",
@@ -154,10 +151,9 @@ export default function PlanSlider({ onPetAdded, pets, setPets }) {
       planId: 3,
     },
     {
-      headTitle: "Mais Cobertura",
       title: "Essencial",
-      price: "R$ 179,90",
-      resume: "Todas as coberturas do plano Ideal +",
+      price: "R$ 159,90",
+      resume: "Todas as coberturas do plano Tranquilo +",
       resumeDesc:
         "Consultas em horário de plantão, Vacinas obrigatórias, Procedimentos clínicos, Consultas em horário normal, Microchipagem gratuita, Clínico geral a domicílio, Exames laboratoriais simples, Exames laboratoriais complexos, Exames de imagem, Especialistas, Exames cardiológicos, Cirurgias, Anestesia inalatória, Internação",
       features: ["Fisioterapia e Acupuntura", "Exames de Alta Complexidade"],
@@ -188,7 +184,7 @@ export default function PlanSlider({ onPetAdded, pets, setPets }) {
           breakpoints={{
             640: { slidesPerView: 2 },
             1024: { slidesPerView: 3 },
-            1920: { slidesPerView: 3 },
+            1920: { slidesPerView: 4 },
           }}
         >
           {plans.map((plan, idx) => (
