@@ -10,12 +10,17 @@ module.exports = {
         greenPromo: "#1eea1e",
         alertRed: "#FF0000",
         pinkPrime: "#f718f7",
+        whitePrime: "#f1f1f1",
       },
       fontFamily: {
         montserrat: ["Montserrat", "sans-serif"],
       },
       screens: {
         xl: "1800px",
+      },
+      boxShadow: {
+        "b-shadow":
+          "0 7px 3px -4px rgba(179,179,179,0.81), 0 7px 3px -4px rgba(179,179,179,0.81)",
       },
     },
   },

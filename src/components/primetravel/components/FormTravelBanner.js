@@ -11,6 +11,8 @@ import DataValidation from "../../modules/dataValidation";
 import moment from "moment";
 
 import imageManagerPrimeTravel from "../bancodeimagens/BancoDeImagensPrimeTravel";
+import BannerPix from "./subcomponents/BannerPix";
+import BannerParcelamento from "./subcomponents/BannerParcelamento";
 
 const getUtmParams = () => {
   let params = {};
@@ -175,6 +177,7 @@ export default function FormTravelBanner() {
       cf_passengers_41_to_64: (payload.old1 || "0").toString(),
       cf_passengers_65_to_75: (payload.old2 || "0").toString(),
       cf_passengers_76_to_99: (payload.old3 || "0").toString(),
+      cf_url_de_origem: window.location.href,
       cf_source: payload.utm_source,
       cf_medium: payload.utm_medium,
       cf_campaign: payload.utm_campaign,
@@ -260,7 +263,7 @@ export default function FormTravelBanner() {
     for (let key in payload) {
       //Pula UTM parametros
       if (key === "cf_source" || key === "cf_medium" || key === "cf_campaign") {
-        continue;
+        //continue;
       }
       let value = payload[key] || "";
       //Formata data para 00-00-0000
@@ -432,6 +435,7 @@ export default function FormTravelBanner() {
       <div className="container mx-auto pt-10">
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
           <div className="animate__animated animate__fadeIn">
+            <BannerPix />
             <Chip value="Sua Viagem Mais Segura Com" className="bg-bluePrime" />
             <h1 className="text-4xl font-bold mb-4 text-white">
               Prime Travel{" "}
@@ -443,8 +447,9 @@ export default function FormTravelBanner() {
             <img
               src={imageManagerPrimeTravel.ImagensLandPage.ImgEmParceriaCom}
               alt="Proteção Covid, Preços Imbativeis, 30 Serviços e coberturas, Totalmente Digital"
-              className="m-auto w-100 justify-center items-center pt-5"
+              className="m-auto w-80 justify-center items-center pt-5"
             />
+            <BannerParcelamento />
           </div>
           <div className="animate__animated animate__zoomIn rounded-lg bg-white p-10 sm:p-4">
             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">

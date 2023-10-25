@@ -4,16 +4,17 @@
 
 const imageManagerPrimeVida = {
   banners: {
-    BannerVida:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/banner-vida.webp",
+    BannerVida: "https://storage.googleapis.com/primesecure/banner-vida.webp",
   },
   logos: {
     LogoSulamerica:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/sulamerica-logo.png",
+      "https://storage.googleapis.com/primesecure/sulamerica-logo.webp",
   },
   sections: {
-    VidaMulher:
-      "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/vida-mulher.webp",
+    VidaMulher: "https://storage.googleapis.com/primesecure/vida-mulher.webp",
+  },
+  promo: {
+    outubroRosa: "https://storage.googleapis.com/primesecure/Outubro.png",
   },
 };
 

@@ -35,10 +35,10 @@ const CountDown = ({ targetDate, message }) => {
   }, [targetDate]);
 
   return (
-    <div className="bg-bluePrime2 text-white p-2">
+    <div className="bg-pinkPrime text-white p-2">
       <h1 className="text-4xl">
         Semana do Cliente{" "}
-        <span className="font-bold text-greenPromo">
+        <span className="font-bold text-black">
           20%OFF Até dia 17 deste mês
         </span>
       </h1>

@@ -20,15 +20,16 @@ function IndexVida() {
   return (
     <div className="IndexVida">
       <Helmet>
-        <title>Seguro De Vida SulAmérica | Prime Secure</title>
+        <title>Seguro De Vida SulAmérica | Prime Secure Marketplace</title>
         <meta
           name="description"
           content="Coberturas que protegem sua renda em casos de doença ou acidente. Simule para conhecer todas as opções de proteções."
         />
         <meta
           name="keywords"
-          content="Prime Secure, Seguros, Insurance, Insurtech, Corretora de Seguros, MarketPlace de Seguros, Seguro de Vida, SulAmérica"
+          content="Prime Secure, Seguros, Insurance, Insurtech, Corretora de Seguros, MarketPlace de Seguros, Seguro de Vida, SulAmérica, Cobertura de Vida, Plano de Seguro de Vida, Seguro de Vida Individual, Seguro de Vida Familiar, Seguro de Vida para Empresas, Seguro de Vida Online, Seguro de Vida Confiável, Seguro de Vida Personalizado, Seguro de Vida Completo, Proteção Financeira, Segurança Financeira, Benefícios de Seguro de Vida, Seguro de Vida a Termo, Seguro de Vida Integral, Cobertura por Morte Acidental"
         />
+
         <meta
           property="og:title"
           content="Seguro de Vida SulAmérica - Prime Secure"

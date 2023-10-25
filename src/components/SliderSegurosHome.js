@@ -4,8 +4,14 @@ import "swiper/css";
 import CardSeguro from "./CardSegurosHome";
 import imageManagerInformacoesProdutos from "./modules/bancoDeImagensInformacoesProdutos";
 
-const { imgResidencial, imgPet, imgOdonto, imgVida, imgViagem, imgCelular } =
-  imageManagerInformacoesProdutos.imgProdutos;
+const {
+  imgSliderHomeResidencial,
+  imgSliderHomePet,
+  imgSliderHomeOdonto,
+  imgSliderHomeViagem,
+  imgSliderHomeVida,
+  imgSliderHomeCelular,
+} = imageManagerInformacoesProdutos.imgSliderHomeProdutos;
 
 const seguros = [
   {
@@ -14,7 +20,7 @@ const seguros = [
     price: "",
     description: "",
     href: "/seguro-residencial-porto-2",
-    image: imgResidencial,
+    image: imgSliderHomeResidencial,
   },
   {
     id: 2,
@@ -22,7 +28,7 @@ const seguros = [
     price: "15,39",
     description: "",
     href: "/seguro-pet-porto",
-    image: imgPet,
+    image: imgSliderHomePet,
   },
   {
     id: 3,
@@ -30,7 +36,7 @@ const seguros = [
     price: "12,95",
     description: "",
     href: "/sulamerica-odonto",
-    image: imgOdonto,
+    image: imgSliderHomeOdonto,
   },
   {
     id: 4,
@@ -38,7 +44,7 @@ const seguros = [
     price: "12,95",
     description: "",
     href: "/seguro-de-vida",
-    image: imgVida,
+    image: imgSliderHomeVida,
   },
   {
     id: 5,
@@ -46,7 +52,7 @@ const seguros = [
     price: "10,61",
     description: "",
     href: "/primetravel",
-    image: imgViagem,
+    image: imgSliderHomeViagem,
   },
   {
     id: 6,
@@ -54,7 +60,7 @@ const seguros = [
     price: "10,61",
     description: "",
     href: "/equipamentos-portateis-3",
-    image: imgCelular,
+    image: imgSliderHomeCelular,
   },
 ];
 
@@ -87,6 +93,7 @@ export default function SliderSegurosHome() {
         className="cursor-grab"
       >
         <Swiper
+          className="mb-20"
           ref={swiperRef}
           spaceBetween={50}
           slidesPerView={1}

@@ -66,7 +66,11 @@ export default function SimpleFormSection({
   };
 
   const validateForm = () => {
-    if (window.location.pathname === "/equipamentos-portateis-3") {
+    if (
+      window.location.pathname === "/equipamentos-portateis-3" ||
+      window.location.pathname === "/equipamentos-portateis-3/"
+    ) {
+      console.log(validateForm);
       return (
         formData.name &&
         formData.email &&
@@ -285,7 +289,8 @@ export default function SimpleFormSection({
             </div>
           </div>
           <div>
-            {window.location.pathname === "/equipamentos-portateis-3" && (
+            {(window.location.pathname === "/equipamentos-portateis-3" ||
+              window.location.pathname === "/equipamentos-portateis-3/") && (
               <div>
                 <label
                   htmlFor="phone"

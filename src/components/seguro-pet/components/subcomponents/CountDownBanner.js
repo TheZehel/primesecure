@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import imageManagerSeguroPet from "../../bancodeimagens/BancoDeImagensSeguroPet";
 
 const CountDown = ({ targetDate, message }) => {
   const [timeLeft, setTimeLeft] = useState({});
@@ -35,21 +36,24 @@ const CountDown = ({ targetDate, message }) => {
   }, [targetDate]);
 
   return (
-    <div className="bg-pinkPrime text-white p-2">
-      <h1 className="text-4xl">
-        Outubro Rosa{" "}
-        <span className="font-bold text-black">
-          20%OFF Até o Fim Dessa Semana
-        </span>
-      </h1>
-      <div className="flex space-x-4 text-2xl items-center justify-center">
-        {Object.entries(timeLeft).map(([unit, value]) => (
-          <div key={unit}>
-            <span className="font-bold">{value}</span> {unit}
-          </div>
-        ))}
+    <div className="">
+      <div className="bg-pinkPrime text-white p-2 flex flex-col items-center justify-center mx-auto ">
+        <img src={imageManagerSeguroPet.promo.outubroRosa} alt="" />
+        <h1 className="text-4xl">
+          Mês dos Animais{" "}
+          <span className="font-bold text-black">
+            Até 20%OFF No Plano De Saúde Pet
+          </span>
+        </h1>
+        <div className="flex space-x-4 text-2xl items-center justify-center">
+          {Object.entries(timeLeft).map(([unit, value]) => (
+            <div key={unit}>
+              <span className="font-bold">{value}</span> {unit}
+            </div>
+          ))}
+        </div>
+        <p className="mt-4 text-lg">{message}</p>
       </div>
-      <p className="mt-4 text-lg">{message}</p>
     </div>
   );
 };

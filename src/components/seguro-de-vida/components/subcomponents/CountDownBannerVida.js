@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import imageManagerPrimeVida from "../../bancodeimagens/BancoDeImagensVida";
 
 const CountDown = ({ targetDate, message }) => {
   const [timeLeft, setTimeLeft] = useState({});
@@ -35,11 +36,12 @@ const CountDown = ({ targetDate, message }) => {
   }, [targetDate]);
 
   return (
-    <div className="bg-bluePrime2 text-white p-2">
+    <div className="bg-pinkPrime text-white p-2 flex flex-col items-center justify-center mx-auto ">
+      <img src={imageManagerPrimeVida.promo.outubroRosa} alt="" />
       <h1 className="text-4xl">
-        Semana do Cliente{" "}
-        <span className="font-bold text-greenPromo">
-          20%OFF Até dia 17 deste mês
+        Mês Do Médico{" "}
+        <span className="font-bold text-black">
+          Até 20%OFF No Seu Seguro de Vida
         </span>
       </h1>
       <div className="flex space-x-4 text-2xl items-center justify-center">
