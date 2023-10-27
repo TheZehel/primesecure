@@ -14,7 +14,7 @@ const faqs = [
     question:
       "2 - Não temos filiais, temos uma ampla cobertura em todo o Brasil. Realize uma cotação conosco ou entre em contato conosco.",
     answer:
-      "Sim, o Seguro Celular da Porto está disponível para aparelhos usados desde que tenham sido adquiridos pelo primeiro dono há, no máximo, 24 meses e que tenham nota fiscal.",
+      "Não temos filiais, temos uma ampla cobertura em todo o Brasil. Realize uma cotação aqui e entre em contato conosco.",
   },
   {
     question: "3 - Mas paga o sinistro do seguro de vida?",

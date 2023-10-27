@@ -24,7 +24,7 @@ const marcas = [
   },
   {
     id: 3,
-    title: "Samsumg",
+    title: "Samsung",
     price: "12,95",
     description: "",
     image: imgSamsumg,
