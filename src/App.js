@@ -44,6 +44,7 @@ import SliderSegurosHome from "./components/SliderSegurosHome";
 import IndexCotacaoPetlove from "./components/cotacao-pet-love/indexCotacaoPet";
 import IndexCotacaoVidaSulamerica from "./components/cotacao-vida-sulamerica/indexCotacaoVidaSulamerica";
 import StepAddres from "./components/cotacao-vida-sulamerica/components/StepAddress";
+import { CardGraaac } from "./components/CardGraac";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -100,6 +101,7 @@ function App() {
                 <div id="Faq">
                   <Faq />
                 </div>
+                <CardGraaac />
                 <div id="Logos">
                   <Logos />
                 </div>

@@ -10,7 +10,7 @@ import { faCreditCard } from "@fortawesome/free-regular-svg-icons";
 
 export default function BannerPixAndCard() {
   return (
-    <div className="flex  justify-center items-center m-4 w-full">
+    <div className="flex  justify-center items-center m-4 ">
       <div className="bg-white text-grayPrime p-5 rounded-lg items-center justify-center shadow-xl m-5 max-w-5xl">
         <FontAwesomeIcon
           icon={faPix}

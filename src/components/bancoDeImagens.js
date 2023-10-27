@@ -33,6 +33,9 @@ const imageManager = {
       "https://storage.googleapis.com/primesecure/seguro-viagem-prime-travel-banner.webp",
     bannerCelHome: "https://storage.googleapis.com/primesecure/img-banner.webp",
   },
+  graac: {
+    logoGraac: "https://storage.googleapis.com/primesecure/logo-graac.webp",
+  },
 };
 
 export default imageManager;
