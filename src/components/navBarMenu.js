@@ -45,7 +45,7 @@ const products = [
     iconProps: { icon: faPlane },
   },
   {
-    name: "Seguro Bike",
+    name: "Seguro Bike Kakau",
     description: "Proteção para sua Bike",
     href: `/seguro-bike${utmParams ? "?" + utmParams : ""}`,
     icon: FontAwesomeIcon,
@@ -147,6 +147,10 @@ const pathToLogoMap = {
   "/seguro-residencial-porto-2/": imageManager.brand.logoPrimeSecurePorto,
   "/equipamentos-portateis-3": imageManager.brand.logoPrimeSecurePorto,
   "/equipamentos-portateis-3/": imageManager.brand.logoPrimeSecurePorto,
+  "/seguro-bike": imageManager.brand.logoPrimeSecureKakau,
+  "/seguro-bike/": imageManager.brand.logoPrimeSecureKakau,
+  "/seguro-celular-kakau": imageManager.brand.logoPrimeSecureKakau,
+  "/seguro-celular-kakau/": imageManager.brand.logoPrimeSecureKakau,
 };
 
 function NavBarMenu() {

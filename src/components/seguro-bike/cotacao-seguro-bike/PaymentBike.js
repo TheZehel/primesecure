@@ -65,17 +65,25 @@ export default function PaymentBike({ brand, setSuccessToken }) {
   ];
 
   useEffect(() => {
-    // nesse estagio define o currentStepIndex sem precisar avançar etapa
-    const currentStepIndex = 4;
-    const lastCompletedStepIndex = parseInt(
-      sessionStorage.getItem("lastCompletedStepIndex") || "3",
+    const currentStepIndex = 4; // Step do componente atual
+    let lastCompletedStepIndex = parseInt(
+      sessionStorage.getItem("lastCompletedStepIndex") || "0",
       10
     );
 
-    // Se o índice da etapa atual for maior que o índice da última etapa completada + 1
-    // Redireciona o usuário para a última etapa completada ou para a primeira etapa se nenhuma foi completada
+    // Atualiza lastCompletedStepIndex se o usuário estiver avançando para uma nova etapa
+    if (currentStepIndex > lastCompletedStepIndex) {
+      sessionStorage.setItem(
+        "lastCompletedStepIndex",
+        String(currentStepIndex)
+      );
+      lastCompletedStepIndex = currentStepIndex; // Garante que a lógica abaixo use o valor atualizado
+    }
+
+    // Verifica se o usuário tem permissão para acessar a etapa atual
     if (currentStepIndex > lastCompletedStepIndex + 1) {
-      navigate("/seguro-bike/cotacao/"); // Ou outra lógica de redirecionamento baseada no índice
+      // Redireciona para a etapa permitida mais avançada
+      navigate("/seguro-bike/cotacao/");
     }
   }, [navigate]);
 

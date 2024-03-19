@@ -22,7 +22,7 @@ export default function AddressData({ updateFormData }) {
 
   useEffect(() => {
     // Assume-se que o índice da etapa atual é 1
-    const currentStepIndex = 1;
+    const currentStepIndex = 2;
     const lastCompletedStepIndex = parseInt(
       sessionStorage.getItem("lastCompletedStepIndex") || "1",
       10

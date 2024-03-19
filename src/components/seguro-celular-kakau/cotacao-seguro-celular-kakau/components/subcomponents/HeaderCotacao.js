@@ -1,31 +1,37 @@
+import React, { useState, useEffect } from "react";
 import TitleHeader from "./TitleHeader";
 import { useNavigate } from "react-router";
 
 const steps = [
   {
-    title: "",
+    title: "Cotação",
     color: "text-zinc-800",
     href: "/seguro-celular-kakau/cotacao/",
+    step: 1,
   },
   {
-    title: "",
+    title: "Dados Cadastrais",
     color: "text-zinc-800",
     href: "/seguro-celular-kakau/cotacao/dados-cadastrais",
+    step: 2,
   },
   {
-    title: "",
+    title: "Endereço",
     color: "text-zinc-800",
     href: "/seguro-celular-kakau/cotacao/endereco",
+    step: 3,
   },
   {
-    title: "",
+    title: "Cadastro Celular",
     color: "text-zinc-800",
     href: "/seguro-celular-kakau/cotacao/cadastro-celular",
+    step: 4,
   },
   {
-    title: "",
+    title: "Pagamento",
     color: "text-zinc-800",
     href: "/seguro-celular-kakau/cotacao/pagamento",
+    step: 5,
   },
 ];
 
@@ -49,17 +55,15 @@ const StepIcon = ({ number, active }) => (
   </svg>
 );
 
-const Step = ({ step, index, position, href }) => (
+const Step = ({ step, position, navigateTo }) => (
   <div
     className="flex items-center space-x-2 cursor-pointer"
-    onClick={() => {
-      href(step.href);
-    }}
+    onClick={() => navigateTo(step.href, step.step)}
   >
-    <StepIcon number={index + 1} active={index == position} />
+    <StepIcon number={step.step} active={step.step === position} />
     <div
       className={`text-center ${
-        index == position ? "text-cyan-500" : "text-zinc-800"
+        step.step === position ? "text-cyan-500" : "text-zinc-800"
       } sm:text-md font-semibold`}
     >
       {step.title}
@@ -67,28 +71,40 @@ const Step = ({ step, index, position, href }) => (
   </div>
 );
 
-export default function HeaderCotacao({ title, position }) {
-  var position = position || 0;
-
+export default function HeaderCotacao({ title, position: initialPosition }) {
+  const [position, setPosition] = useState(initialPosition || 0);
+  const [maxPositionReached, setMaxPositionReached] = useState(
+    initialPosition || 0
+  );
   const navigate = useNavigate();
 
-  const navigateTo = (href) => {
-    navigate(href);
+  useEffect(() => {
+    if (position > maxPositionReached) {
+      setMaxPositionReached(position);
+    }
+  }, [position]);
+
+  const navigateTo = (href, stepNumber) => {
+    if (stepNumber <= maxPositionReached + 1) {
+      navigate(href);
+      setPosition(stepNumber);
+
+      if (stepNumber > maxPositionReached) {
+        setMaxPositionReached(stepNumber);
+      }
+    }
   };
 
   return (
     <div>
       <TitleHeader title={title} />
-      <div className="flex  items-center justify-center text relative mx-auto mt-3 sm:space-x-6 space-x-2">
-        {steps.map((step, index) => (
+      <div className="flex items-center justify-center text relative mx-auto mt-3 sm:space-x-6 space-x-2">
+        {steps.map((step) => (
           <Step
-            key={index}
+            key={step.step}
             step={step}
-            index={index}
             position={position}
-            href={(h) => {
-              navigateTo(h);
-            }}
+            navigateTo={navigateTo}
           />
         ))}
       </div>

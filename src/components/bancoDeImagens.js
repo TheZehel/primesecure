@@ -8,6 +8,8 @@ const imageManager = {
       "https://storage.googleapis.com/primesecure/logo-prime-sulamerica.png",
     logoPrimeSecurePorto:
       "https://storage.googleapis.com/primesecure/logo-prime-porto.png",
+    logoPrimeSecureKakau:
+      "https://storage.googleapis.com/primesecure/logo-prime-kakau-seguros.png",
   },
   imgProdutos: {
     imgPrimeTravel:
