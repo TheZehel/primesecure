@@ -30,6 +30,82 @@ const faqs = [
     answer:
       "Assim que seu pagamento for processado, você receberá um e-mail onde deverá clicar no link de confirmação da compra. Após esse passo, entre em contato com a Clínica de sua preferência para agendar a colocação do Microchip no seu pet. Lembre-se: suas carências começam a contar a partir da data da Microchipagem. Os procedimentos mais essenciais como consultas, vacinas, procedimentos clínicos e internações têm apenas 45 dias de carência. Os exames e consultas com especialistas 60 dias, já as cirurgias e anestesia possuem 120 dias, por serem procedimentos mais delicados. Após a compra, você pode antecipar algumas carências através do Espaço do cliente e utilizar o Plano imediatamente. Vale lembrar que a antecipação da carência é somente para aquele procedimento específico e não para o grupo inteiro de procedimentos.",
   },
+  {
+    question: "6 - Como funciona a copartipação nos Planos?",
+    answer:
+      "A coparticipação é uma pequena taxa que você paga na utilização de alguns procedimentos. Na maioria das vezes, este valor é pago diretamente para a Clínica, e apenas em anestesias e exames que os valores são pagos para Petlove. Os valores são tabelados, não sofrendo alterações.",
+  },
+  {
+    question:
+      "7 - Onde posso ver o que já utilizei pelo Plano e o que ainda tenho direito?",
+    answer:
+      "É muito fácil. No Espaço do cliente, você pode ver o prontuário online do Plano do seu pet, assim como os procedimentos que ainda podem ser realizados. Faça o login com e-mail e senha para acessar.",
+  },
+  {
+    question: "8 - O site é seguro?",
+    answer:
+      "Sim! Nossa plataforma conta com as mais modernas ferramentas para garantir navegação segura através de uma transação de dados codificada e eficiente. As informações cadastrais são sigilosas e de uso exclusivo da Petlove, de acordo com suas permissões.",
+  },
+  {
+    question: "9 - Quais as formas de pagamento da Petlove?",
+    answer:
+      "A forma mais usual é o cartão de crédito das bandeiras Visa e MasterCard. Caso você opte pelo pagamento mensal, o limite do seu cartão de crédito não será alterado, sendo apenas necessário dispor do valor contratado no dia da cobrança. Caso você escolha o pagamento anual, o valor total da compra é cobrada no momento da contratação. Também temos convênio com o Banrisul, Banco do Brasil e Itaú para débito em conta. As cobranças são processadas pelo sistema VINDI, reconhecido nacionalmente, trazendo segurança e agilidade para sua compra.",
+  },
+  {
+    question:
+      "10 - Precisa ser eu para levar meu pet para consultar ou pode ser outra pessoa?",
+    answer:
+      "No momento do atendimento seu pet será identificado pelo número do Microchip, portanto pode ser outra pessoa para levá-lo, como por exemplo um familiar.",
+  },
+  {
+    question:
+      "11 - Quanto custa para antecipar as carências dos procedimentos?",
+    answer:
+      "A seguir, exemplificamos algumas antecipações de carência de alguns procedimentos. Os valores de exemplo já contam com a coparticipação dos procedimentos, ou seja, já representam o valor total que será gasto para realização do procedimento + antecipação da carência e você deve pagar no cartão de crédito. Consulta em horário normal - em torno de R$ 80. Vacina Polivalente / Quádrupla - em torno de R$ 70. Vacina da Raiva - em torno de R$ 40. Vale lembrar que a antecipação da carência é somente para aquele procedimento específico e não para o grupo inteiro de procedimentos. OBS: Caso você esteja precisando utilizar mais de 1 vez o procedimento escolhido, você deve aumentar o número de quantidades. Os limites e carências são comprados de forma avulsa! Eventual saldo existente de utilização não é cumulativo e não será transferido para a renovação do plano.",
+  },
+  {
+    question: "12 - As vacinas são importadas ou nacionais?",
+    answer:
+      "A Petlove trabalha apenas com Clínicas de alto padrão em atendimento. Assim sendo, exigimos das nossas credenciadas que todas as vacinas dadas sejam as importadas, fornecendo maior qualidade para nossos clientes.",
+  },
+  {
+    question: "13 - Meus procedimentos são limitados?",
+    answer:
+      "Alguns procedimentos são limitados, mas não se preocupe: caso você exceda-os pode incluí-los de forma avulsa em seu Plano. É fácil e prático, você mesmo faz diretamente no seu Espaço do cliente em nosso site. Alguns procedimentos possuem limites individuais e outros em grupo. Cada vez que você realizar um procedimento que pertence a um grupo indicado, o limite será descontado do total do grupo. Vale lembrar que a inclusão de mais limites é somente para aquele procedimento específico e não para o grupo inteiro de procedimentos. OBS: Caso você esteja precisando utilizar mais de 1 vez o procedimento escolhido, você deve aumentar o número de quantidades. Os limites são comprados de forma avulsa! Eventual saldo existente de utilização não é cumulativo e não será transferido para a renovação do plano.",
+  },
+  {
+    question: "14 - Como renovo minha assinatura?",
+    answer: "A renovação é automática, você não precisa se preocupar com isso.",
+  },
+  {
+    question:
+      "15 - Como sei os horários de funcionamento, endereço e o que as clínicas credenciadas realizam pelo Plano?",
+    answer:
+      "Todas essas informações encontram-se na aba Rede Credenciada em nosso site ou no Espaço do Cliente. Basta acessá-la e usar os filtros para saber onde levar seu amiguinho.",
+  },
+  {
+    question:
+      "16 - Como faço para trocar de Plano? O que acontece com as carências dos procedimentos?",
+    answer:
+      "Você pode realizar a migração de plano entrando em contato conosco pelo telefone! Você pode realizar 1 troca a cada 12 meses. Os dias de carência dos procedimentos coexistentes entre os Planos continuam correndo normalmente. As carências dos procedimentos novos passam a contar a partir da data da troca. Caso seja um 'upgrade' de Plano será cobrada a diferença das mensalidades no momento da troca e o valor do novo Plano virá na próxima fatura.",
+  },
+  {
+    question:
+      "17 - Já tenho um Plano Petlove contratado e quero comprar para mais pets, como faço?",
+    answer:
+      "É muito simples. Basta adicionar o pet no Espaço do cliente. Os descontos serão calculados automaticamente :)",
+  },
+  {
+    question: "18 - O que não está coberto pelos Planos?",
+    answer:
+      "Os medicamentos Citrato de maropitant, Cefovecina sódica e Meropenem, tampouco estão inclusos os materiais cirúrgicos usados em cirurgias ortopédicas como próteses, placas, parafusos e órteses.",
+  },
+  {
+    question:
+      "19 - As mensalidades sofrem algum reajuste anual? Os preços variam conforme a idade dos meus pets?",
+    answer:
+      "Pode ocorrer dos valores serem reajustados, porém somente no mês de aniversário do seu Plano. Por exemplo: caso você tenha contratado em junho de 2018, no mês de junho de 2019 poderemos reajustar os valores e assim consequentemente. O novo valor é calculado de acordo com a inflação do período. Não se preocupe, os preços não variam conforme a idade dos seus pets.",
+  },
 ];
 
 export default function FaqPet() {
@@ -51,9 +127,11 @@ export default function FaqPet() {
   });
 
   return (
-    <div className="w-4/5  mx-auto py-2 sm:py-2">
-      <h2 className="text-3xl mb-6 text-center">Dúvidas Frequentes</h2>
-      <div className="space-y-6">
+    <div className="w-4/5  mx-auto py-2 sm:py-2 mt-10 text-grayPrime">
+      <h2 className="text-center text-primary font-bold mb-13 text-2xl sm:text-5xl mb-16">
+        Dúvidas Frequentes
+      </h2>
+      <div className="space-y-6 text-start">
         {faqs.map((faq, index) => (
           <div key={index} className="border rounded-md p-4">
             <div

@@ -3,7 +3,7 @@ import BannerSection from "../../globalsubcomponentes/BannerSection";
 import SimpleFormSection from "../../globalsubcomponentes/SimpleFormSection";
 import imageManagerSeguroPet from "../bancodeimagens/BancoDeImagensSeguroPet";
 
-export default function FormSeguroPetBanner() {
+export default function FormSeguroPetBanner({callback}) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -12,6 +12,16 @@ export default function FormSeguroPetBanner() {
     utm_medium: "",
     utm_campaign: "",
   });
+
+  const getFormData = (data) => {
+    delete data.utm_campaign;
+    delete data.utm_medium;
+    delete data.utm_source;
+    
+    callback(data);
+  }
+
+  console.log('Seguro Pet:', formData);
 
   return (
     <section
@@ -29,7 +39,12 @@ export default function FormSeguroPetBanner() {
         descriptionText="Seu pet com assistência qualificada 24h por dia."
         imageUrl={imageManagerSeguroPet.logos.LogoPetLove}
       />
-      <SimpleFormSection formData={formData} setFormData={setFormData} />
+      <SimpleFormSection 
+        formData={formData} 
+        setFormData={setFormData} 
+        callback={getFormData} 
+        submit={getFormData}
+      />
     </section>
   );
 }

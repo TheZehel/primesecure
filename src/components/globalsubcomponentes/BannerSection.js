@@ -8,7 +8,7 @@ export default function BannerSection({
 }) {
   return (
     <div className="animate__animated animate__fadeIn">
-      <Chip value={chipText} className="bg-bluePrime" />
+      <Chip value={chipText} className="bg-bluePrime text-lg" />
       <h1 className="text-4xl font-bold mb-4 text-white">{titleText}</h1>
       {imageUrl && (
         <img

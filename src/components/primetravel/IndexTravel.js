@@ -21,7 +21,12 @@ import ContainerCoberturas from "./components/subcomponents/ContainerCoberturas"
 import BannerPixAndCard from "./components/subcomponents/BannerPixAndCard";
 //import BannerPix from "./components/subcomponents/BannerPix";
 //import ContainerDepoimetos from "./components/subcomponents/ContainerDepoimentos";
-//import CountDown from "./components/subcomponents/countdownPromo";
+import CountDown from "./components/subcomponents/countdownPromo";
+import AlbertEinstein from "./components/subcomponents/AlbertEinstein";
+import SomeToppings from "./components/subcomponents/SomeToppings";
+import BannerPromos from "./components/subcomponents/BannerPromos";
+import StepsHiring from "./components/subcomponents/HiringSteps";
+import BannerPromo from "./components/subcomponents/BannerPromo";
 
 function IndexTravel() {
   const FaqRef = useRef();
@@ -34,7 +39,7 @@ function IndexTravel() {
     });
   };
   // time do countdown
-  //const targetDate = new Date("October 02, 2023 00:00:00");
+  //const targetDate = new Date("December 31, 2023 00:00:00");
   return (
     <div className="IndexTravel">
       <Helmet>
@@ -65,13 +70,18 @@ function IndexTravel() {
         />
         <link rel="canonical" href="https://primesecure.com.br/primetravel" />
       </Helmet>
+      {/*<BannerPromos />*/}
+      <BannerPromo />
       {/*<CountDown targetDate={targetDate} />*/}
       <FormTravelBanner />
       <FaixaBanner />
-      <BrindeTravel />
+      <StepsHiring />
+      {/*<BrindeTravel />*/}
+      <SomeToppings />
+      <AlbertEinstein />
       <ContainerCoberturas />
       {<SliderPlanos />}
-      <TelemedicinaTravel />
+      {/*<TelemedicinaTravel />*/}
       <ContainerContato scroll={scrollToFaq} />
       {/*<ContainerDepoimetos />*/}
       {/*<div className="relative isolate flex items-center gap-x-6 overflow-hidden bg-gray-50 px-6 py-2.5 sm:px-3.5 sm:before:flex-1">
@@ -89,7 +99,6 @@ function IndexTravel() {
         {" "}
         <FaqTravel />
       </div>
-      <BannerPixAndCard />
     </div>
   );
 }

@@ -16,7 +16,7 @@ export default function StepAddBeneficiary() {
               className="cursor-pointer border border-bluePrime p-2 rounded-full"
             />
           </div>
-          <div className="bg-white rounded-b-lg max-w-6xl mx-5 mb-5 p-3">
+          <div className="bg-white rounded-b-lg max-w-6xl mx-5 mb-5 p-3 ">
             <div className="flex flex-col sm:flex-row m-auto">
               <InputMask
                 type="text"

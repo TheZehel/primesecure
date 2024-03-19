@@ -9,7 +9,7 @@ import imageManager from "./bancoDeImagens";
 
 export function CardGraaac() {
   return (
-    <Card className="items-center w-3/4 justify-center mx-auto mb-20">
+    <Card className="items-center w-3/4 justify-center mx-auto mb-20 mt-20">
       <CardBody>
         <img
           className="mx-auto"
@@ -19,11 +19,11 @@ export function CardGraaac() {
         <Typography
           variant="h2"
           color="blue-gray"
-          className="mb-2 sm:text-3xl text-xl font-bold text-grayPrime"
+          className="mb-2 text-xl sm:text-4xl text-center font-normal text-grayPrime"
         >
           Somos uma empresa apoiadora do GRAAC
         </Typography>
-        <Typography>
+        <Typography className="mb-2  text-justify ">
           É com imensa satisfação que a Prime Secure se une ao GRAACC, a
           principal organização dedicada ao combate ao câncer infantil no
           Brasil, em uma parceria comprometida e significativa. Esta colaboração

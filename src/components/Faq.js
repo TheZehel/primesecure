@@ -59,8 +59,10 @@ export default function Faq() {
   });
 
   return (
-    <div className="w-4/5  mx-auto py-24 sm:py-24">
-      <h2 className="text-3xl mb-6 text-center">Dúvidas Frequentes</h2>
+    <div className="w-4/5  mx-auto my-20 text-grayPrime">
+      <h2 className="text-center text-xl sm:text-4xl  mb-13 mb-16">
+        Dúvidas Frequentes
+      </h2>
       <div className="space-y-6">
         {faqs.map((faq, index) => (
           <div key={index} className="border rounded-md p-4">

@@ -47,6 +47,10 @@ const imageManagerPrimeTravel = {
       "https://storage.googleapis.com/primesecure/logo-too-seguros.webp",
     ImgLogoPactual:
       "https://storage.googleapis.com/primesecure/btg-pactual.webp",
+    ImgLogoGenerali:
+      "https://storage.googleapis.com/primesecure/logo-generali.png",
+    ImgEmParceriaGenerali:
+      "https://storage.googleapis.com/primesecure/em-parceria-generali.png",
   },
   ContainerCoberturas: {
     ImgAtradoDeVoos:
@@ -65,6 +69,89 @@ const imageManagerPrimeTravel = {
   },
   promo: {
     outubroRosa: "https://storage.googleapis.com/primesecure/Outubro.png",
+    outubroAzul: "https://storage.googleapis.com/primesecure/novembro-azul.png",
+    blackFriday:
+      "https://storage.googleapis.com/primesecure/black-friday_160-x-80-px_.webp",
+    natal: "https://storage.googleapis.com/primesecure/Natal.png",
+  },
+  Telemedicina: {
+    logoAlbertEinstein:
+      "https://storage.googleapis.com/primesecure/logo-einstein-telemedicina-blue.png",
+    iconAlergias: "https://storage.googleapis.com/primesecure/iconAlergias.svg",
+    iconDorDeBarriga:
+      "https://storage.googleapis.com/primesecure/iconDorDeBarriga.svg",
+    iconDorDeCabeca:
+      "https://storage.googleapis.com/primesecure/iconDorDeCabeca.svg",
+    iconDorLombar:
+      "https://storage.googleapis.com/primesecure/iconDorLombar.svg",
+    iconDorNoPeito:
+      "https://storage.googleapis.com/primesecure/iconDorNoPeito.svg",
+    iconFebre: "https://storage.googleapis.com/primesecure/iconFebre.svg",
+    iconGarganta: "https://storage.googleapis.com/primesecure/iconGarganta.svg",
+    iconPerdaDeForca:
+      "https://storage.googleapis.com/primesecure/iconPerdaDeForca.svg",
+    iconSintomasCovid:
+      "https://storage.googleapis.com/primesecure/iconSintomasCovid.svg",
+    iconSintomasOculares:
+      "https://storage.googleapis.com/primesecure/iconSintomasOculares.svg",
+    iconSintomasRespiratorios:
+      "https://storage.googleapis.com/primesecure/iconSintomasRespiratorios.svg",
+    iconSintomasUrinarios:
+      "https://storage.googleapis.com/primesecure/iconSintomasUrinarios.svg",
+    iconsSintomasAuditivos:
+      "https://storage.googleapis.com/primesecure/iconsSintomasAuditivos.svg",
+  },
+  SomeToppings: {
+    iconAirplane:
+      "https://storage.googleapis.com/primesecure/airplane-svgrepo-com.svg",
+    iconCancel: "https://storage.googleapis.com/primesecure/cancel-svgrepo.svg",
+    iconSuitCase:
+      "https://storage.googleapis.com/primesecure/suitcase-svgrepo.svg",
+    iconConcierge:
+      "https://storage.googleapis.com/primesecure/concierge-svgrepo-com.svg",
+  },
+  Utils: {
+    iconHand:
+      "https://storage.googleapis.com/primesecure/hand-shake-svgrepo-com.svg",
+    quote: "https://storage.googleapis.com/primesecure/quote2.svg",
+    planSelect:
+      "https://storage.googleapis.com/primesecure/planselect2.png.svg",
+    isSecure: "https://storage.googleapis.com/primesecure/isSecure.svg",
+    isEasy: "https://storage.googleapis.com/primesecure/isEasy.svg",
+    isCustomizable:
+      "https://storage.googleapis.com/primesecure/isCustomizable.svg",
+    infoTraveler: "https://storage.googleapis.com/primesecure/travelerinfo.svg",
+    card: "https://storage.googleapis.com/primesecure/card.svg",
+  },
+  BannersPromo: {
+    bannerNatal:
+      "https://storage.googleapis.com/primesecure/banner-promo-natal-travel-2023-desktop.png",
+    bannerNatal1350x200:
+      "https://storage.googleapis.com/primesecure/banner-promo-natal-travel-2023-desktop2.png",
+    bannerNatal700x200:
+      "https://storage.googleapis.com/primesecure/banner-promo-natal-travel-2023-700x200%20.png",
+    bannerNatalMobile:
+      "https://storage.googleapis.com/primesecure/banner-promo-natal-travel-2023-mobile.png",
+    bannerNatalMobileCupom:
+      "https://storage.googleapis.com/primesecure/banner-promo-natal-travel-2023-mobile-cupom%20(1).png",
+    bannerAnoNovoDesktop2:
+      "https://storage.googleapis.com/primesecure/banner-promo-ano-novo-travel-2023-desktop.png",
+    bannerAnoNovoDesktop1:
+      "https://storage.googleapis.com/primesecure/banner-promo-natal-travel-2023-desktop-w-1350.png",
+    bannerAnoNovoMobile:
+      "https://storage.googleapis.com/primesecure/banner-promo-ano-novo-2023-desktop%20(400%20x%20200%20px).png",
+    bannerFerias15Medium:
+      "https://storage.googleapis.com/primesecure/banner-ferias15-w-1350.png",
+    bannerFerias15Large:
+      "https://storage.googleapis.com/primesecure/banner-ferias15-w-1900.png",
+    bannerFerias15Mobile:
+      "https://storage.googleapis.com/primesecure/banner-ferias15-mobile.png",
+    bannerDesktop1:
+      "https://storage.googleapis.com/primesecure/banner-promo-ferias15-desktop1.png",
+    bannerDesktop2:
+      "https://storage.googleapis.com/primesecure/banner-promo-ferias15-desktop2.png",
+    bannerMobile:
+      "https://storage.googleapis.com/primesecure/banner-promo-ferias15-mobile.png",
   },
 };
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import InputMask from "react-input-mask";
+import Map from "./modules/map";
 
 export default function StepAddres({ updateFormData }) {
   const [cep, setCep] = useState("");
@@ -38,9 +39,9 @@ export default function StepAddres({ updateFormData }) {
       <div className="flex items-center justify-center">
         <div className="  sm:mx-5 md:mx-10 lg:mx-10 w-full mx-5 max-w-6xl  my-5 rounded-xl">
           <div className="bg-red-500 max-w-6xl ml-5 mr-5 mt-5 p-20 rounded-md">
-            Google Maps Here
+            <Map />
           </div>
-          <div className="bg-white rounded-b-lg max-w-6xl mx-5 mb-5 p-3">
+          <div className="bg-white rounded-b-lg max-w-6xl mx-5 mb-5 p-3 ">
             <div className="flex flex-col sm:flex-row m-auto">
               <InputMask
                 type="text"

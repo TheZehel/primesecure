@@ -8,8 +8,14 @@ export default function ContainerContato(props) {
   const scrollToFaq = () => {
     props.scroll();
   };
+  function makeCall() {
+    // Simula o comportamento de um link de chamada telefônica
+    window.location.href = "tel:+55 (11) 5039-9001";
+  }
   return (
     <div
+      href="tel:++55 (11) 5039-9001"
+      className="cursor-pointer"
       style={{
         backgroundImage: `url(${imageManagerPrimeTravel.ImagensLandPage.ImgBgContato})`,
         backgroundPosition: "center",
@@ -62,7 +68,7 @@ export default function ContainerContato(props) {
                 cursor: "pointer",
               }}
               onClick={() => {
-                window.open("https://wa.me/5491124607961", "_blank");
+                window.open("https://wa.me/551150399001", "_blank");
               }}
             >
               <div
@@ -85,15 +91,15 @@ export default function ContainerContato(props) {
                   padding: "10px 15px",
                   margin: "0 auto",
                   boxShadow: "2px 3px 7px 0px rgba(0,0,0,0.3)",
-                  display: 'flex',
-                  flexWrap: 'wrap'
+                  display: "flex",
+                  flexWrap: "wrap",
                 }}
               >
                 <p
                   style={{
-                    width: '100%',
+                    width: "100%",
                     fontSize: "28px",
-                    lineHeight: '28px',
+                    lineHeight: "28px",
                     fontWeight: "400",
                     textAlign: "right",
                   }}
@@ -102,35 +108,40 @@ export default function ContainerContato(props) {
                 </p>
                 <p
                   style={{
-                    width: '100%',
+                    width: "100%",
                     fontSize: "50px",
                     lineHeight: "52px",
                     fontWeight: "400",
                     textAlign: "right",
-                    margin: '10px 0px'
+                    margin: "10px 0px",
                   }}
                 >
                   24H
                 </p>
                 <p
                   style={{
-                    width: '100%',
+                    width: "100%",
                     fontSize: "24px",
-                    lineHeight: '24px',
+                    lineHeight: "24px",
                     fontWeight: "400",
                     textAlign: "right",
                   }}
                 >
-                  +54 9 11 24607961
+                  +55 11 5039-9001
                 </p>
               </div>
             </div>
-            <div
+            <button
               style={{
                 minWidth: "245px",
                 margin: "0 auto 25px auto",
                 display: "flex",
                 position: "relative",
+              }}
+              className="cursor-pointer"
+              href="tel:+55 (11) 5039-9001"
+              onClick={() => {
+                window.location.href = "tel:+55 (11) 5039-9001";
               }}
             >
               <div
@@ -145,16 +156,19 @@ export default function ContainerContato(props) {
                 <BsHeadset size={70} />
               </div>
               <div
+                href="tel:+55 (11) 5039-9001"
+                className="cursor-pointer"
                 style={{
                   width: "245px",
                   height: "145px",
-                  padding: '10px 15px',
+                  padding: "10px 15px",
                   margin: "0 auto",
-                  display: 'flex', 
-                  flexWrap: 'wrap',
+                  display: "flex",
+                  flexWrap: "wrap",
                   borderRadius: "15px",
                   backgroundColor: "#4826E3",
                   boxShadow: "2px 3px 7px 0px rgba(0,0,0,0.4)",
+                  cursor: "pointer",
                 }}
               >
                 <p
@@ -167,12 +181,12 @@ export default function ContainerContato(props) {
                     textAlign: "right",
                   }}
                 >
-                  Números de emergência
+                  Ligue Central de emergência
                 </p>
-                <div
+                {/*<div
                   style={{
-                    width: '100%', 
-                    marginTop: 'auto', 
+                    width: "100%",
+                    marginTop: "auto",
                     fontSize: "14px",
                     fontWeight: "400",
                     textAlign: "right",
@@ -188,10 +202,10 @@ export default function ContainerContato(props) {
                   >
                     +55 (11) 32302118
                   </p>
-                </div>
+                  </div>*/}
                 <div
                   style={{
-                    width: '100%', 
+                    width: "100%",
                     marginTop: "auto",
                     fontSize: "14px",
                     fontWeight: "400",
@@ -201,25 +215,28 @@ export default function ContainerContato(props) {
                 >
                   <div
                     style={{
-                      width: "50%",
+                      width: "30%",
                       marginLeft: "auto",
                       textAlign: "left",
                     }}
                   >
-                    <p style={{ lineHeight: "16px" }}>Europa</p>
+                    {/*<p style={{ lineHeight: "16px" }}>Europa</p>
                     <p style={{ lineHeight: "16px", fontSize: "13px" }}>
                       +34 (91) 0606975
-                    </p>
+                  </p>*/}
                   </div>
-                  <div style={{ width: "50%", marginRight: "auto" }}>
-                    <p style={{ lineHeight: "16px" }}>EUA</p>
-                    <p style={{ lineHeight: "16px", fontSize: "13px" }}>
-                      +1 (786) 2091976
+                  <div style={{ width: "70%", marginRight: "auto" }}>
+                    <p style={{ lineHeight: "16px" }}>Brasil</p>
+                    <p
+                      style={{ lineHeight: "16px", fontSize: "13px" }}
+                      className="cursor-pointer"
+                    >
+                      <a href="tel:++55 (11) 5039-9001">+55 (11) 5039-9001</a>
                     </p>
                   </div>
                 </div>
               </div>
-            </div>
+            </button>
             <div
               style={{
                 margin: "0 auto 25px auto",
@@ -234,34 +251,34 @@ export default function ContainerContato(props) {
                   height: "145px",
                   padding: "5px 20px",
                   margin: "0 auto",
-                  display: 'flex', 
-                  flexWrap: 'wrap', 
+                  display: "flex",
+                  flexWrap: "wrap",
                   borderRadius: "15px",
                   boxShadow: "2px 3px 7px 0px rgba(0,0,0,0.4)",
                   backgroundColor: "#2800DE",
                 }}
               >
-                <div 
+                <div
                   style={{
-                    width: '100%', 
-                    height: '50px', 
-                    margin: 'auto auto 25px', 
-                    display: 'flex'
+                    width: "100%",
+                    height: "50px",
+                    margin: "auto auto 25px",
+                    display: "flex",
                   }}
                 >
                   <div
                     style={{
                       width: "50px",
                       height: "50px",
-                      marginRight: '5px'
+                      marginRight: "5px",
                     }}
                   >
                     <AiOutlineQuestionCircle size={50} />
-                  </div>  
+                  </div>
                   <p
                     style={{
                       width: "150px",
-                      margin: 'auto 0px', 
+                      margin: "auto 0px",
                       fontSize: "20px",
                       lineHeight: "23px",
                       fontWeight: "400",
@@ -271,11 +288,11 @@ export default function ContainerContato(props) {
                     Duvidas sobre o seguro viagem?
                   </p>
                 </div>
-                <div 
+                <div
                   style={{
-                    width: '100%', 
-                    height: 'fit-content', 
-                    display: 'flex'
+                    width: "100%",
+                    height: "fit-content",
+                    display: "flex",
                   }}
                 >
                   <button
@@ -285,13 +302,13 @@ export default function ContainerContato(props) {
                       borderRadius: "5px",
                       padding: "6px 50px",
                       fontWeight: "500",
-                      margin: '0px auto',
+                      margin: "0px auto",
                     }}
                     onClick={scrollToFaq}
                   >
                     Clique Aqui
                   </button>
-                </div> 
+                </div>
               </div>
             </div>
           </div>

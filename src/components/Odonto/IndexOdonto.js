@@ -13,7 +13,7 @@ import FaqOdonto from "./components/subcomponents/FaqOdonto";
 import CountDown from "./components/subcomponents/CountDownBannerOdonto";
 
 function IndexOdonto() {
-  const targetDate = new Date("September 17, 2023 00:00:00");
+  const targetDate = new Date("December 31, 2023 00:00:00");
   return (
     <div>
       <Helmet>

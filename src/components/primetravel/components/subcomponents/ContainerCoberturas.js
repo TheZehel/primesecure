@@ -28,7 +28,7 @@ export default function ContainerCoberturas() {
         <div className="relative mx-auto max-w-7xl px-4 sm:static sm:px-6 lg:px-8">
           <div className="sm:max-w-lg">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl text-start">
-              Confira Nossas Coberturas.
+              Todas as Coberturas
             </h1>
             <p className="mt-4 text-xl text-gray-500 text-start">
               São Mais de 30 Coberturas Exclusivas Para as Suas Próximas

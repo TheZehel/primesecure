@@ -16,7 +16,7 @@ import FaqVida from "./components/subcomponents/FaqVida";
 import CountDown from "./components/subcomponents/CountDownBannerVida";
 
 function IndexVida() {
-  const targetDate = new Date("September 17, 2023 00:00:00");
+  const targetDate = new Date("December 31, 2023 00:00:00");
   return (
     <div className="IndexVida">
       <Helmet>

@@ -9,6 +9,8 @@ import { Chip } from "@material-tailwind/react";
 import ListaPaises from "./ListaPaises";
 import DataValidation from "../../modules/dataValidation";
 import moment from "moment";
+import { Checkbox, Typography } from "@material-tailwind/react";
+import { useNavigate } from "react-router-dom";
 
 import imageManagerPrimeTravel from "../bancodeimagens/BancoDeImagensPrimeTravel";
 import BannerPix from "./subcomponents/BannerPix";
@@ -31,6 +33,12 @@ const getUtmParams = () => {
 export default function FormTravelBanner() {
   const [errorList, setErrorList] = useState([]);
   const customValidation = new DataValidation(); //Importa modulo de validação
+
+  const navigate = useNavigate();
+
+  const handleNavigateToPrivacyPolicy = () => {
+    navigate("/politicas-de-privacidade");
+  };
 
   function formatStringDate(dateString) {
     //Converte data 00/00/0000 para 00-00-0000
@@ -436,7 +444,10 @@ export default function FormTravelBanner() {
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
           <div className="animate__animated animate__fadeIn">
             <BannerPix />
-            <Chip value="Sua Viagem Mais Segura Com" className="bg-bluePrime" />
+            <Chip
+              value="Sua Viagem Mais Segura Com"
+              className="bg-bluePrime text-lg"
+            />
             <h1 className="text-4xl font-bold mb-4 text-white">
               Prime Travel{" "}
             </h1>
@@ -445,7 +456,9 @@ export default function FormTravelBanner() {
               Contamos Com + de 30 Coberturas.
             </p>
             <img
-              src={imageManagerPrimeTravel.ImagensLandPage.ImgEmParceriaCom}
+              src={
+                imageManagerPrimeTravel.ImagensLandPage.ImgEmParceriaGenerali
+              }
               alt="Proteção Covid, Preços Imbativeis, 30 Serviços e coberturas, Totalmente Digital"
               className="m-auto w-80 justify-center items-center pt-5"
             />
@@ -788,6 +801,17 @@ export default function FormTravelBanner() {
             >
               Cotar Agora
             </button>
+            <div className="sm:w-4/4 flex mt-5 text-start">
+              <Typography className="">
+                Ao preencher aceito os
+                <button
+                  onClick={handleNavigateToPrivacyPolicy}
+                  className="font-medium transition-colors hover:text-bluePrime2"
+                >
+                  &nbsp;Termos & Condições
+                </button>
+              </Typography>
+            </div>
           </div>
         </div>
       </div>

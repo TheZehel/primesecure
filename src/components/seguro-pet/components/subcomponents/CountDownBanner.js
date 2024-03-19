@@ -37,12 +37,17 @@ const CountDown = ({ targetDate, message }) => {
 
   return (
     <div className="">
-      <div className="bg-pinkPrime text-white p-2 flex flex-col items-center justify-center mx-auto ">
-        <img src={imageManagerSeguroPet.promo.outubroRosa} alt="" />
+      <div className="bg-[#FDBA40]  text-white p-2 flex flex-col items-center justify-center mx-auto ">
+        <img
+          src={imageManagerSeguroPet.promo.anoNovo}
+          alt="imagem promocional"
+          className=""
+        />
         <h1 className="text-4xl">
-          Mês dos Animais{" "}
-          <span className="font-bold text-black">
-            Até 20%OFF No Plano De Saúde Pet
+          {" "}
+          <span className="font-bold text-white">
+            Até <span className="text-grayPrime">30%OFF</span> em sua
+            contratação
           </span>
         </h1>
         <div className="flex space-x-4 text-2xl items-center justify-center">

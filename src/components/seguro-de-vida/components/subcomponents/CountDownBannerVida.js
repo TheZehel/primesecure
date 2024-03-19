@@ -36,12 +36,13 @@ const CountDown = ({ targetDate, message }) => {
   }, [targetDate]);
 
   return (
-    <div className="bg-pinkPrime text-white p-2 flex flex-col items-center justify-center mx-auto ">
-      <img src={imageManagerPrimeVida.promo.outubroRosa} alt="" />
+    <div className="bg-[#FDBA40] text-white p-2 flex flex-col items-center justify-center mx-auto ">
+      <img src={imageManagerPrimeVida.promo.anoNovo} alt="imagem promocional" />
       <h1 className="text-4xl">
-        Mês Do Médico{" "}
-        <span className="font-bold text-black">
-          Até 20%OFF No Seu Seguro de Vida
+        {" "}
+        <span className="font-bold text-white">
+          Até <span className="text-grayPrime">50%OFF</span> No Seu Seguro de
+          Vida
         </span>
       </h1>
       <div className="flex space-x-4 text-2xl items-center justify-center">

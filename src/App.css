@@ -27,6 +27,8 @@ body{
   color: white;
 }
 
+
+
 .App-link {
   color: #61dafb;
 }
@@ -150,3 +152,21 @@ body{
   width: 40%;
   z-index: -4;
 }
+
+/* Adicione isso ao seu arquivo CSS/SCSS */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #03a8db;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+

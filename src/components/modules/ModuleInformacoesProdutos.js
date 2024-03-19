@@ -141,7 +141,7 @@ const InformacoesProdutos = [
     link: "#",
     title: "Faça um plano e cuide de você por inteiro",
     description:
-      "Veja abaixo os benefficios que somente um plano odonto pode lhe oferecer.",
+      "Veja abaixo os beneficios que somente um plano odonto pode lhe oferecer.",
     features: [
       {
         name: "Saúde Bucal e Saúde Física",

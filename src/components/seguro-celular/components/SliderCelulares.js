@@ -63,8 +63,18 @@ export default function SliderCelulares() {
 
   return (
     <div className="montserrat">
-      <h2 className="text-center text-4xl pt-20"> Atendemos Diversas marcas</h2>
-      <p>Arraste para o lado</p>
+      <h2 className="text-center text-primary font-bold mb-13 text-2xl sm:text-5xl mb-4 mt-16">
+        {" "}
+        Atendemos Diversas marcas
+      </h2>
+      <div class="flex items-center justify-center h-full">
+        <img
+          src={imageManagerSeguroCelular.Utils.iconHand}
+          alt="icone de mao arrastando slider"
+          class="mr-2 w-7 "
+        />
+        <p className="font-bold text-bluePrime">Arraste para o lado</p>
+      </div>
       <div
         onMouseEnter={handleSlideBounce}
         onTouchStart={handleSlideBounce}

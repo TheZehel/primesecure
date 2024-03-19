@@ -1,20 +1,120 @@
 //Seo
 import { Helmet } from "react-helmet";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 //Components
+
 import FormSeguroPetBanner from "./components/FormSeguroPetBanner";
-import SessaoInformativaProdutosLp from "../globalsubcomponentes/SessaoInformativaProdutosLp";
-import InformacoesProdutos from "../modules/ModuleInformacoesProdutos";
+//import SessaoInformativaProdutosLp from "../globalsubcomponentes/SessaoInformativaProdutosLp";
+//import InformacoesProdutos from "../modules/ModuleInformacoesProdutos";
 //import PlanoSlider from "../globalsubcomponentes/PlanoSlider";
 //import infoPlanos from "../modules/InfoPlanos";
 import ConteudoSessaoInfo from "../globalsubcomponentes/ConteudoSessaoInfo";
 import sessaoInfoLp from "../modules/SessaoInfoLp";
 import FaqPet from "./components/subcomponents/FaqPet";
 import PlanSlider from "./components/planSlider";
+import ModalPet from "./components/modalPet";
 import CountDown from "./components/subcomponents/CountDownBanner";
+import DiscountsAndAdvantages from "./components/DiscountsAndAdvantages";
+import HealthDecisionSection from "./components/HealthDecisionSection";
+import HowItWorksSection from "./components/HowItWorksSection";
+import MicroChipSection from "./components/MicroChipSection";
+import Partners from "./components/Partners";
+import PetLocator from "./components/PetLocator";
+import TestimonialVideos from "./components/TestimonialVideos";
+import BestClinics from "./components/BestClinics";
+import LifePet from "./components/LifePet";
+import SpecializedService from "./components/SpecializedService";
+import SomeQuestions from "./components/SomeQuestions";
+import Cancel from "./components/Cancel";
+import CoParticipation from "./components/CoParticipation";
+import CredentialNetworkBanner from "./components/CredentialNetworkBanner";
+import BannerPromos from "./components/BannerPromosPet";
 
 function IndexSeguroPet() {
-  const targetDate = new Date("September 17, 2023 00:00:00");
+  const [lastStep, setLastStep] = useState(0);
+
+  const [modalOpen, setModalIsOpen] = useState(false);
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    region: "",
+    ibge: "",
+  });
+
+  const navigate = useNavigate();
+
+  const closeModal = (data) => {
+    setModalIsOpen(false);
+  };
+
+  const openModalStep = (step) => {
+    setLastStep(step);
+    setModalIsOpen(true);
+  };
+
+  const sendForm = (data) => {
+    let form = {
+      ...formData,
+      ...data,
+    };
+
+    console.log("Enviando Formulário:", form);
+
+    var sessionData = sessionStorage.getItem("formPetData");
+
+    try {
+      sessionData = JSON.parse(sessionData);
+    } catch (error) {
+      console.error("Session Error:", error);
+      sessionData = {};
+    }
+
+    if (!sessionData) {
+      sessionData = {};
+    }
+
+    let userData = {};
+
+    if (sessionData.userData) {
+      userData = { ...sessionData.userData };
+    }
+
+    userData = {
+      ...userData,
+      name: form.name,
+      email: form.email,
+      phone: form.phone,
+    };
+
+    sessionData = {
+      ...sessionData,
+      userData: userData,
+    };
+
+    sessionStorage.setItem("formPetData", JSON.stringify(sessionData));
+
+    setFormData(form);
+
+    navigate("/cotacao-pet-love");
+  };
+
+  useEffect(() => {
+    if (modalOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [modalOpen]);
+
+  const targetDate = new Date("December 31, 2023 00:00:00");
   return (
     <div className="IndexSeguroPet">
       <Helmet>
@@ -49,15 +149,36 @@ function IndexSeguroPet() {
           href="https://primesecure.com.br/seguro-pet-porto"
         />
       </Helmet>
-      <CountDown targetDate={targetDate} />
-      <FormSeguroPetBanner />
-      <SessaoInformativaProdutosLp
-        InformacoesProdutos={InformacoesProdutos}
-        productId="3"
+      {/*<CountDown targetDate={targetDate} />*/}
+      <BannerPromos />
+      <FormSeguroPetBanner
+        callback={(data) => {
+          setFormData({ ...data });
+          openModalStep(1);
+        }}
       />
-      <PlanSlider />
-      <ConteudoSessaoInfo sessaoInfoLp={sessaoInfoLp} sessaoInfoId="3" />
+      <PetLocator />
+      <PlanSlider openModalStep={openModalStep} />
+      <BestClinics openModalStep={openModalStep} />
+      <HealthDecisionSection openModalStep={openModalStep} />
+      <MicroChipSection openModalStep={openModalStep} />
+      <DiscountsAndAdvantages openModalStep={openModalStep} />
+      <HowItWorksSection openModalStep={openModalStep} />
+      <Cancel openModalStep={openModalStep} />
+      <SomeQuestions openModalStep={openModalStep} />
+      <TestimonialVideos openModalStep={openModalStep} />
+      <SpecializedService openModalStep={openModalStep} />
+      <CredentialNetworkBanner />
+      <CoParticipation />
+      <LifePet openModalStep={openModalStep} />
       <FaqPet />
+      <Partners />
+      <ModalPet
+        openModal={modalOpen}
+        closeModal={closeModal}
+        sendForm={sendForm}
+        lastStep={lastStep}
+      />
     </div>
   );
 }

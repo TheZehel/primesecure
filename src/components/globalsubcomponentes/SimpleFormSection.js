@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import InputMask from "react-input-mask";
 import { useNavigate } from "react-router-dom";
+import { Checkbox, Typography } from "@material-tailwind/react";
 
 const getUtmParams = () => {
   let params = {};
@@ -27,6 +28,7 @@ export default function SimpleFormSection({
   description,
   price,
   image,
+  submit,
 }) {
   const [formData, setFormData] = useState({
     name: "",
@@ -48,6 +50,10 @@ export default function SimpleFormSection({
   }, []);
 
   const navigate = useNavigate();
+
+  const handleNavigateToPrivacyPolicy = () => {
+    navigate("/politicas-de-privacidade");
+  };
 
   const handleInputChange = (event) => {
     const target = event.target;
@@ -96,6 +102,10 @@ export default function SimpleFormSection({
       "/seguro-residencial-porto-2/": "lead-seguro-residencial-api",
       "/equipamentos-portateis-3/": "lead-seguro-celular-api",
       "/sulamerica-odonto/": "lead-sulamerica-odonto-api",
+      "/seguro-bike": "lead-seguro-bike-api",
+      "/seguro-bike/": "lead-seguro-bike-api",
+      "/seguro-celular-kakau": "seguro-celular-kakau-api",
+      "/seguro-celular-kakau/": "seguro-celular-kakau-api",
     };
 
     const pathname = window.location.pathname;
@@ -116,6 +126,10 @@ export default function SimpleFormSection({
     "/seguro-residencial-porto-2": "lead-seguro-residencial",
     "/equipamentos-portateis-3": "lead-seguro-celular",
     "/sulamerica-odonto": "lead-sulamerica-odonto",
+    "/seguro-bike": "lead-seguro-bike",
+    "/seguro-bike/": "lead-seguro-bike",
+    "/seguro-celular-kakau": "seguro-celular-kakau",
+    "/seguro-celular-kakau/": "seguro-celular-kakau",
   };
 
   const emitDataLayerEvent = () => {
@@ -139,6 +153,7 @@ export default function SimpleFormSection({
 
   const handleButtonClick = async () => {
     handleBlur();
+
     if (validateForm()) {
       const apiKey = process.env.REACT_APP_API_KEY_RD_STATION;
       const options = {
@@ -167,15 +182,20 @@ export default function SimpleFormSection({
       axios
         .request(options)
         .then(async function (response) {
-          // função marcada como assíncrona aqui
-          //console.log(response.data);
           sessionStorage.setItem("formData", JSON.stringify(formData));
 
           try {
-            // Aguarda emitDataLayerEvent antes de navegar
             await emitDataLayerEvent();
             if (window.location.pathname === "/seguro-residencial-porto-2") {
               window.location.href = "https://residencial.primesecure.com.br/";
+            } else if (window.location.pathname.includes("seguro-pet-porto")) {
+              submit(formData);
+            } else if (window.location.pathname.includes("seguro-bike")) {
+              submit(formData);
+            } else if (
+              window.location.pathname.includes("seguro-celular-kakau")
+            ) {
+              submit(formData);
             } else {
               navigate("/obrigado");
             }
@@ -218,7 +238,7 @@ export default function SimpleFormSection({
 
   return (
     <div className="animate__animated animate__zoomIn rounded-lg bg-white p-5 sm:px-10 sm:mx-20 xl:mx-32">
-      <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+      <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
         Faça Sua Cotação Gratuita
       </h2>
       <p className="mt-2 text-sm leading-6 text-gray-600">
@@ -228,7 +248,7 @@ export default function SimpleFormSection({
         id="form1"
         className="sm:flex flex-col sm:flex-row justify-center items-center mx-auto gap-x-6 gap-y-4 mt-10 max-w-xl sm:mt-10 xl:mx-20"
       >
-        <div className="w-full gap-x-8 gap-y-6 grid grid-cols-1 mt-5 sm:m-0">
+        <div className="w-full gap-x-4 gap-y-4 grid grid-cols-1 mt-5 sm:m-0">
           <div>
             <label
               htmlFor=""
@@ -330,6 +350,17 @@ export default function SimpleFormSection({
         >
           Cotar Agora
         </button>
+      </div>
+      <div className="sm:w-4/4 flex mt-5 text-start">
+        <Typography>
+          Ao preencher aceito os
+          <button
+            onClick={handleNavigateToPrivacyPolicy}
+            className="font-medium transition-colors hover:text-bluePrime2"
+          >
+            &nbsp;Termos & Condições
+          </button>
+        </Typography>
       </div>
     </div>
   );

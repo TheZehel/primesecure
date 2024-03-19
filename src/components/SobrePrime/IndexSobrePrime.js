@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet";
 import HeaderSobre from "./components/HeaderSobre";
 import FaqSobre from "./components/FaqSobre";
 import BannerImg from "./components/BannerImg";
+import IndexTrophySection from "../trophy-section/IndexTrophySection";
 
 function IndexSobrePrime() {
   return (
@@ -33,6 +34,7 @@ function IndexSobrePrime() {
       </Helmet>
       <HeaderSobre />
       <BannerImg />
+      <IndexTrophySection />
       <FaqSobre />
     </div>
   );

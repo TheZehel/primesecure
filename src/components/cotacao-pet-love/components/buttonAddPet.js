@@ -1,10 +1,11 @@
 export default function ButtonAddPet({ onPetAdded }) {
   const handleClick = () => {
-    console.log("Botão Adicionar Pet foi pressionado.");
+    //console.log("Botão Adicionar Pet foi pressionado.");
+
     if (onPetAdded) {
       onPetAdded();
     } else {
-      console.log("Função onAddPet não foi fornecida.");
+      //console.log("Função onAddPet não foi fornecida.");
     }
   };
 
