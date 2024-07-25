@@ -7,8 +7,11 @@ import ConteudoSessaoInfo from "../globalsubcomponentes/ConteudoSessaoInfo";
 import sessaoInfoLp from "../modules/SessaoInfoLp";
 import FaqResidencial from "./components/subcomponents/FaqResidencial";
 import { Helmet } from "react-helmet";
+import CountDown from "./components/subcomponents/CountDown";
+import BannerPromo from "./components/subcomponents/BannerPromos";
 
 function IndexSeguroResidencial() {
+  const targetDate = new Date("December 31, 2023 00:00:00");
   return (
     <div className="IndexSeguroResidencial">
       <Helmet>
@@ -35,13 +38,15 @@ function IndexSeguroResidencial() {
         />
         <meta
           property="og:url"
-          content="https://primesecure.com.br/seguro-residencial-porto-2"
+          content="https://www.primesecure.com.br/seguro-residencial-porto-2"
         />
         <link
           rel="canonical"
-          href="https://primesecure.com.br/seguro-residencial-porto-2"
+          href="https://www.primesecure.com.br/seguro-residencial-porto-2"
         />
       </Helmet>
+      {/*<CountDown targetDate={targetDate} />*/}
+      <BannerPromo />
       <FormResidencialBanner />
       <SessaoInformativaProdutosLp
         InformacoesProdutos={InformacoesProdutos}

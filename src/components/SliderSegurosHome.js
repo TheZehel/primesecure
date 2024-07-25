@@ -3,6 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import CardSeguro from "./CardSegurosHome";
 import imageManagerInformacoesProdutos from "./modules/bancoDeImagensInformacoesProdutos";
+import imageManager from "./bancoDeImagens";
 
 const {
   imgSliderHomeResidencial,
@@ -81,12 +82,19 @@ export default function SliderSegurosHome() {
   };
 
   return (
-    <div className="montserrat">
-      <h2 className="text-center text-4xl pt-20">
+    <div className="font-montserrat mt-16 text-grayPrime">
+      <h2 className="text-center text-primary font-bold mb-13 text-2xl sm:text-5xl mt-16 mb-5">
         {" "}
         Opções De Seguro Para Todos Os Seus Momentos
       </h2>
-      <p>Arraste para o lado</p>
+      <div class="flex items-center justify-center h-full">
+        <img
+          src={imageManager.Utils.iconHand}
+          alt="icone de mao arrastando slider"
+          class="mr-2 w-7 "
+        />
+        <p className="font-bold text-bluePrime">Arraste para o lado</p>
+      </div>
       <div
         onMouseEnter={handleSlideBounce}
         onTouchStart={handleSlideBounce}

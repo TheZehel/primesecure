@@ -1,5 +1,15 @@
 import { Typography } from "@material-tailwind/react";
 import imageManager from "./bancoDeImagens";
+import BannerPixAndCard from "./primetravel/components/subcomponents/BannerPixAndCard";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCcMastercard,
+  faCcAmex,
+  faCcVisa,
+  faCcDinersClub,
+  faPix,
+} from "@fortawesome/free-brands-svg-icons";
+import { faCreditCard } from "@fortawesome/free-regular-svg-icons";
 
 const LINKS = [
   {
@@ -14,13 +24,6 @@ const LINKS = [
     ],
   },
   {
-    title: "Sobre Nós",
-    items: [
-      { title: "Sobre", link: "/sobre" },
-      { title: "Contato", link: "/contato" },
-    ],
-  },
-  {
     title: "Dúvidas",
     items: [
       { title: "FAQ", link: "#" },
@@ -28,6 +31,17 @@ const LINKS = [
         title: "LGPD",
         link: "https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/LGPD+SITE+-+PRIME+SECURE.pdf",
       },
+      {
+        title: "Políticas de privacidade",
+        link: "/politicas-de-privacidade",
+      },
+    ],
+  },
+  {
+    title: "Sobre Nós",
+    items: [
+      { title: "Sobre", link: "/sobre" },
+      { title: "Contato", link: "/contato" },
     ],
   },
 ];
@@ -60,9 +74,11 @@ const currentYear = new Date().getFullYear();
 
 export default function Footer() {
   return (
-    <footer className="relative w-full bg-white">
+    <footer className="relative w-full bg-white font-montserrat">
       <div className="mx-auto w-full max-w-full px-8 py-8 mt-10">
-        <div className="grid grid-cols-1 justify-between gap-4 md:grid-cols-2">
+        {/* Contêiner para a Imagem e o Texto */}
+        <div className="mt-8 flex flex-col items-center">
+          {/* Imagem */}
           <img
             src={imageManager.brand.logoPrimeSecure}
             alt="Logo Prime Secure"
@@ -70,13 +86,19 @@ export default function Footer() {
             height={150}
           />
 
-          <div className="grid grid-cols-3 justify-between gap-4">
+          {/* Texto abaixo da imagem 
+          <p className="mt-4 text-center text-sm text-blue-gray-900">
+            Seu texto aqui
+          </p>*/}
+        </div>
+        <div className="grid grid-cols-1 justify-between gap-4 md:grid-cols-2 mt-10 sm:mt-20">
+          <div className="grid grid-cols-3 justify-between gap-4 text-start">
             {LINKS.map(({ title, items }) => (
               <ul key={title}>
                 <Typography
                   variant="small"
                   color="blue-gray"
-                  className="mb-3 font-medium opacity-40"
+                  className="mb-3 font-semibold text-grayPrime text-md"
                 >
                   {title}
                 </Typography>
@@ -95,7 +117,59 @@ export default function Footer() {
               </ul>
             ))}
           </div>
+          <div>
+            <h4 className="mb-3 font-semibold text-grayPrime text-md">
+              Formas de Pagamento:
+            </h4>
+            <div className="flex  justify-center items-center m-4 ">
+              <div className="bg-white text-grayPrime p-5 rounded-lg items-center justify-center  max-w-5xl">
+                <FontAwesomeIcon
+                  icon={faPix}
+                  size="4x"
+                  style={{ color: "#3caf88", marginRight: "10px" }}
+                />
+                <h2 className="font-bold">
+                  Pague Com Pix, Aprovação Instantânea
+                </h2>
+                <h2 className="font-bold text-3xl text-bluePrime2">Ou</h2>
+                <h2 className="font-bold">
+                  Em até{" "}
+                  <span className="text-bluePrime">
+                    12x Sem Juros no cartão de Crédito
+                  </span>
+                </h2>
+                <div className="flex items-center justify-center">
+                  <FontAwesomeIcon
+                    icon={faCcMastercard}
+                    size="2x"
+                    style={{ color: "#03a8db", marginRight: "8px" }}
+                  />
+                  <FontAwesomeIcon
+                    icon={faCcVisa}
+                    size="2x"
+                    style={{ color: "#03a8db", marginRight: "8px" }}
+                  />
+                  <FontAwesomeIcon
+                    icon={faCcAmex}
+                    size="2x"
+                    style={{ color: "#03a8db", marginRight: "8px" }}
+                  />
+                  <FontAwesomeIcon
+                    icon={faCcDinersClub}
+                    size="2x"
+                    style={{ color: "#03a8db", marginRight: "8px" }}
+                  />
+                  <FontAwesomeIcon
+                    icon={faCreditCard}
+                    size="2x"
+                    style={{ color: "#03a8db", marginRight: "8px" }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
         <div className="mt-12 flex w-full flex-col items-center justify-center border-t border-blue-gray-50 py-4 md:flex-row md:justify-between">
           <Typography
             variant="small"

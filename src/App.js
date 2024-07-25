@@ -11,18 +11,20 @@ import { Helmet } from "react-helmet";
 import "./App.css";
 
 // COMPONENTES
-import Banner from "./components/Banner";
+//import Banner from "./components/Banner";
 import NavBarMenu from "./components/navBarMenu.js";
-import Travel from "./components/Travel";
-import Residencial from "./components/Residencial";
+//import Travel from "./components/Travel";
+//import Residencial from "./components/Residencial";
 //import Seguros from "./components/Seguros";
 import Faq from "./components/Faq";
-import Logos from "./components/Logos";
+//import Logos from "./components/Logos";
 import Footer from "./components/Footer";
 import Selos from "./components/Selos";
 import SobrePrime from "./components/SobrePrime";
 import Newsletter from "./components/Newsletter";
 import PaginaLogin from "./components/PaginaLogin";
+import SignUp from "./components/SignUp";
+import IndexBannerMktplace from "./components/banner-mktplace/indexBannerMktplace";
 
 //Páginas de Produtos
 import IndexTravel from "./components/primetravel/IndexTravel";
@@ -38,13 +40,36 @@ import Cotacao from "./components/globalsubcomponentes/Cotacao";
 import PageNotFound from "./components/PageNotFound";
 import IndexSobrePrime from "./components/SobrePrime/IndexSobrePrime";
 import IndexContato from "./components/Contato/IndexContato";
-import SliderSegurosHome from "./components/SliderSegurosHome";
+//import SliderSegurosHome from "./components/SliderSegurosHome";
+import PrivacyPolicy from "./components/globalsubcomponentes/PrivacyPolicy";
 
 //Páginas de Cotação
 import IndexCotacaoPetlove from "./components/cotacao-pet-love/indexCotacaoPet";
 import IndexCotacaoVidaSulamerica from "./components/cotacao-vida-sulamerica/indexCotacaoVidaSulamerica";
-import StepAddres from "./components/cotacao-vida-sulamerica/components/StepAddress";
+//import StepAddres from "./components/cotacao-vida-sulamerica/components/StepAddress";
 import { CardGraaac } from "./components/CardGraac";
+import SliderTrofeusHome from "./components/SliderTrofeusHome";
+//import CountDown from "./components/CountDown";
+import { CarouselCustomArrows } from "./components/CarouselLogos";
+//import Pet from "./components/Pet";
+import CredentialNetwork from "./components/seguro-pet/rede-credenciada/CredentialNetwork";
+import IndexTravelVenda from "./components/primetravel-venda/IndexTravelVenda";
+import FeaturedInsurance from "./components/FeaturedInsurance";
+//import FeaturedMiniBanners from "./components/mini-banner/components/FeaturedMiniBanners";
+import IndexMiniBanner from "./components/mini-banner/IndexMiniBanner";
+import IndexBenefits from "./components/benefits/IndexBenefits";
+import IndexContactSection from "./components/contact-section/indexContactSection";
+import IndexTrophySection from "./components/trophy-section/IndexTrophySection";
+import IndexLastPostsBlog from "./components/last-posts-blog/IndexLastPostsBlog";
+import IndexSeguroBike from "./components/seguro-bike/IndexSeguroBike";
+
+//Páginas de Pagamento
+import InvoicePayment from "./components/seguro-pet/InvoicePayment";
+import IndexCotacaoSeguroBike from "./components/seguro-bike/cotacao-seguro-bike/IndexCotacaoSeguroBike";
+import IndexSeguroCelularKakau from "./components/seguro-celular-kakau/indexSeguroCelularKakau";
+import IndexCotacaoSeguroCelularkakau from "./components/seguro-celular-kakau/cotacao-seguro-celular-kakau/IndexCotacaoSeguroCelularKakau";
+import Contracts from "./components/accounts/components/Contracts";
+import PageContract from "./components/accounts/components/PageContract";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -57,10 +82,14 @@ function ScrollToTop() {
 }
 
 function App() {
+  // time do countdown
+  const _pathname = window?.location?.pathname || "";
+
+  const targetDate = new Date("December 31, 2023 00:00:00");
   return (
     <Router>
       <ScrollToTop />
-      <div className="App">
+      <div className="App font-montserrat">
         <Helmet>
           <title>
             Prime Secure Marketplace - Protegendo Todos os Seus Momentos
@@ -78,46 +107,157 @@ function App() {
           <link rel="canonical" href="https://primesecure.com.br" />
         </Helmet>
         <NavBarMenu />
+
         <Routes>
           <Route
             path="/"
             element={
               <>
-                <Banner />
-
-                <div id="Travel1">
+                {/* <CountDown targetDate={targetDate} /> */}
+                <IndexBannerMktplace />
+                {/* <Banner /> */}
+                <FeaturedInsurance />
+                <IndexMiniBanner />
+                {/*<Pet />*/}
+                {/*<div id="Travel1">
                   <Travel />
-                </div>
-                <div id="Residencial">
+            </div>*/}
+                {/* <div id="Residencial">
                   <Residencial />
+          </div>*/}
+                {/*<SliderSegurosHome />*/}
+                <IndexBenefits />
+                <div id="Logos" className="sm:mt-[100px]">
+                  <CarouselCustomArrows />
                 </div>
-                <SliderSegurosHome />
                 <div id="sobrePrime">
                   <SobrePrime />
                 </div>
                 <div id="Newsletter">
                   <Newsletter />
                 </div>
+                {/*<SliderTrofeusHome />*/}
+                <IndexTrophySection />
                 <div id="Faq">
                   <Faq />
                 </div>
+                <IndexLastPostsBlog />
                 <CardGraaac />
-                <div id="Logos">
-                  <Logos />
-                </div>
                 <Selos />
+                <IndexContactSection />
               </>
             }
           />
           <Route path="/login" element={<PaginaLogin />} />
-          <Route path="/cotacao-pet-love" element={<IndexCotacaoPetlove />} />
+          <Route path="/registre-se" element={<SignUp />} />
+          <Route path="/contratos" element={<Contracts />} />
+          <Route path="/contrato" element={<PageContract />} />
+          <Route path="/politicas-de-privacidade" element={<PrivacyPolicy />} />
+          <Route path="/rede-credenciada" element={<CredentialNetwork />} />
+          {/* ROTAS PETLOVE */}
+          <Route
+            path="/cotacao-pet-love/planos"
+            element={<IndexCotacaoPetlove />}
+          />
           <Route
             path="/cotacao-vida-sulamerica"
             element={<IndexCotacaoVidaSulamerica />}
           />
+          <Route
+            path="/cotacao-vida-sulamerica/planos"
+            element={<IndexCotacaoVidaSulamerica />}
+          />
+          <Route
+            path="/cotacao-vida-sulamerica/endereco"
+            element={<IndexCotacaoVidaSulamerica />}
+          />
+          <Route
+            path="/cotacao-vida-sulamerica/pagamento"
+            element={<IndexCotacaoVidaSulamerica />}
+          />
+          <Route
+            path="/cotacao-vida-sulamerica/obrigado"
+            element={<IndexCotacaoVidaSulamerica />}
+          />
+
+          <Route
+            path="/cotacao-pet-love/dados-pessoais"
+            element={<IndexCotacaoPetlove />}
+          />
+          <Route
+            path="/cotacao-pet-love/pagamento"
+            element={<IndexCotacaoPetlove />}
+          />
+          <Route
+            path="/cotacao-pet-love/obrigado"
+            element={<IndexCotacaoPetlove />}
+          />
+          <Route
+            path="/fatura-petlove/:subscriptionId"
+            element={<InvoicePayment />}
+          />
+
+          <Route path="/cotacao-pet-love" element={<IndexCotacaoPetlove />} />
+          {/* ROTAS SEGURO BIKE KAKAU */}
+          <Route path="/seguro-bike" element={<IndexSeguroBike />} />
+          <Route
+            path="/seguro-bike/cotacao"
+            element={<IndexCotacaoSeguroBike />}
+          />
+          <Route
+            path="/seguro-bike/cotacao/dados-cadastrais"
+            element={<IndexCotacaoSeguroBike />}
+          />
+          <Route
+            path="/seguro-bike/cotacao/endereco"
+            element={<IndexCotacaoSeguroBike />}
+          />
+          <Route
+            path="/seguro-bike/cotacao/cadastro-bike"
+            element={<IndexCotacaoSeguroBike />}
+          />
+          <Route
+            path="/seguro-bike/cotacao/pagamento"
+            element={<IndexCotacaoSeguroBike />}
+          />
+          <Route
+            path="/seguro-bike/cotacao/pagamento-confirmado"
+            element={<IndexCotacaoSeguroBike />}
+          />
+          {/* ROTAS SEGURO CELULAR KAKAU */}
+          <Route
+            path="/seguro-celular-kakau"
+            element={<IndexSeguroCelularKakau />}
+          />
+          <Route
+            path="/seguro-celular-kakau/cotacao"
+            element={<IndexCotacaoSeguroCelularkakau />}
+          />
+          <Route
+            path="/seguro-celular-kakau/cotacao/dados-cadastrais"
+            element={<IndexCotacaoSeguroCelularkakau />}
+          />
+          <Route
+            path="/seguro-celular-kakau/cotacao/endereco"
+            element={<IndexCotacaoSeguroCelularkakau />}
+          />
+          <Route
+            path="/seguro-celular-kakau/cotacao/cadastro-celular"
+            element={<IndexCotacaoSeguroCelularkakau />}
+          />
+          <Route
+            path="/seguro-celular-kakau/cotacao/pagamento"
+            element={<IndexCotacaoSeguroCelularkakau />}
+          />
+          <Route
+            path="/seguro-celular-kakau/cotacao/pagamento-confirmado"
+            element={<IndexCotacaoSeguroCelularkakau />}
+          />
+          {/* ROTAS PAGES HOME */}
           <Route path="/sobre" element={<IndexSobrePrime />} />
           <Route path="/contato" element={<IndexContato />} />
           <Route path="/primetravel" element={<IndexTravel />} />
+          <Route path="/seguro-viagem" element={<IndexTravelVenda />} />
           <Route path="/seguro-de-vida" element={<IndexVida />} />
           <Route
             path="/equipamentos-portateis-3"
@@ -134,7 +274,7 @@ function App() {
           <Route path="/cotacao" element={<Cotacao />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
-        <Footer />
+        {(!_pathname.includes('/seguro-bike') && !_pathname.includes('/seguro-celular-kakau') && !_pathname.includes('/seguro-celular-kakau') ) && (<Footer />)}
       </div>
     </Router>
   );

@@ -16,8 +16,11 @@ function IndexContato() {
           name="keywords"
           content="Prime Secure, Seguros, Insurance, Insurtech, Corretora de Seguros, MarketPlace de Seguros, Seguro Celular, Seguros, porto seguro, porto, porto celular, seguros"
         />
-        <meta property="og:url" content="https://primesecure.com.br/contato" />
-        <link rel="canonical" href="https://primesecure.com.br/contato" />
+        <meta
+          property="og:url"
+          content="https://www.primesecure.com.br/contato"
+        />
+        <link rel="canonical" href="https://www.primesecure.com.br/contato" />
       </Helmet>
       <HeaderContato />
       <CardsContato />

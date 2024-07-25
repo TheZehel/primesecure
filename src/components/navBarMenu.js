@@ -25,6 +25,15 @@ import {
   faPlane,
   faMobile,
   faBuilding,
+  faMedkit,
+  faPhone,
+  faMicrochip,
+  faHeartCircleCheck,
+  faBicycle,
+  faPhoneSlash,
+  faPhoneAlt,
+  faMobilePhone,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 
 const globalFunctions = new GlobalFuntions();
@@ -38,6 +47,20 @@ const products = [
     href: `/primetravel${utmParams ? "?" + utmParams : ""}`,
     icon: FontAwesomeIcon,
     iconProps: { icon: faPlane },
+  },
+  {
+    name: "Seguro Bike Kakau",
+    description: "Proteção para sua Bike",
+    href: `/seguro-bike${utmParams ? "?" + utmParams : ""}`,
+    icon: FontAwesomeIcon,
+    iconProps: { icon: faBicycle },
+  },
+  {
+    name: "Seguro Celular Kakau",
+    description: "Proteção para o Seu Celular",
+    href: `/seguro-celular-kakau${utmParams ? "?" + utmParams : ""}`,
+    icon: FontAwesomeIcon,
+    iconProps: { icon: faMobilePhone },
   },
   {
     name: "Seguro Residencial",
@@ -81,7 +104,29 @@ const products = [
     icon: FontAwesomeIcon,
     iconProps: { icon: faBuilding },
   },
+  {
+    name: "Saúde",
+    description: "Para quem busca cuidar de si próprio",
+    href: "https://primesecureprodutos.com.br/planos-de-saude/",
+    icon: FontAwesomeIcon,
+    iconProps: { icon: faMedkit },
+  },
+  {
+    name: "Seguro de Vida Azos",
+    description: "Para quem busca cuidar de si próprio",
+    href: "https://primesecureprodutos.com.br/seguro-de-vida-prime-azos/",
+    icon: FontAwesomeIcon,
+    iconProps: { icon: faHeartCircleCheck },
+  },
+  {
+    name: "Chip Internacional",
+    description: "Para quem quer comunicação sem fronteiras",
+    href: "https://primechip.com.br/",
+    icon: FontAwesomeIcon,
+    iconProps: { icon: faMicrochip },
+  },
 ];
+
 const callsToAction = [
   { name: "Conheça a Prime", href: "/sobre", icon: PlayCircleIcon },
   { name: "Fale Conosco", href: "/contato", icon: PhoneIcon },
@@ -102,10 +147,33 @@ const menu = [
   },
 ];
 
+const pathToLogoMap = {
+  "/seguro-pet-porto": imageManager.brand.logoPrimeSecurePetLove,
+  "/seguro-pet-porto/": imageManager.brand.logoPrimeSecurePetLove,
+  "/sulamerica-odonto": imageManager.brand.logoPrimeSecureSulamerica,
+  "/sulamerica-odonto/": imageManager.brand.logoPrimeSecureSulamerica,
+  "/seguro-de-vida": imageManager.brand.logoPrimeSecureSulamerica,
+  "/seguro-de-vida/": imageManager.brand.logoPrimeSecureSulamerica,
+  "/seguro-residencial-porto-2": imageManager.brand.logoPrimeSecurePorto,
+  "/seguro-residencial-porto-2/": imageManager.brand.logoPrimeSecurePorto,
+  "/equipamentos-portateis-3": imageManager.brand.logoPrimeSecurePorto,
+  "/equipamentos-portateis-3/": imageManager.brand.logoPrimeSecurePorto,
+  "/seguro-bike": imageManager.brand.logoPrimeSecureKakau,
+  "/seguro-bike/": imageManager.brand.logoPrimeSecureKakau,
+  "/seguro-celular-kakau": imageManager.brand.logoPrimeSecureKakau,
+  "/seguro-celular-kakau/": imageManager.brand.logoPrimeSecureKakau,
+};
+
 function NavBarMenu() {
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isMenuFixed, setIsMenuFixed] = useState(false);
+
+  // Obtém a URL atual
+  const currentPath = window.location.pathname;
+
+  // Escolhe o logo com base na URL
+  const logo = pathToLogoMap[currentPath] || imageManager.brand.logoPrimeSecure;
 
   const scrollToSection = (sectionId) => {
     scroller.scrollTo(sectionId, {
@@ -141,23 +209,43 @@ function NavBarMenu() {
     }
   };
 
+  const [lastScrollPosition, setLastScrollPosition] = useState(0);
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
+
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY;
+      const currentScrollPosition = window.pageYOffset;
       const scrollThreshold = 200;
 
-      if (scrollPosition > scrollThreshold && !isMenuFixed) {
+      if (
+        currentScrollPosition < lastScrollPosition &&
+        currentScrollPosition > scrollThreshold
+      ) {
         setIsMenuFixed(true);
-      } else if (scrollPosition <= scrollThreshold && isMenuFixed) {
+        setIsMenuVisible(true);
+        setHasScrolled(true);
+      } else if (currentScrollPosition === 0 && hasScrolled) {
         setIsMenuFixed(false);
+        setIsMenuVisible(true); // Mantenha o menu visível quando voltar ao topo da página
+        setHasScrolled(false);
+      } else {
+        setIsMenuFixed(false);
+        setIsMenuVisible(false);
+        if (currentScrollPosition > 0) {
+          setHasScrolled(true);
+        }
       }
+
+      setLastScrollPosition(currentScrollPosition);
     };
+
     window.addEventListener("scroll", handleScroll);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [isMenuFixed]);
+  }, [lastScrollPosition, hasScrolled]);
 
   var pageSlug = globalFunctions.getPageSlug();
   var productName = globalFunctions.getPageName(pageSlug);
@@ -170,11 +258,12 @@ function NavBarMenu() {
   //console.log(globalFunctions.getPageName(pageSlug));
 
   useEffect(() => {
-    pageSlug = globalFunctions.getPageSlug();
-    productName = globalFunctions.getPageName(pageSlug);
+    const pageSlug = globalFunctions.getPageSlug();
+    const productName = globalFunctions.getPageName(pageSlug);
 
-    productList = products;
-    productList = products.filter((product) => product.name !== productName);
+    const productList = products.filter(
+      (product) => product.name !== productName
+    );
 
     //console.log(pageSlug);
     //console.log(productName);
@@ -183,24 +272,70 @@ function NavBarMenu() {
 
   const [linkClicked, setLinkClicked] = useState(false);
 
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      cursor: "pointer",
+      // Adiciona estilos para o controle aqui, se necessário
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      cursor: "pointer",
+      border: "80px", // Corrigido para 'none' ou especifique uma largura válida e estilo de borda, por exemplo, '1px solid #ccc'
+      backgroundColor: state.isSelected ? "#03a8db" : "white",
+      color: state.isSelected ? "white" : "#313131",
+      "&:hover": {
+        backgroundColor: "lightblue",
+      },
+      with: "80%",
+      // Adiciona outros estilos de opção aqui, se necessário
+    }),
+    menu: (provided) => ({
+      ...provided,
+      zIndex: 9999,
+    }),
+    menuList: (provided) => ({
+      ...provided,
+      // Aqui vamos adicionar o estilo para a barra de rolagem
+      "::-webkit-scrollbar": {
+        width: "3px",
+      },
+      "::-webkit-scrollbar-track": {
+        background: "#f1f1f1",
+      },
+      "::-webkit-scrollbar-thumb": {
+        background: "#03a8db",
+      },
+      "::-webkit-scrollbar-thumb:hover": {
+        background: "#555",
+      },
+    }),
+    menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+    // Adiciona mais customizações de estilo para outras partes aqui, se necessário
+  };
+
   return (
     <header
-      className={`bg-white font-montserrat z-1 shadow ${
-        isMenuFixed
-          ? "fixed top-0 w-full z-50 transition-all duration-300 fade-in-out"
-          : ""
-      }`}
+      className={classNames(
+        "bg-white  font-montserrat z-[900] shadow transition-transform duration-2000 ease-in-out",
+        {
+          "fixed top-0 w-full z-[900] transform translate-y-0":
+            isMenuFixed && isMenuVisible,
+          "transform -translate-y-full":
+            hasScrolled && !(isMenuFixed && isMenuVisible),
+        }
+      )}
     >
       <nav
-        className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
+        className="mx-auto flex max-w-7xl items-center justify-between p-2 sm:p-6 lg:px-8"
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
           <a href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Prime Secure</span>
             <img
-              className="h-5 w-auto"
-              src={imageManager.brand.logoPrimeSecure}
+              className="h-auto w-[250px] sm:w-[300px]"
+              src={logo}
               alt="Logo Prime Secure"
             />
           </a>
@@ -215,7 +350,7 @@ function NavBarMenu() {
             <Bars3Icon className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
-        <Popover.Group className="hidden lg:flex lg:gap-x-12">
+        <Popover.Group className="hidden lg:flex lg:gap-x-12 ">
           <Popover className="relative">
             <Popover.Button
               id="option-produtos"
@@ -237,12 +372,16 @@ function NavBarMenu() {
               leaveFrom="opacity-100 translate-y-0"
               leaveTo="opacity-0 translate-y-1"
             >
-              <Popover.Panel className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
+              <Popover.Panel
+                className="custom-scrollbar absolute -left-8 top-full z-[900] mt-3 w-screen max-w-md rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5 overflow-auto"
+                style={{ maxHeight: "90vh" }}
+                styles={customStyles}
+              >
                 <div className="p-4">
                   {productList.map((item) => (
                     <Link
                       to={item.href}
-                      className="block font-semibold text-gray-900"
+                      className="block font-semibold text-gray-900 "
                       onClick={() => {
                         setLinkClicked(!linkClicked);
                         setMobileMenuOpen(false);
@@ -334,8 +473,8 @@ function NavBarMenu() {
           ))}
         </Popover.Group>
 
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          {/*<button>
+        <div className="hidden lg:flex lg:flex-1 lg:justify-end space-x-4">
+          <button className="hidden">
             <Link
               to="/login"
               onClick={(event) => {
@@ -343,11 +482,28 @@ function NavBarMenu() {
                 navigate("/login");
                 setMobileMenuOpen(false);
               }}
-              className="text-sm font-semibold leading-6 text-gray-900"
+              className="text-sm font-semibold leading-6 text-gray-900 hover:decoration-bluePrime hover:underline transition duration-75 ease-out"
             >
-              Login <span aria-hidden="true">&rarr;</span>
+              Acionar Seguro <span aria-hidden="true"></span>
             </Link>
-            </button>*/}
+          </button>
+          <button className="space-x-1 hover:decoration-bluePrime hover:underline transition duration-75 ease-out text-bluePrime hidden">
+            <FontAwesomeIcon
+              icon={faUser}
+              className="text-sm  justify-center text-grayPrime hover:decoration-bluePrime hover:underline transition duration-75 ease-out"
+            />
+            <Link
+              to="/login"
+              onClick={(event) => {
+                event.preventDefault();
+                navigate("/login");
+                setMobileMenuOpen(false);
+              }}
+              className="text-sm font-semibold leading-6 text-gray-900 hover:decoration-bluePrime hover:underline transition duration-75 ease-out"
+            >
+              Minha Conta <span aria-hidden="true"></span>
+            </Link>
+          </button>
         </div>
       </nav>
       <Dialog
@@ -356,14 +512,14 @@ function NavBarMenu() {
         open={mobileMenuOpen}
         onClose={() => setMobileMenuOpen(false)}
       >
-        <div className="fixed inset-0 z-10" />
-        <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+        <div className="fixed inset-0 z-[900]" />
+        <Dialog.Panel className="fixed inset-y-0 right-0 z-[900] w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
             <a href="#Home" className="-m-1.5 p-1.5">
               <span className="sr-only">Prime Secure</span>
               <img
-                className="h-8 w-auto"
-                src={imageManager.brand.logoPrimeSecure}
+                className="h-auto w-[250px] sm:w-[300px]"
+                src={logo}
                 alt=""
               />
             </a>

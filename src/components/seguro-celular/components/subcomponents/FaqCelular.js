@@ -52,7 +52,9 @@ export default function FaqCelular() {
 
   return (
     <div className="w-4/5  mx-auto py-2 sm:py-2">
-      <h2 className="text-3xl mb-6 text-center">Dúvidas Frequentes</h2>
+      <h2 className="text-center text-primary font-bold mb-13 text-2xl sm:text-5xl my-16">
+        Dúvidas Frequentes
+      </h2>
       <div className="space-y-6">
         {faqs.map((faq, index) => (
           <div key={index} className="border rounded-md p-4">

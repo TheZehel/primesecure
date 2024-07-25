@@ -33,7 +33,7 @@ const planos = [
   },
   {
     id: 3,
-    title: "Estados Únidos e Canadá",
+    title: "Estados Unidos e Canadá",
     price: "12,95",
     description: "",
     image: ImgSliderEstadosUnidos,
@@ -92,9 +92,19 @@ export default function SliderPlanos() {
   };
 
   return (
-    <div className="montserrat ">
-      <h2 className="text-center text-4xl pt-20"> Nossos Planos</h2>
-      <p>Arraste para o lado</p>
+    <div className="font-montserrat ">
+      <h2 className="text-center text-primary font-bold mb-13 text-2xl sm:text-5xl mt-20">
+        {" "}
+        Nossos Planos
+      </h2>
+      <div class="flex items-center justify-center h-full">
+        <img
+          src={imageManagerPrimeTravel.Utils.iconHand}
+          alt="icone de mao arrastando slider"
+          class="mr-2 w-7 "
+        />
+        <p className="font-bold text-bluePrime mt-5">Arraste para o lado</p>
+      </div>
       <div onMouseEnter={handleSlideBounce} onTouchStart={handleSlideBounce}>
         <Swiper
           ref={swiperRef}

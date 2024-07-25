@@ -2,6 +2,8 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import InputMask from "react-input-mask";
 import { useNavigate } from "react-router-dom";
+import { Checkbox, Typography } from "@material-tailwind/react";
+import LoadingAnimation from "./icons/loadingSvg";
 
 const getUtmParams = () => {
   let params = {};
@@ -27,6 +29,7 @@ export default function SimpleFormSection({
   description,
   price,
   image,
+  submit,
 }) {
   const [formData, setFormData] = useState({
     name: "",
@@ -38,6 +41,8 @@ export default function SimpleFormSection({
     utm_campaign: "",
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     const utmParams = getUtmParams();
     setFormData((prevFormData) => {
@@ -48,6 +53,10 @@ export default function SimpleFormSection({
   }, []);
 
   const navigate = useNavigate();
+
+  const handleNavigateToPrivacyPolicy = () => {
+    navigate("/politicas-de-privacidade");
+  };
 
   const handleInputChange = (event) => {
     const target = event.target;
@@ -96,6 +105,10 @@ export default function SimpleFormSection({
       "/seguro-residencial-porto-2/": "lead-seguro-residencial-api",
       "/equipamentos-portateis-3/": "lead-seguro-celular-api",
       "/sulamerica-odonto/": "lead-sulamerica-odonto-api",
+      "/seguro-bike": "lead-seguro-bike-api",
+      "/seguro-bike/": "lead-seguro-bike-api",
+      "/seguro-celular-kakau": "seguro-celular-kakau-api",
+      "/seguro-celular-kakau/": "seguro-celular-kakau-api",
     };
 
     const pathname = window.location.pathname;
@@ -116,6 +129,10 @@ export default function SimpleFormSection({
     "/seguro-residencial-porto-2": "lead-seguro-residencial",
     "/equipamentos-portateis-3": "lead-seguro-celular",
     "/sulamerica-odonto": "lead-sulamerica-odonto",
+    "/seguro-bike": "lead-seguro-bike-kakau",
+    "/seguro-bike/": "lead-seguro-bike-kakau",
+    "/seguro-celular-kakau": "seguro-celular-kakau",
+    "/seguro-celular-kakau/": "seguro-celular-kakau",
   };
 
   const emitDataLayerEvent = () => {
@@ -139,9 +156,11 @@ export default function SimpleFormSection({
 
   const handleButtonClick = async () => {
     handleBlur();
+
     if (validateForm()) {
+      setIsLoading(true);
       const apiKey = process.env.REACT_APP_API_KEY_RD_STATION;
-      const options = {
+      const optionsRD = {
         method: "POST",
         url: `https://api.rd.services/platform/conversions?api_key=${apiKey}`,
         headers: {
@@ -164,51 +183,84 @@ export default function SimpleFormSection({
         },
       };
 
-      axios
-        .request(options)
-        .then(async function (response) {
-          // função marcada como assíncrona aqui
-          //console.log(response.data);
-          sessionStorage.setItem("formData", JSON.stringify(formData));
+      const currentPath = window.location.pathname;
 
+      console.log("caminho atual: ", currentPath);
+
+      const postDataManyChat = {
+        first_name: formData.name.split(" ")[0],
+        last_name: formData.name.split(" ").slice(1).join(" "),
+        phone: formData.phone.replace(/\D/g, ""),
+        whatsapp_phone: formData.phone.replace(/\D/g, ""),
+        email: formData.email,
+        gender: "",
+        has_opt_in_sms: true,
+        has_opt_in_email: true,
+        consent_phrase: "Eu aceito os termos e condições.",
+        current_url: currentPath,
+      };
+
+      sessionStorage.setItem("formData", JSON.stringify(formData));
+
+      try {
+        const responseRD = await axios.request(optionsRD);
+        console.log("RD Station Response:", responseRD);
+
+        await emitDataLayerEvent();
+
+        const urlsManyChat = [
+          "/seguro-bike",
+          "/seguro-bike/",
+          "/primetravel",
+          "/primetravel/",
+        ];
+
+        if (urlsManyChat.includes(currentPath)) {
           try {
-            // Aguarda emitDataLayerEvent antes de navegar
-            await emitDataLayerEvent();
-            if (window.location.pathname === "/seguro-residencial-porto-2") {
-              window.location.href = "https://residencial.primesecure.com.br/";
-            } else {
-              navigate("/obrigado");
-            }
-          } catch (error) {
-            console.error(error);
+            const responseManyChat = await axios.post(
+              `${process.env.REACT_APP_URL_CREATE_SUBSCRIBER_MANYCHAT}/manychat/subscriber/create`,
+              postDataManyChat,
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+            console.log("ManyChat Response:", responseManyChat);
+          } catch (manyChatError) {
+            console.error(
+              "ManyChat Error:",
+              manyChatError.response
+                ? manyChatError.response.data
+                : manyChatError.message
+            );
           }
-        })
-        .catch(function (error) {
-          console.error(error);
-        });
+        }
+
+        navigateBasedOnPath();
+      } catch (error) {
+        console.error("Error in RD Station or Data Layer event:", error);
+        navigateBasedOnPath();
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
-  /*useEffect(() => {
-    // Recuperar os dados do sessionStorage ao carregar a página
-    const storedFormData = sessionStorage.getItem("formData");
-
-    if (storedFormData) {
-      setFormData(JSON.parse(storedFormData));
+  const navigateBasedOnPath = () => {
+    if (window.location.pathname.includes("/seguro-residencial-porto-2")) {
+      window.location.href = "https://residencial.primesecure.com.br/";
+    } else if (
+      window.location.pathname.includes("seguro-pet-porto") ||
+      window.location.pathname.includes("seguro-bike") ||
+      window.location.pathname.includes("seguro-celular-kakau") ||
+      window.location.pathname.includes("seguro-de-vida")
+    ) {
+      submit(formData);
+    } else {
+      navigate("/obrigado");
     }
-
-    // Adicionar o script à página
-    const script = document.createElement("script");
-    script.src =
-      "https://d335luupugsy2.cloudfront.net/js/loader-scripts/21470fa9-a2c0-43a4-951c-d2956a0806cd-loader.js";
-    script.async = true;
-    document.body.appendChild(script);
-
-    return () => {
-      // Remover o script da página quando o componente for desmontado
-      document.body.removeChild(script);
-    };
-  }, []);*/
+  };
 
   const [clicado, setClicado] = useState(false);
 
@@ -218,7 +270,7 @@ export default function SimpleFormSection({
 
   return (
     <div className="animate__animated animate__zoomIn rounded-lg bg-white p-5 sm:px-10 sm:mx-20 xl:mx-32">
-      <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+      <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
         Faça Sua Cotação Gratuita
       </h2>
       <p className="mt-2 text-sm leading-6 text-gray-600">
@@ -228,7 +280,7 @@ export default function SimpleFormSection({
         id="form1"
         className="sm:flex flex-col sm:flex-row justify-center items-center mx-auto gap-x-6 gap-y-4 mt-10 max-w-xl sm:mt-10 xl:mx-20"
       >
-        <div className="w-full gap-x-8 gap-y-6 grid grid-cols-1 mt-5 sm:m-0">
+        <div className="w-full gap-x-4 gap-y-4 grid grid-cols-1 mt-5 sm:m-0">
           <div>
             <label
               htmlFor=""
@@ -312,7 +364,7 @@ export default function SimpleFormSection({
                 >
                   <option value="">Escolha uma Opção:</option>
                   <option value="Apple">Apple</option>
-                  <option value="Samsumg">Samsumg</option>
+                  <option value="Samsung">Samsung</option>
                   <option value="Motorola">Motorola</option>
                   <option value="Xiaomi">Xiaomi</option>
                   <option value="Outras Marcas">Outras Marcas</option>
@@ -326,10 +378,21 @@ export default function SimpleFormSection({
         <button
           type="submit"
           onClick={handleButtonClick}
-          className="bg-bluePrime hover:bg-bluePrime2 text-white font-bold py-2 px-4 rounded w-full flex mt-3 justify-center items-center"
+          className="bg-bluePrime hover:bg-bluePrime2 text-white font-bold py-2 px-4 rounded w-full flex mt-3 justify-center items-center max-h-10"
         >
-          Cotar Agora
+          {isLoading ? <LoadingAnimation /> : "Cotar Agora"}
         </button>
+      </div>
+      <div className="sm:w-4/4 flex mt-5 text-start">
+        <Typography>
+          Ao preencher aceito os
+          <button
+            onClick={handleNavigateToPrivacyPolicy}
+            className="font-medium transition-colors hover:text-bluePrime2"
+          >
+            &nbsp;Termos & Condições
+          </button>
+        </Typography>
       </div>
     </div>
   );

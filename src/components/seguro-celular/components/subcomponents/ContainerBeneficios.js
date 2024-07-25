@@ -4,7 +4,7 @@ export default function ContainerBenficios() {
   return (
     <div className="bg-transparent font-montserrat my-12">
       <div className="bg-transparent mx-auto max-w-7xl px-6 lg:px-8 ">
-        <span className=" font-bold text-4xl">
+        <span className=" text-center text-primary font-bold mb-13 text-2xl sm:text-5xl mb-16">
           Com o seguro para celular da Porto Seguro, você tem:
         </span>
         <div className="flex flex-wrap p-5 text-left ">

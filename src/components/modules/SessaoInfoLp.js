@@ -24,7 +24,6 @@ import {
   faHospitalUser,
   faBan,
   faStop,
-  faPlaneDelay,
   faSuitcaseRolling,
   faSearch,
   faBriefcase,
@@ -33,10 +32,15 @@ import {
   faMoneyBillWave,
   faWheelchair,
   faSkullCrossbones,
-  faHearse,
   faConciergeBell,
   faInfoCircle,
   faEnvelope,
+  faHospitalAlt,
+  faVial,
+  faSyringe,
+  faShieldDog,
+  faClock,
+  faTags,
 } from "@fortawesome/free-solid-svg-icons";
 
 const sessaoInfoLp = [
@@ -225,37 +229,37 @@ const sessaoInfoLp = [
         name: "Cirurgias e Internação",
         description:
           "Nossos planos cobrem uma ampla gama de procedimentos cirúrgicos e internações, garantindo que seu pet receba o cuidado de que precisa quando mais precisa.",
-        icon: <FontAwesomeIcon icon={faHouse} />,
+        icon: <FontAwesomeIcon icon={faHospitalAlt} />,
       },
       {
         name: "Exames de Imagem e Laboratorial",
         description:
           "Oferecemos cobertura para uma variedade de exames de imagem e laboratoriais, permitindo diagnósticos precisos e tratamentos eficazes.",
-        icon: <FontAwesomeIcon icon={faHouse} />,
+        icon: <FontAwesomeIcon icon={faVial} />,
       },
       {
         name: "Vacinas e Castração",
         description:
           "Mantenha seu pet protegido contra uma variedade de doenças com nossa cobertura para vacinas. Além disso, oferecemos cobertura para castração, ajudando a prevenir problemas de saúde e comportamentais.",
-        icon: <FontAwesomeIcon icon={faHouse} />,
+        icon: <FontAwesomeIcon icon={faSyringe} />,
       },
       {
         name: "Coberturas e Assistências Exclusivas",
         description:
           "Nossos planos vão além do básico, oferecendo coberturas e assistências exclusivas para garantir o bem-estar total do seu pet.",
-        icon: <FontAwesomeIcon icon={faHouse} />,
+        icon: <FontAwesomeIcon icon={faShieldDog} />,
       },
       {
         name: "Atendimento 24/7",
         description:
           "Sabemos que emergências podem acontecer a qualquer momento. É por isso que oferecemos assistência qualificada 24 horas por dia para o seu pet.",
-        icon: <FontAwesomeIcon icon={faHouse} />,
+        icon: <FontAwesomeIcon icon={faClock} />,
       },
       {
         name: "Descontos em Produtos PetLove:",
         description:
           "Como um bônus adicional, você receberá até 30% de desconto mais frete grátis em produtos PetLove, tornando mais fácil e acessível cuidar do seu pet.",
-        icon: <FontAwesomeIcon icon={faHouse} />,
+        icon: <FontAwesomeIcon icon={faTags} />,
       },
     ],
   },

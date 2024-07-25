@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet";
 import HeaderSobre from "./components/HeaderSobre";
 import FaqSobre from "./components/FaqSobre";
 import BannerImg from "./components/BannerImg";
+import IndexTrophySection from "../trophy-section/IndexTrophySection";
 
 function IndexSobrePrime() {
   return (
@@ -28,11 +29,15 @@ function IndexSobrePrime() {
           property="og:image"
           content="https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/sobre-prime.jpg"
         />
-        <meta property="og:url" content="https://primesecure.com.br/sobre" />
-        <link rel="canonical" href="https://primesecure.com.br/sobre" />
+        <meta
+          property="og:url"
+          content="https://www.primesecure.com.br/sobre"
+        />
+        <link rel="canonical" href="https://www.primesecure.com.br/sobre" />
       </Helmet>
       <HeaderSobre />
       <BannerImg />
+      <IndexTrophySection />
       <FaqSobre />
     </div>
   );

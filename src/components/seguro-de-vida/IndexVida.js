@@ -14,9 +14,10 @@ import CoberturasSlider from "./components/subcomponents/CoberturasSlider";
 import BeneficiosSlider from "./components/subcomponents/BeneficiosSlider copy";
 import FaqVida from "./components/subcomponents/FaqVida";
 import CountDown from "./components/subcomponents/CountDownBannerVida";
+import BannerPromo from "./components/subcomponents/BannerPromosVida";
 
 function IndexVida() {
-  const targetDate = new Date("September 17, 2023 00:00:00");
+  const targetDate = new Date("December 31, 2023 00:00:00");
   return (
     <div className="IndexVida">
       <Helmet>
@@ -44,14 +45,15 @@ function IndexVida() {
         />
         <meta
           property="og:url"
-          content="https://primesecure.com.br/seguro-de-vida"
+          content="https://www.primesecure.com.br/seguro-de-vida"
         />
         <link
           rel="canonical"
-          href="https://primesecure.com.br/seguro-de-vida"
+          href="https://www.primesecure.com.br/seguro-de-vida"
         />
       </Helmet>
-      <CountDown targetDate={targetDate} />
+      {/*<CountDown targetDate={targetDate} />*/}
+      <BannerPromo />
       <FormVidaBanner />
       <CoberturasSlider />
       <SessaoInformativaProdutosLp

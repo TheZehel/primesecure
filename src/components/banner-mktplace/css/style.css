@@ -1,0 +1,159 @@
+.swiper {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+  
+    /* Center slide text vertically */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .swiper-container {
+    margin-bottom: 5px; /* Ajuste este valor conforme necessário */
+  }
+  
+  .swiper-pagination {
+    overflow: auto;
+    position: absolute;
+    bottom: 0;
+    z-index: 1000; /* Um valor alto para garantir que esteja acima de outros elementos */
+    transform: translateY(10%);
+  }
+
+  .swiper-pagination-bullet {
+    background-color: #313131;
+  }
+
+  .swiper-button-prev, .swiper-button-next {
+    background-color: #313131; /* Cor de fundo da bola */
+    border-radius: 80%; /* Torna a bola redonda */
+    width: 35px; /* Largura da bola */
+    height: 35px; /* Altura da bola */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0; /* Esconde inicialmente as setas */
+    transition: opacity 0.3s; /* Transição suave para a visibilidade */
+  }
+  
+  .swiper-button-prev::after, .swiper-button-next::after {
+    font-size: 14px; /* Tamanho da seta */
+    color: white; /* Cor da seta */
+  }
+  
+  /* Mostra as setas quando o mouse estiver sobre o swiper */
+  .swiper:hover .swiper-button-prev,
+  .swiper:hover .swiper-button-next {
+    opacity: 1;
+  }
+  
+  /* Ajuste para centralizar verticalmente as setas no swiper */
+  .swiper-button-prev, .swiper-button-next {
+    top: 55%;
+    transform: translateY(-55%);
+  }
+  
+  /* Ajustes específicos para cada botão, se necessário */
+  .swiper-button-prev {
+    left: 10px; /* Distância da borda esquerda */
+  }
+  
+  .swiper-button-next {
+    right: 10px; /* Distância da borda direita */
+  }
+  
+  .autoplay-progress {
+    position: absolute;
+    right: 16px;
+    bottom: 33px;
+    z-index: 10;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #fff;
+  }
+  
+  .autoplay-progress svg {
+    --progress: 0;
+    position: absolute;
+    left: 0;
+    top: 0px;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    stroke-width: 4px;
+    stroke: #fff;
+    fill: none;
+    stroke-dashoffset: calc(125.6 * (1 - var(--progress)));
+    stroke-dasharray: 125.6;
+    transform: rotate(-90deg);
+  }
+
+  .autoplay-progress2 {
+    position: absolute;
+    right: 16px;
+    bottom: 12px;
+    z-index: 10;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: medium;
+    color: #fff;
+  }
+
+  .autoplay-progress2 svg {
+    --progress: 0;
+    position: absolute;
+    left: 0;
+    top: 0px;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    stroke-width: 2px;
+    stroke: #fff;
+    fill: none;
+    stroke-dashoffset: calc(125.6 * (1 - var(--progress)));
+    stroke-dasharray: 125.6;
+    transform: rotate(-90deg);
+  }
+
+  .autoplay-progress3 {
+    position: absolute;
+    right: 5px;
+    bottom: 12px;
+    z-index: 10;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: medium;
+    color: #fff;
+  }
+
+  .autoplay-progress3 svg {
+    --progress: 0;
+    position: absolute;
+    left: 15px;
+    top: 20px;
+    z-index: 10;
+    width: 60%;
+    height: 45%;
+    stroke-width: 2px;
+    stroke: #fff;
+    fill: none;
+    stroke-dashoffset: calc(125.6 * (1 - var(--progress)));
+    stroke-dasharray: 125.6;
+    transform: rotate(-90deg);
+  }

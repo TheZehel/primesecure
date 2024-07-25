@@ -1,0 +1,67 @@
+# Etapa 1: Construir a aplicação React
+FROM node:18.17.1 as builder
+
+# Argumentos de build para os segredos
+ARG REACT_APP_API_KEY_RD_STATION
+ARG REACT_APP_API_ENDPOINT_SANDBOX
+ARG REACT_APP_API_ENDPOINT_PRODUCTION
+ARG REACT_APP_ENVIRONMENT
+ARG REACT_APP_GOOGLE_MAPS_KEY
+ARG REACT_APP_API_MANYCHAT
+ARG REACT_APP_URL_CREATE_SUBSCRIBER_MANYCHAT
+
+# Diretório de trabalho no container
+WORKDIR /app
+
+# Copia os arquivos de package.json e package-lock.json para o diretório de trabalho
+COPY package*.json ./
+
+# Modifica o script start no package.json
+RUN sed -i 's/"start": "react-scripts start"/"start": "node app"/' package.json
+
+# Instalação das dependências
+RUN npm install
+
+# Copia os arquivos do projeto para o diretório de trabalho
+COPY . .
+
+# Cria o arquivo .env a partir do valor do argumento de build
+RUN echo "REACT_APP_API_KEY_RD_STATION=$REACT_APP_API_KEY_RD_STATION" > .env && \
+    echo "REACT_APP_API_ENDPOINT_SANDBOX=$REACT_APP_API_ENDPOINT_SANDBOX" >> .env && \
+    echo "REACT_APP_API_ENDPOINT_PRODUCTION=$REACT_APP_API_ENDPOINT_PRODUCTION" >> .env && \
+    echo "REACT_APP_ENVIRONMENT=$REACT_APP_ENVIRONMENT" >> .env && \
+    echo "REACT_APP_GOOGLE_MAPS_KEY=$REACT_APP_GOOGLE_MAPS_KEY" >> .env && \
+    echo "REACT_APP_API_MANYCHAT=$REACT_APP_API_MANYCHAT" >> .env && \
+    echo "REACT_APP_URL_CREATE_SUBSCRIBER_MANYCHAT=$REACT_APP_URL_CREATE_SUBSCRIBER_MANYCHAT" >> .env
+
+# Constrói a aplicação React
+RUN npm run build
+
+# Etapa 2: Preparar a imagem de produção com Node.js
+FROM node:18.17.1
+
+# Cria um usuário não-root para segurança
+RUN useradd -m myuser && mkdir -p /home/myuser/app && chown -R myuser:myuser /home/myuser/app
+
+# Diretório de trabalho no container
+WORKDIR /home/myuser/app
+
+# Copia a construção do React da etapa anterior
+COPY --from=builder /app/build ./build
+
+# Copia os arquivos estáticos e scripts do servidor
+COPY --from=builder /app/src/static ./src/static
+COPY --from=builder /app/app.js ./
+
+# Instala as dependências necessárias apenas para o servidor (sem devDependencies)
+COPY package*.json ./
+RUN npm install --only=production
+
+# Expõe a porta que a aplicação usa
+EXPOSE 3000
+
+# Muda para o usuário não-root
+USER myuser
+
+# Comando para rodar a aplicação
+CMD ["node", "app.js"]

@@ -1,8 +1,13 @@
 import React, { useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+//import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+//import { faTimes } from "@fortawesome/free-solid-svg-icons";
+//import SearchIcon from "../../../assets/svg/searchIcon.svg";
+//import { regions } from "./modules/regionsCredenciadas";
+//import { useNavigate } from "react-router-dom";
 import "swiper/css";
 
-export default function PlanSlider({ onPetAdded, pets, setPets }) {
+export default function PlanSlider({ onPlanSelected, openModalStep }) {
   const PlanCard = ({
     headTitle,
     title,
@@ -14,17 +19,20 @@ export default function PlanSlider({ onPetAdded, pets, setPets }) {
     textColor,
     planId,
     selectedPlan,
+    openModalStep,
   }) => {
     const isSelected = planId === selectedPlan;
     if (isSelected) {
       console.log("Plano Selecionado:", planId);
     }
 
-    //console.log(planId, selectedPlan)
+    const openModal = (step) => {
+      openModalStep(step);
+    };
 
     return (
       <div
-        className={`sm:w-82 w-90 h-[550px] m-4 rounded-2xl shadow border flex flex-col justify-between ${
+        className={`sm:w-82 w-90 h-[560px] m-4 rounded-2xl shadow border flex flex-col justify-between ${
           isSelected ? "blue" : "red"
         }`}
       >
@@ -41,7 +49,7 @@ export default function PlanSlider({ onPetAdded, pets, setPets }) {
         <div className="p-6 flex flex-col  flex-grow">
           <div className="flex justify-between gap-x-4 mb-5">
             <div
-              className={`text-grayPrime text-opacity-80 text-2xl font-extrabold`}
+              className={`text-grayPrime text-opacity-80 text-xl font-extrabold`}
             >
               {title}
             </div>
@@ -72,14 +80,14 @@ export default function PlanSlider({ onPetAdded, pets, setPets }) {
             ))}
           </div>
         </div>
-        {/*<div className="p-6 flex-shrink-0">
+        <div className="p-6 flex-shrink-0">
           <button
+            onClick={() => openModal(2)}
             className={`w-full p-3 bg-${bgColor} text-${textColor} rounded-2xl`}
-            onClick={handleAddPet}
           >
             Contratar
           </button>
-            </div>*/}
+        </div>
       </div>
     );
   };
@@ -87,6 +95,10 @@ export default function PlanSlider({ onPetAdded, pets, setPets }) {
   const swiperRef = useRef(null);
   const [hasBounced, setHasBounced] = useState(false);
   const [selectedPlanId, setSelectedPlanId] = useState(null);
+
+  const openModal = (step) => {
+    openModalStep(step);
+  };
 
   const handleSlideBounce = () => {
     if (!hasBounced) {
@@ -101,6 +113,7 @@ export default function PlanSlider({ onPetAdded, pets, setPets }) {
 
   const plans = [
     {
+      headTitle: "O mais em Conta",
       title: "Leve",
       price: "R$ 19,90",
       resume: "Coberturas Do Plano:",
@@ -115,6 +128,7 @@ export default function PlanSlider({ onPetAdded, pets, setPets }) {
       planId: 1,
     },
     {
+      headTitle: "Para Cuidados de Rotina",
       title: "Tranquilo",
       price: "R$ 49,90",
       resume: "Coberturas Do Plano:",
@@ -134,6 +148,7 @@ export default function PlanSlider({ onPetAdded, pets, setPets }) {
       planId: 2,
     },
     {
+      headTitle: "Melhor Custo Benefício",
       title: "Ideal",
       price: "R$ 99,90",
       resume: "Todas as coberturas do plano Tranquilo +",
@@ -151,9 +166,10 @@ export default function PlanSlider({ onPetAdded, pets, setPets }) {
       planId: 3,
     },
     {
+      headTitle: "Mais Cobertura",
       title: "Essencial",
-      price: "R$ 159,90",
-      resume: "Todas as coberturas do plano Tranquilo +",
+      price: "R$ 179,90",
+      resume: "Todas as coberturas do plano Ideal +",
       resumeDesc:
         "Consultas em horário de plantão, Vacinas obrigatórias, Procedimentos clínicos, Consultas em horário normal, Microchipagem gratuita, Clínico geral a domicílio, Exames laboratoriais simples, Exames laboratoriais complexos, Exames de imagem, Especialistas, Exames cardiológicos, Cirurgias, Anestesia inalatória, Internação",
       features: ["Fisioterapia e Acupuntura", "Exames de Alta Complexidade"],
@@ -168,7 +184,9 @@ export default function PlanSlider({ onPetAdded, pets, setPets }) {
     <div className="montserrat relative w-full h-full max-w-screen-lg mx-auto mt-20">
       <div className="relative w-full h-full mx-auto text-center"></div>
       <div className="relative w-full h-full mx-auto text-center text-zinc-800 text-2xl font-semibold sm:mt-10 mt-10">
-        Confira Nossos Planos:
+        <h2 className="text-center text-3xl sm:text-5xl text-primary font-bold mb-12 text-grayPrime">
+          Confira Nossos Planos:
+        </h2>
       </div>
       <div
         onMouseEnter={handleSlideBounce}
@@ -184,7 +202,7 @@ export default function PlanSlider({ onPetAdded, pets, setPets }) {
           breakpoints={{
             640: { slidesPerView: 2 },
             1024: { slidesPerView: 3 },
-            1920: { slidesPerView: 4 },
+            1920: { slidesPerView: 3 },
           }}
         >
           {plans.map((plan, idx) => (
@@ -195,6 +213,7 @@ export default function PlanSlider({ onPetAdded, pets, setPets }) {
                 setSelectedPlanId={(value) => {
                   setSelectedPlanId(value);
                 }}
+                openModalStep={(step) => openModal(step)}
               />
             </SwiperSlide>
           ))}

@@ -8,7 +8,7 @@ const stats = [
 
 export default function SobrePrime() {
   return (
-    <div className="relative isolate overflow-hidden bg-gray-900 py-24 sm:py-32  mb-20">
+    <div className="relative isolate overflow-hidden bg-gray-900 py-24 sm:py-32  mb-20 mt-[50px] sm:mt-[100px]">
       <img
         loading="lazy"
         src={imageManager.sobrePrime.bgSobrePrime}
