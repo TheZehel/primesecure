@@ -1,17 +1,25 @@
 import GlobalFuntions from "../../globalsubcomponentes/globalFunctions";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
+import axios from "axios";
 
 //Components
 import Quotation from "./components/Quotation";
 import { step } from "@material-tailwind/react";
 import BuyerData from "./components/BuyerData";
 import AddressData from "./components/AddressData";
-import DataBike from "./components/DataPhone";
 import DataPhone from "./components/DataPhone";
 import PaymentPhone from "./PaymentPhone";
+import SuccessfullPage from "./components/SuccessfulPage";
+import CustomFooter from "./components/subcomponents/CustomFooter";
+
+import ProgressManager from "./components/modules/progress";
+
+const enviroment = process.env.REACT_APP_ENVIRONMENT;
+const apiUrl = process.env[`REACT_APP_API_ENDPOINT_${enviroment}`];
 
 const globalFunctions = new GlobalFuntions();
+const progress = new ProgressManager();
 
 export default function IndexCotacaoSeguroCelularkakau() {
   const pageSlug = globalFunctions.getPageSlug();
@@ -22,6 +30,10 @@ export default function IndexCotacaoSeguroCelularkakau() {
 
   const [reloadComponent, updateComponent] = useState(false);
 
+  const [successToken, setSuccessToken] = useState(false);
+
+  const [couponData, setCouponData] = useState({code: "", value: 0, valid: false});
+
   const [formData, setFormData] = useState({
     userData: {
       name: "",
@@ -31,6 +43,75 @@ export default function IndexCotacaoSeguroCelularkakau() {
   });
 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const [loadToken, setLoadToken] = useState(false);
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const tokenProgress = queryParams.get("t");
+    const cupom = queryParams.get("cupom");
+    
+    const processData = async () => {
+    try {
+        try { if (cupom) cupom = await validateCoupon(cupom); } catch(e) {}
+        try { if (tokenProgress) await loadFormProgress(tokenProgress); } catch(e) {}    
+      }catch(e){}
+      finally { setLoadToken(true); }
+    };
+
+    processData();
+  }, []);
+
+  const validateCoupon = async (coupon) => {
+    var _data = { code: coupon, type: "", value: 0, valid: false };
+
+    if (!coupon || typeof coupon !== 'string') {
+      setCouponData(_data);
+      return;
+    }
+
+    var url = `http://localhost:3050/kakau-phone/checkout/validate-coupon/${coupon}`;
+    if (enviroment != "SANDBOX") url = `https://api-primesecure.onrender.com/kakau-phone/checkout/validate-coupon/${coupon}`;
+
+    var params = globalFunctions.getParamsFromUrl();
+
+    await axios.get(url)
+      .then(async (response) => {
+        const { data } = response;
+        let { error = false, coupon = {} } = data;
+
+        if (error || !coupon || !coupon.active) delete params.cupom;
+          else params = { ...params, cupom: coupon.code };
+
+        _data = { code: coupon.code, type: coupon.type, value: coupon.amount, valid: true };
+      })
+      .catch((err) => {
+        let error = err;
+
+        if (error && error.response) error = error.response;  
+        if (error && error.data) error = error.data;
+
+        console.error("Erro ao validar o cupom:", error);
+        delete params.cupom;        
+      });
+
+    setCouponData(_data);
+    globalFunctions.updateUrlFromObj(params);
+    return _data;
+  };
+
+  const loadFormProgress = async (token) => {
+    console.log("Token Progress", token);
+    let form = null
+    
+    try {
+      form = await progress.getFormProgress(token);
+    }catch(e) {}
+
+    setLoadToken(true);
+    setFormData(form);    
+  };
 
   const nextStep = (step, data) => {
     if (step === 2) {
@@ -39,7 +120,7 @@ export default function IndexCotacaoSeguroCelularkakau() {
         return;
       }
 
-      sessionStorage.setItem("selectedPlan", JSON.stringify(data));
+      try{ sessionStorage.setItem("selectedPlan", JSON.stringify(data));} catch(e) { }
       navigate("/seguro-celular-kakau/cotacao/dados-cadastrais");
     } else if (step === 3) {
       // Supondo que não há dados adicionais específicos para verificar nesta etapa
@@ -51,6 +132,8 @@ export default function IndexCotacaoSeguroCelularkakau() {
       // Supondo que nesta etapa você pode querer verificar/confirmar algum dado antes de prosseguir
       // Por exemplo, confirmação de dados de endereço ou algo similar
       navigate("/seguro-celular-kakau/cotacao/pagamento");
+    } else if (step === 6) {
+      navigate("/seguro-celular-kakau/cotacao/pagamento-confirmado");
     }
     // Adicione mais condições aqui conforme necessário
   };
@@ -67,7 +150,9 @@ export default function IndexCotacaoSeguroCelularkakau() {
   };
 
   useEffect(() => {
-    const newStep = slugArray.includes("pagamento")
+    const newStep = slugArray.includes("pagamento-confirmado")
+      ? 6
+      : slugArray.includes("pagamento")
       ? 5
       : slugArray.includes("cadastro-celular")
       ? 4
@@ -100,6 +185,7 @@ export default function IndexCotacaoSeguroCelularkakau() {
     !slugArray.includes("endereco") &&
     !slugArray.includes("cadastro-celular") &&
     !slugArray.includes("pagamento") &&
+    !slugArray.includes("pagamento-confirmado") &&
     currentStep !== 1
   ) {
     setCurrentStep(1);
@@ -121,6 +207,9 @@ export default function IndexCotacaoSeguroCelularkakau() {
   if (slugArray.includes("pagamento") && currentStep !== 5) {
     setCurrentStep(5);
   }
+  if (slugArray.includes("pagamento-confirmado") && currentStep !== 6) {
+    setCurrentStep(6);
+  }
 
   console.log(
     "Current Step:",
@@ -141,9 +230,11 @@ export default function IndexCotacaoSeguroCelularkakau() {
     } else if (slugArray.includes("endereco")) {
       step = 3;
     } else if (slugArray.includes("cadastro-celular")) {
-      step = 4; // Adiciona o step para "cadastro-bike"
+      step = 4; // Adiciona o step para "cadastro-celular"
     } else if (slugArray.includes("pagamento")) {
       step = 5; // Adiciona o step para "pagamento"
+    } else if (slugArray.includes("pagamento-confirmado")) {
+      step = 6; // Adiciona o step para "pagamento"
     }
 
     // Atualiza o currentStep apenas se for diferente do valor atual
@@ -151,6 +242,8 @@ export default function IndexCotacaoSeguroCelularkakau() {
       setCurrentStep(step);
     }
   }, [slugArray]); // Inclui currentStep nas dependências para reavaliar quando mudar
+
+  if (!loadToken) return (<></>);
 
   return (
     <div>
@@ -163,6 +256,7 @@ export default function IndexCotacaoSeguroCelularkakau() {
           submitForm={nextStep}
           updateForm={updateData}
           reload={reloadComponent}
+          couponData={couponData}
         />
       )}
       {currentStep === 3 && (
@@ -173,10 +267,13 @@ export default function IndexCotacaoSeguroCelularkakau() {
             setFormData({ ...formData, ...data });
           }}
           reload={reloadComponent}
+          couponData={couponData}
         />
       )}
-      {currentStep === 4 && <DataPhone />}
-      {currentStep === 5 && <PaymentPhone />}
+      {currentStep === 4 && <DataPhone couponData={couponData} />}
+      {currentStep === 5 && <PaymentPhone setSuccessToken={(token) => { setSuccessToken(token) } } _couponData={couponData} _setCouponData={setCouponData} />}
+      {currentStep === 6 && <SuccessfullPage token={successToken} />}
+      <CustomFooter />
     </div>
   );
 }

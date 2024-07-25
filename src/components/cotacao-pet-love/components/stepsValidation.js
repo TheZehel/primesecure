@@ -43,6 +43,34 @@ class PetStepValidation extends Object {
         if (petArray.length < 1){
             return [];
         }
+
+        if (Array.isArray(petArray) && petArray.length > 0) {
+            console.log('Validation:', petArray)
+
+            let sortedPets = petArray.sort((a, b) => {
+                let price = [
+                    a.plan.price.replace(/[^0-9]/g, ""),
+                    b.plan.price.replace(/[^0-9]/g, ""),
+                ];
+
+                price[0] = parseInt(price[0]);
+                price[1] = parseInt(price[1]);
+
+                if (price[0] > price[1]) {
+                    return 1;
+                }
+
+                if (price[0] < price[1]) {
+                    return -1;
+                }
+
+                return 0;
+            });
+
+            console.log('Validation Out:', sortedPets)
+
+            petArray = [...sortedPets];
+        }
     
         return petArray;
     }
@@ -59,7 +87,7 @@ class PetStepValidation extends Object {
             return false;
         }
     
-        if (!globalFunctions.validateName(data.name || '') || !globalFunctions.validateEmail(data.email || '')){
+        if (!globalFunctions.validateNameLastName(data.name || '') || !globalFunctions.validateEmail(data.email || '')){
             return false;
         }
     

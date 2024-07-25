@@ -35,71 +35,83 @@ export default function Banner() {
     {
       id: 1,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/carnaval-2024v2/primetravel/retificadas/srclarge-carnaval-2024-viagem.png",
+        "https://storage.googleapis.com/primesecure/banners/banners-julho/primetravel/srclarge-f%C3%A9rias-primetravel.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/carnaval-2024v2/primetravel/retificadas/srcmedium-carnaval-2024-viagem.png",
+        "https://storage.googleapis.com/primesecure/banners/banners-julho/primetravel/srcmedium-f%C3%A9rias-primetravel.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/carnaval-2024v2/primetravel/retificadas/srcmobile-carnaval-2024-viagem.png",
+        "https://storage.googleapis.com/primesecure/banners/banners-julho/primetravel/srcmobile-f%C3%A9rias-primetravel.png",
       alt: "Banner de Natal para Telas Grandes",
       href: "/primetravel",
     },
     {
       id: 2,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/carnaval-2024v2/pet/srclarge-carnaval-2024-pet.png",
+        "https://storage.googleapis.com/primesecure/banners/banners-julho/vida/srclarge-julho-2024-vida.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/carnaval-2024v2/pet/srcmedium-carnaval-2024-pet.png",
+        "https://storage.googleapis.com/primesecure/banners/banners-julho/vida/srcmedium-julho-2024-vida.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/carnaval-2024v2/pet/srcmobile-carnaval-2024-pet.png",
-      alt: "Banner de Natal para Telas Grandes",
-      href: "/seguro-pet-porto",
-    },
-    {
-      id: 3,
-      srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/carnaval-2024v2/residencial/srclarge-carnaval-2024-residencial.png",
-      srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/carnaval-2024v2/residencial/srcmedium-carnaval-2024-residencial.png",
-      srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/carnaval-2024v2/residencial/srcmobile-carnaval-2024-residencial.png",
-      alt: "Banner de Natal para Telas Grandes",
-      href: "/seguro-residencial-porto-2",
-    },
-    {
-      id: 4,
-      srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/carnaval-2024v2/vida/srclarge-carnaval-2024-vida.png",
-      srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/carnaval-2024v2/vida/srcmedium-carnaval-2024-vida.png",
-      srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/carnaval-2024v2/vida/srcmobile-carnaval-2024-vida.png",
+        "https://storage.googleapis.com/primesecure/banners/banners-julho/vida/srcmobile-julho-2024-vida.png",
       alt: "Banner de Natal para Telas Grandes",
       href: "/seguro-de-vida",
     },
     {
-      id: 5,
+      id: 3,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/carnaval-2024v2/odonto/srclarge-carnaval-2024-odonto.png",
+        "https://storage.googleapis.com/primesecure/banners/banners-julho/residencial/srclarge-julho-2024-residencial.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/carnaval-2024v2/odonto/srcmedium-carnaval-2024-odonto.png",
+        "https://storage.googleapis.com/primesecure/banners/banners-julho/residencial/srcmedium-julho-2024-residencial.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/carnaval-2024v2/odonto/srcmobile-carnaval-2024-odonto.png",
+        "https://storage.googleapis.com/primesecure/banners/banners-julho/residencial/srcmobile-julho-2024-residencial.png",
       alt: "Banner de Natal para Telas Grandes",
-      href: "/sulamerica-odonto",
+      href: "/seguro-residencial-porto-2",
     },
+
     {
-      id: 6,
+      id: 4,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/carnaval-2024v2/celular/srclarge-carnaval-2024-celular.png",
+        "https://storage.googleapis.com/primesecure/banners/banners-julho/celular-porto/srclarge-julho-2024-celular-porto.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/carnaval-2024v2/celular/srcmedium-carnaval-2024-celular.png",
+        "https://storage.googleapis.com/primesecure/banners/banners-julho/celular-porto/srcmedium-julho-2024-celular-porto.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/carnaval-2024v2/celular/srcmobile-carnaval-2024-celular.png",
+        "https://storage.googleapis.com/primesecure/banners/banners-julho/celular-porto/srcmobile-julho-2024-celular-porto.png",
       alt: "Banner de Natal para Telas Grandes",
       href: "/equipamentos-portateis-3",
     },
     {
+      id: 5,
+      srcLarge:
+        "https://storage.googleapis.com/primesecure/banners/banners-julho/pet/srclarge-julho-2024-pet.png",
+      srcMedium:
+        "https://storage.googleapis.com/primesecure/banners/banners-julho/pet/srcmedium-julho-2024-pet.png",
+      srcMobile:
+        "https://storage.googleapis.com/primesecure/banners/banners-julho/pet/srcmobile-julho-2024-pet.png",
+      alt: "Banner de Natal para Telas Grandes",
+      href: "/seguro-pet-porto",
+    },
+    {
       id: 6,
+      srcLarge:
+        "https://storage.googleapis.com/primesecure/banners/banners-julho/consorcio/srclarge-julho-2024-consorcio.png",
+      srcMedium:
+        "https://storage.googleapis.com/primesecure/banners/banners-julho/consorcio/srcmedium-julho-2024-cons%C3%B3rcio.png",
+      srcMobile:
+        "https://storage.googleapis.com/primesecure/banners/banners-julho/consorcio/srcmobile-julho-2024-consorcio.png",
+      alt: "Banner de Natal para Telas Grandes",
+      href: "https://primesecureprodutos.com.br/consorcio/",
+    },
+    {
+      id: 7,
+      srcLarge:
+        "https://storage.googleapis.com/primesecure/banners/banners-julho/odonto/srclarge-julho-2024-odonto.png",
+      srcMedium:
+        "https://storage.googleapis.com/primesecure/banners/banners-julho/odonto/srcmedium-julho-2024-odonto.png",
+      srcMobile:
+        "https://storage.googleapis.com/primesecure/banners/banners-julho/odonto/srcmobile-julho-2024-odonto.png",
+      alt: "Banner de Natal para Telas Grandes",
+      href: "/sulamerica-odonto",
+    },
+    {
+      id: 8,
       srcLarge:
         "https://storage.googleapis.com/primesecure/home/janeiro2024/srclarge%20telemedicina%202024%20viagem.png",
       srcMedium:
@@ -109,7 +121,28 @@ export default function Banner() {
       alt: "Banner de Natal para Telas Grandes",
       href: "/primetravel",
     },
-    // Adicione mais banners aqui conforme necessário
+    {
+      id: 9,
+      srcLarge:
+        "https://storage.googleapis.com/primesecure/banners/banners-julho/celular-kakau/srclarge-julho-2024-celular-kakau.png",
+      srcMedium:
+        "https://storage.googleapis.com/primesecure/banners/banners-julho/celular-kakau/srcmedium-julho-2024-celular-kakau.png",
+      srcMobile:
+        "https://storage.googleapis.com/primesecure/banners/banners-julho/celular-kakau/srcmobile-julho-2024-celular-kakau.png",
+      alt: "Banner de Natal para Telas Grandes",
+      href: "/seguro-celular-kakau",
+    },
+    {
+      id: 10,
+      srcLarge:
+        "https://storage.googleapis.com/primesecure/banners/banners-julho/bike/srclarge-julho-2024-bike.png",
+      srcMedium:
+        "https://storage.googleapis.com/primesecure/banners/banners-julho/bike/srcmedium-julho-2024-bike.png",
+      srcMobile:
+        "https://storage.googleapis.com/primesecure/banners/banners-julho/bike/srcmobile-julho-2024-bike.png",
+      alt: "Banner de Natal para Telas Grandes",
+      href: "/seguro-bike",
+    },
   ];
 
   return (

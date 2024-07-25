@@ -8,7 +8,9 @@ if (!fs.existsSync("../public/")) {
 }
 
 // Configura o sitemap stream
-const stream = new SitemapStream({ hostname: "https://primesecure.com.br" });
+const stream = new SitemapStream({
+  hostname: "https://www.primesecure.com.br",
+});
 
 // Pipe o sitemap para um arquivo
 const writeStream = createWriteStream("./public/sitemap.xml");
@@ -21,7 +23,7 @@ const links = [
   { url: "/cotacao-pet-love", changefreq: "monthly", priority: 0.5 },
   { url: "/sobre", changefreq: "monthly", priority: 0.5 },
   { url: "/contato", changefreq: "monthly", priority: 0.5 },
-  { url: "/primetravel", changefreq: "monthly", priority: 0.5 },
+  { url: "/primetravel", changefreq: "weekly", priority: 0.5 },
   { url: "/seguro-de-vida", changefreq: "monthly", priority: 0.5 },
   { url: "/equipamentos-portateis-3", changefreq: "monthly", priority: 0.5 },
   { url: "/seguro-pet-porto", changefreq: "monthly", priority: 0.5 },

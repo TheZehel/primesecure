@@ -131,7 +131,7 @@ export default function PetAdded({
         return (
           <div
             key={index}
-            className={`w-96 h-20 rounded-2xl shadow border flex justify-between items-center mx-auto my-4 p-4 ${
+            className={`w-full max-w-[384px] h-20 sm:w-96 rounded-2xl shadow border flex justify-between items-center mx-auto my-4 p-4 ${
               error ? "border-alertRed" : "border-bluePrime"
             }`}
           >

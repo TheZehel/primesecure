@@ -39,9 +39,9 @@ export default function PrivacyPolicy() {
           3. Compartilhamento de Dados
         </h2>
         <p className="text-md text-justify  my-5 mx-10">
-          Comprometemo-nos com a proteção da sua privacidade: seus dados não são
-          compartilhados com terceiros. Mantemos suas informações sob estrita
-          confidencialidade.
+          Os seus dados podem ser compartilhados com empresas parceiras e
+          prestadoras da Prime Secure, a fim de oferecer novos serviços e
+          produtos personalizados para você.
         </p>
         {/* 4. Segurança dos Dados */}
         <h2 className="text-start my-5 mx-10my-5 mx-10 text-lg font-bold">

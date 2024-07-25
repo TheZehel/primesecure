@@ -37,7 +37,7 @@ const enviroment = process.env.REACT_APP_ENVIRONMENT;
 const apiUrl = process.env[`REACT_APP_API_ENDPOINT_${enviroment}`];
 
 const validationsRelationship = {
-  "user-name": (value) => functions.validateName(value),
+  "user-name": (value) => functions.validateFullName(value),
   "user-email": (value) => functions.validateEmail(value),
   "user-phone": (value) => functions.validateCellPhone(value),
   "user-check": (value) => {
@@ -63,13 +63,13 @@ const validationsRelationship = {
     ["cc-monthly", "cc-annual", "pix"].includes(value),
 
   "cc-monthly-number": (value) => functions.validateCreditCardNumber(value),
-  "cc-monthly-name": (value) => functions.validateName(value),
+  "cc-monthly-name": (value) => functions.validateFullName(value),
   "cc-monthly-expiration": (value) =>
     functions.validateCreditCardExpirationDate(value),
   "cc-monthly-cvv": (value) => functions.validateCreditCardCVV(value),
 
   "cc-annual-number": (value) => functions.validateCreditCardNumber(value),
-  "cc-annual-name": (value) => functions.validateName(value),
+  "cc-annual-name": (value) => functions.validateFullName(value),
   "cc-annual-expiration": (value) =>
     functions.validateCreditCardExpirationDate(value),
   "cc-annual-cvv": (value) => functions.validateCreditCardCVV(value),
@@ -165,6 +165,8 @@ export default function PaymentStep({
   updateForm,
   returnTo,
   reload,
+  uploadToken,
+  applyCoupon
 }) {
   const [open, setOpen] = React.useState(1);
   const [discountList, setDiscountList] = useState({
@@ -649,6 +651,8 @@ export default function PaymentStep({
       //return;
     }
 
+    uploadToken();
+
     if (checkoutData.payment.selected == value) {
       //value = null;
       return;
@@ -663,7 +667,11 @@ export default function PaymentStep({
     //setIsPixSelected(isPix);
   };
 
-  const verifyCoupon = async () => {
+  //const applyCoupon = () => {
+  //  
+  //}
+
+  const verifyCoupon = async (save) => {
     //if (loadingCoupon){
     //  return;
     //}
@@ -676,11 +684,13 @@ export default function PaymentStep({
     //console.log('Códiog Cupom:', couponCode);
 
     if (!couponCode) {
+      if (save) { uploadToken(); }
       return;
     }
 
     if (!/^[a-zA-Z0-9]{1,25}$/.test(couponCode)) {
       setCouponMessage("Cupom inválido!");
+      if (save) { uploadToken(); }
       return;
     }
 
@@ -702,6 +712,8 @@ export default function PaymentStep({
           ...coupon,
         };
 
+        if (save) { uploadToken(); }
+
         setCheckoutData(checkoutData);
         setCouponMessage(res.message);
       })
@@ -718,6 +730,8 @@ export default function PaymentStep({
         };
 
         console.error("Cupom Error Response:", error);
+
+        if (save) { uploadToken(); }
 
         setCheckoutData(checkoutData);
 
@@ -1129,7 +1143,7 @@ export default function PaymentStep({
       }
 
       //User
-      if (!functions.validateName(userData.name)) {
+      if (!functions.validateFullName(userData.name)) {
         errorList.push("user-name");
       }
 
@@ -1191,7 +1205,7 @@ export default function PaymentStep({
           errorList.push("cc-monthly-number");
         }
 
-        if (!functions.validateName(ccData.name)) {
+        if (!functions.validateFullName(ccData.name)) {
           errorList.push("cc-monthly-name");
         }
 
@@ -1211,7 +1225,7 @@ export default function PaymentStep({
           errorList.push("cc-annual-number");
         }
 
-        if (!functions.validateName(ccData.name)) {
+        if (!functions.validateFullName(ccData.name)) {
           errorList.push("cc-annual-name");
         }
 
@@ -1353,7 +1367,11 @@ export default function PaymentStep({
       total: Math.round(totalMonthly * 100)
     }
 
-    console.log('Payload:', payload);
+    let params = functions.getParamsFromUrl();
+
+    if (params.token) payload.progressToken = params.token;
+
+    //console.log('Payload:', payload);
     
     //datalayerEvent(payload);
 
@@ -1382,7 +1400,7 @@ export default function PaymentStep({
       );
     }
 
-    grecaptchaObject.reset();
+    //grecaptchaObject.reset();
 
     setLoadState(false);
   };
@@ -1475,7 +1493,7 @@ export default function PaymentStep({
             }
 
             if (grecaptchaObject) {
-              grecaptchaObject.reset();
+              //grecaptchaObject.reset();
             }
           } catch (error) {
             console.error(error);
@@ -1511,7 +1529,7 @@ export default function PaymentStep({
             }
 
             if (grecaptchaObject) {
-              grecaptchaObject.reset();
+              //grecaptchaObject.reset();
             }
           } catch (error) {
             console.error(error);
@@ -1724,7 +1742,7 @@ export default function PaymentStep({
             }
 
             if (grecaptchaObject) {
-              grecaptchaObject.reset();
+              //grecaptchaObject.reset();
             }
           } catch (error) {
             console.error(error);
@@ -1791,6 +1809,21 @@ export default function PaymentStep({
       console.error("Error SSE", error);
     }
   }, [pixData]);
+
+  //useEffect(() => {
+  //  if (applyCoupon) {
+  //    let coupon = checkoutData.payment.coupon;
+
+  //    let {
+  //      code,
+  //      valid
+  //    } = coupon;
+
+  //    if (valid && code) {
+  //      verifyCoupon(false);
+  //    }
+  //  }
+  //}, [applyCoupon]);
 
   useEffect(() => {
     //console.log(formData);
@@ -2446,7 +2479,7 @@ export default function PaymentStep({
                 />
                 <button
                   className="text-white px-4 h-10 bg-[#1abd42] text-sm hover:bg-[#1adb4d] rounded-md"
-                  onClick={verifyCoupon}
+                  onClick={()=>{ verifyCoupon(true) }}
                 >
                   Aplicar
                 </button>

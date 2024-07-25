@@ -46,7 +46,7 @@ export default function FormSeguroCelularKakau({ callback }) {
       }}
     >
       <BannerSection
-        chipText="SEGURANÇA PARA PEDALAR À VONTADE
+        chipText="SEGURO CELULAR
         "
         titleText="Seguro Celular Kakau"
         descriptionText="Proteção para o seu celular com cobertura completa."

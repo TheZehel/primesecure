@@ -7,8 +7,11 @@ import axios from "axios";
 import { Checkbox, Typography } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 import "animate.css";
+import { Helmet } from "react-helmet";
 
-import ValidateSteps from "./modules/validations";
+import DisplayMessage from "../components/subcomponents/DisplayMessage";
+
+import ValidateSteps from "./modules/_validations";
 
 const validate = new ValidateSteps();
 
@@ -18,15 +21,21 @@ const apiUrl = process.env[`REACT_APP_API_ENDPOINT_${enviroment}`];
 
 const props = ["name", "email", "phone", "cpf", "rg", "birth", "check"];
 
+const functions = new GlobalFuntions();
+
 //console.log("apiUrl", apiUrl);
 
-export default function BuyerData({ updateForm, steps }) {
+export default function BuyerData({ updateForm, steps, coupon }) {
   const [errorList, setErrorList] = useState([]);
+  const [alertMessages, setAlertMessages] = useState([]);  
   const navigate = useNavigate();
+
+  var alertTimeout = null;
 
   useEffect(() => {
     // Assume-se que o índice da etapa atual é 1
     const currentStepIndex = 1;
+    
     const lastCompletedStepIndex = parseInt(
       sessionStorage.getItem("lastCompletedStepIndex") || "0",
       10
@@ -41,28 +50,40 @@ export default function BuyerData({ updateForm, steps }) {
 
   useEffect(() => {
     const loadFormData = () => {
-      const savedFormData = sessionStorage.getItem("formData");
-      if (savedFormData) {
-        const formData = JSON.parse(savedFormData) || {};
+      const savedFormData = sessionStorage.getItem("bikeFormData");
+      const savedLpFormData = sessionStorage.getItem("formData");
 
-        if (!formData.buyerData) {
-          formData.buyerData = {};
+      if (savedFormData || savedLpFormData) {
+        var formData = {};
+        var lpFormData = {};
+
+        try {
+          formData = JSON.parse(savedFormData) || {};
+        }catch(e){
+          formData = {};
         }
 
-        for (let prop of ["name", "email", "phone"]) {
-          if (formData[prop] !== undefined) {
-            formData.buyerData[prop] = formData[prop];
-          }
+        try {
+          lpFormData = JSON.parse(savedLpFormData) || {};
+        }catch(e){
+          lpFormData = {};
         }
+
+        if (!formData.buyerData) formData.buyerData = {};        
+
+        if (lpFormData.buyerData) lpFormData.buyerData = {};
+        
 
         for (let prop of props) {
           if (formData.buyerData[prop] === undefined) {
             formData.buyerData[prop] = "";
 
-            if (prop === "check") {
-              formData.buyerData[prop] = false;
-            }
+            if (prop === "check") formData.buyerData[prop] = false;            
           }
+        }
+
+        for (let prop of ["name", "email", "phone"]) {
+          if (lpFormData[prop] !== undefined && !formData.buyerData[prop]) formData.buyerData[prop] = lpFormData[prop];
         }
 
         const { name, email, phone, cpf, rg, birth, check } =
@@ -81,7 +102,7 @@ export default function BuyerData({ updateForm, steps }) {
 
   const [userData, setUserData] = useState(() => {
     // Tenta recuperar os dados do usuário de uma etapa anterior do sessionStorage
-    const savedFormData = sessionStorage.getItem("formData");
+    const savedFormData = sessionStorage.getItem("bikeFormData");
 
     let initialUserData = {
       name: "",
@@ -92,7 +113,13 @@ export default function BuyerData({ updateForm, steps }) {
 
     // Puxas as infos do localstorage
     if (savedFormData) {
-      const formData = JSON.parse(savedFormData);
+      var formData = null;
+
+      try {
+        formData = JSON.parse(savedFormData) || {};
+      } catch (e) {
+        formData = {};
+      }
 
       const { name, email, phone, cpf } = formData || {};
 
@@ -125,7 +152,7 @@ export default function BuyerData({ updateForm, steps }) {
   };
 
   //instância da classe GlobalFuntions
-  const functions = new GlobalFuntions();
+  
 
   console.log("USERDATA", userData);
 
@@ -152,28 +179,6 @@ export default function BuyerData({ updateForm, steps }) {
       return;
     }
 
-    //if (name == "phone") {
-    //  //console.log(value);
-    //  let phoneValue = value.toString().replace(/\D/g, "");
-
-    //  if (phoneValue.length > 10) {
-    //    value = phoneValue.replace(
-    //      /(\d{2})(\d{1})(\d{4})(\d{4})/,
-    //      "($1) $2.$3-$4"
-    //    );
-
-    //    if (phoneMask != "(99) 9.9999-9999") {
-    //      setPhoneMask("(99) 9.9999-9999");
-    //    }
-    //  } else {
-    //    value = phoneValue.replace(/(\d{2})(\d{4})(\d{4})/, "($1) $2-$3");
-
-    //    if (phoneMask != "(99) 9999-99999") {
-    //      setPhoneMask("(99) 9999-99999");
-    //    }
-    //  }
-    //}
-
     userData[name] = value;
 
     setUserData({ ...userData });
@@ -181,12 +186,188 @@ export default function BuyerData({ updateForm, steps }) {
     updateForm("userData", name, value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     // Previne o comportamento padrão do formulário
     e.preventDefault();
 
     // Lista temporária para erros
     let errorListTemp = [];
+    
+    try {
+      const { 
+        name = "", 
+        email = "", 
+        phone = "", 
+        cpf = "", 
+        rg = "", 
+        birth = "", 
+        check = false
+      } = userData;
+
+      let errors = validate.validateSecondStep({ name, email, phone, cpf, rg, birth, check });
+
+      errorListTemp = [...errors ];
+
+      console.log("Errors:", errorListTemp);
+
+      setErrorList(errorListTemp);
+
+      let debugToken = validate.getDebugToken();
+      //console.log("Debug Token A", debugToken);    
+        
+      let params = functions.getParamsFromUrl();
+
+      if (errorListTemp.length > 0) { 
+        await axios.post(`${apiUrl}/kakau-bike/log-history/update`, { logToken: debugToken, step: 2, data: { ...userData, errors: errorListTemp }, error: true } )
+          .then((response)=>{
+            console.log("Usuário atualizado com sucesso", response.data);
+            const { success, token } = response.data;
+
+            console.log("Token", token, 'Success', success);     
+
+            if (success && token) {    
+              debugToken = token;
+              validate.setDebugToken(token);   
+            }
+          })
+          .catch((err)=>{
+            let error = err;
+
+            if (error && error.response) error = error.response;
+            if (error && error.data) error = error.data;
+
+            console.error("Erro ao atualizar usuário", error);
+          });
+          
+        return;
+      }
+
+      await axios.post(`${apiUrl}/kakau-bike/process/check-for-duplicates`, {email, cpf})
+        .then((response)=>{
+          //console.log('Response:', response.data);
+        })
+        .catch((err) => {
+          let error = err;
+
+          if (error && error.response) error = error.response;
+          if (error && error.data) error = error.data;
+
+          console.error("Error List:", error);
+
+          var { errorList = [] } = error;
+
+          if (Array.isArray(errorList)) {
+            clearTimeout(alertTimeout);
+            alertTimeout = setTimeout(() => {
+              setAlertMessages([]);
+            }, 8000);
+
+            if (errorList.includes('cpf-in-use')) {
+              errorListTemp.push('cpf');
+              errorListTemp.push('email');
+
+              setErrorList([...errorList, 'cpf', 'email']);
+              setAlertMessages(['cpf-in-use']);
+
+              return;
+            } 
+
+            if (errorList.includes('email-in-use')) { 
+              errorListTemp.push('email');
+              errorListTemp.push('cpf');
+
+              setErrorList([...errorList, 'cpf', 'email']);
+              setAlertMessages(['email-in-use']); 
+            }  
+          }
+        });
+
+
+      if (errorListTemp.length > 0){ 
+        await axios.post(`${apiUrl}/kakau-bike/log-history/update`, { logToken: debugToken, step: 2, data: { ...userData, errors: errorListTemp }, error: true } )
+          .then((response)=>{
+            console.log("Usuário atualizado com sucesso", response.data);
+            const { success, token } = response.data;
+
+            console.log("Token", token, 'Success', success);     
+
+            if (success && token) {    
+              debugToken = token;
+              validate.setDebugToken(token);   
+            }
+          })
+          .catch((err)=>{
+            let error = err;
+
+            if (error && error.response) error = error.response;
+            if (error && error.data) error = error.data;
+
+            console.error("Erro ao atualizar usuário", error);
+          });
+        return;
+      }
+
+      clearTimeout(alertTimeout);
+      setAlertMessages([]);
+      setErrorList([]);
+      
+      // Obtenção ou inicialização do formData
+      const storage = sessionStorage.getItem("bikeFormData");
+      var currentData = {};
+
+      try {
+        currentData = JSON.parse(storage) || {};
+      }catch(e){
+        currentData = {};
+      }
+
+      const updatedData = {
+        ...currentData,
+        buyerData: userData, // Aqui, estamos assumindo que userData contém os dados do comprador
+      };
+
+      // Salva o formData atualizado no sessionStorage
+      sessionStorage.setItem("bikeFormData", JSON.stringify(updatedData));
+
+      // Atualiza o progresso do usuário no processo
+      const currentStepIndex = 1; // Esta é a segunda etapa, então o índice é 1
+
+      sessionStorage.setItem(
+        "lastCompletedStepIndex",
+        currentStepIndex.toString()
+      );
+
+      await axios.post(`${apiUrl}/kakau-bike/log-history/update`, { logToken: debugToken, step: 2, data: { ...userData }, error: false } )
+        .then((response)=>{
+          console.log("Usuário atualizado com sucesso", response.data);
+          const { success, token } = response.data;
+
+          console.log("Token", token, 'Success', success);     
+
+          if (success && token) {    
+            debugToken = token;
+            validate.setDebugToken(token);   
+          }
+        })
+        .catch((err)=>{
+          let error = err;
+
+          if (error && error.response) error = error.response;
+          if (error && error.data) error = error.data;
+
+          console.error("Erro ao atualizar usuário", error);
+        });
+
+      let url = functions.setPathFromParams("/seguro-bike/cotacao/endereco", { ...params, t: debugToken });
+      navigate(url);      
+    }catch(e) {
+      errorListTemp.push("unhandled-error");
+      setErrorList(errorListTemp);
+
+      console.error('Unhandled Error:', e);
+    }
+
+    return;
 
     // Validar Nome
     if (
@@ -229,7 +410,7 @@ export default function BuyerData({ updateForm, steps }) {
       setErrorList([]); // Limpa a lista de erros
 
       // Obtenção ou inicialização do formData
-      const currentData = JSON.parse(sessionStorage.getItem("formData")) || {};
+      const currentData = JSON.parse(sessionStorage.getItem("bikeFormData")) || {};
 
       const updatedData = {
         ...currentData,
@@ -237,7 +418,7 @@ export default function BuyerData({ updateForm, steps }) {
       };
 
       // Salva o formData atualizado no sessionStorage
-      sessionStorage.setItem("formData", JSON.stringify(updatedData));
+      sessionStorage.setItem("bikeFormData", JSON.stringify(updatedData));
 
       // Atualiza o progresso do usuário no processo
       const currentStepIndex = 1; // Esta é a segunda etapa, então o índice é 1
@@ -251,9 +432,16 @@ export default function BuyerData({ updateForm, steps }) {
     }
   };
 
+  //const [coupon, setCoupon] = useState({ code: "", type: "", value: 0, valid: false });  
+  //setCouponData = (coupon) =>  setCoupon(coupon);
+
   return (
     <div className=" mx-2">
-      <LayoutCotacaoPlanos title="Informações para o seguro" position={1} />
+      <Helmet>
+        <title>Dados Comprador | Cotação Seguro Bike </title>
+      </Helmet>
+      <DisplayMessage alert="error" messages={[...alertMessages]} />
+      <LayoutCotacaoPlanos title="Informações para o seguro" position={1} couponData={coupon} />
       <section className="mt-3 sm:mt-3 flex justify-center w-full animate__animated animate__fadeInRight">
         <div className="w-full max-w-[1025px]">
           <form onSubmit={handleSubmit} className="flex flex-wrap -mx-2">
@@ -381,6 +569,12 @@ export default function BuyerData({ updateForm, steps }) {
               <button
                 type="submit"
                 className="h-14 w-full bg-cyan-500 hover:bg-bluePrime2 rounded-md shadow text-white flex items-center justify-center cursor-pointer mt-4 font-bold"
+                onClick={(e) => {
+                  window.dataLayer = window.dataLayer || [];
+                  window.dataLayer.push({
+                    event: "dados-comprador-adicionados-bike-kakau",
+                  });
+                }}
               >
                 Prosseguir
               </button>

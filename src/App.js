@@ -23,6 +23,7 @@ import Selos from "./components/Selos";
 import SobrePrime from "./components/SobrePrime";
 import Newsletter from "./components/Newsletter";
 import PaginaLogin from "./components/PaginaLogin";
+import SignUp from "./components/SignUp";
 import IndexBannerMktplace from "./components/banner-mktplace/indexBannerMktplace";
 
 //Páginas de Produtos
@@ -44,7 +45,7 @@ import PrivacyPolicy from "./components/globalsubcomponentes/PrivacyPolicy";
 
 //Páginas de Cotação
 import IndexCotacaoPetlove from "./components/cotacao-pet-love/indexCotacaoPet";
-//import IndexCotacaoVidaSulamerica from "./components/cotacao-vida-sulamerica/indexCotacaoVidaSulamerica";
+import IndexCotacaoVidaSulamerica from "./components/cotacao-vida-sulamerica/indexCotacaoVidaSulamerica";
 //import StepAddres from "./components/cotacao-vida-sulamerica/components/StepAddress";
 import { CardGraaac } from "./components/CardGraac";
 import SliderTrofeusHome from "./components/SliderTrofeusHome";
@@ -67,6 +68,8 @@ import InvoicePayment from "./components/seguro-pet/InvoicePayment";
 import IndexCotacaoSeguroBike from "./components/seguro-bike/cotacao-seguro-bike/IndexCotacaoSeguroBike";
 import IndexSeguroCelularKakau from "./components/seguro-celular-kakau/indexSeguroCelularKakau";
 import IndexCotacaoSeguroCelularkakau from "./components/seguro-celular-kakau/cotacao-seguro-celular-kakau/IndexCotacaoSeguroCelularKakau";
+import Contracts from "./components/accounts/components/Contracts";
+import PageContract from "./components/accounts/components/PageContract";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -80,6 +83,8 @@ function ScrollToTop() {
 
 function App() {
   // time do countdown
+  const _pathname = window?.location?.pathname || "";
+
   const targetDate = new Date("December 31, 2023 00:00:00");
   return (
     <Router>
@@ -144,6 +149,9 @@ function App() {
             }
           />
           <Route path="/login" element={<PaginaLogin />} />
+          <Route path="/registre-se" element={<SignUp />} />
+          <Route path="/contratos" element={<Contracts />} />
+          <Route path="/contrato" element={<PageContract />} />
           <Route path="/politicas-de-privacidade" element={<PrivacyPolicy />} />
           <Route path="/rede-credenciada" element={<CredentialNetwork />} />
           {/* ROTAS PETLOVE */}
@@ -151,6 +159,27 @@ function App() {
             path="/cotacao-pet-love/planos"
             element={<IndexCotacaoPetlove />}
           />
+          <Route
+            path="/cotacao-vida-sulamerica"
+            element={<IndexCotacaoVidaSulamerica />}
+          />
+          <Route
+            path="/cotacao-vida-sulamerica/planos"
+            element={<IndexCotacaoVidaSulamerica />}
+          />
+          <Route
+            path="/cotacao-vida-sulamerica/endereco"
+            element={<IndexCotacaoVidaSulamerica />}
+          />
+          <Route
+            path="/cotacao-vida-sulamerica/pagamento"
+            element={<IndexCotacaoVidaSulamerica />}
+          />
+          <Route
+            path="/cotacao-vida-sulamerica/obrigado"
+            element={<IndexCotacaoVidaSulamerica />}
+          />
+
           <Route
             path="/cotacao-pet-love/dados-pessoais"
             element={<IndexCotacaoPetlove />}
@@ -220,6 +249,10 @@ function App() {
             path="/seguro-celular-kakau/cotacao/pagamento"
             element={<IndexCotacaoSeguroCelularkakau />}
           />
+          <Route
+            path="/seguro-celular-kakau/cotacao/pagamento-confirmado"
+            element={<IndexCotacaoSeguroCelularkakau />}
+          />
           {/* ROTAS PAGES HOME */}
           <Route path="/sobre" element={<IndexSobrePrime />} />
           <Route path="/contato" element={<IndexContato />} />
@@ -241,7 +274,7 @@ function App() {
           <Route path="/cotacao" element={<Cotacao />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
-        <Footer />
+        {(!_pathname.includes('/seguro-bike') && !_pathname.includes('/seguro-celular-kakau') && !_pathname.includes('/seguro-celular-kakau') ) && (<Footer />)}
       </div>
     </Router>
   );

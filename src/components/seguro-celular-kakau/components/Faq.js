@@ -3,7 +3,8 @@ export default function Faq() {
     <section>
       <div className="">
         <h2 className="text-xl sm:text-4xl  my-6 text-grayPrime mt-10 sm:mt-20">
-          Não está coberto ocorrências fora do Brasil.
+          O que o Seguro celular Kakau{" "}
+          <span className="font-bold">NÃO Cobre</span>.
         </h2>
       </div>
       <div className="max-w-[800px] mx-auto space-y-2">

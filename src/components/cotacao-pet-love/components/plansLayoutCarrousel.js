@@ -545,7 +545,7 @@ export default function PlansLayoutCarrousel({
 
   return (
     //Renderiza parte do Topo da Etapa de Cotação
-    <div className="montserrat relative w-full h-full max-w-screen-lg mx-auto mt-20">
+    <div className="montserrat relative w-full h-full max-w-screen-lg mx-auto mt-10">
       <LayoutCotacaoPlanos />
       <div className="relative w-full h-full mx-auto text-center">
         <div className="relative w-full h-full mx-auto text-center text-zinc-800 text-3xl font-semibold sm:mt-10 mt-5">

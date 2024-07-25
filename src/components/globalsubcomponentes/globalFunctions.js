@@ -1,3 +1,5 @@
+import { parse } from "path-browserify";
+
 class GlobalFuntions extends Object {
   constructor() {
     super();
@@ -11,7 +13,7 @@ class GlobalFuntions extends Object {
       telefone: /^\([0-9]{2}\)\s[0-9]{4}\-[0-9]{4}$/,
       cep: /^[0-9]{5}\-[0-9]{3}$|[0-9]{8}$/,
       destino: /^[1-8]{1}$/,
-      creditCard: /^[0-9]{4}\s[0-9]{4}\s[0-9]{4}\s[0-9]{4}$/,
+      creditCard: /^[0-9]{4}\s[0-9]{4}\s[0-9]{4}\s[0-9]{4}|[0-9]{16}$/,
       expirationDate: /^(\d{2})\/(\d{4})$|(\d{2})\/(\d{2})$/,
       rg: /^[0-9]{2}\.[0-9]{3}\.[0-9]{3}-[0-9X]$/,
     };
@@ -150,9 +152,69 @@ class GlobalFuntions extends Object {
     return name;
   }
 
+  validateFullName(name) {
+    name = name || "";
+    name = name.toString().trim();
+
+    if (name.length < 5 || !name.includes(" ")) {
+      return false;
+    }
+
+    var parts = name.split(" ");
+    var count = 0;
+
+    for (let _name of parts) {
+      if (_name.length > 1) count++;
+    }
+
+    if (count < 1) return false;
+
+    return true;
+  }
+
+  validateNameLastName(name) {
+    if (typeof name !== "string") return false;
+    name = name.trim();
+    
+    if (name.length < 5 || !name.includes(" ")) return false;
+    
+    name = name.split(" ");
+
+    const firstName = name[0];
+
+    name.shift();  
+
+    var lastName = name.join(' ').trim();
+    
+    if (firstName.length < 2 || lastName.length < 2) return false;
+
+    return true;    
+  }
+
+  _validateName(name) {
+    name = name || "";
+    name = name.toString().trim();
+
+    if (name.length < 5 || !name.includes(" ")) {
+      return false;
+    }
+
+    var parts = name.split(" ");
+    var count = 0;
+
+    for (let _name of parts) {
+      if (_name.length > 1) count++;
+    }
+
+    if (count < 1) return false;
+
+    return true;
+  }
+
   validateName(name) {
     name = name || "";
     name = name.toString().trim();
+
     const parts = name.split(" ");
 
     // Verifica se o nome tem pelo menos duas partes e cada parte tem pelo menos 3 caracteres
@@ -167,10 +229,35 @@ class GlobalFuntions extends Object {
     email = email || "";
     email = email.toString().trim();
 
+    let pattern =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+
+    if (!pattern.test(email)) {
+      return false;
+    }
+
     if (email.length < 5 || !email.includes("@") || !email.includes(".")) {
       return false;
     }
 
+    return true;
+  }
+
+  validatePassword(password) {
+    password = password || "";
+    password = password.toString().trim();
+
+    // Verifica se possui pelo menos 8 caracteres, 1 número, 1 letra maiúscula e 1 letra minúscula
+    if (
+      password.length < 8 ||
+      !/[0-9]/.test(password) ||
+      !/[a-z]/.test(password) ||
+      !/[A-Z]/.test(password)
+    ) {
+      return false;
+    }
+
+    // Se a senha passou por todas as verificações, retorna true
     return true;
   }
 
@@ -246,6 +333,26 @@ class GlobalFuntions extends Object {
     return true;
   }
 
+  _validateRG(rg) {
+    const _rg = rg.replace(/\.|-/g, "");
+
+    if (_rg.length !== 9) {
+      return false;
+    }
+
+    const digit = parseInt(_rg.charAt(8), 10);
+
+    let sum = 0;
+
+    for (let i = 0; i < 8; i++) {
+      sum += parseInt(_rg.charAt(i), 10) * (9 - i);
+    }
+
+    const _digit = sum % 11;
+
+    return digit === _digit;
+  }
+
   validateRG(rg) {
     rg = rg || "";
     return this.pattern.rg.test(rg);
@@ -263,14 +370,18 @@ class GlobalFuntions extends Object {
   }
 
   validateCity(city) {
-    return /^.{2,50}$/.test(city);
+    return typeof city === "string" && /^.{2,50}$/.test(city);
   }
 
   validateStreet(street) {
-    return /^.{2,60}$/.test(street);
+    return typeof street === "string" && /^.{2,60}$/.test(street);
   }
 
   validateStreetNumber(number) {
+    if (typeof number !== "string" && typeof number !== "number") {
+      return false;
+    }
+
     return /^.{1,20}$/.test(number);
   }
 
@@ -279,7 +390,7 @@ class GlobalFuntions extends Object {
   }
 
   validateNeighborhood(neighborhood) {
-    return /^.{1,33}$/.test(neighborhood);
+    return typeof neighborhood === "string" && /^.{1,33}$/.test(neighborhood);
   }
 
   validateStateUF(uf) {
@@ -294,9 +405,16 @@ class GlobalFuntions extends Object {
 
   validadeYearBike(year) {
     year = year || "";
-    year = year.replace(/\D/g, "");
+    year = year.toString().replace(/\D/g, "");
 
-    if (year.length != 4) {
+    if (!/^[0-9]{4}$/.test(year)) {
+      return false;
+    }
+
+    var _year = new Date().getFullYear();
+    year = parseInt(year);
+
+    if (_year < year) {
       return false;
     }
 
@@ -305,7 +423,13 @@ class GlobalFuntions extends Object {
 
   validateModality(modality) {
     // verificar se a modalidade foi selecionada se não for retorna falso
-    return modality >= "1" && modality <= "6";
+    if (!modality || !/^[1-6]{1}$/.test(modality)) {
+      return false;
+    }
+
+    modality = parseInt(modality);
+
+    return modality >= 1 && modality <= 6;
   }
 
   validateSerialNumberBike(serieNumber) {
@@ -316,6 +440,27 @@ class GlobalFuntions extends Object {
     // Agora é seguro chamar .trim() porque garantimos que serieNumber é uma string
     const trimmedSerieNumber = serieNumber.trim();
     return trimmedSerieNumber.length >= 1 && trimmedSerieNumber.length <= 10;
+  }
+
+  validateCreditCardName(name) {
+    name = name || "";
+
+    if (!name || !name.includes(" ")) {
+      return false;
+    }
+
+    let parts = name.split(" ");
+    let count = 0;
+    let valid = true;
+
+    for (let _name of parts) {
+      if (_name.length > 1) count++;
+      if (!/^[a-zA-Z\s'-]+$/.test(name)) {
+        valid = false;
+      }
+    }
+
+    return count > 1 && valid;
   }
 
   validateCreditCardNumber(numero) {
@@ -385,6 +530,9 @@ class GlobalFuntions extends Object {
   }
 
   validateCreditCardCVV(cvv) {
+    cvv = cvv || "";
+    cvv = cvv.toString();
+
     if (/^[0-9]{3,4}$/.test(cvv)) {
       return true;
     }
@@ -393,6 +541,103 @@ class GlobalFuntions extends Object {
   }
 
   refactoryDate(date, format, output) {
+    date = date || "";
+    format = format || "";
+    output = output || "";
+
+    if (!date || !format || !output) {
+      return date;
+    }
+
+    if (typeof format !== "string" || typeof output !== "string") {
+      return date;
+    }
+
+    var error = false;
+    var validation = [];
+
+    for (const char of format) {
+      if (["D", "M", "Y"].includes(char) && !validation.includes(char)) {
+        validation.push(char);
+      }
+    }
+
+    if (validation.length !== 3) {
+      return date;
+    }
+
+    validation = [];
+
+    for (const char of output) {
+      if (["D", "M", "Y"].includes(char) && !validation.includes(char)) {
+        validation.push(char);
+      }
+    }
+
+    if (validation.length !== 3) {
+      return date;
+    }
+
+    var separator = "";
+
+    for (const char of format) {
+      if (!["D", "M", "Y"].includes(char)) {
+        separator = char;
+        break;
+      }
+    }
+
+    const _in = date.split(separator);
+
+    for (const char of output) {
+      if (!["D", "M", "Y"].includes(char)) {
+        separator = char;
+        break;
+      }
+    }
+
+    var _format = "";
+    var _output = "";
+    var result = [];
+
+    for (const char of format) {
+      if (!["D", "M", "Y"].includes(char)) {
+        continue;
+      }
+
+      if (_format.includes(char)) {
+        continue;
+      }
+
+      _format += char;
+    }
+
+    for (const char of output) {
+      if (!["D", "M", "Y"].includes(char)) {
+        continue;
+      }
+
+      if (_output.includes(char)) {
+        continue;
+      }
+
+      _output += char;
+    }
+
+    for (let i = 0; i < 3; i++) {
+      let index = _output.indexOf(_format[i]);
+
+      if (index < 0) {
+        continue;
+      }
+
+      result[i] = _in[index];
+    }
+
+    return result.join(separator);
+  }
+
+  _refactoryDate(date, format, output) {
     if (!date) {
       return "";
     }
@@ -512,6 +757,122 @@ class GlobalFuntions extends Object {
     }
 
     return date;
+  }
+
+  calculateAge(date) {
+    if (!date) {
+      return -1;
+    }
+
+    const today = new Date();
+    const birthDate = new Date(date);
+
+    if (!birthDate.getTime()) {
+      return -1;
+    }
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const month = today.getMonth() - birthDate.getMonth();
+
+    if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+
+    return age;
+  }
+
+  validateDate(date) {
+    if (!date) {
+      return false;
+    }
+    
+    if (!this.pattern.data.test(date)) {
+      return false;
+    }
+
+    date = this.refactoryDate(date, "DD/MM/YYYY", "YYYY-MM-DD");
+
+    if (isNaN(new Date(date).getTime())) {
+      return false;
+    }
+
+    return true;
+  }
+
+  getParamsFromObj(obj) {
+    for(const _key in obj) if (!obj[_key]) delete obj[_key];
+    
+    const params = Object.entries(obj)
+      .map(([key, value]) => {
+        if (Array.isArray(value)) value = JSON.stringify(value);
+        if (typeof value === 'object') value = JSON.stringify(value); 
+
+        return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+      })
+      .join('&');
+
+    return params;
+  }
+
+  getParamsFromUrl() {
+    var url = window.location.search;
+    url = url.substring(1);
+
+    if (!url) return {};
+
+    const paramsArray = url.split('&');
+    const obj = {};
+
+    paramsArray.forEach((param) => {
+      const [key, value] = param.split('=');
+      let decodedValue = decodeURIComponent(value);
+      let valid = true;
+
+      try { decodedValue = JSON.parse(decodedValue); } catch (error) { }
+
+      if (typeof decodeURIComponent(key) !== 'string' || decodeURIComponent(key).length == 0) valid = false;
+      if (typeof decodedValue !== 'string' || decodedValue.length == 0) valid = false;
+
+      if (valid) obj[decodeURIComponent(key)] = decodedValue;
+    });
+
+    return obj;
+  }
+
+  setPathFromParams(path, params) {
+    if (!path) return "";
+    if (typeof params !== "object") return path;
+
+    let _params = this.getParamsFromObj(params);
+    if (typeof _params === 'string' && _params.length > 0) path += `?${_params}`;
+    
+    return path;
+  }
+
+  insertParamIntoUrl(key, value) {
+    let newUrl = new URL(window.location.href);
+    newUrl.searchParams.set(key, value);
+    window.history.replaceState(null, '', newUrl);
+  }
+
+  updateUrlFromObj(obj) {
+    const params = this.getParamsFromObj(obj);
+    const baseUrl = window.location.origin + window.location.pathname;
+    const newUrl = baseUrl + '?' + params;
+    window.history.replaceState(null, '', newUrl);
+  }
+
+  applyDocumentMask(value, mask) {
+    if (typeof value !== 'string' || typeof mask !== 'string') return value;
+  
+    value = value.replace(/\D/g, "");
+  
+    if (value.length > mask.replace(/[^#]/g, "").length) value = value.slice(0, mask.replace(/[^#]/g, "").length);
+    if (value.length < mask.replace(/[^#]/g, "").length) mask = mask.slice(0, value.length);
+  
+    for (let i = 0; i < value.length; i++) mask = mask.replace(/#/, value[i]);
+    
+    return mask;  
   }
 }
 

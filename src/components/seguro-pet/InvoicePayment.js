@@ -644,11 +644,18 @@ function InvoicePayment() {
                     href="https://primesecure.com.br/seguro-pet-porto"
                 />
             </Helmet>
+            <div className="w-full flex mt-5">
+                <img 
+                    src="https://storage.googleapis.com/primesecure/pet-love-logo.png" 
+                    alt="Logo Petlove" 
+                    className={`mx-auto w-[140px] sm:w-[160px]`} 
+                /> 
+            </div>
             <div
-                className="w-full flex flex-wrap justify-center gap-x-[15px] mt-8"
+                className="w-full flex flex-wrap justify-center gap-x-[15px] mt-5 sm:mt-8"
             >
                 <div
-                    className="w-1/2 max-w-[420px]"
+                    className="w-1/2 min-w-[330px] max-w-[420px]"
                 >                    
                     <div
                         className="py-[20px] pl-[20px] flex bg-white shadow-petlove-shadow rounded-lg"
@@ -703,13 +710,9 @@ function InvoicePayment() {
                             petList.map((pet, index)=>{
                                 let { status } = pet;
 
-                                if (status == 'suspend'){
-                                    status = "Suspenso";
-                                }
+                                if (status == 'suspend') status = "Suspenso";                               
 
-                                if (status == 'active'){
-                                    status = "Ativo";
-                                }
+                                if (status == 'active') status = "Ativo";                                
            
                                 return (
                                     <div className="w-full mt-[15px] p-[15px] rounded-lg bg-white border border-black/10 shadow-petlove-shadow flex" >
@@ -732,7 +735,7 @@ function InvoicePayment() {
                     </div>
                 </div>
                 <div
-                    className="w-1/2 max-w-[420px] "
+                    className="w-1/2 min-w-[330px] max-w-[420px] "
                 >
                     <div
                         className="py-[20px] p-[20px] flex bg-white shadow-petlove-shadow rounded-lg"

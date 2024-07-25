@@ -9,7 +9,7 @@ export default class ValidateSteps {
 
     var userData = { name, email, phone, cpf, rg, birth, check, header };
 
-    const currentData = { ...JSON.parse(sessionStorage.getItem("formData")) };
+    const currentData = { ...JSON.parse(sessionStorage.getItem("phoneFormData")) };
 
     if (header) {
       userData = { ...userData, ...currentData.userData };

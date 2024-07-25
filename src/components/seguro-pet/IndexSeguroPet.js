@@ -142,11 +142,11 @@ function IndexSeguroPet() {
         />
         <meta
           property="og:url"
-          content="https://primesecure.com.br/seguro-pet-porto"
+          content="https://www.primesecure.com.br/seguro-pet-porto"
         />
         <link
           rel="canonical"
-          href="https://primesecure.com.br/seguro-pet-porto"
+          href="https://www.primesecure.com.br/seguro-pet-porto"
         />
       </Helmet>
       {/*<CountDown targetDate={targetDate} />*/}

@@ -11,6 +11,7 @@ import ConteudoSessaoInfo from "../globalsubcomponentes/ConteudoSessaoInfo";
 import sessaoInfoLp from "../modules/SessaoInfoLp";
 import FaqOdonto from "./components/subcomponents/FaqOdonto";
 import CountDown from "./components/subcomponents/CountDownBannerOdonto";
+import BannerPromo from "./components/subcomponents/BannerPromosOdonto";
 
 function IndexOdonto() {
   const targetDate = new Date("December 31, 2023 00:00:00");
@@ -44,10 +45,11 @@ function IndexOdonto() {
         />
         <link
           rel="canonical"
-          href="https://primesecure.com.br/sulamerica-odonto"
+          href="https://www.primesecure.com.br/sulamerica-odonto"
         />
       </Helmet>
-      <CountDown targetDate={targetDate} />
+      {/*<CountDown targetDate={targetDate} />*/}
+      <BannerPromo />
       <FormOdontoBanner />
       <SessaoInformativaProdutosLp
         InformacoesProdutos={InformacoesProdutos}

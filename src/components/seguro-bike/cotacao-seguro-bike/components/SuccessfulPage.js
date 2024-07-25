@@ -3,23 +3,28 @@ import axios from "axios";
 import { useEffect } from "react";
 import "animate.css";
 
+const environment = process.env.REACT_APP_ENVIRONMENT;
+
 export default function SuccessfullPage({token}) {
   const [saleDetails, setSaleDetails] = useState(null);
 
   useEffect(() => {
     const fetchSaleDetails = async () => {
       try {
-        console.log(token)
-        await axios.get(
-          `http://localhost:3050/kakau-bike/process/get-sale-by-id/${(typeof token === 'string') ? token : '' }`
-        )
+        console.log(token);
+
+        var url = `http://localhost:3050/kakau-bike/process/get-sale-by-id/${(typeof token === 'string') ? token : '' }`;
+
+        if (environment != "SANDBOX") url = `https://api-primesecure.onrender.com/kakau-bike/process/get-sale-by-id/${(typeof token === 'string') ? token : '' }`;
+        
+        await axios.get( url )
           .then((response)=>{
             let { data } = response;
-            let { apiResponse = {} } = data;
+            //let { apiResponse = {} } = data; 
 
-            setSaleDetails(apiResponse);
+            setSaleDetails(data);
 
-            console.log("Detalhes da venda", apiResponse);
+            console.log("Detalhes da venda", data);
           })
           .catch((err)=>{
             let error = err;
@@ -46,7 +51,17 @@ export default function SuccessfullPage({token}) {
   return (
     <section className="animate__animated animate__fadeIn">
       {/* Titulo da página */}
-      <div className="mx-auto mt-10 text-xl sm:text-3xl text-grayPrime font-bold ">
+      <div className="mx-auto mt-5 text-xl sm:text-3xl text-grayPrime font-bold ">
+        <div className="w-fit h-fit mx-auto mb-6">
+          <div className="font-bold text-[10px] text-left cursor-default">
+            Protegido por:
+          </div>
+          <img 
+            src="https://storage.googleapis.com/primesecure/logo-kakau.svg" 
+            alt="Logo Kakau" 
+            className={`w-[140px] md:w-[140px]`} 
+          /> 
+        </div>
         <p>
           <span className="text-bluePrime">
             Parabéns! O Seu Seguro Bike está em Análise.

@@ -66,9 +66,13 @@ function IndexTravel() {
         />
         <meta
           property="og:url"
-          content="https://primesecure.com.br/primetravel"
+          content="https://www.primesecure.com.br/primetravel"
         />
-        <link rel="canonical" href="https://primesecure.com.br/primetravel" />
+        {/* verdadeira tag canonical */}
+        <link
+          rel="canonical"
+          href="https://www.primesecure.com.br/primetravel"
+        />
       </Helmet>
       {/*<BannerPromos />*/}
       <BannerPromo />

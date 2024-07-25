@@ -170,3 +170,27 @@ body{
   background: #555;
 }
 
+.grecaptcha-badge {
+  z-index: 150;
+}
+
+/*Páginação Vida*/
+.swiper-vida-container > .swiper > .swiper-pagination.swiper-pagination-bullets {
+  position: relative;
+}
+
+/* ScrollBar Modal */
+.custom-scroll-modal::-webkit-scrollbar-track {
+	border-radius: 10px;
+	background-color: transparent;
+}
+
+.custom-scroll-modal::-webkit-scrollbar {
+	width: 10px;
+	background-color: transparent;
+}
+
+.custom-scroll-modal::-webkit-scrollbar-thumb {
+	border-radius: 10px;
+	background-color: #e4e4e4;
+}

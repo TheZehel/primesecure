@@ -11,6 +11,7 @@ import ContainerBenficios from "./components/subcomponents/ContainerBeneficios";
 import FaqCelular from "./components/subcomponents/FaqCelular";
 import { Helmet } from "react-helmet";
 import CountDown from "./components/subcomponents/CountDown";
+import BannerPromo from "./components/subcomponents/BannerPromosCelular";
 //import CountDown from "./components/subcomponents/CountDownBanner";
 
 function IndexSeguroCelular() {
@@ -43,14 +44,15 @@ function IndexSeguroCelular() {
         />
         <meta
           property="og:url"
-          content="https://primesecure.com.br/equipamentos-portateis-3"
+          content="https://www.primesecure.com.br/equipamentos-portateis-3"
         />
         <link
           rel="canonical"
-          href="https://primesecure.com.br/equipamentos-portateis-3"
+          href="https://www.primesecure.com.br/equipamentos-portateis-3"
         />
       </Helmet>
-      <CountDown targetDate={targetDate} />
+      {/*<CountDown targetDate={targetDate} />*/}
+      <BannerPromo />
       <FormSeguroCelularBanner />
       <SliderCelulares />
       <ContainerBenficios />

@@ -1,5 +1,24 @@
 import TitleHeader from "./TitleHeader";
 import { useNavigate } from "react-router";
+import GlobalFuntions from "../../../../globalsubcomponentes/globalFunctions";
+import axios from "axios";
+
+import ValidateSteps from "../modules/_validations";
+
+const functions = new GlobalFuntions();
+const validations = new ValidateSteps();
+
+const enviroment = process.env.REACT_APP_ENVIRONMENT;
+
+const apiUrl = process.env[`REACT_APP_API_ENDPOINT_${enviroment}`];
+
+const {
+  validateFirstStep,
+  validateSecondStep,
+  validateThirdStep,
+  validateFourthStep,
+  validateFifthStep
+} = validations;
 
 const steps = [
   {
@@ -49,24 +68,120 @@ const StepIcon = ({ number, active }) => (
   </svg>
 );
 
+const goToStep = (step) => {
+  const savedFormData = sessionStorage.getItem("bikeFormData");
+
+  if (!savedFormData) {
+    return false;
+  }
+
+  var formData = null;
+
+  try {
+    formData = JSON.parse(savedFormData) || {};
+  } catch (e) {
+    formData = {};
+  }
+
+  var errors = [];
+  var canJump = true;
+  var lastPage = 0;
+
+  try {
+    var {
+      selectedPlanId = {},
+      dataBike = {},
+      buyerData = {},
+      addressData = {},
+      cardData = {}
+    } = formData;
+
+    var _function = [
+      validateFirstStep,
+      validateSecondStep,
+      validateThirdStep,
+      validateFourthStep,
+      validateFifthStep
+    ];
+
+    var _data = [
+      selectedPlanId,
+      buyerData,
+      addressData,
+      dataBike,
+      cardData
+    ];
+
+    //console.log(step);
+
+    for (let i = 0; i < step; i++) {
+      let errors = _function[i](_data[i]);
+
+      if (errors.length > 0) {
+        lastPage = i;
+        canJump = false;
+        break;
+      }
+    }
+
+    errors = _function[step](_data[step]);
+    //console.log(canJump);
+  } catch (e) {
+    errors.push('error');
+    canJump = false;
+  }
+
+  return canJump;
+}
+
 const Step = ({ step, index, position, navigateTo }) => {
   const lastCompletedStepIndex = parseInt(
     sessionStorage.getItem("lastCompletedStepIndex") || "0"
   );
+
+  var canJump = goToStep(index);
+
+  if (index > 0 && goToStep(index - 1)){
+    canJump = true;
+  }
 
   const isClickable = index <= lastCompletedStepIndex;
 
   return (
     <div
       className={`flex items-center space-x-2 ${
-        isClickable ? "cursor-pointer" : "cursor-not-allowed"
+        canJump ? "cursor-pointer" : "cursor-not-allowed"
       }`}
-      onClick={() => {
-        if (isClickable) {
-          navigateTo(step.href);
+      onClick={async () => {
+        if (canJump) {
+          let params = functions.getParamsFromUrl();
+          let debugToken = validations.getDebugToken();
+
+          console.log('Click', debugToken, index);
+      
+          if (debugToken) {
+            await axios.post(`${apiUrl}/kakau-bike/log-history/last-step`, { logToken: debugToken, step: index + 1, error: false } )
+              .then((response)=>{
+                console.log("Usuário atualizado com sucesso", response.data);
+                const { success } = response.data;
+      
+                console.log('Success', success);
+              })
+              .catch((err)=>{
+                let error = err;
+      
+                if (error && error.response) error = error.response;
+                if (error && error.data) error = error.data;
+      
+                console.error("Erro ao atualizar usuário", error);
+              });
+          }
+      
+          let url = functions.setPathFromParams(step.href, { ...params });
+          navigateTo(url);
         }
       }}
-      style={{ opacity: isClickable ? 1 : 0.5 }}
+      style={{ opacity: canJump ? 1 : 0.5 }}
     >
       <StepIcon number={index + 1} active={index === position} />
       <div
@@ -88,7 +203,7 @@ export default function HeaderCotacao({ title, position }) {
   );
 
   // Função correta para navegar
-  const navigateTo = (href) => {
+  const navigateTo = async (href) => {
     navigate(href);
   };
   return (

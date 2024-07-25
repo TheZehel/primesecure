@@ -8,10 +8,13 @@ import NoBureaucracy from "./components/NoBureaucracy";
 import Faq from "./components/Faq";
 import Advantages from "./components/Advantages";
 import Benefits from "./components/Benefits";
+import CustomFooter from "./cotacao-seguro-celular-kakau/components/subcomponents/CustomFooter";
+import BannerPromoPhoneKakau from "./components/BannerPromoPhoneKakau";
 
 export default function IndexSeguroCelularKakau() {
   return (
     <div>
+      <BannerPromoPhoneKakau />
       <FormSeguroCelularKakau
         callback={(data) => {
           SVGAnimatedTransformList({ ...data });
@@ -22,6 +25,7 @@ export default function IndexSeguroCelularKakau() {
       <Advantages />
       <Benefits />
       <Faq />
+      <CustomFooter />
     </div>
   );
 }

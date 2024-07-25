@@ -99,11 +99,11 @@ const imageManagerSeguroPet = {
   },
   bannersPromos: {
     desktop1Carencia:
-      "https://storage.googleapis.com/primesecure/banner-zero-carencia-desktop-g2.png",
+      "https://storage.googleapis.com/primesecure/banner-descontos-petlove-desktop1.png",
     desktop2Carencia:
-      "https://storage.googleapis.com/primesecure/banner-zero-carencia-desktop-m.png",
+      "https://storage.googleapis.com/primesecure/banner-descontos-petlove-desktop2.png",
     mobileCarencia:
-      "https://storage.googleapis.com/primesecure/banner-zero-carencia-mobile.png",
+      "https://storage.googleapis.com/primesecure/banner-descontos-petlove-mobile.png",
   },
 };
 

@@ -8,7 +8,11 @@ import { Checkbox, Typography } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 import "animate.css";
 
-import ValidateSteps from "./modules/validations";
+import DisplayMessage from "../components/subcomponents/DisplayMessage";
+
+import ValidateSteps from "./modules/_validations";
+
+import ProgressManager from "./modules/progress";
 
 const validate = new ValidateSteps();
 
@@ -16,19 +20,77 @@ const enviroment = process.env.REACT_APP_ENVIRONMENT;
 
 const apiUrl = process.env[`REACT_APP_API_ENDPOINT_${enviroment}`];
 
+const props = ["name", "email", "phone", "cpf", "rg", "birth", "check"];
+
+//instância da classe GlobalFuntions
+const functions = new GlobalFuntions();
+const progress = new ProgressManager();
+
 //console.log("apiUrl", apiUrl);
 
-export default function BuyerData({ updateForm }) {
+export default function BuyerData({ updateForm, steps, couponData }) {
   const [errorList, setErrorList] = useState([]);
+  const [alertMessages, setAlertMessages] = useState([]);
+  const navigate = useNavigate();
+
+  var alertTimeout = null;
+
+  useEffect(() => {
+    // Assume-se que o índice da etapa atual é 1
+    const currentStepIndex = 1;
+    const lastCompletedStepIndex = parseInt(
+      sessionStorage.getItem("lastCompletedStepIndex") || "0",
+      10
+    );
+
+    // Se o índice da etapa atual for maior que o índice da última etapa completada + 1
+    // Redireciona o usuário para a última etapa completada ou para a primeira etapa se nenhuma foi completada
+    if (currentStepIndex > lastCompletedStepIndex + 1) {
+      navigate("/seguro-celular-kakau/cotacao/"); // Ou outra lógica de redirecionamento baseada no índice
+    }
+  }, [navigate]);
 
   useEffect(() => {
     const loadFormData = () => {
-      const savedFormData = sessionStorage.getItem("formData");
-      if (savedFormData) {
-        const formData = JSON.parse(savedFormData);
+      const savedFormData = sessionStorage.getItem("phoneFormData");
+      const savedLpFormData = sessionStorage.getItem("formData");
+
+      if (savedFormData || savedLpFormData) {
+        var formData = {};
+        var lpFormData = {};
+
+        try {
+          formData = JSON.parse(savedFormData) || {};
+        }catch(e){
+          formData = {};
+        }
+
+        try {
+          lpFormData = JSON.parse(savedLpFormData) || {};
+        }catch(e){
+          lpFormData = {};
+        }
+
+        if (!formData.buyerData) formData.buyerData = {};        
+
+        if (lpFormData.buyerData) lpFormData.buyerData = {};
+        
+
+        for (let prop of props) {
+          if (formData.buyerData[prop] === undefined) {
+            formData.buyerData[prop] = "";
+
+            if (prop === "check") formData.buyerData[prop] = false;            
+          }
+        }
+
+        for (let prop of ["name", "email", "phone"]) {
+          if (lpFormData[prop] !== undefined && !formData.buyerData[prop]) formData.buyerData[prop] = lpFormData[prop];
+        }
 
         const { name, email, phone, cpf, rg, birth, check } =
           formData.buyerData || {};
+
         setUserData({ name, email, phone, cpf, rg, birth, check });
       }
     };
@@ -42,7 +104,8 @@ export default function BuyerData({ updateForm }) {
 
   const [userData, setUserData] = useState(() => {
     // Tenta recuperar os dados do usuário de uma etapa anterior do sessionStorage
-    const savedFormData = sessionStorage.getItem("formData");
+    const savedFormData = sessionStorage.getItem("phoneFormData");
+
     let initialUserData = {
       name: "",
       email: "",
@@ -52,7 +115,13 @@ export default function BuyerData({ updateForm }) {
 
     // Puxas as infos do localstorage
     if (savedFormData) {
-      const formData = JSON.parse(savedFormData);
+      var formData = null;
+      
+      try {
+        formData = JSON.parse(savedFormData) || {};
+      } catch (e) {
+        formData = {};
+      }
 
       const { name, email, phone, cpf } = formData || {};
 
@@ -65,18 +134,26 @@ export default function BuyerData({ updateForm }) {
       };
     }
     //console.log("initialUserData:", initialUserData);
-    //console.log("formData:", formData);
+
+    //for(let prop of props) {
+    //  if (initialUserData[prop] === undefined) {
+    //    initialUserData[prop] = "";
+
+    //    if (prop === "check") {
+    //      initialUserData[prop] = false;
+    //    }
+    //  }
+    //}
+
+    console.log("formData:", initialUserData);
     return initialUserData;
   });
-
-  const navigate = useNavigate();
 
   const handleNavigateToPrivacyPolicy = () => {
     navigate("/politicas-de-privacidade");
   };
 
-  //instância da classe GlobalFuntions
-  const functions = new GlobalFuntions();
+  //console.log("USERDATA", userData);
 
   const inputHandler = (e) => {
     var value = e.target.value;
@@ -130,55 +207,96 @@ export default function BuyerData({ updateForm }) {
     updateForm("userData", name, value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     // Previne o comportamento padrão do formulário
     e.preventDefault();
 
     // Lista temporária para erros
     let errorListTemp = [];
 
-    // Validar Nome
-    if (
-      userData.name &&
-      userData.name.trim() &&
-      !functions.validateName(userData.name)
-    )
-      errorListTemp.push("name");
-    // Validar Email
-    if (
-      userData.email &&
-      userData.email.trim() &&
-      !functions.validateEmail(userData.email)
-    )
-      errorListTemp.push("email");
-    // Validar Telefone
-    if (
-      userData.phone &&
-      userData.phone.trim() &&
-      !functions.validatePhone(userData.phone)
-    )
-      errorListTemp.push("phone");
-    // Validar CPF
-    if (!functions.validateCPF(userData.cpf)) errorListTemp.push("cpf");
-    // Validar RG
-    if (!functions.validateRG(userData.rg)) errorListTemp.push("rg");
-    // Verificar Checkbox
-    if (!userData.check) errorListTemp.push("check");
-    // Validar Data de Nascimento
-    var birthday = functions.refactoryDate(
-      userData.birth,
-      "DD/MM/YYYY",
-      "YYYY-MM-DD"
-    );
-    if (isNaN(new Date(birthday).getTime())) errorListTemp.push("birth");
+    try {
+      const { 
+        name = "", 
+        email = "", 
+        phone = "", 
+        cpf = "", 
+        rg = "", 
+        birth = "", 
+        check = false
+      } = userData;
 
-    if (errorListTemp.length > 0) {
+      let errors = validate.validateSecondStep({ name, email, phone, cpf, rg, birth, check });
+
+      errorListTemp = [...errors ];
+
+      console.log("Errors:", errorListTemp);
+
       setErrorList(errorListTemp);
-    } else {
-      setErrorList([]); // Limpa a lista de erros
 
+      if (errorListTemp.length > 0) {
+        await progress.updateDegubLogData({ ...userData }, 2, errorList);
+        return;
+      }
+
+      await axios.post(`${apiUrl}/kakau-phone/checkout/check-for-duplicates`, {email, cpf})
+        .then((response)=>{
+          console.log('Response:', response.data);
+        })
+        .catch((err) => {
+          let error = err;
+
+          if (error && error.response) error = error.response;
+          if (error && error.data) error = error.data;
+
+          console.error("Error List:", error);
+
+          var { errorList = [] } = error;
+
+          if (Array.isArray(errorList)) {
+            clearTimeout(alertTimeout);
+            alertTimeout = setTimeout(() => {
+              setAlertMessages([]);
+            }, 8000);
+
+            if (errorList.includes('cpf-in-use')) {
+              errorListTemp.push('cpf');
+              errorListTemp.push('email');
+
+              setErrorList([...errorList, 'cpf', 'email']);
+              setAlertMessages(['cpf-in-use']);
+
+              return;
+            } 
+
+            if (errorList.includes('email-in-use')) { 
+              errorListTemp.push('email');
+              errorListTemp.push('cpf');
+
+              setErrorList([...errorList, 'cpf', 'email']);
+              setAlertMessages(['email-in-use']); 
+            }  
+          }
+        });
+
+
+      if (errorListTemp.length > 0) {
+        await progress.updateDegubLogData({ ...userData }, 2, errorList);
+        return;
+      }
+
+      clearTimeout(alertTimeout);
+      setAlertMessages([]);
+      setErrorList([]);
+      
       // Obtenção ou inicialização do formData
-      const currentData = JSON.parse(sessionStorage.getItem("formData")) || {};
+      const storage = sessionStorage.getItem("phoneFormData");
+      var currentData = {};
+
+      try {
+        currentData = JSON.parse(storage) || {};
+      }catch(e){
+        currentData = {};
+      }
 
       const updatedData = {
         ...currentData,
@@ -186,16 +304,46 @@ export default function BuyerData({ updateForm }) {
       };
 
       // Salva o formData atualizado no sessionStorage
-      sessionStorage.setItem("formData", JSON.stringify(updatedData));
+      sessionStorage.setItem("phoneFormData", JSON.stringify(updatedData));
 
-      // Navega para a próxima etapa
-      navigate("/seguro-celular-kakau/cotacao/endereco");
+      const currentStepIndex = 1; // Esta é a segunda etapa, então o índice é 1
+
+      sessionStorage.setItem(
+        "lastCompletedStepIndex",
+        currentStepIndex.toString()
+      );
+
+      await progress.updateDegubLogData({ ...userData }, 2, false);
+
+      progress.redirectWithParams("/seguro-celular-kakau/cotacao/endereco", {}, navigate);
+
+      //navigate("/seguro-celular-kakau/cotacao/endereco");
+    }catch(e) {
+      errorListTemp.push("unhandled-error");
+
+      await progress.updateDegubLogData({ ...userData }, 2, errorList);
+      setErrorList(errorListTemp);
+
+      console.error('Unhandled Error:', e);    
     }
   };
 
+  const navigateToQuotation = async() => {
+    //Envia um evento para o DataLayer
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "voltar-cotacao-celular-kakau",
+      // Aqui pode adicionar mais propriedades ao evento, se necessário
+    });
+
+    await progress.navigateTo(1, "/seguro-celular-kakau/cotacao", navigate);
+    //navigate("/seguro-celular-kakau/cotacao");
+  };
+
   return (
-    <div className=" mx-2">
-      <LayoutCotacaoPlanos title="Informações para o seguro" position={1} />
+    <div className=" mx-2 relative">
+      <DisplayMessage alert="error" messages={[...alertMessages]} />
+      <LayoutCotacaoPlanos title="Informações para o seguro" position={1} couponData={couponData} />
       <section className="mt-3 sm:mt-3 flex justify-center w-full animate__animated animate__fadeInRight">
         <div className="w-full max-w-[1025px]">
           <form onSubmit={handleSubmit} className="flex flex-wrap -mx-2">
@@ -237,7 +385,7 @@ export default function BuyerData({ updateForm }) {
                     : "w-full px-4 py-2 border-0 text-3xl ring-1 rounded-md focus:ring-2 focus:ring-inset focus:ring-bluePrime mt-4"
                 }`}
                 placeholder="Telefone"
-                mask="(99) 9.9999-9999"
+                mask="(99) 99999-9999"
                 value={userData.phone}
                 onChange={inputHandler}
                 style={{ fontSize: "24px", caretColor: "#03a8db 2px" }}
@@ -319,10 +467,22 @@ export default function BuyerData({ updateForm }) {
                 containerProps={{ className: "-ml-2.5" }}
               />
             </div>
-            <div className="w-full px-2">
+            <div className="w-full m-auto max-w-6xl mt-3 rounded-xl grid gap-2 grid-cols-1 px-2">
+              <button
+                onClick={navigateToQuotation}
+                className="h-14 w-full rounded-md shadow flex items-center justify-center cursor-pointer mt-4 font-bold border border-bluePrime p-2 order-2 md:order-1 block md:hidden"
+              >
+                Voltar para cotação
+              </button>
               <button
                 type="submit"
-                className="h-14 w-full bg-cyan-500 hover:bg-bluePrime2 rounded-md shadow text-white flex items-center justify-center cursor-pointer mt-4 font-bold"
+                className="h-14 w-full bg-cyan-500 hover:bg-bluePrime2 rounded-md shadow text-white flex items-center justify-center cursor-pointer mt-4 font-bold order-1 md:order-2"
+                onClick={(e) => {
+                  window.dataLayer = window.dataLayer || [];
+                  window.dataLayer.push({
+                    event: "dados-comprador-adicionados-celular-kakau",
+                  });
+                }}
               >
                 Prosseguir
               </button>
@@ -330,6 +490,14 @@ export default function BuyerData({ updateForm }) {
           </form>
         </div>
       </section>
+      <div className={`w-full mx-auto left-0 right-0 max-w-screen-lg absolute top-0 flex hidden md:block`}>
+        <button
+          onClick={navigateToQuotation}
+          className="mt-4 flex px-8 my-auto top-0 h-[45px] justify-center items-center py-4 bg-gray-400 opacity-80 rounded-md cursor-pointer border-none font-bold text-lg leading-7 transition-all duration-300 hover:brightness-110 text-white"
+        >
+          Voltar
+        </button>        
+      </div>
     </div>
   );
 }

@@ -9,6 +9,8 @@ import Faq from "./components/Faq";
 import Virtual from "./components/Virtual";
 import Benefits from "./components/Benefits";
 import Advantages from "./components/Advantages";
+import CustomeFooter from "./cotacao-seguro-bike/components/subcomponents/CustomFooter";
+import BannerPromoBike from "./components/BannersPromoBike";
 
 export default function IndexSeguroBike() {
   const [lastStep, setLastStep] = useState(0);
@@ -68,6 +70,7 @@ export default function IndexSeguroBike() {
 
   return (
     <div>
+      <BannerPromoBike />
       <FormSeguroBikeBanner
         callback={(data) => {
           sendForm({ ...data });
@@ -80,6 +83,7 @@ export default function IndexSeguroBike() {
       <Advantages />
       <Benefits />
       <Faq />
+      <CustomeFooter />
     </div>
   );
 }

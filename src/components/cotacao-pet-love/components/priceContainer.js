@@ -23,6 +23,9 @@ const PriceContainer = ({ submitForm, reload }) => {
           b.plan.price.replace(/[^0-9]/g, ""),
         ];
 
+        price[0] = parseInt(price[0]);
+        price[1] = parseInt(price[1]);
+
         if (price[0] > price[1]) {
           return 1;
         }
@@ -34,7 +37,7 @@ const PriceContainer = ({ submitForm, reload }) => {
         return 0;
       });
 
-      //console.log('updatedPets', updatedPets)
+      console.log('updatedPets', updatedPets)
 
       let formPet = sessionStorage.getItem("formPetData");
       try {
@@ -62,6 +65,9 @@ const PriceContainer = ({ submitForm, reload }) => {
           a.plan.price.replace(/[^0-9]/g, ""),
           b.plan.price.replace(/[^0-9]/g, ""),
         ];
+
+        price[0] = parseInt(price[0]);
+        price[1] = parseInt(price[1]);
 
         if (price[0] > price[1]) {
           return 1;
@@ -165,6 +171,28 @@ const PriceContainer = ({ submitForm, reload }) => {
 
           petData.push(pet);
         }
+
+        let sortedPets = petData.sort((a, b) => {
+          let price = [
+            a.plan.price.replace(/[^0-9]/g, ""),
+            b.plan.price.replace(/[^0-9]/g, ""),
+          ];
+  
+          price[0] = parseInt(price[0]);
+          price[1] = parseInt(price[1]);
+  
+          if (price[0] > price[1]) {
+            return 1;
+          }
+  
+          if (price[0] < price[1]) {
+            return -1;
+          }
+  
+          return 0;
+        });
+
+        petData = [...sortedPets];
 
         if (petData.length > 0) {
           setPets(petData);

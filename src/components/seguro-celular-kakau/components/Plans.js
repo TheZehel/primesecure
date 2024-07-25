@@ -60,7 +60,7 @@ const Assistance = () => {
         href: "",
       },
       title: "Quebra acidental",
-      description: "Roubo e furto qualificado.",
+      description: "Proteção contra queda e danos causados ao aparelho.",
       href: "https://app.kakau.co/plans/manual?code=kaqa",
     },
   ];

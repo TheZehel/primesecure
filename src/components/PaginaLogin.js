@@ -1,4 +1,12 @@
+import { useNavigate } from "react-router-dom";
+
 export default function PaginaLogin() {
+  const navigate = useNavigate();
+
+  const navigateToSignUp = () => {
+    navigate("/registre-se");
+  };
+
   return (
     <>
       {/*
@@ -78,12 +86,12 @@ export default function PaginaLogin() {
 
           <p className="mt-10 text-center text-sm text-gray-500">
             Não possui uma conta ainda?{" "}
-            <a
-              href="www.primesecure.com.br"
-              className="font-semibold leading-6 text-bluePrime hover:text-bluePrime2"
+            <button
+              onClick={navigateToSignUp}
+              className="font-semibold leading-6 text-bluePrime hover:text-bluePrime2 focus:outline-none"
             >
               Criar Conta
-            </a>
+            </button>
           </p>
         </div>
       </div>

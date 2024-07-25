@@ -26,10 +26,14 @@ import {
   faMobile,
   faBuilding,
   faMedkit,
+  faPhone,
+  faMicrochip,
+  faHeartCircleCheck,
   faBicycle,
   faPhoneSlash,
   faPhoneAlt,
   faMobilePhone,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 
 const globalFunctions = new GlobalFuntions();
@@ -53,7 +57,7 @@ const products = [
   },
   {
     name: "Seguro Celular Kakau",
-    description: "Proteção para sua Bike",
+    description: "Proteção para o Seu Celular",
     href: `/seguro-celular-kakau${utmParams ? "?" + utmParams : ""}`,
     icon: FontAwesomeIcon,
     iconProps: { icon: faMobilePhone },
@@ -112,7 +116,14 @@ const products = [
     description: "Para quem busca cuidar de si próprio",
     href: "https://primesecureprodutos.com.br/seguro-de-vida-prime-azos/",
     icon: FontAwesomeIcon,
-    iconProps: { icon: faMedkit },
+    iconProps: { icon: faHeartCircleCheck },
+  },
+  {
+    name: "Chip Internacional",
+    description: "Para quem quer comunicação sem fronteiras",
+    href: "https://primechip.com.br/",
+    icon: FontAwesomeIcon,
+    iconProps: { icon: faMicrochip },
   },
 ];
 
@@ -339,7 +350,7 @@ function NavBarMenu() {
             <Bars3Icon className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
-        <Popover.Group className="hidden lg:flex lg:gap-x-12">
+        <Popover.Group className="hidden lg:flex lg:gap-x-12 ">
           <Popover className="relative">
             <Popover.Button
               id="option-produtos"
@@ -370,7 +381,7 @@ function NavBarMenu() {
                   {productList.map((item) => (
                     <Link
                       to={item.href}
-                      className="block font-semibold text-gray-900"
+                      className="block font-semibold text-gray-900 "
                       onClick={() => {
                         setLinkClicked(!linkClicked);
                         setMobileMenuOpen(false);
@@ -462,8 +473,8 @@ function NavBarMenu() {
           ))}
         </Popover.Group>
 
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          {/*<button>
+        <div className="hidden lg:flex lg:flex-1 lg:justify-end space-x-4">
+          <button className="hidden">
             <Link
               to="/login"
               onClick={(event) => {
@@ -471,11 +482,28 @@ function NavBarMenu() {
                 navigate("/login");
                 setMobileMenuOpen(false);
               }}
-              className="text-sm font-semibold leading-6 text-gray-900"
+              className="text-sm font-semibold leading-6 text-gray-900 hover:decoration-bluePrime hover:underline transition duration-75 ease-out"
             >
-              Login <span aria-hidden="true">&rarr;</span>
+              Acionar Seguro <span aria-hidden="true"></span>
             </Link>
-            </button>*/}
+          </button>
+          <button className="space-x-1 hover:decoration-bluePrime hover:underline transition duration-75 ease-out text-bluePrime hidden">
+            <FontAwesomeIcon
+              icon={faUser}
+              className="text-sm  justify-center text-grayPrime hover:decoration-bluePrime hover:underline transition duration-75 ease-out"
+            />
+            <Link
+              to="/login"
+              onClick={(event) => {
+                event.preventDefault();
+                navigate("/login");
+                setMobileMenuOpen(false);
+              }}
+              className="text-sm font-semibold leading-6 text-gray-900 hover:decoration-bluePrime hover:underline transition duration-75 ease-out"
+            >
+              Minha Conta <span aria-hidden="true"></span>
+            </Link>
+          </button>
         </div>
       </nav>
       <Dialog

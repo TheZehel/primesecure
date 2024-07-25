@@ -73,6 +73,25 @@ export default function FormTravelBanner() {
       },
     };
 
+    const currentPath = window.location.pathname;
+
+    // Preparar dados para ManyChat
+    const postDataManyChat = {
+      first_name: formData.name.split(" ")[0],
+      last_name: formData.name.split(" ").slice(1).join(" "),
+      phone: formData.phone.replace(/\D/g, ""), // Remove non-numeric characters
+      whatsapp_phone: formData.phone.replace(/\D/g, ""), // Assumes same as phone
+      email: formData.email,
+      gender: "", // Assumindo a necessidade de incluir o campo gênero
+      has_opt_in_sms: true,
+      has_opt_in_email: true,
+      consent_phrase: "Eu aceito os termos e condições.", // Exemplo de frase de consentimento
+      current_url: currentPath,
+    };
+
+    // Salvar formData no sessionStorage
+    sessionStorage.setItem("formData", JSON.stringify(formData));
+
     /*// Configuração do pedido para a Prime Secure (preencha os cabeçalhos e dados conforme necessário)
     const authorization = process.env.REACT_APP_AUTHORIZATION_ARGUS;
     //const endpointArgus = process.env.REACT_APP_ENDPOINT_ARGUS;
@@ -212,85 +231,124 @@ export default function FormTravelBanner() {
     return form;
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    //Formata variavel de destino caso ela seja null
-    let destiny = formData.selectedOption || {
-      value: "",
-      label: "",
-      regiao: 0,
-    };
+    // Recebe os parâmetros UTM da URL
+    const utmParams = getUtmParams();
 
-    //Soma total de passageiros
-    let totalPassengers = 0;
-    formData.olds.map((qtd, i) => {
-      totalPassengers += qtd;
-    });
-    totalPassengers = `${totalPassengers} Passageiro(s)`;
-
-    //Recebe os parametros UTM da URL
-    let utmParams = getUtmParams();
-
-    //Começa a formatar o payload para a RDStation e para criar URL com parametros para o cotador
-    let payload = {
-      destiny: destiny, //Objeto do select de Destino
-      destinyGroup: destiny.regiao, //String com região de destino
+    // Coleta e formata os dados do formulário
+    const payload = {
+      destiny: formData.selectedOption || { value: "", label: "", regiao: 0 },
+      destinyGroup: formData.selectedOption
+        ? formData.selectedOption.regiao
+        : "",
       departure: formData.departure,
       arrival: formData.arrival,
-      ages: totalPassengers,
-      old0: formData.olds[0] || 0,
-      old1: formData.olds[1] || 0,
-      old2: formData.olds[2] || 0,
-      old3: formData.olds[3] || 0,
+      ages:
+        formData.olds.reduce((total, age) => total + age, 0).toString() +
+        " Passageiro(s)",
+      old0: formData.olds[0],
+      old1: formData.olds[1],
+      old2: formData.olds[2],
+      old3: formData.olds[3],
       name: formData.name,
       email: formData.email,
-      phone: formData.phone,
+      phone: formData.phone.replace(/\D/g, ""),
       ...utmParams,
     };
 
-    //Valida payload pelo modulo importado
-    let errors = customValidation.validarTravelPayload(payload);
-
-    //Impede redirect caso haja erros que causem problemas na URL
+    // Valida os dados do formulário
+    const errors = customValidation.validarTravelPayload(payload);
     if (errors.length > 0) {
       setErrorList(errors);
       return;
     }
 
-    //Cria form da RD
-    let form = convertToForm(payload, "lead-primetravel-api");
+    // Cria o objeto de dados para enviar para a RD Station e ManyChat
+    const formRD = convertToForm(payload, "lead-primetravel-api");
 
-    //Deleta objeto que retorna do select de destino
-    delete payload.destiny;
+    const postDataManyChat = {
+      first_name: formData.name.split(" ")[0],
+      last_name: formData.name.split(" ").slice(1).join(" "),
+      phone: formData.phone.replace(/\D/g, ""),
+      whatsapp_phone: formData.phone.replace(/\D/g, ""),
+      email: formData.email,
+      destiny: formData.selectedOption || { value: "", label: "", regiao: 0 },
+      destinyGroup: formData.selectedOption
+        ? formData.selectedOption.regiao
+        : "",
+      departure: formData.departure,
+      arrival: formData.arrival,
+      ages:
+        formData.olds.reduce((total, age) => total + age, 0).toString() +
+        " Passageiro(s)",
+      old0: formData.olds[0],
+      old1: formData.olds[1],
+      old2: formData.olds[2],
+      old3: formData.olds[3],
+      gender: "",
+      has_opt_in_sms: true,
+      has_opt_in_email: true,
+      consent_phrase: "Eu aceito os termos e condições.",
+      current_url: window.location.pathname,
+    };
 
-    //Começo da URL de cotação
-    let fullUrl = "https://primetravel.primesecure.com.br/cotacao-rapida?";
+    // Tentativa de envio de dados para ManyChat
+    axios
+      .post(
+        `${process.env.REACT_APP_URL_CREATE_SUBSCRIBER_MANYCHAT}/manychat/subscriber/create`,
+        postDataManyChat,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .catch((error) => {
+        console.error("Erro ao enviar dados para ManyChat:", error);
+      });
 
-    //Forma URL de cotação com os parametros do payload
-    for (let key in payload) {
-      //Pula UTM parametros
-      if (key === "cf_source" || key === "cf_medium" || key === "cf_campaign") {
-        //continue;
-      }
-      let value = payload[key] || "";
-      //Formata data para 00-00-0000
-      if (key === "departure" || key === "arrival") {
-        value = formatStringDate(value);
-      }
-      //URI encode do componente
-      value = encodeURIComponent(value);
-      let urlEncode = `${key}=${value}`;
-      //Soma o campo a URL do cotador
-      fullUrl += urlEncode;
-      //Telefone como último parametro, senão adiciona o &
-      //if (key !== "phone") {
-      fullUrl += "&";
-      //}
+    try {
+      // Envia os dados para a RD Station
+      await axios.post(
+        `https://api.rd.services/platform/conversions?api_key=${process.env.REACT_APP_API_KEY_RD_STATION}`,
+        formRD,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        }
+      );
+
+      // Prepara o redirecionamento
+      let redirectUrl =
+        "https://primetravel.primesecure.com.br/cotacao-rapida?";
+      Object.entries(payload).forEach(([key, value], index, array) => {
+        if (value && !["cf_source", "cf_medium", "cf_campaign"].includes(key)) {
+          redirectUrl += `${key}=${encodeURIComponent(value)}${
+            index < array.length - 1 ? "&" : ""
+          }`;
+        }
+      });
+
+      window.location.href = redirectUrl;
+    } catch (error) {
+      console.error("Erro ao enviar dados para RD Station:", error);
+      // Trata os erros de RD Station aqui se necessário, mas continua o processo de redirecionamento
+      let redirectUrl =
+        "https://primetravel.primesecure.com.br/cotacao-rapida?";
+      Object.entries(payload).forEach(([key, value], index, array) => {
+        if (value && !["cf_source", "cf_medium", "cf_campaign"].includes(key)) {
+          redirectUrl += `${key}=${encodeURIComponent(value)}${
+            index < array.length - 1 ? "&" : ""
+          }`;
+        }
+      });
+
+      window.location.href = redirectUrl;
     }
-
-    //Envia o form e a URL de redirect
-    submitFormToRD(form, fullUrl);
   };
 
   const onChangeDeparture = (date, dateString) => {

@@ -96,7 +96,7 @@ export default function PetAdded({
   const handleSubmit = () => {
     let errorList = [];
 
-    if (!functions.validateName(userData.name)) {
+    if (!functions.validateFullName(userData.name)) {
       errorList.push("name");
     }
 

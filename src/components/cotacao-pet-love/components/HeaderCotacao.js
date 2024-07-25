@@ -33,7 +33,7 @@ const Step = ({ step, index, position, href }) => (
     onClick={()=>{ href(step.href); }}
   >
     <StepIcon number={index + 1} active={index == position} />
-    <div className={`text-center ${(index == position) ? "text-cyan-500" : "text-zinc-800"} sm:text-2xl font-semibold`}>
+    <div className={`text-center ${(index == position) ? "text-cyan-500" : "text-zinc-800"} text-sm sm:text-2xl font-semibold`}>
       {step.title}
     </div>
   </div>
@@ -45,11 +45,25 @@ export default function HeaderCotacao({title, position}) {
   const navigate = useNavigate();
 
   const navigateTo = (href) => {
-    navigate(href);
+    const params = new URLSearchParams(window.location.search);
+    var token = params.get('token');    
+
+    if (token && token.length > 10) {
+      token = `?token=${token}`;
+    }else{
+      token = '';
+    }
+
+    navigate(href + token);
   }
   
   return (
     <div>
+      <img 
+        src="https://storage.googleapis.com/primesecure/pet-love-logo.png" 
+        alt="Logo Petlove" 
+        className={`mx-auto w-[160px] mb-6 sm:w-[210px] sm:mb-10`} 
+      /> 
       <TitleHeader title={title} />
       <div className="flex items-center justify-center text relative mx-auto mt-10 sm:space-x-6 space-x-2">
         {steps.map((step, index) => (
