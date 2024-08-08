@@ -70,6 +70,7 @@ import IndexSeguroCelularKakau from "./components/seguro-celular-kakau/indexSegu
 import IndexCotacaoSeguroCelularkakau from "./components/seguro-celular-kakau/cotacao-seguro-celular-kakau/IndexCotacaoSeguroCelularKakau";
 import Contracts from "./components/accounts/components/Contracts";
 import PageContract from "./components/accounts/components/PageContract";
+import InvoicePaymentVida from "./components/seguro-de-vida/InvoicePaymentVida"; 
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -179,6 +180,10 @@ function App() {
             path="/cotacao-vida-sulamerica/obrigado"
             element={<IndexCotacaoVidaSulamerica />}
           />
+          <Route
+            path="/fatura-vida-sulamerica/:subscriptionId"
+            element={<InvoicePaymentVida/>}
+          />
 
           <Route
             path="/cotacao-pet-love/dados-pessoais"
@@ -195,6 +200,10 @@ function App() {
           <Route
             path="/fatura-petlove/:subscriptionId"
             element={<InvoicePayment />}
+          />
+                    <Route
+            path="/fatura-petlove/:subscriptionId/1"
+            element={<InvoicePayment newer={true} />}
           />
 
           <Route path="/cotacao-pet-love" element={<IndexCotacaoPetlove />} />

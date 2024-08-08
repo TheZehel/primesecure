@@ -60,7 +60,7 @@ const plans = [
     award: "Sorteio de R$20.000,00",
     resume: "Detalhes:",
     resumeDesc:
-      "Assistência Pessoal + Assistência Residencial + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar.",
+      "Assistência Pessoal + App Namu + Faz tudo (Assistência Residencial) + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar.",
     features: [
       {
         label: "Morte Acidental",
@@ -86,7 +86,7 @@ const plans = [
     award: "Sorteio de R$20.000,00",
     resume: "Detalhes:",
     resumeDesc:
-      "Assistência Pessoal + Assistência Residencial + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar.",
+      "Assistência Pessoal + App Namu + Faz tudo (Assistência Residencial) + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar.",
     //"Assistência pessoal + residencial + dezenas de serviços Desconto em farmácia + funeral familiar + Médico na Tela Familiar.",
     features: [
       {
@@ -113,7 +113,7 @@ const plans = [
     award: "Sorteio de R$20.000,00",
     resume: "Detalhes:",
     resumeDesc:
-      "Assistência Pessoal + Assistência Residencial + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar.",
+      "Assistência Pessoal + App Namu + Faz tudo (Assistência Residencial) + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar.",
     features: [
       {
         label: "Morte Acidental",
@@ -139,7 +139,7 @@ const plans = [
     award: "Sorteio de R$20.000,00",
     resume: "Detalhes:",
     resumeDesc:
-      "Assistência Pessoal + Assistência Residencial + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar.",
+      "Assistência Pessoal + App Namu + Faz tudo (Assistência Residencial) + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar.",
     features: [
       {
         label: "Morte Acidental",
@@ -1029,10 +1029,8 @@ export default function StepPayment({
               Resumo da Pedido:
             </div>
             <div className="mb-2 rounded-lg border border-blue-gray-100 p-3 text-left">
-              <div className="font-normal font-semibold mb-3">
-                {plan.headTitle}
-              </div>
-              <div className="text-left text-gray-500 text-opacity-80 text-sm font-normal mb-5 leading-4">
+              <div className="font-normal  mb-3">{plan.headTitle}</div>
+              <div className="text-left text-bluePrime  text-sm  mb-5 leading-4 font-semibold">
                 {plan.resumeDesc}
               </div>
               <div className="flex justify-start mb-5">

@@ -240,7 +240,7 @@ export default function StepRegistrationData({
                 placeholder={
                   isValidBirthDate
                     ? "Data de Nascimento"
-                    : "Você é Menor de Idade"
+                    : "Você deve ter 14 anos ou mais"
                 }
                 onChange={handleChange}
                 value={formData.birth || ""}

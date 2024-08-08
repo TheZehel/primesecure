@@ -125,10 +125,10 @@ export default function IndexCotacaoPetlove() {
 
   const saveProgress = async (data, slug, redirect) => {
     const params = new URLSearchParams(window.location.search);
-    var token = params.get("token");
+    var token = params.get('token');
 
     var form = { ...data };
-    var _token = "";
+    var _token = '';
 
     if (token && token.length > 10) {
       form.token = token;
@@ -142,25 +142,24 @@ export default function IndexCotacaoPetlove() {
 
     //console.log('Upload', formUpload)
 
-    axios
-      .post(`${apiUrl}/petlove/process/save-progress`, { ...formUpload })
+    axios.post(`${apiUrl}/petlove/process/save-progress`, { ...formUpload })
       .then((response) => {
         let { data: _form } = response;
 
-        console.log("Save", _form);
-
+        console.log('Save', _form);
+        
         if (_form.token) {
           _token = `?token=${_form.token}`;
 
           const oldUrl = window.location.href;
-          const newUrl = addParamToUrl(oldUrl, "token", _form.token);
+          const newUrl = addParamToUrl(oldUrl, 'token', _form.token);
 
-          window.history.pushState(null, "", newUrl);
+          window.history.pushState(null, '', newUrl);
         }
 
         let ccForm = { ...form.checkoutData.payment.cc };
 
-        if (Object.keys(ccForm).length < 1) {
+        if (Object.keys(ccForm).length < 1){
           ccForm = { ...emptyCC };
         }
 
@@ -190,13 +189,13 @@ export default function IndexCotacaoPetlove() {
         console.error("Token Load Error:", error);
 
         setFormData({ ...form });
-        setLoading(false);
+        setLoading(false); 
 
         if (redirect) {
           navigate(`/${pageSlug}/${slug}${_token}`);
         }
       });
-  };
+  }
 
   const nextStep = (step, data) => {
     var form = { ...formData };
@@ -215,13 +214,13 @@ export default function IndexCotacaoPetlove() {
       if (!Array.isArray(data) || data.length < 1) {
         console.error(data);
         return;
-      }
+      }      
 
       form.petList = data;
 
       //console.log(form);
 
-      saveProgress(form, "dados-pessoais", true);
+      saveProgress(form, 'dados-pessoais', true);
 
       return;
     }
@@ -239,7 +238,7 @@ export default function IndexCotacaoPetlove() {
 
       form.userData = { ...form.userData, ...data };
 
-      saveProgress(form, "pagamento", true);
+      saveProgress(form, 'pagamento', true);
 
       return;
     }
@@ -257,7 +256,7 @@ export default function IndexCotacaoPetlove() {
 
     const pages = ["", "dados-pessoais", "pagamento", "obrigado"];
     //const page = `/${pageSlug}${pages[step - 1]}`;
-
+    
     saveProgress(formData, pages[step - 1], true);
   };
 
@@ -295,8 +294,7 @@ export default function IndexCotacaoPetlove() {
   };
 
   const loadProgress = async (token) => {
-    axios
-      .get(`${apiUrl}/petlove/process/get-progress/${token}`)
+    axios.get(`${apiUrl}/petlove/process/get-progress/${token}`)
       .then((response) => {
         let { data: form } = response;
         //let { form } = data;
@@ -304,11 +302,11 @@ export default function IndexCotacaoPetlove() {
         //console.log('Load Progress:', form);
 
         delete form.token;
-        let _form = { ...formData, ...form };
+        let _form = { ...formData, ...form };   
 
         let ccForm = { ...form.checkoutData.payment.cc };
 
-        if (Object.keys(ccForm).length < 1) {
+        if (Object.keys(ccForm).length < 1){
           ccForm = { ...emptyCC };
         }
 
@@ -316,7 +314,7 @@ export default function IndexCotacaoPetlove() {
           _form.checkoutData.payment.cc = ccForm;
         }
 
-        console.log("Load Form:", _form);
+        console.log('Load Form:', _form);
 
         let formPet = sessionStorage.getItem("formPetData");
 
@@ -326,40 +324,40 @@ export default function IndexCotacaoPetlove() {
 
         formPet = { ...formPet };
 
-        formPet.petList = [..._form.petList];
+        formPet.petList = [ ..._form.petList ];
         formPet.petRegion = { ..._form.regionData };
         formPet.userData = { ..._form.userData };
 
         if (Array.isArray(formData.petList) && formData.petList.length > 0) {
-          console.log(formData.petList);
-
+          console.log(formData.petList)
+  
           let sortedPets = formData.petList.sort((a, b) => {
             let price = [
               a.plan.price.replace(/[^0-9]/g, ""),
               b.plan.price.replace(/[^0-9]/g, ""),
             ];
-
+    
             price[0] = parseInt(price[0]);
             price[1] = parseInt(price[1]);
-
+    
             if (price[0] > price[1]) {
               return 1;
             }
-
+    
             if (price[0] < price[1]) {
               return -1;
             }
-
+    
             return 0;
           });
-
-          console.log("Loaded:", sortedPets);
-
-          formData.petList = [...sortedPets];
+  
+          console.log('Loaded:', sortedPets)
+  
+          formData.petList = [ ...sortedPets ];
         }
 
         sessionStorage.setItem("formPetData", JSON.stringify(formPet));
-
+        
         setFormData(_form);
 
         setScreenReady(true);
@@ -367,7 +365,7 @@ export default function IndexCotacaoPetlove() {
       .catch((err) => {
         let error = { ...err };
 
-        if (error && error.response) {
+        if ( error && error.response ) {
           error = error.response;
         }
 
@@ -375,13 +373,13 @@ export default function IndexCotacaoPetlove() {
           error = error.data;
         }
 
-        console.error("Token Load Error:", error);
+        console.error('Token Load Error:', error);
 
         setFormData(formData);
 
         setScreenReady(true);
       });
-  };
+  }
 
   useEffect(() => {
     const initScreen = async () => {
@@ -451,31 +449,31 @@ export default function IndexCotacaoPetlove() {
       }
 
       if (Array.isArray(formData.petList) && formData.petList.length > 0) {
-        console.log(formData.petList);
+        console.log(formData.petList)
 
         let sortedPets = formData.petList.sort((a, b) => {
           let price = [
             a.plan.price.replace(/[^0-9]/g, ""),
             b.plan.price.replace(/[^0-9]/g, ""),
           ];
-
+  
           price[0] = parseInt(price[0]);
           price[1] = parseInt(price[1]);
-
+  
           if (price[0] > price[1]) {
             return 1;
           }
-
+  
           if (price[0] < price[1]) {
             return -1;
           }
-
+  
           return 0;
         });
 
-        console.log(sortedPets);
+        console.log(sortedPets)
 
-        formData.petList = [...sortedPets];
+        formData.petList = [ ...sortedPets ];
       }
 
       var userData = data.userData || {};
@@ -532,16 +530,16 @@ export default function IndexCotacaoPetlove() {
       loadProgress(token);
     };
 
-    var token = "";
+    var token = '';
 
     try {
       const params = new URLSearchParams(window.location.search);
-      token = params.get("token");
+      token = params.get('token');
 
-      if (token && token.length > 10) {
+      if (token && token.length > 10){
         //token = token.toLocaleUpperCase();
         initToken(token);
-      } else {
+      }else{
         initScreen();
       }
     } catch (error) {
@@ -549,15 +547,11 @@ export default function IndexCotacaoPetlove() {
     }
 
     try {
-      if (token) {
+      if (token){
         return;
       }
 
-      if (
-        formData.regionData.error ||
-        !formData.regionData.ibge ||
-        !formData.regionData.region
-      ) {
+      if (formData.regionData.error || !formData.regionData.ibge || !formData.regionData.region) {
         setModalPetState(true);
 
         let form = {
@@ -624,8 +618,8 @@ export default function IndexCotacaoPetlove() {
           formData={formData}
           reload={reloadComponent}
           applyCoupon={applyCoupon}
-          uploadToken={() => {
-            saveProgress(formData, "pagamento", false);
+          uploadToken={()=>{
+            saveProgress(formData, 'pagamento', false);
           }}
         />
         <ModalPet

@@ -8,6 +8,7 @@ import {
   faCapsules,
   faTicketAlt,
   faTools,
+  faLeaf,
 } from "@fortawesome/free-solid-svg-icons";
 
 const coberturas = [
@@ -20,27 +21,34 @@ const coberturas = [
   },
   {
     id: 2,
+    title: "App Namu",
+    description:
+      "Sua mudança precisa ser completa, seu super app de bem-estar também.",
+    icon: faLeaf,
+  },
+  {
+    id: 3,
     title: "Clube de Vantagens",
     description:
       "Descontos e benefícios exclusivos para você cuidar da sua Saúde Integral do jeito certo: o seu!",
     icon: faGift,
   },
   {
-    id: 3,
+    id: 4,
     title: "Descontos em Farmácias",
     description:
       "Descontos de até 70% em diversos medicamentos nas maiores redes de farmácias do Brasil.",
     icon: faCapsules,
   },
   {
-    id: 4,
+    id: 5,
     title: "Sorteios Mensais",
-    description: "Sorteios de até R$ 15 mil pela loteria federal todo mês!",
+    description: "Sorteios de até R$ 20 mil pela loteria federal todo mês!",
     icon: faTicketAlt,
   },
   {
-    id: 5,
-    title: "Assistência Residencial",
+    id: 6,
+    title: "Serviço Faz Tudo - Assistência Residencial",
     description:
       "Serviços para pequenos reparos como chaveiro, eletricista e outros profissionais. Conta também com os serviços de vigilância e segurança.",
     icon: faTools,
@@ -90,7 +98,7 @@ export default function BeneficiosSlider() {
         >
           {coberturas.map((cobertura) => (
             <SwiperSlide key={cobertura.id} className="py-5">
-              <div className="border-bluePrime border shadow-lg px-3 py-8 m-5 rounded-lg h-56">
+              <div className="border-bluePrime border shadow-lg px-3 py-8 m-5 rounded-lg h-[280px]">
                 <FontAwesomeIcon
                   icon={cobertura.icon}
                   size="2x"

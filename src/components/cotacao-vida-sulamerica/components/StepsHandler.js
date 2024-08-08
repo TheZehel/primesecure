@@ -175,7 +175,13 @@ export default function StepsHandler({recaptchaRef}) {
     let birthday = functions.refactoryDate(birth, 'DD/MM/YYYY', 'YYYY-MM-DD');
     let age = functions.calculateAge(birthday);
 
-    const isValidBirthDate = (age >= 18 && age <= 70);
+    if (age == 70) {
+      let fullAge = functions.calculateFullAge(birthday);
+      if (fullAge.months > 0) age = 70.5;
+      else if (fullAge.days > 1) age = 70.5;
+    }
+
+    const isValidBirthDate = (age >= 14 && age <= 70);
     setBirthDateValid(isValidBirthDate || birth === undefined);
 
     //optionals ???

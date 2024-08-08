@@ -73,7 +73,7 @@ const alertCode = (code, data) => {
             message = 'Verifique se o campo "Data de nascimento" foi preenchido corretamente.';
             break;
         case 'age':
-            message = 'Você deve ter pelo menos 18 anos para fazer a contratação do seguro.';
+            message = 'Você deve ter pelo menos 14 anos para fazer a contratação do seguro.';
             break;
         case 'weight':
             message = 'Verifique se o campo "Peso" foi preenchido corretamente.';

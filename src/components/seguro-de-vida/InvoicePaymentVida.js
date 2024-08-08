@@ -14,6 +14,10 @@ import { FaRegCreditCard } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMoneyBill } from "@fortawesome/free-solid-svg-icons";
+
+
 import card from "@material-tailwind/react/theme/components/card";
 
 import axios from "axios";
@@ -84,7 +88,127 @@ const errorCodes = (code) => {
     return 'Houve um problema ao processar seu pagamento. Por favor, tente novamente mais tarde.';
 };
 
-function InvoicePayment({newer}) {
+const link = "https://www.sulamerica.com.br/manuais/CondicoesEspeciaisDaAssistenciaPessoal.pdf";
+
+const plans = [
+  {
+    headTitle: "",
+    title: "",
+    price: "",
+    award: "",
+    resume: "",
+    resumeDesc: "",
+    features: [],
+    bgColor: "bluePrime",
+    textColor: "white",
+    planId: 0,
+  },
+  {
+    headTitle: "PRIME BASIC",
+    title: "Pacote 1",
+    price: "3490",
+    award: "Sorteio de R$20.000,00",
+    resume: "Detalhes:",
+    resumeDesc: "Assistência Pessoal + Assistência Residencial + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar.",
+    features: [
+      { 
+        label: "Morte Acidental",
+        value: "100 mil" 
+      }, 
+      {
+        label: "Invalidez Permanente Total por Acidente", 
+        value: "50 mil" 
+      },
+      {
+        label: "Funeral Familiar Até 10 mil",
+        value: "(Prestação de Serviço)"
+      }
+    ],
+    bgColor: "bluePrime",
+    textColor: "white",
+    planId: 1,
+  },
+  {
+    headTitle: "PRIME SILVER",
+    title: "Pacote 2",
+    price: "4250",
+    award: "Sorteio de R$20.000,00",
+    resume: "Detalhes:",
+    resumeDesc: "Assistência Pessoal + Assistência Residencial + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar.",
+      //"Assistência pessoal + residencial + dezenas de serviços Desconto em farmácia + funeral familiar + Médico na Tela Familiar.",
+      features: [
+        { 
+          label: "Morte Acidental",
+          value: "150 mil" 
+        }, 
+        {
+          label: "Invalidez Permanente Total por Acidente", 
+          value: "75 mil" 
+        },
+        {
+          label: "Funeral Familiar Até 10 mil",
+          value: "(Prestação de Serviço)"
+        }
+      ],
+    bgColor: "bluePrime",
+    textColor: "white",
+    planId: 2,
+  },
+  {
+    headTitle: "PRIME GOLD",
+    title: "Pacote 3",
+    price: "5014",
+    award: "Sorteio de R$20.000,00",
+    resume: "Detalhes:",
+    resumeDesc:
+      "Assistência Pessoal + Assistência Residencial + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar.",
+      features: [
+        { 
+          label: "Morte Acidental",
+          value: "200 mil" 
+        }, 
+        {
+          label: "Invalidez Permanente Total por Acidente", 
+          value: "100 mil" 
+        },
+        {
+          label: "Funeral Familiar Até 10 mil",
+          value: "(Prestação de Serviço)"
+        }
+      ],
+    bgColor: "bluePrime",
+    textColor: "white",
+    planId: 3,
+  },
+  {
+    headTitle: "PRIME DIAMOND",
+    title: "Pacote 4",
+    price: "6532",
+    award: "Sorteio de R$20.000,00",
+    resume: "Detalhes:",
+    resumeDesc:
+      "Assistência Pessoal + Assistência Residencial + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar.",
+      features: [
+        { 
+          label: "Morte Acidental",
+          value: "300 mil" 
+        }, 
+        {
+          label: "Invalidez Permanente Total por Acidente", 
+          value: "150 mil" 
+        },
+        {
+          label: "Funeral Familiar Até 10 mil",
+          value: "(Prestação de Serviço)"
+        }
+      ],
+    bgColor: "bluePrime",
+    textColor: "white",
+    planId: 4,
+  },
+];
+
+function InvoicePaymentVida() {
     const [paymentMethod, setPaymentMethod] = useState("current-card");
     const [processing, setProcessing] = useState(true);
 
@@ -99,32 +223,18 @@ function InvoicePayment({newer}) {
 
     const [encrypted, setEncrypted] = useState(null);
 
-    const [petList, setPetList] = useState([]);
+    const [contractData, setContractData] = useState({});
 
     var params = useParams();
     params = { ...params };
 
-    const {
-        subscriptionId
-    } = params;
+    const { subscriptionId } = params;
 
-
-    const [cardData, setCardData] = useState({
-        name: "",
-        number: "",
-        expiration: "",
-        cvv: ""
-    });
+    const [cardData, setCardData] = useState({ name: "", number: "", expiration: "", cvv: "" });
 
     const inputHandler = (e) => {
-        if (!e || !e.target || !e.target.name) {
-            return;
-        }
-
-        var {
-            value,
-            name
-        } = e.target;
+        if (!e || !e.target || !e.target.name) return;       
+        var { value, name } = e.target;
 
         if (name.includes("card-")) {
             let label = name.replace("card-", "");
@@ -144,9 +254,7 @@ function InvoicePayment({newer}) {
             let name = value || '';
             name = name.toString().trim();
         
-            if (name.length < 4){ 
-                return false; 
-            }
+            if (name.length < 4) return false;           
 
             return true
         }
@@ -154,31 +262,23 @@ function InvoicePayment({newer}) {
         if (input == "card-number") {
             var cartaoPattern = /^[0-9]{4}\s[0-9]{4}\s[0-9]{4}\s[0-9]{4}$/;
 
-            if (!cartaoPattern.test(value)){ 
-                return false; 
-            }
+            if (!cartaoPattern.test(value)) return false; 
         
-            let numeroCartao = value.replace(/[^0-9]+/g, "").toString();
-        
+            let numeroCartao = value.replace(/[^0-9]+/g, "").toString();        
             let soma = 0;
             let dobrar = false;
         
             for (let i = numeroCartao.length - 1; i >= 0; i--) {
                 let digito = parseInt(numeroCartao.charAt(i), 10);
         
-                if (dobrar) { 
-                    if ((digito *= 2) > 9){ 
-                        digito -= 9; 
-                    } 
-                }
-        
+                if (dobrar) 
+                    if ((digito *= 2) > 9) digito -= 9;
+
                 soma += digito; 
                 dobrar = !dobrar;
             }
         
-            if ((soma % 10) != 0){ 
-                return false; 
-            }
+            if ((soma % 10) != 0) return false; 
         
             return true;
         }
@@ -188,32 +288,18 @@ function InvoicePayment({newer}) {
             let pattern_B = /^(\d{2})\/(\d{2})$/; 
             let datePattern = /^(\d{4})\-(\d{2})\-(\d{2})$/;
         
-            if (!pattern_A.test(value) && !pattern_B.test(value)){ 
-                return false; 
-            }
+            if (!pattern_A.test(value) && !pattern_B.test(value)) return false;            
             
             let hoje = (new Date()).toISOString().split('T')[0];
         
             let [, hojeAno, hojeMes, hojeDia] = datePattern.exec(hoje);
         
             if (pattern_A.test(value)){
-                let [, mes, ano] = pattern_A.exec(value);
-                
-                if (parseInt(mes) < 1){ 
-                    return false; 
-                }
-        
-                if (parseInt(mes) > 12){ 
-                    return false; 
-                }
-        
-                if (parseInt(hojeAno) > parseInt(ano)){ 
-                    return false; 
-                }
-        
-                if (parseInt(hojeAno) == parseInt(ano) && parseInt(hojeMes) > parseInt(mes) ){ 
-                    return false; 
-                }
+                let [, mes, ano] = pattern_A.exec(value);                
+                if (parseInt(mes) < 1) return false;        
+                if (parseInt(mes) > 12) return false;        
+                if (parseInt(hojeAno) > parseInt(ano)) return false;        
+                if (parseInt(hojeAno) == parseInt(ano) && parseInt(hojeMes) > parseInt(mes) ) return false;               
         
                 return true
             }
@@ -221,47 +307,29 @@ function InvoicePayment({newer}) {
             let [, mes, ano] = pattern_B.exec(value);
             ano = `20${ano}`;
         
-            if (parseInt(mes) < 1 ){ 
-                return false; 
-            }
-        
-            if (parseInt(mes) > 12 ){ 
-                return false; 
-            }
-        
-            if (parseInt(hojeAno) > parseInt(ano)){ 
-                return false; 
-            }
-        
-            if (parseInt(hojeAno) == parseInt(ano) && parseInt(hojeMes) > parseInt(mes) ){ 
-                return false; 
-            }
+            if (parseInt(mes) < 1 ) return false;        
+            if (parseInt(mes) > 12 ) return false;        
+            if (parseInt(hojeAno) > parseInt(ano)) return false;         
+            if (parseInt(hojeAno) == parseInt(ano) && parseInt(hojeMes) > parseInt(mes) ) return false; 
         
             return true;
         }
 
         if (input == "card-cvv") {
-            if (/^[0-9]{3,4}$/.test(value)){
-                return true;
-            }
-
+            if (/^[0-9]{3,4}$/.test(value)) return true;
             return false;        
         }
     };
 
     const encryptCard = async () => {
-        if (processing) {
-            return;
-        }       
+        if (processing) return;       
 
         try {
             await fetch('/publicKey.pem')
                 .then((response) => response.text())
                 .then(async (publicKey) => {
                     var subscription_id = 'sub_' + subscriptionId;
-
                     var card = { ...cardData };
-
                     var encrypted = crypto.encryptData(JSON.stringify({ ...card, subscription_id }), publicKey);                    
 
                     console.log('Encrypted:', encrypted);
@@ -279,14 +347,11 @@ function InvoicePayment({newer}) {
     };
 
     const retryPayment = () => {
-        if (processing || (invoice && invoice.status == 'paid')) {
-            return;
-        }
-
+        if (processing || (invoice && invoice.status == 'paid')) return;
         setProcessing(true);
         
         try {
-            axios.post(`${apiUrl}/petlove/checkout/try-subscription-charge${newer === true ? '/1' : ''}`, { subscription_id: 'sub_' + subscriptionId })
+            axios.post(`${apiUrl}/vida-sulamerica/try-subscription-charge`, { subscription_id: 'sub_' + subscriptionId })
                 .then((response)=>{
                     let data = response.data;
 
@@ -315,13 +380,8 @@ function InvoicePayment({newer}) {
                 .catch((err)=>{
                     let error = err;
 
-                    if (error && error.response) {
-                        error = error.response;
-                    }
-
-                    if (error && error.data) {
-                        error = error.data;
-                    }
+                    if (error && error.response) error = error.response;
+                    if (error && error.data) error = error.data;                    
 
                     console.error('Erro ao processar pagamento', error);
 
@@ -335,11 +395,7 @@ function InvoicePayment({newer}) {
     };
 
     const displaySuccessMessage = () => {
-        if (displaySuccess) {
-            setTimeout(() => {
-                setDisplaySuccess(null);
-            }, 8000);
-        }
+        if (displaySuccess) setTimeout(() => { setDisplaySuccess(null); }, 8000);        
 
         return (
             <div className={`px-3 w-full fixed z-[100] transition-all duration-800 ease-in-out ${displaySuccess ? 'top-1' : '-top-full'}`}>
@@ -357,13 +413,8 @@ function InvoicePayment({newer}) {
     }
 
     const displayErrorMessage = () => {   
-        let error = { ...errorAlert };
-    
-        if (error && error.delay){
-            setTimeout(() => {
-                setErrorAlert(null);
-            }, error.delay);
-        }
+        let error = { ...errorAlert };    
+        if (error && error.delay) setTimeout(() => { setErrorAlert(null); }, error.delay);        
     
         return(
           <div className={`px-3 w-full fixed z-[100] transition-all duration-800 ease-in-out ${error.message ? 'top-1' : '-top-full'}`}>
@@ -383,11 +434,11 @@ function InvoicePayment({newer}) {
     useEffect(()=>{
         try {
             if (!encrypted || !processing || !subscriptionId) {
-                if (processing) { setProcessing(false); }
+                if (processing) setProcessing(false);
                 return;
             }
 
-            axios.post( `${apiUrl}/petlove/checkout/update-subscription-charge${newer === true ? '/1' : ''}`, { encrypted } )
+            axios.post( `${apiUrl}/vida-sulamerica/update-subscription-charge`, { encrypted } )
                 .then((response)=>{
                     let data = response.data;
 
@@ -417,13 +468,8 @@ function InvoicePayment({newer}) {
                 .catch((err)=>{
                     let error = err;
 
-                    if (error && error.response) {
-                        error = error.response;
-                    }
-
-                    if (error && error.data) {
-                        error = error.data;
-                    }
+                    if (error && error.response) error = error.response;
+                    if (error && error.data) error = error.data;
 
                     console.error('Erro ao processar pagamento', error);
 
@@ -436,11 +482,9 @@ function InvoicePayment({newer}) {
     }, [encrypted]);    
 
     useEffect(()=>{
-        if (!subscriptionId) {
-            return;
-        }
+        if (!subscriptionId) return;        
 
-        axios.get(`${apiUrl}/petlove/process/get-invoice-data/${subscriptionId}${newer === true ? '/1' : ''}`)
+        axios.get(`${apiUrl}/vida-sulamerica/data/get-invoice-data/${subscriptionId}`)
             .then((response) => {
                 var { data } = response;
 
@@ -459,36 +503,13 @@ function InvoicePayment({newer}) {
                 setDocument(document);
                 setInvoice(invoice);
 
-                let petList = [];
-                
-                if (document && document.petlove && document.petlove.plans && Array.isArray(document.petlove.plans)) {
-                    petList = [...document.petlove.plans];
-                }
-
-                if (document && document.petlove && document.petlove.pets && Array.isArray(document.petlove.pets)) {
-                    for (let i in document.petlove.pets) {
-                        let pet = document.petlove.pets[i];
-
-                        if (!pet.plan) {
-                            pet.plan = {};
-                        }
-
-                        petList[i].plan = pet.plan.title;
-                    }
-                }
-
-                setPetList(petList);
+                setContractData({plan: document.plan});
             })
             .catch((err) => {
                 let error = err;
 
-                if (error && error.response) {
-                    error = error.response;
-                }
-
-                if (error && error.data) {
-                    error = error.data;
-                }
+                if (error && error.response) error = error.response;
+                if (error && error.data) error = error.data;                
 
                 console.log('Erro na requisição', error);
             });
@@ -496,11 +517,9 @@ function InvoicePayment({newer}) {
 
     useEffect(()=>{
         try {
-            if (!invoice || !invoice.id || !subscriptionId) {
-                return;
-            }
+            if (!invoice || !invoice.id || !subscriptionId) return;            
 
-            axios.get(`${apiUrl}/petlove/process/get-invoice-data/${subscriptionId}${newer === true ? '/1' : ''}`)
+            axios.get(`${apiUrl}/vida-sulamerica/data/get-invoice-data/${subscriptionId}`)
                 .then((response) => {
                     var { data } = response;
 
@@ -517,36 +536,13 @@ function InvoicePayment({newer}) {
                     setSubscription(subscription);
                     setDocument(document);
 
-                    let petList = [];
-                    
-                    if (document && document.petlove && document.petlove.plans && Array.isArray(document.petlove.plans)) {
-                        petList = [...document.petlove.plans];
-                    }
-
-                    if (document && document.petlove && document.petlove.pets && Array.isArray(document.petlove.pets)) {
-                        for (let i in document.petlove.pets) {
-                            let pet = document.petlove.pets[i];
-
-                            if (!pet.plan) {
-                                pet.plan = {};
-                            }
-
-                            petList[i].plan = pet.plan.title;
-                        }
-                    }
-
-                    setPetList(petList);
+                    setContractData({plan: document.plan});
                 })
                 .catch((err) => {
                     let error = err;
 
-                    if (error && error.response) {
-                        error = error.response;
-                    }
-
-                    if (error && error.data) {
-                        error = error.data;
-                    }
+                    if (error && error.response) error = error.response;
+                    if (error && error.data) error = error.data;                    
 
                     console.log('Erro na requisição', error);
                 });
@@ -559,13 +555,16 @@ function InvoicePayment({newer}) {
     console.log('Invoice:', invoice);  
     console.log('Document:', document);
 
-    console.log('PetList:', petList)
+    console.log('ContractData:', contractData);
 
     var invoiceData = {
         date: (invoice.cycle) ? invoice.cycle.start_at : "",
         value: (invoice.amount) ? invoice.amount : "",
         cycle: (invoice.cycle) ? invoice.cycle.cycle : ""
-    }
+    };
+
+    let plan = { ...plans[0] };
+    if (document && document.plan && document.plan.id) plan = { ...plans[document.plan.id] };
 
     try{
         if (invoiceData.date) {
@@ -599,11 +598,7 @@ function InvoicePayment({newer}) {
 
     var subCard = { ...subscription.card };
 
-    var petlove = { ...document.petlove };
-    
-    if ( !petlove.region ){
-        petlove.region = {};
-    }
+    var contract = { ...document.plan };
 
     console.log('errorList', errorList)
 
@@ -612,19 +607,19 @@ function InvoicePayment({newer}) {
             {displaySuccessMessage()}
             {displayErrorMessage()}
             <Helmet>
-                <title>Plano de Saúde PetLove | Prime Secure Marketplace</title>
+                <title>Seguro de Vida SulAmérica | Prime Secure Marketplace</title>
                 <meta
                     name="description"
-                    content="O Plano de Saúde Pet oferece uma ampla rede de clínicas e profissionais qualificados para o bem-estar completo do seu pet."
+                    content="Coberturas que protegem sua renda em casos de doença ou acidente. Simule para conhecer todas as opções de proteções."
                 />
 
                 <meta
                     name="keywords"
-                    content="Prime Secure, Seguros, Insurance, Insurtech, Corretora de Seguros, MarketPlace de Seguros, Plano de Saúde Pet, Saúde Pet, Plano Pet, Prime, Cobertura para Pets, Seguro para Cães, Seguro para Gatos, Plano de Saúde para Animais, Assistência Veterinária, Cobertura Veterinária, Plano de Saúde Animal, Seguro Pet Online, Seguro Pet Confiável, Seguro para Animais de Estimação, Cuidados com Pets, Bem-estar Animal, Plano Pet Completo, Plano Pet Personalizado, Seguro Pet Integral, Seguro Pet Emergencial"
+                    content="Prime Secure, Seguros, Insurance, Insurtech, Corretora de Seguros, MarketPlace de Seguros, Seguro de Vida, SulAmérica, Cobertura de Vida, Plano de Seguro de Vida, Seguro de Vida Individual, Seguro de Vida Familiar, Seguro de Vida para Empresas, Seguro de Vida Online, Seguro de Vida Confiável, Seguro de Vida Personalizado, Seguro de Vida Completo, Proteção Financeira, Segurança Financeira, Benefícios de Seguro de Vida, Seguro de Vida a Termo, Seguro de Vida Integral, Cobertura por Morte Acidental"
                 />
                 <meta
                     property="og:title"
-                    content="Plano de Saúde PetLove | Prime Secure Marketplace"
+                    content="Seguro de Vida SulAmérica | Prime Secure Marketplace"
                 />
                 <meta
                     property="og:description"
@@ -632,21 +627,21 @@ function InvoicePayment({newer}) {
                 />
                 <meta
                     property="og:image"
-                    content="https://banco-de-imagens-webapp-primesecure.s3.sa-east-1.amazonaws.com/social-petlove-by-primesecure.png"
+                    content="https://storage.googleapis.com/primesecure/logo-sulamerica-vida.png"
                 />
                 <meta
                     property="og:url"
-                    content="https://primesecure.com.br/seguro-pet-porto"
+                    content="https://primesecure.com.br/cotacao-vida-sulamerica/"
                 />
                 <link
                     rel="canonical"
-                    href="https://primesecure.com.br/seguro-pet-porto"
+                    href="https://primesecure.com.br/cotacao-vida-sulamerica/"
                 />
             </Helmet>
             <div className="w-full flex mt-5">
                 <img 
-                    src="https://storage.googleapis.com/primesecure/pet-love-logo.png" 
-                    alt="Logo Petlove" 
+                    src="https://storage.googleapis.com/primesecure/logo-sulamerica-vida.png" 
+                    alt="Logo SulAmérica Vida" 
                     className={`mx-auto w-[140px] sm:w-[160px]`} 
                 /> 
             </div>
@@ -681,55 +676,60 @@ function InvoicePayment({newer}) {
                     <div
                         className="p-[20px] my-[15px] bg-white shadow-petlove-shadow rounded-lg"
                     >
-                        <div
-                            className="flex mb-[20px]"
-                        >
-                            <div 
-                                className="min-w-[34px] w-[34px] min-h-[34px] h-[34px] flex"
-                            >
-                                <div 
-                                    className="min-w-[34px] w-[34px] min-h-[34px] h-[34px] mx-auto rounded-full bg-[#4E2096]/[0.5] overflow-hidden flex"
-                                >
-                                    <IoPaw className="m-auto text-[#FFFFFF] w-[22px] h-[22px]" />
-                                </div>
-
-                            </div>
-                            <div
-                                className="w-full ml-[10px] my-auto text-left"
-                            >
-                                <div className="w-full h-[17px] leading-[17px] text-[15px] font-bold">
-                                    Planos Petlove
-                                </div>          
-                                <div className={`text-[12px] font-semibold h-[17px] leading-[17px] mt-[2px] text-left opacity-60 ${(petlove.region.city) ? "" : "hidden"}`}>
-                                    { petlove.region.city ? petlove.region.city : "" }
-                                </div>                 
-                            </div>                                
-                        </div>
-                        {
-                            petList.map((pet, index)=>{
-                                let { status } = pet;
-
-                                if (status == 'suspend') status = "Suspenso";                               
-
-                                if (status == 'active') status = "Ativo";                                
-           
-                                return (
-                                    <div className="w-full mt-[15px] p-[15px] rounded-lg bg-white border border-black/10 shadow-petlove-shadow flex" >
-                                        <div className="" >
-                                            <div className="font-semibold text-[14px] text-left" >
-                                                {pet.pet}
-                                            </div>
-                                            <div className="font-medium text-[13px] text-left" >
-                                                {pet.plan}
+                        
+                        <div className="w-full rounded-xl mx-auto lg:mx-0 lg:mt-0 order-1 lg:order-2">
+                                <div className="rounded-lg h-full flex flex-col">
+                                    <div className="mb-2 text-left">
+                                        <div className="font-normal font-semibold mb-3">
+                                            {plan.headTitle}
+                                        </div>
+                                        <div className="text-left text-gray-500 text-opacity-80 text-sm font-normal mb-5 leading-4">
+                                            {plan.resumeDesc}
+                                        </div>
+                                        <div className="flex justify-start mb-5">
+                                            <div className="flex items-center">
+                                                <FontAwesomeIcon
+                                                    icon={faMoneyBill}
+                                                    className="w-3 h-3 p-1 bg-white rounded-full border border-cyan-500"
+                                                />
+                                                <div className="ml-2 text-sm">{plan.award}</div>
                                             </div>
                                         </div>
-                                        <div className={`text-[11px] leading-[10px] py-[8px] px-[10px] rounded-lg ml-auto my-auto font-semibold ${pet.status == 'suspend' ? 'text-[#805B36] bg-[#FFD8B2]' : 'text-[#4F7F40] bg-[#E4F7C8]' }`} >
-                                            { status }
+                                        <div>
+                                            <div className={`text-bluePrime2 text-sm text-start font-extrabold mb-2`}>
+                                                Detalhes:
+                                            </div>
+                                            <div className="text-[10px] sm:text-[11px">
+                                                {plan.features.map((feature, idx) => {
+                                                    return (
+                                                        <div
+                                                            key={idx}
+                                                            className={`flex items-center justify-between py-[1px] px-[5px] bg-[#313131]/5 rounded-lg mb-[8px] flex`}
+                                                        >
+                                                            <div
+                                                                className={`text-left text-grayPrime font-medium py-[3px] px-[8px] flex font-semibold w-full`}
+                                                            >
+                                                                <div className="w-max my-auto opacity-80]">{feature.label}</div>
+                                                                <div className="w-fit my-auto ml-auto text-right break-keep opacity-80">{feature.value}</div>
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
                                         </div>
+                                        <div className="text-left mt-3 mx-1">
+                                            <a
+                                                href={link}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-[12px] text-bluePrime hover:text-bluePrime2 font-semibold underline underline-offset-2"
+                                            >
+                                                Mais detalhes...
+                                            </a>
+                                        </div>                                         
                                     </div>
-                                )
-                            })
-                        }
+                                </div>
+                            </div>      
 
                     </div>
                 </div>
@@ -800,12 +800,8 @@ function InvoicePayment({newer}) {
                         <div
                             className={`w-full h-[50px] mt-[15px] pl-[15px] pr-[20px] rounded-lg bg-white shadow-petlove-shadow flex border ${paymentMethod == "current-card" ? "border-[#03A8DB] cursor-default" : "border-[#000000]/[0.08] cursor-pointer"}`}
                             onClick={()=>{ 
-                                if (paymentMethod != 'current-card' && !processing && invoice.status != 'paid') { 
-                                    setPaymentMethod('current-card'); 
-                                } 
-                                if (invoice.status == 'paid') {
-                                    setPaymentMethod('current-card');
-                                }
+                                if (paymentMethod != 'current-card' && !processing && invoice.status != 'paid') setPaymentMethod('current-card');                                 
+                                if (invoice.status == 'paid') setPaymentMethod('current-card');                                
                             }}
                         >
                             <div
@@ -991,4 +987,4 @@ function InvoicePayment({newer}) {
 
 }
 
-export default InvoicePayment;
+export default InvoicePaymentVida;

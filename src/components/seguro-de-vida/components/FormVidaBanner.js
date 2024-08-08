@@ -12,27 +12,23 @@ export default function FormBannerVida() {
 
   const handleSubmit = (form) => {
     console.log("Submit Form:", form);
-    var { 
-      email,
-      name,
-      phone
-    } = form;
+    var { email, name, phone } = form;
 
-    phone = phone.replace('.', '');
+    phone = phone.replace(".", "");
 
-    var storage = localStorage.getItem('formData');
+    var storage = localStorage.getItem("formData");
 
     try {
       storage = JSON.parse(storage) || {};
-    }catch(e){
+    } catch (e) {
       storage = {};
     }
 
     storage = { ...storage, name, email, phone };
 
-    localStorage.setItem('formData', JSON.stringify(storage));
+    localStorage.setItem("formData", JSON.stringify(storage));
 
-    window.location.href = '/cotacao-vida-sulamerica';
+    window.location.href = "/cotacao-vida-sulamerica";
   };
 
   return (
@@ -46,12 +42,16 @@ export default function FormBannerVida() {
       }}
     >
       <BannerSection
-        chipText="Invista em Sua Vida Com"
-        titleText="Seguro de Vida"
+        chipText="Invista Em Sua Vida Com:"
+        titleText="Prime Vida Fit"
         descriptionText="Não existe investimento melhor do que uma vida Segura e com Coberturas Exclusivas"
         imageUrl={imageManagerVida.logos.LogoSulamerica}
       />
-      <SimpleFormSection formData={formData} setFormData={setFormData} submit={handleSubmit} />
+      <SimpleFormSection
+        formData={formData}
+        setFormData={setFormData}
+        submit={handleSubmit}
+      />
     </section>
   );
 }

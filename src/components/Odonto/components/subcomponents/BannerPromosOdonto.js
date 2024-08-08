@@ -33,11 +33,11 @@ export default function BannerPromo() {
     {
       id: 1,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/banners-julho/banners%20lp%200407/odonto/srclarge-julho-2024-odonto.png",
+        "https://storage.googleapis.com/primesecure/banners/banners-agosto-lp/odonto/srclarge-agosto-2024-odonto.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/banners-julho/banners%20lp%200407/odonto/srcmedium-julho-2024-odonto.png",
+        "https://storage.googleapis.com/primesecure/banners/banners-agosto-lp/odonto/srcmedium-agosto-2024-odonto.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/banners-julho/banners%20lp%200407/odonto/srcmobile-julho-2024-odonto.png",
+        "https://storage.googleapis.com/primesecure/banners/banners-agosto-lp/odonto/srcmobile-agosto-2024-odonto.png",
       alt: "Banner de Natal para Telas Grandes",
       href: "",
     },

@@ -1,4 +1,4 @@
-import JSEncrypt from "jsencrypt";
+import JSEncrypt from 'jsencrypt';
 
 const publicKey = `-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2PaexvylfZvxKclEs1OQ
@@ -14,12 +14,12 @@ UwIDAQAB
 var jsEncrypt = new JSEncrypt();
 
 export default class CryptoFunctions extends Object {
-  constructor() {
-    super();
-  }
+    constructor(){
+        super();
+    }
 
-  encryptData(data, key) {
-    jsEncrypt.setPublicKey(key);
-    return jsEncrypt.encrypt(data);
-  }
+    encryptData(data, key){
+        jsEncrypt.setPublicKey(key);
+        return jsEncrypt.encrypt(data);
+    }
 }

@@ -22,7 +22,6 @@ import ModalCoupon from "./components/subcomponents/ModalCoupon";
 import ProgressManager from "./components/modules/progress";
 import GlobalFuntions from "../../globalsubcomponentes/globalFunctions";
 
-
 const crypto = new CryptoFunctions();
 const validate = new ValidateSteps();
 const progress = new ProgressManager();
@@ -30,7 +29,12 @@ const functions = new GlobalFuntions();
 
 const enviroment = process.env.REACT_APP_ENVIRONMENT;
 
-export default function PaymentPhone({ brand, setSuccessToken, _couponData, _setCouponData }) {
+export default function PaymentPhone({
+  brand,
+  setSuccessToken,
+  _couponData,
+  _setCouponData,
+}) {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -52,7 +56,11 @@ export default function PaymentPhone({ brand, setSuccessToken, _couponData, _set
     // Verifica se o usuário tem permissão para acessar a etapa atual
     if (currentStepIndex > lastCompletedStepIndex + 1) {
       // Redireciona para a etapa permitida mais avançada
-      progress.navigateTo(2, "/seguro-celular-kakau/cotacao/cadastro-celular", navigate);
+      progress.navigateTo(
+        2,
+        "/seguro-celular-kakau/cotacao/cadastro-celular",
+        navigate
+      );
       //navigate("/seguro-celular-kakau/cotacao/cadastro-celular");
     }
   }, [navigate]);
@@ -112,7 +120,6 @@ export default function PaymentPhone({ brand, setSuccessToken, _couponData, _set
   const [couponCode, setCouponCode] = useState("");
   const [couponData, setCouponData] = useState(_couponData);
   const [displayCoupon, setDisplayCoupon] = useState(false);
-
 
   const CardBrandImage = ({ cardNumber }) => {
     // Função para encontrar a bandeira do cartão
@@ -175,45 +182,45 @@ export default function PaymentPhone({ brand, setSuccessToken, _couponData, _set
 
   // Funções de manipulação para cada campo
   const handleCardNumberChange = (e) => {
-    let errors = [ ...errorList ];
+    let errors = [...errorList];
 
     let index = errors.indexOf("card-number");
     errors.splice(index, 1);
 
-    setErrorList([ ...errors ]);
+    setErrorList([...errors]);
 
     setCardNumber(e.target.value);
   };
 
   const handleCardHolderChange = (e) => {
-    let errors = [ ...errorList ];
+    let errors = [...errorList];
 
     let index = errors.indexOf("card-name");
     errors.splice(index, 1);
 
-    setErrorList([ ...errors ]);
+    setErrorList([...errors]);
 
     setCardHolder(e.target.value);
   };
 
   const handleExpirationDateChange = (e) => {
-    let errors = [ ...errorList ];
+    let errors = [...errorList];
 
     let index = errors.indexOf("card-expiration");
     errors.splice(index, 1);
 
-    setErrorList([ ...errors ]);
+    setErrorList([...errors]);
 
     setExpirationDate(e.target.value);
   };
 
   const handleCvcChange = (e) => {
-    let errors = [ ...errorList ];
+    let errors = [...errorList];
 
     let index = errors.indexOf("card-cvv");
     errors.splice(index, 1);
 
-    setErrorList([ ...errors ]);
+    setErrorList([...errors]);
 
     setCvc(e.target.value);
   };
@@ -224,19 +231,12 @@ export default function PaymentPhone({ brand, setSuccessToken, _couponData, _set
       buyerData = {},
       dataPhone = {},
       modeloSelecionado = {},
-      selectedPlan = {}
+      selectedPlan = {},
     } = form;
 
-    var {
-      id: product_id = "",
-      amount = 0
-    } = selectedPlan;
+    var { id: product_id = "", amount = 0 } = selectedPlan;
 
-    var {
-      celNumber: cellphone = "",
-      imei = "",
-      nf = ""
-    } = dataPhone;
+    var { celNumber: cellphone = "", imei = "", nf = "" } = dataPhone;
 
     var {
       cpf = "",
@@ -245,7 +245,7 @@ export default function PaymentPhone({ brand, setSuccessToken, _couponData, _set
       phone = "",
       birth = "",
       rg = "",
-      check = false
+      check = false,
     } = buyerData;
 
     var {
@@ -255,7 +255,7 @@ export default function PaymentPhone({ brand, setSuccessToken, _couponData, _set
       neighborhood = "",
       number = "",
       cep = "",
-      complement = ""
+      complement = "",
     } = addressData;
 
     var payload = {
@@ -270,7 +270,7 @@ export default function PaymentPhone({ brand, setSuccessToken, _couponData, _set
         name: name,
         phone: phone,
         birthday: birth,
-        rg: rg,        
+        rg: rg,
         address: {
           street: address,
           city: city,
@@ -284,7 +284,7 @@ export default function PaymentPhone({ brand, setSuccessToken, _couponData, _set
       },
       phone: {
         modelData: { ...modeloSelecionado },
-        planData: { ...selectedPlan }
+        planData: { ...selectedPlan },
       },
       coupon: { ..._couponData },
       voucher: { ..._couponData },
@@ -303,35 +303,47 @@ export default function PaymentPhone({ brand, setSuccessToken, _couponData, _set
     if (isLoading) return;
     setIsLoading(true);
 
-    var url = `http://localhost:3050/kakau-bike/process/validate-coupon/${couponCode}`;
+    var url = `http://localhost:3050/kakau-phone/checkout/validate-coupon/${couponCode}`;
 
-    if (enviroment != "SANDBOX") url = `https://api-primesecure.onrender.com/kakau-bike/process/validate-coupon/${couponCode}`;
+    if (enviroment != "SANDBOX")
+      url = `https://api-primesecure.onrender.com/kakau-phone/checkout/validate-coupon/${couponCode}`;
 
-    await axios.get(url)
-      .then(async (response) => {
-        const { data } = response;
-        let { error = false, coupon = {} } = data;
+    try {
+      const response = await axios.get(url);
+      const { data } = response;
+      let { error = false, coupon = {} } = data;
 
-        const invalid = error || !coupon || !coupon.active;
+      const invalid = error || !coupon || !coupon.active;
 
-        if (invalid) {
-          setCouponData({ code: couponCode, type: "", value: 0, valid: false });
-          _setCouponData({ code: couponCode, type: "", value: 0, valid: false });
-          setIsLoading(false);
-          return;
-        }
-
-        setCouponData({ code: coupon.code, type: coupon.type, value: coupon.amount, valid: true });
-        _setCouponData({ code: coupon.code, type: coupon.type, value: coupon.amount, valid: true });
-        setTimeout(()=>{ if (displayCoupon) setDisplayCoupon(false); }, 4000)
-        setIsLoading(false);
-      })
-      .catch((err) => {
+      if (invalid) {
         setCouponData({ code: couponCode, type: "", value: 0, valid: false });
         _setCouponData({ code: couponCode, type: "", value: 0, valid: false });
         setIsLoading(false);
         return;
+      }
+
+      setCouponData({
+        code: coupon.code,
+        type: coupon.type,
+        value: coupon.amount,
+        valid: true,
       });
+      _setCouponData({
+        code: coupon.code,
+        type: coupon.type,
+        value: coupon.amount,
+        valid: true,
+      });
+      setTimeout(() => {
+        if (displayCoupon) setDisplayCoupon(false);
+      }, 4000);
+      setIsLoading(false);
+    } catch (err) {
+      console.error("Erro ao validar o cupom:", err);
+      setCouponData({ code: couponCode, type: "", value: 0, valid: false });
+      _setCouponData({ code: couponCode, type: "", value: 0, valid: false });
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -344,7 +356,12 @@ export default function PaymentPhone({ brand, setSuccessToken, _couponData, _set
 
     setCouponCode(_couponData.code || "");
 
-    if (!_couponData || !_couponData.code || typeof _couponData.code != "string" || _couponData.code.length < 1) {
+    if (
+      !_couponData ||
+      !_couponData.code ||
+      typeof _couponData.code != "string" ||
+      _couponData.code.length < 1
+    ) {
       setCouponData({ code: "", type: "", value: 0, valid: false });
       _setCouponData({ code: "", type: "", value: 0, valid: false });
       return;
@@ -353,11 +370,13 @@ export default function PaymentPhone({ brand, setSuccessToken, _couponData, _set
     if (isLoading) return;
     setIsLoading(true);
 
-    
-    var url = `http://localhost:3050/kakau-bike/process/validate-coupon/${_couponData.code}`;
-    if (enviroment != "SANDBOX") url = `https://api-primesecure.onrender.com/kakau-bike/process/validate-coupon/${_couponData.code}`;
+    // Mathew essa sua gambiarra tirou uns 30 anos da minha vida CARA!
+    var url = `http://localhost:3050/kakau-phone/checkout/validate-coupon/${_couponData.code}`;
+    if (enviroment != "SANDBOX")
+      url = `https://api-primesecure.onrender.com/kakau-phone/checkout/validate-coupon/${_couponData.code}`;
 
-    axios.get(url)
+    axios
+      .get(url)
       .then(async (response) => {
         const { data } = response;
         let { error = false, coupon = {} } = data;
@@ -365,27 +384,58 @@ export default function PaymentPhone({ brand, setSuccessToken, _couponData, _set
         const invalid = error || !coupon || !coupon.active;
 
         if (invalid) {
-          setCouponData({ code: _couponData.code, type: "", value: 0, valid: false });
-          _setCouponData({ code: _couponData.code, type: "", value: 0, valid: false });
+          setCouponData({
+            code: _couponData.code,
+            type: "",
+            value: 0,
+            valid: false,
+          });
+          _setCouponData({
+            code: _couponData.code,
+            type: "",
+            value: 0,
+            valid: false,
+          });
 
           setIsLoading(false);
           return;
         }
 
-        setCouponData({ code: coupon.code, type: coupon.type, value: coupon.amount, valid: true });
-        _setCouponData({ code: coupon.code, type: coupon.type, value: coupon.amount, valid: true });
+        setCouponData({
+          code: coupon.code,
+          type: coupon.type,
+          value: coupon.amount,
+          valid: true,
+        });
+        _setCouponData({
+          code: coupon.code,
+          type: coupon.type,
+          value: coupon.amount,
+          valid: true,
+        });
 
-        setTimeout(()=>{ if (displayCoupon) setDisplayCoupon(false); }, 4000)
+        setTimeout(() => {
+          if (displayCoupon) setDisplayCoupon(false);
+        }, 4000);
         setIsLoading(false);
       })
       .catch((err) => {
-        setCouponData({ code: _couponData.code, type: "", value: 0, valid: false });
-        _setCouponData({ code: _couponData.code, type: "", value: 0, valid: false });
+        setCouponData({
+          code: _couponData.code,
+          type: "",
+          value: 0,
+          valid: false,
+        });
+        _setCouponData({
+          code: _couponData.code,
+          type: "",
+          value: 0,
+          valid: false,
+        });
 
         setIsLoading(false);
         return;
       });
-    
   }, [_couponData.code]);
 
   const triggerDataLayerEvent = (formData) => {
@@ -424,28 +474,16 @@ export default function PaymentPhone({ brand, setSuccessToken, _couponData, _set
       buyerData = {},
       dataPhone = {},
       modeloSelecionado = {},
-      selectedPlan = {}
+      selectedPlan = {},
     } = formData;
 
-    var {
-      celNumber: cellphone = "",
-      imei = "",
-      nf = ""
-    } = dataPhone;
+    var { celNumber: cellphone = "", imei = "", nf = "" } = dataPhone;
 
-    var {
-      brand = {},
-      manufacturer_name = "",
-    } = modeloSelecionado;
+    var { brand = {}, manufacturer_name = "" } = modeloSelecionado;
 
     brand = brand?.name || "";
 
-    var {
-      cpf = "",
-      email = "",
-      name = "",
-      phone = "",
-    } = buyerData;
+    var { cpf = "", email = "", name = "", phone = "" } = buyerData;
 
     var {
       state = "",
@@ -454,7 +492,7 @@ export default function PaymentPhone({ brand, setSuccessToken, _couponData, _set
       neighborhood = "",
       number = "",
       cep = "",
-      complement = ""
+      complement = "",
     } = addressData;
 
     const rdStationData = {
@@ -486,10 +524,10 @@ export default function PaymentPhone({ brand, setSuccessToken, _couponData, _set
     };
 
     const headers = {
-        headers: {
-          accept: "application/json",
-          "Content-Type": "application/json",
-        },      
+      headers: {
+        accept: "application/json",
+        "Content-Type": "application/json",
+      },
     };
 
     const rdStationResponse = await axios.post(
@@ -506,14 +544,14 @@ export default function PaymentPhone({ brand, setSuccessToken, _couponData, _set
       name: cardHolder,
       number: cardNumber,
       expiration: expirationDate,
-      cvv: cvc
+      cvv: cvc,
     };
 
     let errors = validate.validateFifthStep(cardData);
     console.log(errors);
 
-    let _cardNumber = cardNumber || '';
-    _cardNumber = _cardNumber.replace(/\D/g, '');
+    let _cardNumber = cardNumber || "";
+    _cardNumber = _cardNumber.replace(/\D/g, "");
 
     let _card = {
       numberMask: "",
@@ -523,9 +561,9 @@ export default function PaymentPhone({ brand, setSuccessToken, _couponData, _set
       expiration: expirationDate,
     };
 
-    for(let i in cardNumber) { 
-      if (i % 4 && i > 0) _card.numberMask += ' '      
-      _card.numberMask += "X"; 
+    for (let i in cardNumber) {
+      if (i % 4 && i > 0) _card.numberMask += " ";
+      _card.numberMask += "X";
     }
 
     setErrorList([...errors]);
@@ -534,21 +572,21 @@ export default function PaymentPhone({ brand, setSuccessToken, _couponData, _set
       await progress.updateDegubLogData({ ..._card }, 5, errors);
       return;
     }
-    
+
     var formData = {};
 
     try {
       formData = JSON.parse(sessionStorage.getItem("phoneFormData"));
-    }catch(e){
+    } catch (e) {
       formData = {};
     }
 
     errors = validate.validatePayload(formData);
 
     if (errors.length > 0) {
-      setErrorList([...errors]);    
+      setErrorList([...errors]);
       await progress.updateDegubLogData({ ...formData }, 6, errors);
-      console.error('Payload Errors:', errors);
+      console.error("Payload Errors:", errors);
       return;
     }
 
@@ -558,7 +596,8 @@ export default function PaymentPhone({ brand, setSuccessToken, _couponData, _set
 
     var dataToSend = buildPaylod(formData) || {};
 
-    if (params && params.t && params.t.length > 0) dataToSend.progressToken = params.t;
+    if (params && params.t && params.t.length > 0)
+      dataToSend.progressToken = params.t;
 
     try {
       await fetch("/publicKey.pem")
@@ -571,7 +610,7 @@ export default function PaymentPhone({ brand, setSuccessToken, _couponData, _set
 
           let payment = {
             amount: dataToSend.amount * 100,
-            ccData: encrypted
+            ccData: encrypted,
           };
 
           delete dataToSend.amount;
@@ -588,11 +627,14 @@ export default function PaymentPhone({ brand, setSuccessToken, _couponData, _set
         });
 
       var url = "http://localhost:3050/kakau-phone/checkout/process-payment";
-      
-      if (enviroment != "SANDBOX") url = "https://api-primesecure.onrender.com/kakau-phone/checkout/process-payment";      
 
-      await axios.post(url, dataToSend)
-        .then(async (response)=>{
+      if (enviroment != "SANDBOX")
+        url =
+          "https://api-primesecure.onrender.com/kakau-phone/checkout/process-payment";
+
+      await axios
+        .post(url, dataToSend)
+        .then(async (response) => {
           let { data = {} } = response;
           let { token = "" } = data;
 
@@ -601,14 +643,18 @@ export default function PaymentPhone({ brand, setSuccessToken, _couponData, _set
           setSuccessToken(token);
 
           setPurchaseSuccess(true);
-          setAlertMessages(['Pagamento processado com sucesso!']);
+          setAlertMessages(["Pagamento processado com sucesso!"]);
 
           triggerDataLayerEvent(formData);
 
           var _dataToSend = { ...dataToSend };
           _dataToSend.payment.ccData = _card;
 
-          await progress.updateDegubLogData({ dataToSend: _dataToSend, response: data }, 7, false);
+          await progress.updateDegubLogData(
+            { dataToSend: _dataToSend, response: data },
+            7,
+            false
+          );
 
           await sendDataToRD(formData);
 
@@ -617,7 +663,11 @@ export default function PaymentPhone({ brand, setSuccessToken, _couponData, _set
             setAlertMessages([]);
 
             setIsLoading(false);
-            progress.navigateTo(8, "/seguro-celular-kakau/cotacao/pagamento-confirmado", navigate);
+            progress.navigateTo(
+              8,
+              "/seguro-celular-kakau/cotacao/pagamento-confirmado",
+              navigate
+            );
             //navigate("/seguro-celular-kakau/cotacao/pagamento-confirmado");
           }, 5000);
         })
@@ -629,18 +679,15 @@ export default function PaymentPhone({ brand, setSuccessToken, _couponData, _set
           if (error && error.response) error = error.response;
           if (error && error.data) error = error.data;
 
-          await progress.updateDegubLogData({ error }, 7, {errors: error});
+          await progress.updateDegubLogData({ error }, 7, { errors: error });
 
-          var {
-            errors,
-            errorResponse = null
-          } = error || {};
+          var { errors, errorResponse = null } = error || {};
 
-          if (errorResponse) console.log('Error Response:', errorResponse);          
+          if (errorResponse) console.log("Error Response:", errorResponse);
 
           if (Array.isArray(errors)) {
-            setAlertMessages([ ...errors ]);
-    
+            setAlertMessages([...errors]);
+
             clearTimeout(messageTimeOut);
 
             messageTimeOut = setTimeout(() => {
@@ -652,8 +699,8 @@ export default function PaymentPhone({ brand, setSuccessToken, _couponData, _set
 
           setIsLoading(false); // Finaliza o carregamento em caso de falha
         });
-    }catch(e){
-      console.error('Erro ao enviar dados para o servidor:', e);
+    } catch (e) {
+      console.error("Erro ao enviar dados para o servidor:", e);
       setIsLoading(false);
     }
   };
@@ -703,8 +750,8 @@ export default function PaymentPhone({ brand, setSuccessToken, _couponData, _set
       },
       phone: {
         modelData: { ...formData.modeloSelecionado },
-        planData: { ...formData.selectedPlan }
-      }
+        planData: { ...formData.selectedPlan },
+      },
     };
 
     console.log("Dados a serem enviados:", dataToSend);
@@ -806,7 +853,11 @@ export default function PaymentPhone({ brand, setSuccessToken, _couponData, _set
 
           setTimeout(() => {
             setIsLoading(false); // Desativa o carregamento antes de navegar
-            progress.navigateTo(8, "/seguro-celular-kakau/cotacao/pagamento-confirmado", navigate);
+            progress.navigateTo(
+              8,
+              "/seguro-celular-kakau/cotacao/pagamento-confirmado",
+              navigate
+            );
             //navigate("/seguro-celular-kakau/cotacao/pagamento-confirmado");
           }, 5000); // Espera por 5 segundos
         })
@@ -830,7 +881,11 @@ export default function PaymentPhone({ brand, setSuccessToken, _couponData, _set
       // Aqui pode adicionar mais propriedades ao evento, se necessário
     });
 
-    await progress.navigateTo(4, "/seguro-celular-kakau/cotacao/cadastro-celular", navigate);
+    await progress.navigateTo(
+      4,
+      "/seguro-celular-kakau/cotacao/cadastro-celular",
+      navigate
+    );
     //navigate("/seguro-celular-kakau/cotacao/cadastro-celular");
   };
 
@@ -846,8 +901,15 @@ export default function PaymentPhone({ brand, setSuccessToken, _couponData, _set
         applyCoupon={validateCoupon}
         couponData={_couponData}
       />
-      <DisplayMessage alert={(purchaseSuccess ? "success" : "error")} messages={[...alertMessages]} />
-      <LayoutCotacaoPlanos title="Finalize o pagamento" position={4} couponData={couponData} />
+      <DisplayMessage
+        alert={purchaseSuccess ? "success" : "error"}
+        messages={[...alertMessages]}
+      />
+      <LayoutCotacaoPlanos
+        title="Finalize o pagamento"
+        position={4}
+        couponData={couponData}
+      />
       <div className="animate__animated animate__fadeInRight  container mx-auto  bg-[#ffffff] rounded-2xl flex flex-col mt-3 md:flex-row gap-8 justify-center sm:justify-between items-center max-w-[1025px] ">
         {/* Formulário */}
         <div className="form bg-[#ffffff] rounded-lg flex flex-col gap-4 w-full md:w-1/2 ">
@@ -976,7 +1038,7 @@ export default function PaymentPhone({ brand, setSuccessToken, _couponData, _set
           </div>
         </div>
         <button
-          onClick={()=>{
+          onClick={() => {
             if (isLoading) return;
             navigateToPhoneData();
           }}
@@ -985,16 +1047,18 @@ export default function PaymentPhone({ brand, setSuccessToken, _couponData, _set
           Voltar
         </button>
       </div>
-      <div className={`w-full mx-auto left-0 right-0 max-w-screen-lg absolute top-0 flex`}>
+      <div
+        className={`w-full mx-auto left-0 right-0 max-w-screen-lg absolute top-0 flex`}
+      >
         <button
-          onClick={()=>{
+          onClick={() => {
             if (isLoading) return;
             navigateToPhoneData();
           }}
           className="mt-4  px-8 my-auto top-0 h-[45px] justify-center items-center py-4 bg-gray-400 rounded-md cursor-pointer border-none font-bold text-lg leading-7 transition-all duration-300 hover:brightness-110 text-white hidden sm:flex"
         >
           Voltar
-        </button>        
+        </button>
       </div>
     </div>
   );

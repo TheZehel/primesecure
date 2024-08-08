@@ -91,11 +91,11 @@ export default function Banner() {
     {
       id: 6,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/banners-julho/consorcio/srclarge-julho-2024-consorcio.png",
+        "https://storage.googleapis.com/primesecure/consorcio-fix-banner-agosto/srclarge-agosto-2024-Consorcio.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/banners-julho/consorcio/srcmedium-julho-2024-cons%C3%B3rcio.png",
+        "https://storage.googleapis.com/primesecure/consorcio-fix-banner-agosto/srcmedium-agosto-2024-consorcio.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/banners-julho/consorcio/srcmobile-julho-2024-consorcio.png",
+        "https://storage.googleapis.com/primesecure/consorcio-fix-banner-agosto/srcmobile-agosto-2024-consorcio.png",
       alt: "Banner de Natal para Telas Grandes",
       href: "https://primesecureprodutos.com.br/consorcio/",
     },

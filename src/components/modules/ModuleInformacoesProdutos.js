@@ -107,13 +107,13 @@ const InformacoesProdutos = [
     image: imageManagerInformacoesProdutos.imgProdutos.imgVida,
     buttonText: "Cotar Agora",
     link: "#",
-    title: "Seguro de Vida com Coberturas Para serem Usadas Ainda em Vida.",
+    title: "Morte por acidente, ",
     description: "",
     features: [
       {
         name: "Coberturas:",
         description:
-          "Coberturas Para Morte(Natural, Cônjuge ou acidental), Invalidez Total ou Parcial, Doenças Graves, Despesas Médicas, hospitalares e odonto, doenças graves, Diária por incapacidade Temporária e Seguro Funeral.",
+          "Cobertura em morte por acidente, invalidez permanente e Assistência Funeral Familiar.",
         icon: FontAwesomeIcon,
         iconProps: { icon: faHouse },
       },

@@ -5,8 +5,6 @@ import { useNavigate } from "react-router-dom";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-import "../../../banner-mktplace/css/style.css";
-
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 
 export default function BannerPromo() {
@@ -35,35 +33,13 @@ export default function BannerPromo() {
     {
       id: 1,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/banners-julho/banners%20lp%200407/primetravel/srclarge-f%C3%A9rias-primetravel%20(1).png",
+        "https://storage.googleapis.com/primesecure/banners/banners-agosto-lp/primetravel/srclarge-agosto-2024-primetravel.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/banners-julho/banners%20lp%200407/primetravel/srcmedium-f%C3%A9rias-primetravel.png",
+        "https://storage.googleapis.com/primesecure/banners/banners-agosto-lp/primetravel/srcmedium-agosto-2024-primetravel.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/banners-julho/banners%20lp%200407/primetravel/srcmobile-f%C3%A9rias-primetravel.png",
+        "https://storage.googleapis.com/primesecure/banners/banners-agosto-lp/primetravel/srcmobile-agosto-2024-primetravel.png",
       alt: "Banner de Natal para Telas Grandes",
-      href: "/primetravel",
-    },
-    {
-      id: 2,
-      srcLarge:
-        "https://storage.googleapis.com/primesecure/primetravel/banners/2024/janeiro/todas-as-idades/srclarge-todas%20as%20idades-primetravel.png",
-      srcMedium:
-        "https://storage.googleapis.com/primesecure/primetravel/banners/2024/janeiro/todas-as-idades/srcmedium-todas%20as%20idades-primetravel.png",
-      srcMobile:
-        "https://storage.googleapis.com/primesecure/primetravel/banners/2024/janeiro/todas-as-idades/srcmobile-todas%20as%20idades-primetravel.png",
-      alt: "Banner de Natal para Telas Grandes",
-      href: "/primetravel",
-    },
-    {
-      id: 3,
-      srcLarge:
-        "https://storage.googleapis.com/primesecure/primetravel/banners/2024/janeiro/telemedicina/srclarge-telemedicina-primetravel.png",
-      srcMedium:
-        "https://storage.googleapis.com/primesecure/primetravel/banners/2024/janeiro/telemedicina/srcmedium-telemedicina-primetravel.png",
-      srcMobile:
-        "https://storage.googleapis.com/primesecure/primetravel/banners/2024/janeiro/telemedicina/srcmobile-telemedicina-primetravel.png",
-      alt: "Banner de Natal para Telas Grandes",
-      href: "/primetravel",
+      href: "",
     },
     // Adicione mais banners aqui conforme necessário
   ];

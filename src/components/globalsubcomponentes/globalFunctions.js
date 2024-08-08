@@ -781,6 +781,36 @@ class GlobalFuntions extends Object {
     return age;
   }
 
+  calculateFullAge(date) {
+    if (!date) {
+      return -1;
+    }
+
+    const today = new Date();
+    const birthDate = new Date(date);
+  
+    let years = today.getFullYear() - birthDate.getFullYear();
+    let months = today.getMonth() - birthDate.getMonth();
+    let days = today.getDate() - birthDate.getDate();
+  
+    if (days < 0) {
+      months--;
+      const prevMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+      days += prevMonth.getDate();
+    }
+  
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
+  
+    return {
+      years: years,
+      months: months,
+      days: days
+    };
+  }
+
   validateDate(date) {
     if (!date) {
       return false;

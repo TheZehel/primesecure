@@ -282,9 +282,8 @@ const sessaoInfoLp = [
         icon: <FontAwesomeIcon icon={faHeartbeat} />,
       },
       {
-        name: "Suporte Financeiro em Doenças",
-        description:
-          "Ajuda financeira em casos de doenças graves, cobrindo despesas médicas e tratamentos.",
+        name: "Namu",
+        description: "Acesso a um app de Saúde, bem-estar físico e mental.",
         icon: <FontAwesomeIcon icon={faNotesMedical} />,
       },
       {

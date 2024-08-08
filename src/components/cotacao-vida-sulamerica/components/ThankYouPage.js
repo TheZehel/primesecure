@@ -23,7 +23,10 @@ const functions = new GlobalFuntions();
 const enviroment = process.env.REACT_APP_ENVIRONMENT;
 const apiUrl = process.env[`REACT_APP_API_ENDPOINT_${enviroment}`];
 
-export default function ThankYouPage({ token }) {
+export default function ThankYouPage({  }) {
+  const token = "669fea08e1e268a5b810311a"
+  const [displayMessage, setDisplayMessage] = useState(false);
+
   const [userData, setUserData] = useState({
     customer: {
       name: "",
@@ -277,14 +280,18 @@ export default function ThankYouPage({ token }) {
           open={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           userData={userData}
+          displayMessage={displayMessage}
+          callback={setDisplayMessage}
         />
       )}
     </div>
   );
 }
 
-function Modal({ open, onClose, userData }) {
+function Modal({ open, onClose, userData, displayMessage, callback }) {
   if (!open) return null;
+
+  var loading = false;
 
   const handleButtonClick = async () => {
     console.log("handleButtonClick called");
@@ -315,12 +322,20 @@ function Modal({ open, onClose, userData }) {
 
     console.log("Sending payload:", payload);
 
+    loading = true;
+
     try {
-      const response = await axios.post(
-        `${apiUrl}/vida-sulamerica/create-user-namu`,
-        payload
-      );
-      console.log("Usuário criado com sucesso:", response.data);
+      await axios.post( `${apiUrl}/vida-sulamerica/data/create-user-namu`, payload )
+        .then((response) => {
+          console.log("Usuário criado com sucesso:", response.data);
+        })
+        .then((error) => {
+          console.error(
+            "Erro ao criar usuário:",
+            error.response ? error.response.data : error.message
+          );
+        });
+      
       // Aqui você pode adicionar qualquer lógica adicional após o usuário ser criado com sucesso
     } catch (error) {
       console.error(
@@ -328,14 +343,16 @@ function Modal({ open, onClose, userData }) {
         error.response ? error.response.data : error.message
       );
     }
+    loading = false;
+    callback(true);
   };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="fixed inset-0 bg-black opacity-50"></div>
-      <div className="bg-white rounded-lg p-8 shadow-lg z-50 max-w-lg w-full relative">
+      <div className="bg-white rounded-lg p-8 py-5 shadow-lg z-50 max-w-lg w-full relative">
         {/* Header com ícone "x" */}
-        <div className="flex justify-end mb-4">
+        <div className="flex justify-end mb-2">
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-800"
@@ -356,11 +373,13 @@ function Modal({ open, onClose, userData }) {
         </p>
         <button
           onClick={handleButtonClick}
-          className="bg-green-500 text-white px-4 py-2 rounded-md"
+          className={`bg-green-500 text-white px-4 py-2 rounded-md ${loading ? 'opacity-50' : 'opactiy-80'}`}
         >
           Resgatar Acesso Gratuito
         </button>
+        <div className={`mt-6 text-green-600 font-semibold text-[14px] opacity-80 
+          ${displayMessage ? '' : 'hidden'}
+          ${loading ? 'hidden' : ''}`}>Aceite o convite por e-mail para ter acesso a todos os seus benefícios da plataforma!</div>
       </div>
-    </div>
-  );
+    </div>)
 }
