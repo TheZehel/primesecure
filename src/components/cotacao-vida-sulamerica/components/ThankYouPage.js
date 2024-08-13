@@ -23,8 +23,7 @@ const functions = new GlobalFuntions();
 const enviroment = process.env.REACT_APP_ENVIRONMENT;
 const apiUrl = process.env[`REACT_APP_API_ENDPOINT_${enviroment}`];
 
-export default function ThankYouPage({  }) {
-  const token = "669fea08e1e268a5b810311a"
+export default function ThankYouPage({ token }) {
   const [displayMessage, setDisplayMessage] = useState(false);
 
   const [userData, setUserData] = useState({
