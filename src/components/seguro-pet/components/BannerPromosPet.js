@@ -41,17 +41,7 @@ export default function BannerPromo() {
       alt: "Banner de Natal para Telas Grandes",
       href: "",
     },
-    {
-      id: 2,
-      srcLarge:
-        "https://storage.googleapis.com/primesecure/banner-descontos-petlove-desktop1.png",
-      srcMedium:
-        "https://storage.googleapis.com/primesecure/banner-descontos-petlove-desktop2.png",
-      srcMobile:
-        "https://storage.googleapis.com/primesecure/banner-descontos-petlove-mobile.png",
-      alt: "Banner de Natal para Telas Grandes",
-      href: "/",
-    },
+
     // Adicione mais banners aqui conforme necessário
   ];
 
