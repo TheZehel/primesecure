@@ -115,7 +115,7 @@ export default function PlanSlider({ onPlanSelected, openModalStep }) {
     {
       headTitle: "O mais em Conta",
       title: "Leve",
-      price: "R$ 19,90",
+      price: "R$ 24,90",
       resume: "Coberturas Do Plano:",
       features: [
         "Vacinas obrigatórias",
@@ -130,7 +130,7 @@ export default function PlanSlider({ onPlanSelected, openModalStep }) {
     {
       headTitle: "Para Cuidados de Rotina",
       title: "Tranquilo",
-      price: "R$ 49,90",
+      price: "R$ 54,90",
       resume: "Coberturas Do Plano:",
       features: [
         "Consultas em horário de plantão",
@@ -150,7 +150,7 @@ export default function PlanSlider({ onPlanSelected, openModalStep }) {
     {
       headTitle: "Melhor Custo Benefício",
       title: "Ideal",
-      price: "R$ 99,90",
+      price: "R$ 104,90",
       resume: "Todas as coberturas do plano Tranquilo +",
       resumeDesc:
         "Consultas em horário de plantão, Vacinas obrigatórias, Procedimentos clínicos, Consultas em horário normal, Microchipagem gratuita, Clínico geral a domicílio, Exames laboratoriais simples, Exames laboratoriais complexos, Exames de imagem",
@@ -168,7 +168,7 @@ export default function PlanSlider({ onPlanSelected, openModalStep }) {
     {
       headTitle: "Mais Cobertura",
       title: "Essencial",
-      price: "R$ 179,90",
+      price: "R$ 184,90",
       resume: "Todas as coberturas do plano Ideal +",
       resumeDesc:
         "Consultas em horário de plantão, Vacinas obrigatórias, Procedimentos clínicos, Consultas em horário normal, Microchipagem gratuita, Clínico geral a domicílio, Exames laboratoriais simples, Exames laboratoriais complexos, Exames de imagem, Especialistas, Exames cardiológicos, Cirurgias, Anestesia inalatória, Internação",
