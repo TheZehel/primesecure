@@ -15,7 +15,7 @@ export default function Benefits() {
     >
       <div className="container mx-auto mb-10">
         <h2 className="text-xl sm:text-4xl  my-6 text-grayPrime">
-          Vantagens do Consórcio de Imóveis
+          Vantagens do Consórcio Auto
         </h2>
 
         {/* Itens */}
