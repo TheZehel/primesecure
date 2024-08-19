@@ -36,6 +36,7 @@ export default function SimpleFormSection({
     email: "",
     phone: "",
     marcaCelular: "",
+    credito: "",
     utm_source: "",
     utm_medium: "",
     utm_campaign: "",
@@ -75,20 +76,19 @@ export default function SimpleFormSection({
   };
 
   const validateForm = () => {
-    if (
-      window.location.pathname === "/equipamentos-portateis-3" ||
-      window.location.pathname === "/equipamentos-portateis-3/"
+    const path = window.location.pathname;
+    const baseValidation = formData.name && formData.email && formData.phone;
+
+    if (path === "/consorcio-imovel" || path === "/consorcio-imovel/") {
+      return baseValidation && formData.credito;
+    } else if (
+      path === "/equipamentos-portateis-3" ||
+      path === "/equipamentos-portateis-3/"
     ) {
-      console.log(validateForm);
-      return (
-        formData.name &&
-        formData.email &&
-        formData.phone &&
-        formData.marcaCelular
-      );
-    } else {
-      return formData.name && formData.email && formData.phone;
+      return baseValidation && formData.marcaCelular;
     }
+
+    return baseValidation;
   };
 
   const getConversionIdentifier = () => {
@@ -109,6 +109,10 @@ export default function SimpleFormSection({
       "/seguro-bike/": "lead-seguro-bike-api",
       "/seguro-celular-kakau": "seguro-celular-kakau-api",
       "/seguro-celular-kakau/": "seguro-celular-kakau-api",
+      "/consorcio-imovel": "lead-consorcio-imovel-api",
+      "/consorcio-imovel/": "lead-consorcio-imovel-api",
+      "/consorcio-auto": "lead-consorcio-auto",
+      "/consorcio-auto/": "lead-consorcio-auto",
     };
 
     const pathname = window.location.pathname;
@@ -133,6 +137,10 @@ export default function SimpleFormSection({
     "/seguro-bike/": "lead-seguro-bike-kakau",
     "/seguro-celular-kakau": "seguro-celular-kakau",
     "/seguro-celular-kakau/": "seguro-celular-kakau",
+    "/consorcio-imovel": "lead-consorcio-imovel",
+    "/consorcio-imovel/": "lead-consorcio-imovel",
+    "/consorcio-auto": "lead-consorcio-auto",
+    "/consorcio-auto/": "lead-consorcio-auto",
   };
 
   const emitDataLayerEvent = () => {
@@ -176,6 +184,7 @@ export default function SimpleFormSection({
             name: formData.name,
             mobile_phone: formData.phone,
             cf_marcacelular: formData.marcaCelular,
+            cf_credito: formData.credito,
             cf_source: formData.utm_source,
             cf_medium: formData.utm_medium,
             cf_campaign: formData.utm_campaign,
@@ -270,10 +279,10 @@ export default function SimpleFormSection({
 
   return (
     <div className="animate__animated animate__zoomIn rounded-lg bg-white p-5 sm:px-10 sm:mx-20 xl:mx-32">
-      <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
+      <h2 className="text-xl font-bold tracking-tight text-gray-900 sm:text-xl">
         Faça Sua Cotação Gratuita
       </h2>
-      <p className="mt-2 text-sm leading-6 text-gray-600">
+      <p className="mt-2 text-[12px] leading-6 text-gray-600">
         Inicie sua cotação online preenchendo o formulário abaixo.
       </p>
       <form
@@ -284,7 +293,7 @@ export default function SimpleFormSection({
           <div>
             <label
               htmlFor=""
-              className="block text-sm font-semibold leading-6 text-gray-900"
+              className="block text-sm font-semibold leading-2 text-gray-900"
             >
               Nome Completo
             </label>
@@ -368,6 +377,70 @@ export default function SimpleFormSection({
                   <option value="Motorola">Motorola</option>
                   <option value="Xiaomi">Xiaomi</option>
                   <option value="Outras Marcas">Outras Marcas</option>
+                </select>
+              </div>
+            )}
+          </div>
+          <div>
+            {(window.location.pathname === "/consorcio-imovel" ||
+              window.location.pathname === "/consorcio-imovel/") && (
+              <div>
+                <label
+                  htmlFor="phone"
+                  className="block text-sm font-semibold leading-6 text-gray-900"
+                >
+                  Quanto de Crédito você deseja?
+                </label>
+                {clicado && !formData.credito ? (
+                  <div className="text-red-500">Campo Obrigatório</div>
+                ) : null}
+                <select
+                  required
+                  name="credito"
+                  id="credito"
+                  value={formData.credito}
+                  onChange={handleInputChange}
+                  onBlur={handleBlur}
+                  className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
+                >
+                  <option value="">Escolha uma Opção:</option>
+                  <option value="R$200mil<">R$200mil</option>
+                  <option value="R$300mil">R$300mil</option>
+                  <option value="R$400mil">R$400mil</option>
+                  <option value="R$500mil">R$500mil</option>
+                  <option value="Outro Valor">Outro Valor</option>
+                </select>
+              </div>
+            )}
+          </div>
+          <div>
+            {(window.location.pathname === "/consorcio-auto" ||
+              window.location.pathname === "/consorcio-auto/") && (
+              <div>
+                <label
+                  htmlFor="phone"
+                  className="block text-sm font-semibold leading-6 text-gray-900"
+                >
+                  Quanto de Crédito você deseja?
+                </label>
+                {clicado && !formData.credito ? (
+                  <div className="text-red-500">Campo Obrigatório</div>
+                ) : null}
+                <select
+                  required
+                  name="credito"
+                  id="credito"
+                  value={formData.credito}
+                  onChange={handleInputChange}
+                  onBlur={handleBlur}
+                  className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
+                >
+                  <option value="">Escolha uma Opção:</option>
+                  <option value="R$60mil<">R$60mil</option>
+                  <option value="R$80mil">R$80mil</option>
+                  <option value="R$100mil">R$100mil</option>
+                  <option value="R$120mil">R120mil</option>
+                  <option value="Outro Valor">Outro Valor</option>
                 </select>
               </div>
             )}

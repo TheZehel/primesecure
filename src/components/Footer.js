@@ -21,6 +21,8 @@ const LINKS = [
       { title: "Celular", link: "/equipamentos-portateis-3" },
       { title: "Pet", link: "/seguro-pet-porto" },
       { title: "Odonto", link: "/sulamerica-odonto" },
+      { title: "Consórcio Imóvel", link: "/consorcio-imovel" },
+      { title: "Consórcio Auto", link: "/consorcio-auto" },
     ],
   },
   {

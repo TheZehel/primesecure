@@ -97,7 +97,7 @@ export default function Banner() {
       srcMobile:
         "https://storage.googleapis.com/primesecure/banners/banners-agosto-rw/Consorcio/srcmobile-agosto-2024-consorcio.png",
       alt: "Banner de Natal para Telas Grandes",
-      href: "https://primesecureprodutos.com.br/consorcio/",
+      href: "/consorcio-imovel",
     },
     {
       id: 7,

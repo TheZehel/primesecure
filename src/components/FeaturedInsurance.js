@@ -53,7 +53,7 @@ export default function FeaturedInsurance() {
     },
     {
       id: 6,
-      href: "https://primesecureprodutos.com.br/consorcio/",
+      href: "/consorcio-imovel",
       title: "Consórcio",
       hoverTitle: "Seguro Aparelhos Portateis",
       icon: faCashRegister,
