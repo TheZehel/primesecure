@@ -27,6 +27,7 @@ import {
   faBuilding,
   faMedkit,
   faPhone,
+  faCarOn,
   faMicrochip,
   faHeartCircleCheck,
   faBicycle,
@@ -98,11 +99,18 @@ const products = [
     iconProps: { icon: faMobile },
   },
   {
-    name: "Consorcio",
-    description: "Para quem planeja grandes realizações",
-    href: "https://primesecureprodutos.com.br/consorcio/",
+    name: "Consórcio Imóvel",
+    description: "Para quem busca realizar o sonho da casa própria",
+    href: "/consorcio-imovel",
     icon: FontAwesomeIcon,
     iconProps: { icon: faBuilding },
+  },
+  {
+    name: "Consórcio Auto",
+    description: "Para quem busca realizar o sonho do carro novo",
+    href: "/consorcio-auto",
+    icon: FontAwesomeIcon,
+    iconProps: { icon: faCarOn },
   },
   {
     name: "Saúde",
@@ -162,6 +170,10 @@ const pathToLogoMap = {
   "/seguro-bike/": imageManager.brand.logoPrimeSecureKakau,
   "/seguro-celular-kakau": imageManager.brand.logoPrimeSecureKakau,
   "/seguro-celular-kakau/": imageManager.brand.logoPrimeSecureKakau,
+  "/consorcio-auto": imageManager.brand.logoPrimeSecurePorto,
+  "/consorcio-auto/": imageManager.brand.logoPrimeSecurePorto,
+  "/consorcio-imovel": imageManager.brand.logoPrimeSecurePorto,
+  "/consorcio-imovel/": imageManager.brand.logoPrimeSecurePorto,
 };
 
 function NavBarMenu() {

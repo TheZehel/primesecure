@@ -70,7 +70,9 @@ import IndexSeguroCelularKakau from "./components/seguro-celular-kakau/indexSegu
 import IndexCotacaoSeguroCelularkakau from "./components/seguro-celular-kakau/cotacao-seguro-celular-kakau/IndexCotacaoSeguroCelularKakau";
 import Contracts from "./components/accounts/components/Contracts";
 import PageContract from "./components/accounts/components/PageContract";
-import InvoicePaymentVida from "./components/seguro-de-vida/InvoicePaymentVida"; 
+import InvoicePaymentVida from "./components/seguro-de-vida/InvoicePaymentVida";
+import IndexConsorcioImovel from "./components/consorcio-imovel/index.js";
+import IndexConsorcioAuto from "./components/consorcio-auto/index.js";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -182,7 +184,7 @@ function App() {
           />
           <Route
             path="/fatura-vida-sulamerica/:subscriptionId"
-            element={<InvoicePaymentVida/>}
+            element={<InvoicePaymentVida />}
           />
 
           <Route
@@ -201,7 +203,7 @@ function App() {
             path="/fatura-petlove/:subscriptionId"
             element={<InvoicePayment />}
           />
-                    <Route
+          <Route
             path="/fatura-petlove/:subscriptionId/1"
             element={<InvoicePayment newer={true} />}
           />
@@ -278,12 +280,15 @@ function App() {
             element={<IndexSeguroResidencial />}
           />
           <Route path="/sulamerica-odonto" element={<IndexOdonto />} />
-
+          <Route path="/consorcio-imovel" element={<IndexConsorcioImovel />} />
+          <Route path="/consorcio-auto" element={<IndexConsorcioAuto />} />
           <Route path="/obrigado" element={<PaginaObrigadoLP />} />
           <Route path="/cotacao" element={<Cotacao />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
-        {(!_pathname.includes('/seguro-bike') && !_pathname.includes('/seguro-celular-kakau') && !_pathname.includes('/seguro-celular-kakau') ) && (<Footer />)}
+        {!_pathname.includes("/seguro-bike") &&
+          !_pathname.includes("/seguro-celular-kakau") &&
+          !_pathname.includes("/seguro-celular-kakau") && <Footer />}
       </div>
     </Router>
   );
