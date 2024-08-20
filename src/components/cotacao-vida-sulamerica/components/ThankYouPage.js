@@ -324,7 +324,8 @@ function Modal({ open, onClose, userData, displayMessage, callback }) {
     loading = true;
 
     try {
-      await axios.post( `${apiUrl}/vida-sulamerica/data/create-user-namu`, payload )
+      await axios
+        .post(`${apiUrl}/vida-sulamerica/data/create-user-namu`, payload)
         .then((response) => {
           console.log("Usuário criado com sucesso:", response.data);
         })
@@ -334,7 +335,7 @@ function Modal({ open, onClose, userData, displayMessage, callback }) {
             error.response ? error.response.data : error.message
           );
         });
-      
+
       // Aqui você pode adicionar qualquer lógica adicional após o usuário ser criado com sucesso
     } catch (error) {
       console.error(
@@ -372,13 +373,21 @@ function Modal({ open, onClose, userData, displayMessage, callback }) {
         </p>
         <button
           onClick={handleButtonClick}
-          className={`bg-green-500 text-white px-4 py-2 rounded-md ${loading ? 'opacity-50' : 'opactiy-80'}`}
+          className={`bg-green-500 text-white px-4 py-2 rounded-md ${
+            loading ? "opacity-50" : "opactiy-80"
+          }`}
         >
           Resgatar Acesso Gratuito
         </button>
-        <div className={`mt-6 text-green-600 font-semibold text-[14px] opacity-80 
-          ${displayMessage ? '' : 'hidden'}
-          ${loading ? 'hidden' : ''}`}>Aceite o convite por e-mail para ter acesso a todos os seus benefícios da plataforma!</div>
+        <div
+          className={`mt-6 text-green-600 font-semibold text-[14px] opacity-80 
+          ${displayMessage ? "" : "hidden"}
+          ${loading ? "hidden" : ""}`}
+        >
+          Aceite o convite por e-mail para ter acesso a todos os seus benefícios
+          da plataforma!
+        </div>
       </div>
-    </div>)
+    </div>
+  );
 }
