@@ -5,6 +5,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 //import SearchIcon from "../../../assets/svg/searchIcon.svg";
 //import { regions } from "./modules/regionsCredenciadas";
 //import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faArrowCircleLeft,
+  faArrowCircleRight,
+} from "@fortawesome/free-solid-svg-icons";
 import "swiper/css";
 
 export default function PlanSlider({ onPlanSelected, openModalStep }) {
@@ -218,6 +223,28 @@ export default function PlanSlider({ onPlanSelected, openModalStep }) {
             </SwiperSlide>
           ))}
         </Swiper>
+        <button
+          className="absolute ml-2 sm:ml-[-5px] left-0 top-[50%] transform -translate-y-1/2  cursor-pointer z-10"
+          onClick={() => swiperRef.current.swiper.slidePrev()}
+        >
+          <FontAwesomeIcon
+            icon={faArrowCircleLeft}
+            size="2x"
+            color="#03a8db"
+            className="bg-white rounded-full"
+          />
+        </button>
+        <button
+          className="absolute mr-2 sm:mr-[-5px] right-0 top-[50%] transform -translate-y-1/2 cursor-pointer z-10"
+          onClick={() => swiperRef.current.swiper.slideNext()}
+        >
+          <FontAwesomeIcon
+            icon={faArrowCircleRight}
+            size="2x"
+            color="#03a8db"
+            className="bg-white rounded-full"
+          />
+        </button>
       </div>
     </div>
   );

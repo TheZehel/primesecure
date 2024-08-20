@@ -9,6 +9,8 @@ import {
   faTicketAlt,
   faTools,
   faLeaf,
+  faArrowCircleLeft,
+  faArrowCircleRight,
 } from "@fortawesome/free-solid-svg-icons";
 
 const coberturas = [
@@ -72,7 +74,7 @@ export default function BeneficiosSlider() {
   };
 
   return (
-    <div className="font-montserrat">
+    <div className="font-montserrat relative">
       <h2 className="text-center text-4xl font-bold text-grayPrime pt-10">
         Benefícios que facilitam sua vida
       </h2>
@@ -110,6 +112,28 @@ export default function BeneficiosSlider() {
             </SwiperSlide>
           ))}
         </Swiper>
+        <button
+          className="absolute ml-2 sm:ml-[-5px] left-0 top-[70%] sm:top-[65%] transform -translate-y-1/2  cursor-pointer z-10"
+          onClick={() => swiperRef.current.swiper.slidePrev()}
+        >
+          <FontAwesomeIcon
+            icon={faArrowCircleLeft}
+            size="2x"
+            color="#03a8db"
+            className="bg-white rounded-full"
+          />
+        </button>
+        <button
+          className="absolute mr-2 sm:mr-[-5px] right-0 top-[70%] sm:top-[65%] transform -translate-y-1/2 cursor-pointer z-10"
+          onClick={() => swiperRef.current.swiper.slideNext()}
+        >
+          <FontAwesomeIcon
+            icon={faArrowCircleRight}
+            size="2x"
+            color="#03a8db"
+            className="bg-white rounded-full"
+          />
+        </button>
       </div>
     </div>
   );
