@@ -1049,7 +1049,7 @@ export default function StepPayment({
                     console.log("Click", recaptchaRef);
                   }}
                 >
-                  Detalhes:
+                  Coberturas:
                 </div>
                 <div className="text-[11px]">
                   {plan.features.map((feature, idx) => {
@@ -1071,6 +1071,40 @@ export default function StepPayment({
                       </div>
                     );
                   })}
+                </div>
+              </div>
+              <div>
+                {/* Novo bloco para endereço */}
+                <div className="mt-4 text-sm font-medium">
+                  <div className="text-bluePrime2 text-sm text-start font-extrabold mb-2">
+                    Endereço:
+                  </div>
+                  <div className="text-gray-800">
+                    {formData.address}, {formData.number}
+                  </div>
+                  <div className="text-gray-800">
+                    {formData.neighborhood}, {formData.city} - {formData.state}
+                  </div>
+                  <div className="text-gray-800">{formData.zipCode}</div>
+                </div>
+              </div>
+              <div>
+                {/* Novo bloco para dados comprador */}
+                <div>
+                  {/* Bloco para dados do comprador */}
+                  <div className="mt-4 text-sm font-medium">
+                    <div className="text-bluePrime2 text-sm text-start font-extrabold mb-2">
+                      Dados do Comprador:
+                    </div>
+                    <div className="text-gray-800">Nome: {formData.name}</div>
+                    <div className="text-gray-800">
+                      E-mail: {formData.email}
+                    </div>
+                    <div className="text-gray-800">CPF: {formData.cpf}</div>
+                    <div className="text-gray-800">
+                      Telefone: {formData.phone}
+                    </div>
+                  </div>
                 </div>
               </div>
               <div className="text-left mt-3 mx-1">
