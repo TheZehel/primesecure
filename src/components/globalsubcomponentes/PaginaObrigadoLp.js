@@ -22,7 +22,7 @@ export default function PaginaObrigadoLp() {
           Obrigado, <span className="text-bluePrime">{formData.name}!</span>
         </h2>
         <p className="text-grayPrime font-normal sm:w-6/12  sm:justify-center sm:items-center mx-auto sm:text-2xl">
-          Ainda não possuimos uma versão online desse produto! Assim que
+          Ainda não possuímos uma versão online desse produto! Assim que
           lançarmos, iremos enviar uma notificação em seu email:
         </p>
 
@@ -36,12 +36,12 @@ export default function PaginaObrigadoLp() {
             {" "}
             Mas não se Preocupe!
           </span>{" "}
-          Um dos nossos especialista entrará em contato no seu numero{" "}
+          Um dos nossos especialistas entrará em contato no seu número{" "}
           <span className="text-bluePrime font-bold">
             {" "}
             {formData.phone}{" "}
           </span>{" "}
-          para lhe ajudar no seu processo de contatação.
+          para lhe ajudar no seu processo de contratação.
         </h2>
       </div>
     </div>
