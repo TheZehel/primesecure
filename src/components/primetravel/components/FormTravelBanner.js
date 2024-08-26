@@ -92,36 +92,10 @@ export default function FormTravelBanner() {
     // Salvar formData no sessionStorage
     sessionStorage.setItem("formData", JSON.stringify(formData));
 
-    /*// Configuração do pedido para a Prime Secure (preencha os cabeçalhos e dados conforme necessário)
-    const authorization = process.env.REACT_APP_AUTHORIZATION_ARGUS;
-    //const endpointArgus = process.env.REACT_APP_ENDPOINT_ARGUS;
-    //const cleanedPhone = payload.phone ? payload.phone.replace(/\D/g, "") : "";
-    const argusOptions = {
-      method: "POST",
-      url: "https://api.primesecure.com.br/apiargus/primetravel/novo",
-      headers: {
-        Authorization: authorization,
-        "Content-Type": "application/json",
-      },
-      data: {
-        nome: formData.name,
-        email: formData.email,
-        telefone1: formData.phone,
-        detalhes: `0 a 40: ${formData.olds[0]} | 41 a 64: ${formData.olds[1]} | 65 a 75: ${formData.olds[2]} | 76 a 99: ${formData.olds[3]} | Data de Ida: ${formData.departure} | Data de Volta: ${formData.arrival}`,
-        origem: "lead-primetravel-api",
-        fornecedor: "MKT PRIME",
-      },
-    };*/
-
     try {
-      const [rdResponse /*argusResponse*/] = await Promise.all([
-        axios.request(rdOptions),
-        //axios.request(argusOptions),
-      ]);
+      const [rdResponse] = await Promise.all([axios.request(rdOptions)]);
 
       console.log("Resposta da RD Station:", rdResponse.data);
-
-      //console.log("Resposta da Prime Secure:", argusResponse.data);
 
       // Salva na sessão antes do redirect
       sessionStorage.setItem("formData-travel", JSON.stringify(payload));
@@ -145,6 +119,28 @@ export default function FormTravelBanner() {
         })
         .catch((e) => {
           console.error("Log - Error", e.response.data);
+        });
+
+      // Envio para ManyChat
+      await axios
+        .post(
+          "https://api.manychat.com/fb/subscriber/create", // Verifique a URL da API ManyChat
+          postDataManyChat,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${process.env.REACT_APP_API_MANYCHAT}`, // Se a ManyChat API Key for necessária
+            },
+          }
+        )
+        .then((response) => {
+          console.log("ManyChat - OK:", response.data);
+        })
+        .catch((error) => {
+          console.error(
+            "ManyChat - Error:",
+            error.response ? error.response.data : error.message
+          );
         });
 
       // Redireciona para URL de cotação com parametros do formulário
