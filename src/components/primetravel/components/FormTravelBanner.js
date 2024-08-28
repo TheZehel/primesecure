@@ -485,7 +485,7 @@ export default function FormTravelBanner() {
 
   return (
     <section
-      className="p-10"
+      className="p-5"
       id="banner-travel"
       style={{
         backgroundImage: `url(${imageManager.banners.bannerPrimeTravel})`,
@@ -518,11 +518,11 @@ export default function FormTravelBanner() {
             />
             <BannerParcelamento />
           </div>
-          <div className="animate__animated animate__zoomIn rounded-lg bg-white p-10 sm:p-4">
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+          <div className="animate__animated animate__zoomIn rounded-lg bg-white p-5 sm:p-4">
+            <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
               Faça Sua Cotação Gratuita
             </h2>
-            <p className="mt-2 text-lg leading-8 text-gray-600">
+            <p className="mt-2 text-[14px] leading-8 text-gray-600">
               Inicie sua cotação online preenchendo o formulário abaixo.
             </p>
             <form
@@ -549,7 +549,7 @@ export default function FormTravelBanner() {
                       options={ListaPaises}
                       isSearchable
                       placeholder="Selecione o Destino..."
-                      className="cursor-pointer"
+                      className="cursor-pointer text-xs"
                     />
                   </div>
                 </div>
@@ -569,6 +569,7 @@ export default function FormTravelBanner() {
                     <div className="mt-2.5">
                       <Space direction="vertical">
                         <DatePicker
+                          placeholder="Ida"
                           disabledDate={disabledDepartureDate}
                           format="DD/MM/YYYY"
                           onChange={onChangeDeparture}
@@ -592,6 +593,7 @@ export default function FormTravelBanner() {
                     <div className="mt-2.5">
                       <Space direction="vertical">
                         <DatePicker
+                          placeholder="Volta"
                           disabledDate={disabledArrivalDate}
                           format="DD/MM/YYYY"
                           onChange={onChangeArrival}
