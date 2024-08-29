@@ -6,12 +6,15 @@ import PlanSlider from "./StepPlans";
 import ThankYouPage from "./ThankYouPage";
 import ReCAPTCHA from "react-google-recaptcha";
 
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 
 import GlobalFuntions from "../../globalsubcomponentes/globalFunctions";
+import ProgressManager from "./modules/logHistory";
+
 import { step } from "@material-tailwind/react";
 
 const functions = new GlobalFuntions();
+const progress = new ProgressManager();
 
 export default function StepsHandler({recaptchaRef}) {
   const pageSlug = functions.getPageSlug();
@@ -84,8 +87,10 @@ export default function StepsHandler({recaptchaRef}) {
   
   const recaptchaV3Ref = React.createRef();
 
+  //Log Token
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   // ATUALIZA O FORMDATA
   const updateFormData = useCallback((newData) => {
@@ -118,25 +123,28 @@ export default function StepsHandler({recaptchaRef}) {
       return;
     }
 
-    localStorage.setItem("formData", JSON.stringify(formData));
+    localStorage.setItem("vidaFormData", JSON.stringify(formData));
 
     setCurrentStep(step);
   };
 
   const nextStep = () => {
-    localStorage.setItem("formData", JSON.stringify(formData));
+    localStorage.setItem("vidaFormData", JSON.stringify(formData));
 
     setCurrentStep(currentStep + 1);
   };
 
   const prevStep = () => {
-    let prevStep = currentStep - 1;
-
+    const prevStep = currentStep - 1;
+    const logData = { ...formData, step: prevStep };
+    progress.updateLogData(logData, prevStep, false);
+    
     setCurrentStep(prevStep);
   };
 
-  const validateFirstStep = (changeStep) => {
+  const validateFirstStep = (changeStep, updateLog) => {
     const data = { ...formData };
+    console.log('Validando primeira etapa');
 
     const {
       email,
@@ -159,18 +167,23 @@ export default function StepsHandler({recaptchaRef}) {
         break;
       }
     }
+    var errors = [];    
 
     const isValidEmail = functions.validateEmail(email);
     setEmailValid(isValidEmail || email === undefined);
+    if (!isValidEmail) errors.push("email");
 
     const isValidName = functions.validateNameLastName(name);
     setNameValid(isValidName || name === undefined);
+    if (!isValidName) errors.push("name");
 
     const isValidCpf = functions.validateCPF(cpf);
     setValidCpf(isValidCpf || cpf === undefined);
+    if (!isValidCpf) errors.push("cpf");
 
     const isValidPhone = functions.validatePhone(phone);
     setPhoneValid(isValidPhone || phone === undefined);
+    if (!isValidPhone) errors.push("phone");
 
     let birthday = functions.refactoryDate(birth, 'DD/MM/YYYY', 'YYYY-MM-DD');
     let age = functions.calculateAge(birthday);
@@ -180,38 +193,37 @@ export default function StepsHandler({recaptchaRef}) {
       if (fullAge.months > 0) age = 70.5;
       else if (fullAge.days > 1) age = 70.5;
     }
-
     const isValidBirthDate = (age >= 14 && age <= 70);
     setBirthDateValid(isValidBirthDate || birth === undefined);
+    if (!isValidBirthDate) errors.push("birthday");
 
     //optionals ???
     const isValidAccess = data.access == "Permitido" || data.access === true;
     setAllowAccess(isValidAccess || data.access === undefined);
+    if (!isValidAccess) errors.push("access");
 
     const isValidWeight = true;///^[0-9]{1,2}$/.test(data.weight);
     setValidWeight(isValidWeight || data.weight === undefined);
+    if (!isValidWeight) errors.push("weight");
 
     const isValidHeight = true;///^[0-9]{1,2}$/.test(data.height);
     setValidHeight(isValidHeight || data.height === undefined);
+    if (!isValidHeight) errors.push("height");
 
     const isValidGender = /^[0-9]{1}$/.test(data.birthsex);
     setValidGender(isValidGender || data.birthsex === undefined);
+    if (!isValidGender) errors.push("gender");
 
     const isValidOccupation = /^[0-9]{1,2}$/.test(data.office);
     setValidOccupation(isValidOccupation || data.office === undefined);
+    if (!isValidOccupation) errors.push("occupation");
 
-    //console.log(
-    //  'isValidEmail:',isValidEmail,',',
-    //  'isValidName:',isValidName,',',
-    //  'isValidCpf:',isValidCpf,',',
-    //  'isValidBirthDate:',isValidBirthDate,',',
-    //  'isValidPhone:',isValidPhone,',',
-    //  'isValidAccess:',isValidAccess,',',
-    //  'isValidWeight:',isValidWeight,',',
-    //  'isValidHeight:',isValidHeight,',',
-    //  'isValidGender:',isValidGender,',',
-    //  'isValidOccupation:',isValidOccupation      
-    //)
+    if (updateLog) {
+      const error = (errors.length > 0);
+      const logData = { ...data, errors, step: 1 };
+
+      progress.updateLogData(logData, 1, error);
+    }
 
     if (isValidEmail && isValidName && isValidCpf && isValidBirthDate && isValidPhone && isValidAccess && isValidWeight && isValidHeight && isValidGender && isValidOccupation) {
       return true;
@@ -269,51 +281,68 @@ export default function StepsHandler({recaptchaRef}) {
     return false;
   }
 
-  const validateSecondStep = () => { 
+  const validateSecondStep = (updateLog) => { 
     let data = { ...formData };
 
-    if (data && /^[0-9]{1}/.test(data.selectedPlanId)) {
+    if ((data && /^[0-9]{1}/.test(data.selectedPlanId)) || !data.selectedPlanId) {
       setShowPlanError(false); // esconde a mensagem de erro, se estiver sendo mostrada
-      return true;      
+
+      if (updateLog){
+        const logData = { ...data, errors: [], step: 1 };
+        progress.updateLogData(logData, 1, false);
+      }
+
+      return true; 
     } 
-
-    if (!data.selectedPlanId) {
-      setShowPlanError(false);
-      return false;
-    }
-
+    
     console.log('Select Plan Id 1: ', formData.selectedPlanId)
 
-    // Ativa a mensagem de erro
-    if (data.selectedPlanId < 0) {
-      setShowPlanError(true);
+    if (data.selectedPlanId < 0) setShowPlanError(true);
+
+    if (updateLog){
+      const logData = { ...data, step: 2 };
+      progress.updateLogData(logData, 2, true);
     }
 
     return false;    
   }
 
-  console.log('Select Plan Id:', formData.selectedPlanId, 'Show Plan Error:', showPlanError)
+  //console.log('Select Plan Id:', formData.selectedPlanId, 'Show Plan Error:', showPlanError)
 
-  const validateThirdStep = (changeStep) => {
+  const validateThirdStep = (changeStep, updateLog) => {
     let data = { ...formData };
+    const errors = [];
 
     const isValidCep = functions.validateCEP(data.cep);
     setCepValid(isValidCep || data.cep === undefined);
+    if (!isValidCep) errors.push("cep");
 
     const isValidNumber = functions.validateStreetNumber(data.number);
     setValidNumber(isValidNumber || data.number === undefined);
+    if (!isValidNumber) errors.push("number");
 
     const isValidAddress = functions.validateStreet(data.address);
     setValidAddress(isValidAddress || data.address === undefined);
+    if (!isValidAddress) errors.push("address");
 
     const isValidNeighborhood = functions.validateNeighborhood(data.neighborhood);
     setValidNeighborhood(isValidNeighborhood || data.neighborhood === undefined);
+    if (!isValidNeighborhood) errors.push("neighborhood");
 
     const isValidCity = functions.validateCity(data.city);
     setValidCity(isValidCity || data.city === undefined);
+    if (!isValidCity) errors.push("city");
 
     const isValidState = functions.validateStateUF(data.state);
     setValidState(isValidState || data.state === undefined);
+    if (!isValidState) errors.push("state");
+
+    if (updateLog) {
+      const error = (errors.length > 0);
+      const logData = { ...data, errors, step: 3 };
+
+      progress.updateLogData(logData, 3, error);
+    }
 
     //console.log('address', isValidCep, data.cep, isValidAddress, data.address, isValidNumber, data.number, isValidNeighborhood, data.neighborhood, isValidCity, data.city, isValidState, data.state);
 
@@ -326,32 +355,32 @@ export default function StepsHandler({recaptchaRef}) {
     }
 
     if (!isValidCep) {
-      updateFormData({ cep: "" });
+      //updateFormData({ cep: "" });
       setRefreshCep(!refreshCep);
     }
 
     if (!isValidNumber){
-      updateFormData({ number: "" });
+      //updateFormData({ number: "" });
       setRefreshNumber(!refreshNumber);
     }
 
     if (!isValidAddress){
-      updateFormData({ address: "" });
+      //updateFormData({ address: "" });
       setRefreshAddress(!refreshAddress);
     }
 
     if (!isValidNeighborhood){
-      updateFormData({ neighborhood: "" });
+      //updateFormData({ neighborhood: "" });
       setRefreshNeighborhood(!refreshNeighborhood);
     }
 
     if (!isValidCity){
-      updateFormData({ city: "" });
+      //updateFormData({ city: "" });
       setRefreshCity(!refreshCity);
     }
 
     if (!isValidState){
-      updateFormData({ state: "" });
+      //updateFormData({ state: "" });
       setRefreshState(!refreshState);
     }
 
@@ -363,12 +392,12 @@ export default function StepsHandler({recaptchaRef}) {
       return;
     }
 
-    if (currentStep < 2 && validateFirstStep(true)){
+    if (currentStep < 2 && validateFirstStep(true, true)){
       nextStep();
     }
 
     if (currentStep == 2){
-      if (validateSecondStep()){
+      if (validateSecondStep(true)){
         nextStep();
       }else{
         if (!selectedPlanId) {
@@ -381,6 +410,47 @@ export default function StepsHandler({recaptchaRef}) {
       nextStep();
     }
   };
+
+  useEffect(() => {
+    var storedData = localStorage.getItem("vidaFormData");
+
+    try {
+      storedData = JSON.parse(storedData);
+    } catch (error) {
+      storedData = null;
+      console.error(error);
+    }
+
+    storedData = { ...storedData };
+    
+    const queryParams = new URLSearchParams(location.search);
+    const tokenProgress = queryParams.get("t");
+
+    try {
+      const initLog = async () => { await progress.updateLogData(storedData, 0, false); }
+      initLog();
+    }catch(e) {
+      console.error(e);
+    }
+
+    if (Object.keys(storedData).length > 0) {
+      setFirstInteraction(false);
+    }
+
+    setFormData({ ...storedData });
+
+    if (formData && /^[0-9]{1}/.test(formData.selectedPlanId)) {
+      setSelectedPlanId(formData.selectedPlanId);
+    }
+
+    let slug = pageSlugs[1];
+    let step = stepSlugs.indexOf(slug) + 1;
+
+    if (step > 1) {
+      //setLoadCotation(true);
+      setCurrentStep(step);
+    }
+  }, []);
 
   // Atualiza formData quando selectedPlanId muda
   useEffect(() => {
@@ -420,57 +490,28 @@ export default function StepsHandler({recaptchaRef}) {
   }, [formData]);
 
   useEffect(() => {
-    var storedData = localStorage.getItem("formData");
-
-    try {
-      storedData = JSON.parse(storedData);
-    } catch (error) {
-      storedData = null;
-      console.error(error);
-    }
-
-    storedData = { ...storedData };
-
-    if (Object.keys(storedData).length > 0) {
-      setFirstInteraction(false);
-    }
-
-    setFormData({ ...storedData });
-
-    if (formData && /^[0-9]{1}/.test(formData.selectedPlanId)) {
-      setSelectedPlanId(formData.selectedPlanId);
-    }
-
-    let slug = pageSlugs[1];
-    let step = stepSlugs.indexOf(slug) + 1;
-
-    if (step > 1) {
-      //setLoadCotation(true);
-      setCurrentStep(step);
-    }
-  }, []);
-
-  useEffect(() => {
     console.log("CURRENT STEP:", currentStep);
 
     try {
       var step = parseInt(currentStep);
 
       if (step == 5) {
-        navigate(`/${pageSlug}/${stepSlugs[step - 1]}`);
+        progress.redirectWithParams(`/${pageSlug}/${stepSlugs[step - 1]}`, {}, navigate);   
+        //navigate(`/${pageSlug}/${stepSlugs[step - 1]}`);
         return;
       }
 
       if ([1, 2, 3, 4, 5].includes(step)) {
-        navigate(`/${pageSlug}/${stepSlugs[step - 1]}`);
+        progress.redirectWithParams(`/${pageSlug}/${stepSlugs[step - 1]}`, {}, navigate);   
+        //navigate(`/${pageSlug}/${stepSlugs[step - 1]}`);
       }
 
       if (step == 1) {
         if (formData && formData.access == "Permitido") {
           setAllowAccess(true);
         }
-
-        navigate(`/${pageSlug}/${stepSlugs[step - 1]}`);
+        progress.redirectWithParams(`/${pageSlug}/${stepSlugs[step - 1]}`, {}, navigate);   
+        //navigate(`/${pageSlug}/${stepSlugs[step - 1]}`);
         return;
       }
 
@@ -484,11 +525,11 @@ export default function StepsHandler({recaptchaRef}) {
       if (![1, 2, 3, 4, 5].includes(step)) {
         setCurrentStep(1);
         step = 1;
-
-        navigate(`/${pageSlug}/${stepSlugs[step - 1]}`);
+        progress.redirectWithParams(`/${pageSlug}/${stepSlugs[step - 1]}`, {}, navigate);  
+        //navigate(`/${pageSlug}/${stepSlugs[step - 1]}`);
         return;
       }
-
+      
       let invalidStep = -1;
 
       for (let i = 1; i <= step; i++) {
@@ -516,7 +557,6 @@ export default function StepsHandler({recaptchaRef}) {
       console.error(error);
     }
   }, [currentStep]); 
-
 
   // define os titulos das etapas no array
 

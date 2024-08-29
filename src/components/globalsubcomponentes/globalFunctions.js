@@ -385,12 +385,12 @@ class GlobalFuntions extends Object {
     return /^.{1,20}$/.test(number);
   }
 
-  validateComplement(complement) {
+  validateComplement(complement) {    
     return /^.{0,35}$/.test(complement);
   }
 
   validateNeighborhood(neighborhood) {
-    return typeof neighborhood === "string" && /^.{1,33}$/.test(neighborhood);
+    return typeof neighborhood === "string" && /^.{1,40}$/.test(neighborhood);
   }
 
   validateStateUF(uf) {

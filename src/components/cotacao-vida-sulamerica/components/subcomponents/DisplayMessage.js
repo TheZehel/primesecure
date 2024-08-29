@@ -119,6 +119,10 @@ const alertCode = (code, data) => {
             message = 'Selecione uma forma de pagamento para continuar com a contratação.';
             break;
 
+        case 'card-invalid':
+            message = 'Ocorreu um erro ao processar seu pagamento. Por favor, verifique os dados do cartão e tente novamente.';
+            break;
+
         case 'decrypt':
         case 'decrypt-card':
         case 'pagarme-error':
