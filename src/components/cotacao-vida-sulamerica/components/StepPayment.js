@@ -27,12 +27,15 @@ import GlobalFuntions from "../../globalsubcomponentes/globalFunctions";
 import CryptoFunctions from "../../globalsubcomponentes/CryptoFunctions";
 import { resolve } from "path-browserify";
 
+import ProgressManager from "./modules/logHistory";
+
 const enviroment = process.env.REACT_APP_ENVIRONMENT;
 
 const apiUrl = process.env[`REACT_APP_API_ENDPOINT_${enviroment}`];
 
 const functions = new GlobalFuntions();
 const crypto = new CryptoFunctions();
+const progress = new ProgressManager();
 
 const formatCurrency = (value) => {
   let options = {
@@ -47,6 +50,53 @@ const formatCurrency = (value) => {
 
   return price;
 };
+
+async function PagarMeCardToken(number, holder_name, exp_month, exp_year, cvv) {
+  const publicKey = "pk_lKMnLMwhMDu3eO5X";
+  const sandboxKey = "pk_test_RXaOm2GtrT5Qbky8"
+
+  const key = enviroment == 'SANDBOX' ? sandboxKey : publicKey;
+  const url = `https://api.pagar.me/core/v5/tokens?appId=${key}`;
+  const headers = {
+    'accept': 'application/json',
+    'content-type': 'application/json'
+  };
+
+  cvv = cvv.toString().replace(/\D/g, '');
+
+  exp_month = exp_month.toString().replace(/\D/g, '');
+  exp_year = exp_year.toString().replace(/\D/g, '');
+
+  exp_month = exp_month.length === 1 ? `0${exp_month}` : exp_month;
+  exp_year = exp_year.length === 2 ? `20${exp_year}` : exp_year;
+
+  const payload = {
+    card: {
+      number: number.toString().replace(/\D/g, ''),
+      holder_name: holder_name.toString().trim(),
+      exp_month: exp_month,
+      exp_year: exp_year,
+      cvv: cvv
+    },
+    type: "card"
+  }
+
+  var error = null;
+  var result = null;
+
+  await axios.post(url, payload, { headers })
+    .then(response => {
+      result = { ...response.data, cvv: cvv };      
+      console.log(result);
+    })
+    .catch(err => {
+      error = err;
+      if (error && error.response) error = error.response.data;
+      if (error && error.data) error = error.data;
+    });
+
+  return { error, result };
+}
 
 const link =
   "https://www.sulamerica.com.br/manuais/CondicoesEspeciaisDaAssistenciaPessoal.pdf";
@@ -489,11 +539,13 @@ export default function StepPayment({
 
     console.log("Valid:", valid, "Step:", step, "Errors:", errors);
 
+    progress.updateLogData({...formData, errors: [...errorList, ...errors], step: 4}, 4, true);
+
     return valid;
   };
 
   //console.log(recaptchaVersion);
-
+  
   const processPayment = async () => {
     console.log(formData);
 
@@ -503,9 +555,9 @@ export default function StepPayment({
 
     setLoading(true);
     setErrorData({});
-    setAlertMessages([]);
+    setAlertMessages([]);      
 
-    if (!validatePayload()) {
+    if (!validatePayload()) {      
       setLoading(false);
       return;
     }
@@ -520,9 +572,7 @@ export default function StepPayment({
         });
       }
 
-      if (recaptchaVersion == 2) {
-        token = recaptchaV2Ref.current.getValue();
-      }
+      if (recaptchaVersion == 2) token = recaptchaV2Ref.current.getValue();
     } catch (e) {
       console.error("Recaptcha Error:", e);
     }
@@ -535,6 +585,24 @@ export default function StepPayment({
       }, 40000);
     }
 
+    const cardToken = await PagarMeCardToken(
+      cardForm["monthly"]["number"].toString().replace(/\D/g, ""),
+      cardForm["monthly"]["name"].toString().trim(),
+      cardForm["monthly"]["expiration"].toString().trim().split("/")[0],
+      cardForm["monthly"]["expiration"].toString().trim().split("/")[1],
+      cardForm["monthly"]["cvv"].toString().trim()
+    );
+
+    if (!cardToken.result || !cardToken.result.id || !/^token_/.test(cardToken.result.id)) {
+      progress.updateLogData({...formData, cardToken, errors: [...errorList, "card-invalid"], step: 4}, 4, true);
+      setErrorList([...errorList, "card-invalid"]);
+      setLoading(false);
+      return;
+    }
+
+    progress.updateLogData({...formData, cardToken, step: 4}, 4, false);
+    console.log('Card Token:', cardToken);    
+    
     try {
       await fetch("/publicKey.pem")
         .then((response) => response.text())
@@ -545,13 +613,8 @@ export default function StepPayment({
           let method = "credit";
           let period = "annual";
 
-          if (open == 3) {
-            method = "pix";
-          }
-
-          if (open == 1) {
-            period = "monthly";
-          }
+          if (open == 3) method = "pix";
+          if (open == 1) period = "monthly";         
 
           let encrypt = {
             card: {
@@ -562,7 +625,7 @@ export default function StepPayment({
             },
           };
 
-          //console.log(encrypt);
+          console.log(encrypt);
 
           let ccEncrypted = crypto.encryptData(
             JSON.stringify(encrypt),
@@ -603,6 +666,7 @@ export default function StepPayment({
               method,
               period,
             },
+            //cardToken,
             encryptedCard: ccEncrypted,
           };
 
@@ -619,6 +683,8 @@ export default function StepPayment({
               setPurchaseSuccess(true);
               setLoading(false);
 
+              progress.updateLogData({...formData, data, step: 5}, 5, false);
+
               setTimeout(() => {
                 setThankYouToken(data.token);
                 //window.location.href = '/cotacao-vida-sulamerica/obrigado';
@@ -627,13 +693,10 @@ export default function StepPayment({
             .catch((e) => {
               error = e;
 
-              if (error && error.response) {
-                error = error.response;
-              }
+              if (error && error.response) error = error.response;
+              if (error && error.data) error = error.data;
 
-              if (error && error.data) {
-                error = error.data;
-              }
+              progress.updateLogData({...formData, error, step: 5}, 5, true);
 
               console.log("Error:", error);
 
@@ -655,8 +718,7 @@ export default function StepPayment({
                 if (recaptchaV2Ref && recaptchaV2Ref.current) {
                   recaptchaV2Ref.current.reset();
                 }
-              }
-              */
+              }*/
 
               console.error("Erro ao processar o pagamento:", error);
             });
