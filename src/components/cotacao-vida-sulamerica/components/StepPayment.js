@@ -132,7 +132,7 @@ const plans = [
   {
     headTitle: "PRIME SILVER",
     title: "Pacote 2",
-    price: "4249",
+    price: "4250",//"4249",
     award: "Sorteio de R$20.000,00",
     resume: "Detalhes:",
     resumeDesc:
@@ -185,7 +185,7 @@ const plans = [
   {
     headTitle: "PRIME DIAMOND",
     title: "Pacote 4",
-    price: "6531",
+    price: "6532",//"6531",
     award: "Sorteio de R$20.000,00",
     resume: "Detalhes:",
     resumeDesc:

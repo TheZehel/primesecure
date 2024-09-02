@@ -193,7 +193,7 @@ export default function PlanSlider({
     {
       headTitle: "PRIME SILVER",
       title: "Pacote 2",
-      price: "42,49",
+      price: "42,50",//"42,49",
       award: "Sorteio de R$20.000,00",
       resume: "Detalhes:",
       resumeDesc:
@@ -227,7 +227,7 @@ export default function PlanSlider({
     {
       headTitle: "PRIME DIAMOND",
       title: "Pacote 4",
-      price: "65,31",
+      price: "65,32",//"65,31",
       award: "Sorteio de R$20.000,00",
       resume: "Detalhes:",
       resumeDesc:
