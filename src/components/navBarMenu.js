@@ -80,7 +80,7 @@ const products = [
   {
     name: "Odonto",
     description: "Planos de Proteção Odonto.",
-    href: "/sulamerica-odonto",
+    href: "https://odontosulamerica.com.br/",
     icon: FontAwesomeIcon,
     iconProps: { icon: faTooth },
   },
