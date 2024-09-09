@@ -7,6 +7,7 @@ import Investment from "./components/Investment";
 import Contemplados from "./components/Contemplados";
 import Benefits from "./components/Benefits";
 import CenteredImage from "./components/Table";
+import GridImages from "./components/GridImages";
 
 function IndexConsorcioAuto() {
   const targetDate = new Date("December 31, 2023 00:00:00");
@@ -44,7 +45,7 @@ function IndexConsorcioAuto() {
       <Assistance />
       <Investment />
       <Contemplados />
-      <CenteredImage />
+      <GridImages />
       <Benefits />
     </div>
   );
