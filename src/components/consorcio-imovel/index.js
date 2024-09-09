@@ -6,7 +6,8 @@ import Assistance from "./components/Assistances";
 import Benefits from "./components/Benefits";
 import Investment from "./components/Investment";
 import Contemplados from "./components/Contemplados";
-import CenteredImage from "./components/Table";
+//import CenteredImage from "./components/Table";
+import GridImages from "./components/GridImages";
 
 function IndexConsorcioImovel() {
   const targetDate = new Date("December 31, 2023 00:00:00");
@@ -44,7 +45,7 @@ function IndexConsorcioImovel() {
       <Assistance />
       <Investment />
       <Contemplados />
-      <CenteredImage />
+      <GridImages />
       <Benefits />
     </div>
   );
