@@ -212,6 +212,7 @@ export default function SimpleFormSection({
       sessionStorage.setItem("formData", JSON.stringify(formData));
 
       try {
+        // Envio para o RD Station
         const responseRD = await axios.request(optionsRD);
         console.log("RD Station Response:", responseRD);
 
@@ -244,6 +245,29 @@ export default function SimpleFormSection({
                 : manyChatError.message
             );
           }
+        }
+
+        try {
+          const responseBackend = await axios.post(
+            `${process.env.REACT_APP_API_ENDPOINT_PRODUCTION}/argus/lead-consorcio`,
+            {
+              ...formData, // Enviando os dados do formData
+              currentPath, // Inclui o currentPath para o backend
+            },
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          console.log("Backend Response:", responseBackend);
+        } catch (backendError) {
+          console.error(
+            "Backend Error:",
+            backendError.response
+              ? backendError.response.data
+              : backendError.message
+          );
         }
 
         navigateBasedOnPath();
