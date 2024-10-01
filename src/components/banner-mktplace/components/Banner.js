@@ -35,22 +35,22 @@ export default function Banner() {
     {
       id: 1,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/banners-agosto-rw/Primetravel/srclarge-agosto-2024-primetravel.png",
+        "https://storage.googleapis.com/primesecure/banners/banners-outubro/banners/banners-lg/srclarge-outubro-2024-primetravel.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/banners-agosto-rw/Primetravel/srcmedium-agosto-2024-primetravel.png",
+        "https://storage.googleapis.com/primesecure/banners/banners-outubro/banners/banners-md/srcmedium-outubro-2024-primetravel.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/banners-agosto-rw/Primetravel/srcmobile-agosto-2024-primetravel.png",
+        "https://storage.googleapis.com/primesecure/banners/banners-outubro/banners/banners-sm/srcmobile-outubro-2024-primetravel.png",
       alt: "Banner de Natal para Telas Grandes",
       href: "/primetravel",
     },
     {
       id: 2,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/banners-agosto-rw/Vida/srclarge-mes-dos-pais-2024-vida.png",
+        "https://storage.googleapis.com/primesecure/banners/banners-outubro/banners/banners-lg/srclarge-outubro-2024-vida.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/banners-agosto-rw/Vida/srcmedium-mes-dos-pais-2024-vida.png",
+        "https://storage.googleapis.com/primesecure/banners/banners-outubro/banners/banners-md/srcmedium-outubro-2024-vida.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/banners-agosto-rw/Vida/srcmobile-mes-dos-pais-2024-vida.png",
+        "https://storage.googleapis.com/primesecure/banners/banners-outubro/banners/banners-sm/srcmobile-outubro-2024-vida.png",
       alt: "Banner de Natal para Telas Grandes",
       href: "/seguro-de-vida",
     },
@@ -135,11 +135,11 @@ export default function Banner() {
     {
       id: 10,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/banners-agosto-rw/bike/srclarge-agosto-2024-bike.png",
+        "https://storage.googleapis.com/primesecure/banners/banners-outubro/banners/banners-lg/srclarge-outubro-2024-bike.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/banners-agosto-rw/bike/srcmedium-agosto-2024-bike.png",
+        "https://storage.googleapis.com/primesecure/banners/banners-outubro/banners/banners-md/srcmedium-outubro-2024-bike.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/banners-agosto-rw/bike/srcmobile-agosto-2024-bike.png",
+        "https://storage.googleapis.com/primesecure/banners/banners-outubro/banners/banners-sm/srcmobile-outubro-2024-bike.png",
       alt: "Banner de Natal para Telas Grandes",
       href: "/seguro-bike",
     },
