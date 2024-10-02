@@ -24,7 +24,7 @@ const coberturas = [
     id: 5,
     title: "Assistência Funeral Familiar",
     description:
-      "Caso algum familiar venha a falecer, você terá assistência para o funeral.",
+      "Cobre o cônjuge e filhos até 21 anos, garantindo apoio nos momentos mais difíceis.",
     icon: faPlantWilt,
   },
 ];
