@@ -113,7 +113,7 @@ const InformacoesProdutos = [
       {
         name: "Coberturas:",
         description:
-          "Cobertura em morte por acidente, invalidez permanente e Assistência Funeral Familiar.",
+          "Cobertura em morte por acidente, invalidez permanente e Assistência Funeral Familiar.**",
         icon: FontAwesomeIcon,
         iconProps: { icon: faHouse },
       },
