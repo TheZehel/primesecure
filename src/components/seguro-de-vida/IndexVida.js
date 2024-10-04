@@ -16,6 +16,7 @@ import FaqVida from "./components/subcomponents/FaqVida";
 import CountDown from "./components/subcomponents/CountDownBannerVida";
 import BannerPromo from "./components/subcomponents/BannerPromosVida";
 import NamuSection from "./components/subcomponents/namu";
+import PlansSliderLp from "./components/subcomponents/PlansSliderLp";
 
 function IndexVida() {
   const targetDate = new Date("December 31, 2023 00:00:00");
@@ -57,6 +58,7 @@ function IndexVida() {
       <BannerPromo />
       <FormVidaBanner />
       <CoberturasSlider />
+      <PlansSliderLp />
       <NamuSection />
       <SessaoInformativaProdutosLp
         InformacoesProdutos={InformacoesProdutos}
