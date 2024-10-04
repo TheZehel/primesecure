@@ -532,77 +532,86 @@ export default function SimpleFormSection({
             )}
           </div>
           <div>
-            <div>
-              <label className="block text-sm font-semibold leading-6 text-gray-900">
-                Faixa de Renda?
-              </label>
-              {clicado && !formData.renda ? (
-                <div className="text-red-500">Campo Obrigatório</div>
-              ) : null}
-              <select
-                required
-                name="renda"
-                id="renda"
-                value={formData.renda}
-                onChange={handleInputChange}
-                onBlur={handleBlur}
-                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
-              >
-                <option value="">Escolha uma Opção:</option>
-                <option value="Até R$2.500,00<">Até R$2.500,00</option>
-                <option value="de R$2.500,01 até R$5.000,00">
-                  de R$2.500,01 até R$5.000,00
-                </option>
-                <option value="de R$5.000,01 até R$7.500,00">
-                  de R$5.000,01 até R$7.500,00
-                </option>
-                <option value="de R$7.500,01 até R$10.000,00">
-                  de R$7.500,01 até R$10.000,00
-                </option>
-                <option value="Acima de R$10.000,00">
-                  Acima de R$10.000,00
-                </option>
-              </select>
-            </div>
-          </div>
-          {/*  Input data de nascimento */}
-          <div>
-            <div>
-              <label className="block text-sm font-semibold leading-6 text-gray-900">
-                Data de Nascimento
-              </label>
-              <div className="mt-2.5">
-                <input
-                  type="date"
-                  name="dataNascimento"
-                  id="dataNascimento"
-                  className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
-                  value={formData.dataNascimento}
-                  onChange={handleInputChange}
-                />
-              </div>
-            </div>
-          </div>
-          {/*  Inputsexo */}
-          <div>
-            <div>
-              <label className="block text-sm font-semibold leading-6 text-gray-900">
-                Sexo
-              </label>
-              <div className="mt-2.5">
+            {(window.location.pathname === "/seguro-de-vida" ||
+              window.location.pathname === "/seguro-de-vida/") && (
+              <div>
+                <label className="block text-sm font-semibold leading-6 text-gray-900">
+                  Faixa de Renda?
+                </label>
+                {clicado && !formData.renda ? (
+                  <div className="text-red-500">Campo Obrigatório</div>
+                ) : null}
                 <select
-                  name="sexo"
-                  id="sexo"
-                  value={formData.sexo}
+                  required
+                  name="renda"
+                  id="renda"
+                  value={formData.renda}
                   onChange={handleInputChange}
+                  onBlur={handleBlur}
                   className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
                 >
                   <option value="">Escolha uma Opção:</option>
-                  <option value="Masculino">Masculino</option>
-                  <option value="Feminino">Feminino</option>
+                  <option value="Até R$2.500,00<">Até R$2.500,00</option>
+                  <option value="de R$2.500,01 até R$5.000,00">
+                    de R$2.500,01 até R$5.000,00
+                  </option>
+                  <option value="de R$5.000,01 até R$7.500,00">
+                    de R$5.000,01 até R$7.500,00
+                  </option>
+                  <option value="de R$7.500,01 até R$10.000,00">
+                    de R$7.500,01 até R$10.000,00
+                  </option>
+                  <option value="Acima de R$10.000,00">
+                    Acima de R$10.000,00
+                  </option>
                 </select>
               </div>
-            </div>
+            )}
+          </div>
+          {/*  Input data de nascimento */}
+          <div>
+            {(window.location.pathname === "/seguro-de-vida" ||
+              window.location.pathname === "/seguro-de-vida/") && (
+              <div>
+                <label className="block text-sm font-semibold leading-6 text-gray-900">
+                  Data de Nascimento
+                </label>
+                <div className="mt-2.5">
+                  <input
+                    type="date"
+                    name="dataNascimento"
+                    id="dataNascimento"
+                    className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
+                    value={formData.dataNascimento}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+          {/*  Inputsexo */}
+          <div>
+            {(window.location.pathname === "/seguro-de-vida" ||
+              window.location.pathname === "/seguro-de-vida/") && (
+              <div>
+                <label className="block text-sm font-semibold leading-6 text-gray-900">
+                  Sexo
+                </label>
+                <div className="mt-2.5">
+                  <select
+                    name="sexo"
+                    id="sexo"
+                    value={formData.sexo}
+                    onChange={handleInputChange}
+                    className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
+                  >
+                    <option value="">Escolha uma Opção:</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="Feminino">Feminino</option>
+                  </select>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </form>
