@@ -798,14 +798,13 @@ function InvoicePayment({newer}) {
                             </div>                                
                         </div>
                         <div
-                            className={`w-full h-[50px] mt-[15px] pl-[15px] pr-[20px] rounded-lg bg-white shadow-petlove-shadow flex border ${paymentMethod == "current-card" ? "border-[#03A8DB] cursor-default" : "border-[#000000]/[0.08] cursor-pointer"}`}
+                            className={`
+                                w-full h-[50px] mt-[15px] pl-[15px] pr-[20px] rounded-lg bg-white shadow-petlove-shadow flex border 
+                                ${paymentMethod == "current-card" ? "border-[#03A8DB] cursor-default" : "border-[#000000]/[0.08] cursor-pointer"}
+                            `}
                             onClick={()=>{ 
-                                if (paymentMethod != 'current-card' && !processing && invoice.status != 'paid') { 
-                                    setPaymentMethod('current-card'); 
-                                } 
-                                if (invoice.status == 'paid') {
-                                    setPaymentMethod('current-card');
-                                }
+                                if (paymentMethod != 'current-card' && !processing && invoice.status != 'paid') setPaymentMethod('current-card');                                 
+                                if (invoice.status == 'paid') setPaymentMethod('current-card');                                
                             }}
                         >
                             <div
@@ -836,16 +835,12 @@ function InvoicePayment({newer}) {
                         </div>
                         <div
                             className={`w-full h-[50px] mt-[10px] pl-[15px] pr-[20px] rounded-lg bg-white shadow-petlove-shadow flex border 
-                                ${paymentMethod != "current-card" ? "border-[#03A8DB] cursor-default hidden" : "border-[#000000]/0.08 cursor-pointer"}
+                                ${paymentMethod == "new-card" ? "border-[#03A8DB] cursor-default hidden" : "border-[#000000]/0.08 cursor-pointer"}
                                 ${invoice.status == "paid" ? "hidden" : ""}
                             `}
                             onClick={()=>{ 
-                                if (paymentMethod != 'new-card' && !processing && invoice.status != 'paid') { 
-                                    setPaymentMethod('new-card'); 
-                                } 
-                                if (invoice.status == 'paid') {
-                                    setPaymentMethod('current-card');
-                                }
+                                if (paymentMethod != 'new-card' && !processing && invoice.status != 'paid') setPaymentMethod('new-card');                                
+                                if (invoice.status == 'paid')  setPaymentMethod('current-card');                                
                             }}
                         >
                             <div
@@ -859,17 +854,17 @@ function InvoicePayment({newer}) {
                                 Novo cartão de crédito
                             </div>
                             <div
-                                className={`h-[16px] w-[16px] rounded-full border-[2px] ml-auto my-auto flex ${paymentMethod != "current-card" ? "border-[#03A8DB]" : "border-[#000000]/[0.3]"}`}
+                                className={`h-[16px] w-[16px] rounded-full border-[2px] ml-auto my-auto flex ${paymentMethod == "new-card" ? "border-[#03A8DB]" : "border-[#000000]/[0.3]"}`}
                             >
                                 <div
-                                    className={`h-[8px] w-[8px] rounded-full bg-[#03A8DB] m-auto ${paymentMethod == "current-card" ? "hidden" : ""}`}
+                                    className={`h-[8px] w-[8px] rounded-full bg-[#03A8DB] m-auto ${paymentMethod == "new-card" ? "" : "hidden"}`}
                                 >                                    
                                 </div>
                             </div>
                         </div>
                         <div
-                            className={`w-full mt-[15px] px-[20px] rounded-lg bg-white shadow-petlove-shadow overflow-hidden 
-                                ${paymentMethod == "current-card" ? "max-h-0" : "max-h-max border border-[#03A8DB]"} 
+                            className={`w-full px-[20px] rounded-lg bg-white shadow-petlove-shadow overflow-hidden 
+                                ${paymentMethod != "new-card" ? "max-h-0 mt-0" : "max-h-max border border-[#03A8DB] mt-[15px]"} 
                                 ${invoice.status == "paid" ? "hidden" : ""}
                             `}
                         >
@@ -966,8 +961,37 @@ function InvoicePayment({newer}) {
                             </div>
                         </div>
                         <div
+                            className={`w-full h-[50px] mt-[10px] mb-3 pl-[15px] pr-[20px] rounded-lg bg-white shadow-petlove-shadow flex border 
+                                ${paymentMethod == "pix" ? "border-[#03A8DB] cursor-default" : "border-[#000000]/0.08 cursor-pointer"}
+                                ${invoice.status == "paid" ? "hidden" : ""}
+                            `}
+                            onClick={()=>{ 
+                                if (paymentMethod != 'pix' && !processing && invoice.status != 'paid') setPaymentMethod('pix');                                 
+                                if (invoice.status == 'paid') setPaymentMethod('pix');                                
+                            }}
+                        >
+                            <div
+                                className={`w-[42px] h-[42px] mr-[5px] my-auto flex`}
+                            >
+                                <CardBrands brand="pix" color={(paymentMethod == "pix") ? "#32bcad" : "#858585"} />
+                            </div>
+                            <div
+                                className="ml-[5px] text-[13px] font-semibold my-auto text-[#666666]"
+                            >
+                                Pagar fatura com Pix
+                            </div>
+                            <div
+                                className={`h-[16px] w-[16px] rounded-full border-[2px] ml-auto my-auto flex ${paymentMethod == "pix" ? "border-[#03A8DB]" : "border-[#000000]/[0.3]"}`}
+                            >
+                                <div
+                                    className={`h-[8px] w-[8px] rounded-full bg-[#03A8DB] m-auto ${paymentMethod == "pix" ? "" : "hidden"}`}
+                                >                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div
                             className={`w-full mt-1 text-center font-medium text-white text-[14px] h-[32px] rounded-[6px] inline-flex items-center transition ease-in-out duration-150 
-                                ${ (paymentMethod != "current-card") ? "hidden " : "" } 
+                                ${ (paymentMethod == "new-card") ? "hidden " : "" } 
                                 ${ (processing) ? "cursor-not-allowed bg-bluePrime2 hover:bg-bluePrime2 " : "cursor-pointer bg-[#41D134] hover:bg-greenPromo " }      
                                 ${ (invoice.status == 'paid') ? "hidden " : " " }                       
                             }`}
