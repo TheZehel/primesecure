@@ -184,10 +184,10 @@ export default function PlanSlider({
     {
       headTitle: "PRIME BASIC",
       title: "Pacote 1",
-      price: "34,90",
+      price: "32,05",
       award: "Sorteio de R$20.000,00",
       resume: "Detalhes:",
-      resumeDesc: "Assistência Pessoal + Assistência Residencial + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar.",
+      resumeDesc: "Assistência Pessoal + Assistência Residencial + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar + Rede Saúde Familiar.",
       features: [
         { 
           label: "Morte Acidental",
@@ -195,18 +195,22 @@ export default function PlanSlider({
         }, 
         {
           label: "Invalidez Permanente Total por Acidente", 
-          value: "50 mil" 
+          value: "100 mil" 
         },
         {
-          label: "Funeral Familiar Até 10 mil",
-          value: "(Prestação de Serviço)"
-        }
+          label: "Médico na Tela - Familiar",
+          value: "",
+        },
+        //{
+        //  label: "Funeral Familiar Até 10 mil",
+        //  value: "(Prestação de Serviço)"
+        //}
       ],
       bgColor: "bluePrime",
       textColor: "white",
       planId: 1,
     },
-    {
+    /*{
       headTitle: "PRIME SILVER",
       title: "Pacote 2",
       price: "42,50",//"42,49",
@@ -231,15 +235,15 @@ export default function PlanSlider({
       bgColor: "bluePrime",
       textColor: "white",
       planId: 2,
-    },
+    },*/
     {
-      headTitle: "PRIME GOLD",
-      title: "Pacote 3",
-      price: "50,14",
+      headTitle: "PRIME SILVER",
+      title: "Pacote 2",
+      price: "64,10",
       award: "Sorteio de R$20.000,00",
       resume: "Detalhes:",
       resumeDesc:
-        "Assistência Pessoal + Assistência Residencial + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar.",
+        "Assistência Pessoal + Assistência Residencial + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar + Rede Saúde Familiar.",
         features: [
           { 
             label: "Morte Acidental",
@@ -247,25 +251,29 @@ export default function PlanSlider({
           }, 
           {
             label: "Invalidez Permanente Total por Acidente", 
-            value: "100 mil" 
+            value: "200 mil" 
           },
           {
-            label: "Funeral Familiar Até 10 mil",
-            value: "(Prestação de Serviço)"
-          }
+            label: "Médico na Tela - Familiar",
+            value: "",
+          },
+          //{
+          //  label: "Funeral Familiar Até 10 mil",
+          //  value: "(Prestação de Serviço)"
+          //}
         ],
       bgColor: "bluePrime",
       textColor: "white",
       planId: 3,
     },
     {
-      headTitle: "PRIME DIAMOND",
-      title: "Pacote 4",
-      price: "65,32",//"65,31",
+      headTitle: "PRIME GOLD",
+      title: "Pacote 3",
+      price: "96,15",
       award: "Sorteio de R$20.000,00",
       resume: "Detalhes:",
       resumeDesc:
-        "Assistência Pessoal + Assistência Residencial + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar.",
+        "Assistência Pessoal + Assistência Residencial + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar + Rede Saúde Familiar.",
         features: [
           { 
             label: "Morte Acidental",
@@ -273,17 +281,81 @@ export default function PlanSlider({
           }, 
           {
             label: "Invalidez Permanente Total por Acidente", 
-            value: "150 mil" 
+            value: "300 mil" 
           },
           {
-            label: "Funeral Familiar Até 10 mil",
-            value: "(Prestação de Serviço)"
-          }
+            label: "Médico na Tela - Familiar",
+            value: "",
+          },
+          //{
+          //  label: "Funeral Familiar Até 10 mil",
+          //  value: "(Prestação de Serviço)"
+          //}
         ],
       bgColor: "bluePrime",
       textColor: "white",
       planId: 4,
+    },/*
+    {
+      headTitle: "PRIME PLATINUM",
+      title: "Pacote 4",
+      price: "128,20",
+      award: "Sorteio de R$20.000,00",
+      resume: "Detalhes:",
+      resumeDesc:
+        "Assistência Pessoal + Assistência Residencial + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar + Rede Saúde Familiar.",
+        features: [
+          { 
+            label: "Morte Acidental",
+            value: "400 mil" 
+          }, 
+          {
+            label: "Invalidez Permanente Total por Acidente", 
+            value: "400 mil" 
+          },
+          {
+            label: "Médico na Tela - Familiar",
+            value: "",
+          },
+          //{
+          //  label: "Funeral Familiar Até 10 mil",
+          //  value: "(Prestação de Serviço)"
+          //}
+        ],
+      bgColor: "bluePrime",
+      textColor: "white",
+      planId: 5,
     },
+    {
+      headTitle: "PRIME DIAMOND",
+      title: "Pacote 5",
+      price: "160,20",
+      award: "Sorteio de R$20.000,00",
+      resume: "Detalhes:",
+      resumeDesc:
+        "Assistência Pessoal + Assistência Residencial + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar + Rede Saúde Familiar.",
+        features: [
+          { 
+            label: "Morte Acidental",
+            value: "500 mil" 
+          }, 
+          {
+            label: "Invalidez Permanente Total por Acidente", 
+            value: "500 mil" 
+          },
+          {
+            label: "Médico na Tela - Familiar",
+            value: ""
+          }
+          //{
+          //  label: "Funeral Familiar Até 10 mil",
+          //  value: "(Prestação de Serviço)"
+          //}
+        ],
+      bgColor: "bluePrime",
+      textColor: "white",
+      planId: 6,
+    },*/
   ];
 
   return (

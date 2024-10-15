@@ -10,6 +10,7 @@ import { BsChevronDown, BsChevronUp, BsPersonFill } from "react-icons/bs";
 import { TbWheelchair } from "react-icons/tb";
 import { HiWrenchScrewdriver } from "react-icons/hi2";
 import { RiMoneyDollarCircleFill } from "react-icons/ri";
+import { faUserDoctor } from '@fortawesome/free-solid-svg-icons'
 
 export default function ModalDetails({ display, closeModal }) {
     const [selected, setSelected] = useState(0);
@@ -142,7 +143,7 @@ export default function ModalDetails({ display, closeModal }) {
                                 onClick={() => { setSelected(selected == 4 ? 0 : 4) } }
                             >
                                 <div className="h-fit w-fit my-auto text-[23px]"><FaLaptopMedical /></div>
-                                <div className="ml-[8px] text-[13px] sm:text-[16px]">Médico na Tela</div>
+                                <div className="ml-[8px] text-[13px] sm:text-[16px]">Médico na Tela Familiar</div>
                                 <div className={`ml-auto my-auto text-[16px] sm:text-[18px] cursor-pointer text-black ${ selected != 4 ? 'hidden' : '' }`}><BsChevronUp /></div>
                                 <div className={`ml-auto my-auto text-[16px] sm:text-[18px] cursor-pointer text-black ${ selected == 4 ? 'hidden' : '' }`}><BsChevronDown /></div>
                             </div>
@@ -166,6 +167,22 @@ export default function ModalDetails({ display, closeModal }) {
                                 <p className="pt-[5px] pb-[15px] leading-[18px]">
                                     Ampla rede de farmácias que oferecem descontos de até 70% em diversos medicamentos nas maiores redes de farmácias do Brasil.<br/>
                                     No momento em que o seguro for acionado em caso de fatalidade, basta solicitar também o acionamento do Cartão Alimentação. Ele será enviado por correio e a partir disso já é possível utilizar o cartão em qualquer mercado ou supermercado.
+                                </p>
+                            </div>
+                        </div>
+                        <div className="mt-[10px] px-[5px] sm:px-[10px] border-b-[1px] border-b-[#EEE]">
+                            <div 
+                                className={`flex w-full pb-[4px] cursor-pointer transition transition-all ease duration-500 ${ selected == 10 ? 'text-bluePrime' : '' }`}
+                                onClick={() => { setSelected(selected == 10 ? 0 : 10) } }
+                            >
+                                <div className="h-fit w-[23px] my-auto text-[20px]"><FontAwesomeIcon icon={faUserDoctor} className="mx-auto" /></div>
+                                <div className="ml-[8px] text-[13px] sm:text-[16px]">Rede de Saúde Familiar</div>
+                                <div className={`ml-auto my-auto text-[16px] sm:text-[18px] cursor-pointer text-black ${ selected != 10 ? 'hidden' : '' }`}><BsChevronUp /></div>
+                                <div className={`ml-auto my-auto text-[16px] sm:text-[18px] cursor-pointer text-black ${ selected == 10 ? 'hidden' : '' }`}><BsChevronDown /></div>
+                            </div>
+                            <div className={`text-left text-[12px] sm:text-[14px] mx-[5px] text-black overflow-hidden h-auto transition transition-all ease duration-500 ${ selected == 10 ? 'max-h-[320px]' : 'max-h-0' }`}>
+                                <p className="pt-[5px] pb-[15px] leading-[18px]">
+                                    Oferece ao segurado e sua família um programa de saúde particular com preços reduzidos, disponibilizando uma rede de profissionais e serviços credenciados nas diversas especialidades Médicas.<br/>
                                 </p>
                             </div>
                         </div>
