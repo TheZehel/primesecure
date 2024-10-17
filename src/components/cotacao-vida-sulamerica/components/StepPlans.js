@@ -295,7 +295,7 @@ export default function PlanSlider({
       bgColor: "bluePrime",
       textColor: "white",
       planId: 4,
-    },/*
+    },
     {
       headTitle: "PRIME PLATINUM",
       title: "Pacote 4",
@@ -355,7 +355,7 @@ export default function PlanSlider({
       bgColor: "bluePrime",
       textColor: "white",
       planId: 6,
-    },*/
+    },
   ];
 
   return (
