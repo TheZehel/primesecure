@@ -5,14 +5,14 @@ import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import ModalDetails from "./subcomponents/ModalDetails";
 
 import "swiper/css";
-import 'swiper/css/pagination';
+import "swiper/css/pagination";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { 
+import {
   faMoneyBill,
   faArrowCircleLeft,
   faArrowCircleRight,
-  faCircleCheck
+  faCircleCheck,
 } from "@fortawesome/free-solid-svg-icons";
 
 // Subcomponents
@@ -25,7 +25,7 @@ const swiperBullets = (index, className) => {
 export default function PlanSlider({
   selectedPlanId,
   setSelectedPlanId,
-  updateFormData
+  updateFormData,
 }) {
   const PlanCard = ({
     headTitle,
@@ -56,9 +56,7 @@ export default function PlanSlider({
           setSelectedPlanId(planId);
           updateFormData({ selectedPlanId: planId });
         }}
-        className={`min-w-[325px] h-[520px] m-4 ${
-          isSelected ? "blue" : "red"
-        }`}
+        className={`min-w-[325px] h-[520px] m-4 ${isSelected ? "blue" : "red"}`}
       >
         <div className="min-w-[325px] max-w-[540px] mx-auto h-full rounded-2xl shadow border flex flex-col justify-between">
           <div
@@ -66,7 +64,9 @@ export default function PlanSlider({
               isSelected ? "bg-bluePrime2" : `bg-${bgColor}`
             } rounded-tl-2xl rounded-tr-2xl border-b`}
           >
-            <span className={`text-${textColor} text-md font-medium mx-6 mx-auto`}>
+            <span
+              className={`text-${textColor} text-md font-medium mx-6 mx-auto`}
+            >
               {headTitle}
             </span>
           </div>
@@ -124,17 +124,19 @@ export default function PlanSlider({
               <br />
             </div>
             <div className="text-[10px]">
-              {features.map((feature, idx) => {   
+              {features.map((feature, idx) => {
                 return (
-                  <div 
+                  <div
                     key={idx}
-                    className={`flex items-center justify-between py-[1px] px-[5px] bg-[#313131]/10 rounded-lg mb-[5px] flex`}
+                    className={`flex items-center justify-between py-[1px] px-[5px] bg-[#313131]/10 rounded-lg mb-[5px]`}
                   >
                     <div
-                      className={`text-left text-grayPrime font-medium py-[3px] px-[8px] flex font-semibold w-full`}
-                    >           
+                      className={`text-left text-grayPrime  py-[3px] px-[8px] flex font-semibold w-full`}
+                    >
                       <div className="w-max my-auto">{feature.label}</div>
-                      <div className="w-fit my-auto ml-auto text-right break-keep">{feature.value}</div>
+                      <div className="w-fit my-auto ml-auto text-right break-keep">
+                        {feature.value}
+                      </div>
                     </div>
                   </div>
                 );
@@ -152,14 +154,16 @@ export default function PlanSlider({
                 </a>*/}
                 <div
                   className="text-sm text-bluePrime hover:text-bluePrime2 font-semibold underline underline-offset-2 cursor-pointer"
-                  onClick={ ()=>{ setShowModal(true); } }
+                  onClick={() => {
+                    setShowModal(true);
+                  }}
                 >
                   Ver detalhes...
                 </div>
               </div>
             </div>
           </div>
-        </div>        
+        </div>
       </div>
     );
   };
@@ -187,20 +191,21 @@ export default function PlanSlider({
       price: "34,90",
       award: "Sorteio de R$20.000,00",
       resume: "Detalhes:",
-      resumeDesc: "Assistência Pessoal + Assistência Residencial + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar.",
+      resumeDesc:
+        "Assistência Pessoal + Assistência Residencial + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar.",
       features: [
-        { 
-          label: "Morte Acidental",
-          value: "100 mil" 
-        }, 
         {
-          label: "Invalidez Permanente Total por Acidente", 
-          value: "50 mil" 
+          label: "Morte Acidental",
+          value: "100 mil",
+        },
+        {
+          label: "Invalidez Permanente Total por Acidente",
+          value: "50 mil",
         },
         {
           label: "Funeral Familiar Até 10 mil",
-          value: "(Prestação de Serviço)"
-        }
+          value: "(Prestação de Serviço)",
+        },
       ],
       bgColor: "bluePrime",
       textColor: "white",
@@ -209,25 +214,26 @@ export default function PlanSlider({
     {
       headTitle: "PRIME SILVER",
       title: "Pacote 2",
-      price: "42,50",//"42,49",
+      price: "42,50", //"42,49",
       award: "Sorteio de R$20.000,00",
       resume: "Detalhes:",
-      resumeDesc: "Assistência Pessoal + Assistência Residencial + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar.",
-        //"Assistência pessoal + residencial + dezenas de serviços Desconto em farmácia + funeral familiar + Médico na Tela Familiar.",
-        features: [
-          { 
-            label: "Morte Acidental",
-            value: "150 mil" 
-          }, 
-          {
-            label: "Invalidez Permanente Total por Acidente", 
-            value: "75 mil" 
-          },
-          {
-            label: "Funeral Familiar Até 10 mil",
-            value: "(Prestação de Serviço)"
-          }
-        ],
+      resumeDesc:
+        "Assistência Pessoal + Assistência Residencial + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar.",
+      //"Assistência pessoal + residencial + dezenas de serviços Desconto em farmácia + funeral familiar + Médico na Tela Familiar.",
+      features: [
+        {
+          label: "Morte Acidental",
+          value: "150 mil",
+        },
+        {
+          label: "Invalidez Permanente Total por Acidente",
+          value: "75 mil",
+        },
+        {
+          label: "Funeral Familiar Até 10 mil",
+          value: "(Prestação de Serviço)",
+        },
+      ],
       bgColor: "bluePrime",
       textColor: "white",
       planId: 2,
@@ -240,20 +246,20 @@ export default function PlanSlider({
       resume: "Detalhes:",
       resumeDesc:
         "Assistência Pessoal + Assistência Residencial + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar.",
-        features: [
-          { 
-            label: "Morte Acidental",
-            value: "200 mil" 
-          }, 
-          {
-            label: "Invalidez Permanente Total por Acidente", 
-            value: "100 mil" 
-          },
-          {
-            label: "Funeral Familiar Até 10 mil",
-            value: "(Prestação de Serviço)"
-          }
-        ],
+      features: [
+        {
+          label: "Morte Acidental",
+          value: "200 mil",
+        },
+        {
+          label: "Invalidez Permanente Total por Acidente",
+          value: "100 mil",
+        },
+        {
+          label: "Funeral Familiar Até 10 mil",
+          value: "(Prestação de Serviço)",
+        },
+      ],
       bgColor: "bluePrime",
       textColor: "white",
       planId: 3,
@@ -261,25 +267,25 @@ export default function PlanSlider({
     {
       headTitle: "PRIME DIAMOND",
       title: "Pacote 4",
-      price: "65,32",//"65,31",
+      price: "65,32", //"65,31",
       award: "Sorteio de R$20.000,00",
       resume: "Detalhes:",
       resumeDesc:
         "Assistência Pessoal + Assistência Residencial + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar.",
-        features: [
-          { 
-            label: "Morte Acidental",
-            value: "300 mil" 
-          }, 
-          {
-            label: "Invalidez Permanente Total por Acidente", 
-            value: "150 mil" 
-          },
-          {
-            label: "Funeral Familiar Até 10 mil",
-            value: "(Prestação de Serviço)"
-          }
-        ],
+      features: [
+        {
+          label: "Morte Acidental",
+          value: "300 mil",
+        },
+        {
+          label: "Invalidez Permanente Total por Acidente",
+          value: "150 mil",
+        },
+        {
+          label: "Funeral Familiar Até 10 mil",
+          value: "(Prestação de Serviço)",
+        },
+      ],
       bgColor: "bluePrime",
       textColor: "white",
       planId: 4,
@@ -290,7 +296,12 @@ export default function PlanSlider({
     //Renderiza parte do Topo da Etapa de Cotação
     <div className="montserrat relative w-full h-full max-w-[1100px] mx-auto mt-20">
       <TitlePage />
-      <ModalDetails display={showModal} closeModal={ () => { setShowModal(false); } } />
+      <ModalDetails
+        display={showModal}
+        closeModal={() => {
+          setShowModal(false);
+        }}
+      />
       <div className="relative w-full h-full mx-auto text-center"></div>
 
       <div
@@ -304,10 +315,10 @@ export default function PlanSlider({
           slidesPerView={1}
           effect="slide"
           speed={1000}
-          pagination={{ 
-            clickable: true, 
-            renderBullet: swiperBullets 
-          }}          
+          pagination={{
+            clickable: true,
+            renderBullet: swiperBullets,
+          }}
           breakpoints={{
             320: { slidesPerView: 1 },
             760: { slidesPerView: 2 },
@@ -331,13 +342,23 @@ export default function PlanSlider({
         className="absolute ml-2 sm:ml-[-5px] left-0 top-[50%] transform -translate-y-1/2  cursor-pointer z-10"
         onClick={() => swiperRef.current.swiper.slidePrev()}
       >
-        <FontAwesomeIcon icon={faArrowCircleLeft} size="2x" color="#03a8db" className="bg-white rounded-full" />
+        <FontAwesomeIcon
+          icon={faArrowCircleLeft}
+          size="2x"
+          color="#03a8db"
+          className="bg-white rounded-full"
+        />
       </button>
       <button
         className="absolute mr-2 sm:mr-[-5px] right-0 top-[50%] transform -translate-y-1/2 cursor-pointer z-10"
         onClick={() => swiperRef.current.swiper.slideNext()}
       >
-        <FontAwesomeIcon icon={faArrowCircleRight} size="2x" color="#03a8db"  className="bg-white rounded-full"/>
+        <FontAwesomeIcon
+          icon={faArrowCircleRight}
+          size="2x"
+          color="#03a8db"
+          className="bg-white rounded-full"
+        />
       </button>
     </div>
   );

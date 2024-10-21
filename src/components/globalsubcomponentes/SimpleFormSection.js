@@ -444,7 +444,7 @@ export default function SimpleFormSection({
                   className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
                 >
                   <option value="">Escolha uma Opção:</option>
-                  <option value="R$200mil<">R$200mil</option>
+                  <option value="R$200mil">R$200mil</option>
                   <option value="R$300mil">R$300mil</option>
                   <option value="R$400mil">R$400mil</option>
                   <option value="R$500mil">R$500mil</option>
