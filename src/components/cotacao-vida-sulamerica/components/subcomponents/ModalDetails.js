@@ -202,6 +202,51 @@ export default function ModalDetails({ display, closeModal }) {
             <div className="px-[5px] sm:px-[10px] border-b-[1px] border-b-[#EEE]">
               <div
                 className={`flex w-full pb-[4px] cursor-pointer transition transition-all ease duration-500 ${
+                  selected == 10 ? "text-bluePrime" : ""
+                }`}
+                onClick={() => {
+                  setSelected(selected == 10 ? 0 : 10);
+                }}
+              >
+                <div className="h-fit w-[23px] my-auto text-[18px] flex">
+                  <img
+                    src="https://storage.googleapis.com/primesecure/icones-namu.png"
+                    alt="Icone Namu"
+                  />
+                </div>
+                <div className="ml-[8px] text-[13px] sm:text-[16px]">
+                  Ganhe Acesso ao App Namu
+                </div>
+                <div
+                  className={`ml-auto my-auto text-[16px] sm:text-[18px] cursor-pointer text-black ${
+                    selected != 10 ? "hidden" : ""
+                  }`}
+                >
+                  <BsChevronUp />
+                </div>
+                <div
+                  className={`ml-auto my-auto text-[16px] sm:text-[18px] cursor-pointer text-black ${
+                    selected == 10 ? "hidden" : ""
+                  }`}
+                >
+                  <BsChevronDown />
+                </div>
+              </div>
+              <div
+                className={`text-left text-[12px] sm:text-[14px] mx-[5px] text-black overflow-hidden h-auto transition transition-all ease duration-500 ${
+                  selected == 10 ? "max-h-[320px]" : "max-h-0"
+                }`}
+              >
+                <p className="pt-[5px] pb-[15px] leading-[18px]">
+                  Ao realizar a contratação do seu Seguro Prime Vida Fit você
+                  terá acesso ao App Namu, um aplicativo que oferece diversos
+                  benefícios para a sua saúde e bem-estar.
+                </p>
+              </div>
+            </div>
+            <div className="px-[5px] sm:px-[10px] border-b-[1px] border-b-[#EEE]">
+              <div
+                className={`flex w-full pb-[4px] cursor-pointer transition transition-all ease duration-500 ${
                   selected == 3 ? "text-bluePrime" : ""
                 }`}
                 onClick={() => {
