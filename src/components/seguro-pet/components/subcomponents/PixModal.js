@@ -6,6 +6,7 @@ function CountdownTimer({ modalState, expiration, expired }) {
   const [timeLeft, setTimeLeft] = useState(null);
   const [expirated, setExpirated] = useState(false);
   const [timeData, setTimeData] = useState({
+    days: "00",
     minutes: "30",
     seconds: "00"
   });
@@ -13,11 +14,16 @@ function CountdownTimer({ modalState, expiration, expired }) {
   const intervalRef = useRef(null);
 
   useEffect(() => {
-    if (!expiration) return;
+    if (!expiration) {
+      console.log("Expiration not set");
+      return;
+    }
+    console.log("Expiration:", expiration);
 
     const updateTimer = () => {
       const now = new Date();
       const timeLeft = new Date(expiration) - now;
+      console.log("Time left:", timeLeft);
 
       if (timeLeft <= 0 && !expirated) {
         clearInterval(intervalRef.current);
@@ -27,10 +33,13 @@ function CountdownTimer({ modalState, expiration, expired }) {
       }
 
       const totalSeconds = Math.max(0, Math.floor(timeLeft / 1000));
+      const days = String(Math.floor(totalSeconds / (60 * 60 * 24))).padStart(2, '0');
       const minutes = String(Math.floor(totalSeconds / 60) % 60).padStart(2, '0');
       const seconds = String(totalSeconds % 60).padStart(2, '0');
 
-      setTimeData({ minutes, seconds });
+      console.log("Days:", days, "Minutes:", minutes, "Seconds:", seconds);
+
+      setTimeData({ days, minutes, seconds });
       setTimeLeft(timeLeft);
     };
 
@@ -40,7 +49,11 @@ function CountdownTimer({ modalState, expiration, expired }) {
     return () => clearInterval(intervalRef.current);
   }, [expiration, expirated, expired]);
 
-  const { minutes, seconds } = timeData;
+  useEffect(() => {
+    console.log("Time data updated:", timeData);
+  }, [timeData]);
+
+  const { days, minutes, seconds } = timeData;
 
   return (
     <div
@@ -48,9 +61,11 @@ function CountdownTimer({ modalState, expiration, expired }) {
       className="text-[14px] font-semibold text-bluePrime sm:text-sm sm:font-bold"
     >
       <div className="hidden ss:hidden sm:block">
+        {days > 0 && `${days} dia${parseInt(days) > 1 ? 's' : ''} `}
         {minutes} minuto{parseInt(minutes) > 1 ? 's' : ''} {seconds} segundo{parseInt(seconds) > 1 ? 's' : ''}
       </div>
       <div className="block sm:hidden">
+        {days > 0 && `${days}d `}
         {minutes}m {seconds}s
       </div>
     </div>
@@ -92,7 +107,7 @@ export default function ModalPix({ isOpen, onClose, orderTotal, transaction, exp
   transaction = {
     qr_code: "00020101021226820014br.gov.bcb.pix2560pix.stone.com.br/pix/v2/9dd52f13-8105-4d7f-83bc-ece48d6c49325204000053039865406528.025802BR5925PRIME SECURE CORRETORA DE6014RIO DE JANEIRO62290525paclp9yuhuxxbis1eleeixcdn630430A9",
     qr_code_url: "https://api.pagar.me/core/v5/transactions/tran_P6lWMEjUeUw1rz0q/qrcode?payment_method=pix",
-    expires_at: "2024-10-09T18:00:00Z",
+    expires_at: "2024-11-02T19:00:00Z",
     amount: 1000
   };
 
@@ -156,7 +171,7 @@ export default function ModalPix({ isOpen, onClose, orderTotal, transaction, exp
   var pixTotal = total / 100;
   pixTotal = formatCurrency(pixTotal); 
 
-  return(<></>);
+  //return(<></>);
 
   return (
     <div>
