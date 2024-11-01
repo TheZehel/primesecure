@@ -22,8 +22,9 @@ import CryptoFunctions  from "../globalsubcomponentes/CryptoFunctions";
 
 import LoadingIcon from "../cotacao-pet-love/components/icons/loadingIcon";
 
-
 import CardBrands from "./components/icons/CardBrands";
+
+import PixModa from "./components/subcomponents/PixModal";
 
 
 const crypto = new CryptoFunctions();
@@ -87,19 +88,15 @@ const errorCodes = (code) => {
 function InvoicePayment({newer}) {
     const [paymentMethod, setPaymentMethod] = useState("current-card");
     const [processing, setProcessing] = useState(true);
-
     const [errorList, setErrorList] = useState([]);
     const [errorAlert, setErrorAlert] = useState(null);
-
-    const [displaySuccess, setDisplaySuccess] = useState(false);
-    
+    const [displaySuccess, setDisplaySuccess] = useState(false);    
     const [document, setDocument] = useState({});
     const [subscription, setSubscription] = useState({});
     const [invoice, setInvoice] = useState({});
-
     const [encrypted, setEncrypted] = useState(null);
-
     const [petList, setPetList] = useState([]);
+    const [pixModal, setPixModal] = useState(false);
 
     var params = useParams();
     params = { ...params };
@@ -154,9 +151,7 @@ function InvoicePayment({newer}) {
         if (input == "card-number") {
             var cartaoPattern = /^[0-9]{4}\s[0-9]{4}\s[0-9]{4}\s[0-9]{4}$/;
 
-            if (!cartaoPattern.test(value)){ 
-                return false; 
-            }
+            if (!cartaoPattern.test(value)) return false;             
         
             let numeroCartao = value.replace(/[^0-9]+/g, "").toString();
         
@@ -167,18 +162,14 @@ function InvoicePayment({newer}) {
                 let digito = parseInt(numeroCartao.charAt(i), 10);
         
                 if (dobrar) { 
-                    if ((digito *= 2) > 9){ 
-                        digito -= 9; 
-                    } 
+                    if ((digito *= 2) > 9) digito -= 9;                      
                 }
         
                 soma += digito; 
                 dobrar = !dobrar;
             }
         
-            if ((soma % 10) != 0){ 
-                return false; 
-            }
+            if ((soma % 10) != 0) return false;             
         
             return true;
         }
@@ -188,9 +179,7 @@ function InvoicePayment({newer}) {
             let pattern_B = /^(\d{2})\/(\d{2})$/; 
             let datePattern = /^(\d{4})\-(\d{2})\-(\d{2})$/;
         
-            if (!pattern_A.test(value) && !pattern_B.test(value)){ 
-                return false; 
-            }
+            if (!pattern_A.test(value) && !pattern_B.test(value)) return false;             
             
             let hoje = (new Date()).toISOString().split('T')[0];
         
@@ -199,21 +188,13 @@ function InvoicePayment({newer}) {
             if (pattern_A.test(value)){
                 let [, mes, ano] = pattern_A.exec(value);
                 
-                if (parseInt(mes) < 1){ 
-                    return false; 
-                }
+                if (parseInt(mes) < 1) return false;
         
-                if (parseInt(mes) > 12){ 
-                    return false; 
-                }
+                if (parseInt(mes) > 12) return false; 
         
-                if (parseInt(hojeAno) > parseInt(ano)){ 
-                    return false; 
-                }
+                if (parseInt(hojeAno) > parseInt(ano)) return false; 
         
-                if (parseInt(hojeAno) == parseInt(ano) && parseInt(hojeMes) > parseInt(mes) ){ 
-                    return false; 
-                }
+                if (parseInt(hojeAno) == parseInt(ano) && parseInt(hojeMes) > parseInt(mes) ) return false; 
         
                 return true
             }
@@ -221,38 +202,26 @@ function InvoicePayment({newer}) {
             let [, mes, ano] = pattern_B.exec(value);
             ano = `20${ano}`;
         
-            if (parseInt(mes) < 1 ){ 
-                return false; 
-            }
+            if (parseInt(mes) < 1 ) return false;             
         
-            if (parseInt(mes) > 12 ){ 
-                return false; 
-            }
+            if (parseInt(mes) > 12 ) return false;             
         
-            if (parseInt(hojeAno) > parseInt(ano)){ 
-                return false; 
-            }
+            if (parseInt(hojeAno) > parseInt(ano)) return false;             
         
-            if (parseInt(hojeAno) == parseInt(ano) && parseInt(hojeMes) > parseInt(mes) ){ 
-                return false; 
-            }
+            if (parseInt(hojeAno) == parseInt(ano) && parseInt(hojeMes) > parseInt(mes)) return false;             
         
             return true;
         }
 
         if (input == "card-cvv") {
-            if (/^[0-9]{3,4}$/.test(value)){
-                return true;
-            }
+            if (/^[0-9]{3,4}$/.test(value)) return true;            
 
             return false;        
         }
     };
 
     const encryptCard = async () => {
-        if (processing) {
-            return;
-        }       
+        if (processing) return;       
 
         try {
             await fetch('/publicKey.pem')
@@ -279,9 +248,7 @@ function InvoicePayment({newer}) {
     };
 
     const retryPayment = () => {
-        if (processing || (invoice && invoice.status == 'paid')) {
-            return;
-        }
+        if (processing || (invoice && invoice.status == 'paid')) return;       
 
         setProcessing(true);
         
@@ -433,7 +400,7 @@ function InvoicePayment({newer}) {
         }catch(e){
             console.error('Erro ao carregar dados de pagamento', e);
         }
-    }, [encrypted]);    
+    }, [encrypted]);
 
     useEffect(()=>{
         if (!subscriptionId) {
@@ -605,7 +572,7 @@ function InvoicePayment({newer}) {
         petlove.region = {};
     }
 
-    console.log('errorList', errorList)
+    console.log('errorList', errorList);
 
     return (
         <div className="InvoicePayment">
@@ -660,8 +627,7 @@ function InvoicePayment({newer}) {
                         className="py-[20px] pl-[20px] flex bg-white shadow-petlove-shadow rounded-lg"
                     >
                         
-                            <FaUserCircle className="min-w-[34px] w-[34px] min-h-[34px] h-[34px] my-auto text-bluePrime opacity-70" />
-                            
+                            <FaUserCircle className="min-w-[34px] w-[34px] min-h-[34px] h-[34px] my-auto text-bluePrime opacity-70"/>                           
                         
                         <div
                             className="w-full ml-[10px] text-[14px]"
@@ -800,7 +766,7 @@ function InvoicePayment({newer}) {
                         <div
                             className={`
                                 w-full h-[50px] mt-[15px] pl-[15px] pr-[20px] rounded-lg bg-white shadow-petlove-shadow flex border 
-                                ${paymentMethod == "current-card" ? "border-[#03A8DB] cursor-default" : "border-[#000000]/[0.08] cursor-pointer"}
+                                ${paymentMethod == "current-card" ? "border-[#03A8DB] cursor-default" : "border-[#000000]/[0.08] cursor-pointer text-[#666666]"}
                             `}
                             onClick={()=>{ 
                                 if (paymentMethod != 'current-card' && !processing && invoice.status != 'paid') setPaymentMethod('current-card');                                 
@@ -808,7 +774,7 @@ function InvoicePayment({newer}) {
                             }}
                         >
                             <div
-                                className="w-[42px] h-[42px] mr-[5px] my-auto flex"
+                                className={`w-[42px] h-[42px] mr-[5px] my-auto flex ${paymentMethod != "current-card" ? "opacity-50" : "" }`}
                             >
                                 <CardBrands brand={subCard.brand} />
                             </div>
@@ -828,7 +794,8 @@ function InvoicePayment({newer}) {
                                 className={`h-[16px] w-[16px] rounded-full ml-auto my-auto flex border-[2px] ${paymentMethod == "current-card" ? "border-[#03A8DB]" : "border-[#000000]/[0.3]"} `} 
                             >
                                 <div
-                                    className={`h-[8px] w-[8px] rounded-full bg-[#03A8DB] m-auto ${paymentMethod != "current-card" ? "hidden" : ""}`}
+                                    className={`h-[8px] w-[8px] rounded-full  m-auto ${
+                                        paymentMethod != "current-card" ? (paymentMethod != "pix") ? "hidden bg-[#000000]/[0.3]" : "bg-[#000000]/[0.3]" : "bg-[#03A8DB]"}`}
                                 >                                    
                                 </div>
                             </div>
@@ -961,7 +928,7 @@ function InvoicePayment({newer}) {
                             </div>
                         </div>
                         <div
-                            className={`w-full h-[50px] mt-[10px] mb-3 pl-[15px] pr-[20px] rounded-lg bg-white shadow-petlove-shadow flex border 
+                            className={`w-full h-[50px] mt-[10px] mb-3 pl-[15px] pr-[20px] rounded-lg bg-white shadow-petlove-shadow flex border
                                 ${paymentMethod == "pix" ? "border-[#03A8DB] cursor-default" : "border-[#000000]/0.08 cursor-pointer"}
                                 ${invoice.status == "paid" ? "hidden" : ""}
                             `}
@@ -976,7 +943,7 @@ function InvoicePayment({newer}) {
                                 <CardBrands brand="pix" color={(paymentMethod == "pix") ? "#32bcad" : "#858585"} />
                             </div>
                             <div
-                                className="ml-[5px] text-[13px] font-semibold my-auto text-[#666666]"
+                                className={`ml-[5px] text-[13px] font-semibold my-auto ${paymentMethod != 'pix' ? 'text-[#666666]' : ''}`}
                             >
                                 Pagar fatura com Pix
                             </div>
@@ -996,20 +963,24 @@ function InvoicePayment({newer}) {
                                 ${ (invoice.status == 'paid') ? "hidden " : " " }                       
                             }`}
                             onClick={()=>{
-                                if (processing) { return; }
-                                if (invoice && invoice.status == 'paid') { return; }
-
+                                if (processing) return; 
+                                if (invoice && invoice.status == 'paid') return; 
+                                if (paymentMethod == "pix") { 
+                                    setPixModal(true); 
+                                    return; 
+                                }
                                 retryPayment();
                             }}
                         >
-                            <div className="flex m-auto">
+                            <div className="flex m-auto font-semibold">
                                 <LoadingIcon display={(processing && invoice.status != 'paid')} />
-                                {(processing) ? 'Processando' : 'Pagar Fatura'}
+                                {(processing) ? 'Processando' : (paymentMethod == "pix") ? 'Pagar com Pix' : 'Pagar Fatura'}
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>            
+            </div>   
+            <PixModa isOpen={true} onClose={()=>{setPixModal(false)}} orderTotal={1000} transaction={{}} expired={()=>{}} />        
         </div>
     );
 
