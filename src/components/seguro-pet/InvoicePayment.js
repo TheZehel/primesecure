@@ -521,6 +521,41 @@ function InvoicePayment({newer}) {
             console.error('Erro ao atualizar invoice', e);
         }
     }, [invoice]);
+
+
+
+    const [pixOrder, setPixOrder] = useState(null);
+
+    const payWithPix = async () => {
+        var url = 'https://api-primesecure.onrender.com/petlove/invoice/pix-subscription-charge';
+        if (enviroment == 'SANDBOX') url = 'http://localhost:3050/petlove/invoice/pix-subscription-charge';
+
+        await axios.post(url, { subscription_id: 'sub_' + subscriptionId })
+            .then((response) => {
+                const { data } = response || {};
+                var { order, error } = data || {};
+
+                if (error) {
+                    console.error('Erro ao processar pagamento com Pix', error);
+                    setPixOrder(null);
+                    setPixModal(false);
+                    return;
+                }
+
+                setPixModal(true);
+                setPixOrder(order);
+            })
+            .catch((err) => {
+                let error = err;
+
+                if (error && error.response) error = error.response;   
+                if (error && error.data) error = error.data;                
+
+                console.error('Erro ao processar pagamento com Pix', error);
+                setPixOrder(null);
+                setPixModal(false);
+            });
+    }
     
     console.log('Subscription:', subscription);
     console.log('Invoice:', invoice);  
@@ -965,8 +1000,8 @@ function InvoicePayment({newer}) {
                             onClick={()=>{
                                 if (processing) return; 
                                 if (invoice && invoice.status == 'paid') return; 
-                                if (paymentMethod == "pix") { 
-                                    setPixModal(true); 
+                                if (paymentMethod == "pix") {                                     
+                                    payWithPix();
                                     return; 
                                 }
                                 retryPayment();

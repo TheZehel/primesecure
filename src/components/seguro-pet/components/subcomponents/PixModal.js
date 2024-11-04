@@ -44,7 +44,7 @@ function CountdownTimer({ modalState, expiration, expired }) {
     };
 
     intervalRef.current = setInterval(updateTimer, 1000);
-    updateTimer(); // Initial call to set the correct time immediately
+    updateTimer(); 
 
     return () => clearInterval(intervalRef.current);
   }, [expiration, expirated, expired]);
