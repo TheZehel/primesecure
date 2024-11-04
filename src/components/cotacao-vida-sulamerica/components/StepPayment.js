@@ -106,11 +106,11 @@ const plans = [
   {
     headTitle: "PRIME BASIC",
     title: "Pacote 1",
-    price: "3490",
+    price: "3205",
     award: "Sorteio de R$20.000,00",
     resume: "Detalhes:",
     resumeDesc:
-      "Assistência Pessoal + App Namu + Faz tudo (Assistência Residencial) + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar.",
+      "Assistência Pessoal + App Namu + Faz tudo (Assistência Residencial) + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar + Rede Saúde Familiar.",
     features: [
       {
         label: "Morte Acidental",
@@ -118,12 +118,16 @@ const plans = [
       },
       {
         label: "Invalidez Permanente Total por Acidente",
-        value: "50 mil",
+        value: "100 mil",
       },
       {
-        label: "Funeral Familiar Até 10 mil",
-        value: "(Prestação de Serviço)",
+        label: "Médico na Tela - Familiar",
+        value: "",
       },
+      //{
+      //  label: "Funeral Familiar Até 10 mil",
+      //  value: "(Prestação de Serviço)",
+      //},
     ],
     bgColor: "bluePrime",
     textColor: "white",
@@ -136,7 +140,7 @@ const plans = [
     award: "Sorteio de R$20.000,00",
     resume: "Detalhes:",
     resumeDesc:
-      "Assistência Pessoal + App Namu + Faz tudo (Assistência Residencial) + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar.",
+      "Assistência Pessoal + App Namu + Faz tudo (Assistência Residencial) + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar + Rede Saúde Familiar.",
     //"Assistência pessoal + residencial + dezenas de serviços Desconto em farmácia + funeral familiar + Médico na Tela Familiar.",
     features: [
       {
@@ -148,8 +152,10 @@ const plans = [
         value: "75 mil",
       },
       {
-        label: "Funeral Familiar Até 10 mil",
-        value: "(Prestação de Serviço)",
+        //label: "Funeral Familiar Até 10 mil",
+        //value: "(Prestação de Serviço)",
+        label: "Médico na Tela - Familiar",
+        value: "",
       },
     ],
     bgColor: "bluePrime",
@@ -157,13 +163,13 @@ const plans = [
     planId: 2,
   },
   {
-    headTitle: "PRIME GOLD",
-    title: "Pacote 3",
-    price: "5014",
+    headTitle: "PRIME SILVER",
+    title: "Pacote 2",
+    price: "6410",
     award: "Sorteio de R$20.000,00",
     resume: "Detalhes:",
     resumeDesc:
-      "Assistência Pessoal + App Namu + Faz tudo (Assistência Residencial) + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar.",
+      "Assistência Pessoal + App Namu + Faz tudo (Assistência Residencial) + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar + Rede Saúde Familiar.",
     features: [
       {
         label: "Morte Acidental",
@@ -171,25 +177,29 @@ const plans = [
       },
       {
         label: "Invalidez Permanente Total por Acidente",
-        value: "100 mil",
+        value: "200 mil",
       },
       {
-        label: "Funeral Familiar Até 10 mil",
-        value: "(Prestação de Serviço)",
+        label: "Médico na Tela - Familiar",
+        value: "",
       },
+      //{
+      //  label: "Funeral Familiar Até 10 mil",
+      //  value: "(Prestação de Serviço)",
+      //},
     ],
     bgColor: "bluePrime",
     textColor: "white",
     planId: 3,
   },
   {
-    headTitle: "PRIME DIAMOND",
-    title: "Pacote 4",
-    price: "6532",//"6531",
+    headTitle: "PRIME GOLD",
+    title: "Pacote 3",
+    price: "9615",
     award: "Sorteio de R$20.000,00",
     resume: "Detalhes:",
     resumeDesc:
-      "Assistência Pessoal + App Namu + Faz tudo (Assistência Residencial) + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar.",
+      "Assistência Pessoal + App Namu + Faz tudo (Assistência Residencial) + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar + Rede Saúde Familiar.",
     features: [
       {
         label: "Morte Acidental",
@@ -197,16 +207,80 @@ const plans = [
       },
       {
         label: "Invalidez Permanente Total por Acidente",
-        value: "150 mil",
+        value: "300 mil",
       },
       {
-        label: "Funeral Familiar Até 10 mil",
-        value: "(Prestação de Serviço)",
+        label: "Médico na Tela - Familiar",
+        value: "",
       },
+      //{
+      //  label: "Funeral Familiar Até 10 mil",
+      //  value: "(Prestação de Serviço)",
+      //},
     ],
     bgColor: "bluePrime",
     textColor: "white",
     planId: 4,
+  },
+  {
+    headTitle: "PRIME PLATINUM",
+    title: "Pacote 4",
+    price: "12820",
+    award: "Sorteio de R$20.000,00",
+    resume: "Detalhes:",
+    resumeDesc:
+      "Assistência Pessoal + App Namu + Faz tudo (Assistência Residencial) + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar + Rede Saúde Familiar.",
+    features: [
+      {
+        label: "Morte Acidental",
+        value: "400 mil",
+      },
+      {
+        label: "Invalidez Permanente Total por Acidente",
+        value: "400 mil",
+      },
+      {
+        label: "Médico na Tela - Familiar",
+        value: "",
+      },
+      //{
+      //  label: "Funeral Familiar Até 10 mil",
+      //  value: "(Prestação de Serviço)",
+      //},
+    ],
+    bgColor: "bluePrime",
+    textColor: "white",
+    planId: 5,
+  },
+  {
+    headTitle: "PRIME DIAMOND",
+    title: "Pacote 5",
+    price: "16020",
+    award: "Sorteio de R$20.000,00",
+    resume: "Detalhes:",
+    resumeDesc:
+      "Assistência Pessoal + App Namu + Faz tudo (Assistência Residencial) + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar + Rede Saúde Familiar.",
+    features: [
+      {
+        label: "Morte Acidental",
+        value: "500 mil",
+      },
+      {
+        label: "Invalidez Permanente Total por Acidente",
+        value: "500 mil",
+      },
+      {
+        label: "Médico na Tela - Familiar",
+        value: "",
+      },
+      //{
+      //  label: "Funeral Familiar Até 10 mil",
+      //  value: "(Prestação de Serviço)",
+      //},
+    ],
+    bgColor: "bluePrime",
+    textColor: "white",
+    planId: 6,
   },
 ];
 
