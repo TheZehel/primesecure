@@ -7,7 +7,7 @@ function CountdownTimer({ modalState, expiration, expired }) {
   const [expirated, setExpirated] = useState(false);
   const [timeData, setTimeData] = useState({
     days: "00",
-    minutes: "30",
+    minutes: "60",
     seconds: "00"
   });
 
@@ -23,7 +23,6 @@ function CountdownTimer({ modalState, expiration, expired }) {
     const updateTimer = () => {
       const now = new Date();
       const timeLeft = new Date(expiration) - now;
-      console.log("Time left:", timeLeft);
 
       if (timeLeft <= 0 && !expirated) {
         clearInterval(intervalRef.current);
@@ -37,8 +36,6 @@ function CountdownTimer({ modalState, expiration, expired }) {
       const minutes = String(Math.floor(totalSeconds / 60) % 60).padStart(2, '0');
       const seconds = String(totalSeconds % 60).padStart(2, '0');
 
-      console.log("Days:", days, "Minutes:", minutes, "Seconds:", seconds);
-
       setTimeData({ days, minutes, seconds });
       setTimeLeft(timeLeft);
     };
@@ -48,10 +45,6 @@ function CountdownTimer({ modalState, expiration, expired }) {
 
     return () => clearInterval(intervalRef.current);
   }, [expiration, expirated, expired]);
-
-  useEffect(() => {
-    console.log("Time data updated:", timeData);
-  }, [timeData]);
 
   const { days, minutes, seconds } = timeData;
 
@@ -104,12 +97,14 @@ export default function ModalPix({ isOpen, onClose, orderTotal, transaction, exp
   }; 
 
   //console.log(transaction);
-  transaction = {
-    qr_code: "00020101021226820014br.gov.bcb.pix2560pix.stone.com.br/pix/v2/9dd52f13-8105-4d7f-83bc-ece48d6c49325204000053039865406528.025802BR5925PRIME SECURE CORRETORA DE6014RIO DE JANEIRO62290525paclp9yuhuxxbis1eleeixcdn630430A9",
-    qr_code_url: "https://api.pagar.me/core/v5/transactions/tran_P6lWMEjUeUw1rz0q/qrcode?payment_method=pix",
-    expires_at: "2024-11-02T19:00:00Z",
-    amount: 1000
-  };
+
+  //{ order_id, charge_id, qr_code, qr_code_url, expires_at }
+  //transaction = {
+  //  qr_code: "00020101021226820014br.gov.bcb.pix2560pix.stone.com.br/pix/v2/9dd52f13-8105-4d7f-83bc-ece48d6c49325204000053039865406528.025802BR5925PRIME SECURE CORRETORA DE6014RIO DE JANEIRO62290525paclp9yuhuxxbis1eleeixcdn630430A9",
+  //  qr_code_url: "https://api.pagar.me/core/v5/transactions/tran_P6lWMEjUeUw1rz0q/qrcode?payment_method=pix",
+  //  expires_at: "2024-11-02T19:00:00Z",
+  //  amount: 1000
+  //};
 
   const bodyScrollLock = (lock) => {
     if (lock) document.body.style.overflow = "hidden";
@@ -132,6 +127,8 @@ export default function ModalPix({ isOpen, onClose, orderTotal, transaction, exp
 
   useEffect(()=>{
     try{
+      if (!transaction) return;
+
       let {
         expires_at,
         amount,
@@ -139,9 +136,7 @@ export default function ModalPix({ isOpen, onClose, orderTotal, transaction, exp
         qr_code_url
       } = transaction;
 
-      if (!expires_at) {
-        return;
-      }
+      if (!expires_at) return;      
 
       setExpiration(expires_at);
       setTotal(amount);
@@ -169,7 +164,9 @@ export default function ModalPix({ isOpen, onClose, orderTotal, transaction, exp
   }, [transaction]);
 
   var pixTotal = total / 100;
-  pixTotal = formatCurrency(pixTotal); 
+  pixTotal = formatCurrency(pixTotal);
+
+  if (!transaction) return(<></>); 
 
   //return(<></>);
 
@@ -193,7 +190,7 @@ export default function ModalPix({ isOpen, onClose, orderTotal, transaction, exp
         <div className="animate__animated animate__fadeIn bg-white rounded-lg shadow sm:px-5 py-4 mx-2 w-[100%] sm:w-650 xl:w-950 xl:h-3/4 h-screen-90 sm:h-6/6 border border-gray-300 overflow-auto">
           <div className="flex justify-between items-center text-xl font-medium py-1 px-3 border-b border-bluePrime">
             <h2>Pague sua fatura via Pix</h2>
-            <button className="bg-transparent" onClick={onClose}>
+            <button className="bg-transparent" onClick={()=>{ console.log('close'); onClose();}}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -330,7 +327,7 @@ export default function ModalPix({ isOpen, onClose, orderTotal, transaction, exp
                   {/* Seu caminho SVG aqui */}
                 </svg>
               </span>
-              Aguarde um instante, você será redirecionado após o pagamento.
+              {/*Aguarde um instante, você será redirecionado após o pagamento.*/}
             </div>
             <div className="instrucao-pix p-2.5 text-xs">
               *O pagamento pode levar até 10 minutos para ser processado.

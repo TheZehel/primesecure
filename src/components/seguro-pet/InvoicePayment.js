@@ -525,8 +525,16 @@ function InvoicePayment({newer}) {
 
 
     const [pixOrder, setPixOrder] = useState(null);
+    const [pixCharge, setPixCharge] = useState(null);
 
     const payWithPix = async () => {
+        if (pixModal) return;
+
+        if (pixOrder) {
+            setPixModal(true);
+            return;
+        }
+        
         var url = 'https://api-primesecure.onrender.com/petlove/invoice/pix-subscription-charge';
         if (enviroment == 'SANDBOX') url = 'http://localhost:3050/petlove/invoice/pix-subscription-charge';
 
@@ -534,6 +542,8 @@ function InvoicePayment({newer}) {
             .then((response) => {
                 const { data } = response || {};
                 var { order, error } = data || {};
+
+                console.log('Pix Order:', data);
 
                 if (error) {
                     console.error('Erro ao processar pagamento com Pix', error);
@@ -556,7 +566,76 @@ function InvoicePayment({newer}) {
                 setPixModal(false);
             });
     }
+
+    useEffect(()=>{
+        const handlePixPayment = async () => {
+            if (!pixOrder) return;
+
+            var { charges, status, metadata, id: order_id } = pixOrder || {};
+            if ((!Array.isArray(charges) && charges.length > 0) || status == 'paid') return;
+            
+            var { metadata = {} } = pixOrder || {};
+            var { product, produto, tipo, id_assinatura: subscription_id, id_fatura: invoice_id } = metadata || {};
+
+            if ((product != "petlove" && produto != "petlove") || tipo != "pagamento_fatura") return;
+            if (!subscription_id || !invoice_id) return;
+
+            var { last_transaction, id: charge_id } = charges[0] || {};
+            if (!last_transaction) return;
+
+            const now = new Date();
+
+            var { qr_code, qr_code_url, expires_at, transaction_type, amount } = last_transaction || {};
+
+            if (!qr_code || !qr_code_url || !expires_at || !transaction_type) return;
+            if (transaction_type != 'pix') return;
+
+            var expires = new Date(expires_at);
+            if (expires.getTime() < now.getTime()) return;
+
+            console.log("PIX CHARGE:", { order_id, charge_id, qr_code, qr_code_url, expires_at, amount });
+
+            setPixCharge({ order_id, charge_id, qr_code, qr_code_url, expires_at, amount });
+        };
+
+        handlePixPayment();        
+    },[pixOrder]);
+
+    useEffect(()=>{
+        if (!pixCharge || !pixCharge.order_id) return;
+        const eventSource = new EventSource('http://localhost:3050/petlove/invoice/waiting-for-pix/' + pixCharge.order_id);
+        console.log("SSE STARTED");
+        
+        eventSource.onmessage = (event) => {
+            const newMessage = JSON.parse(event.data);
+            
+            console.log('SSE:', newMessage);
+
+            var { status, order_id } = newMessage || {};
+            if (order_id == pixCharge.order_id && status == 'paid') {
+                setPixCharge({ ...pixCharge, status: 'paid' });
+                setPixOrder(null);
+
+                var _invoice = { ...invoice };
+                _invoice.status = 'paid';
+                if (_invoice.charge) _invoice.charge.status = 'paid';
+                
+                setPixModal(false);
+                setInvoice(_invoice);
+                setDisplaySuccess(true);
+
+                eventSource.close();
+            }
+        };
     
+        eventSource.onerror = (event) => {
+            console.error('Error occurred while receiving SSE', event);
+            eventSource.close();
+        };
+
+        return () => { eventSource.close(); };
+    }, [pixCharge]);
+
     console.log('Subscription:', subscription);
     console.log('Invoice:', invoice);  
     console.log('Document:', document);
@@ -1015,7 +1094,7 @@ function InvoicePayment({newer}) {
                     </div>
                 </div>
             </div>   
-            <PixModa isOpen={true} onClose={()=>{setPixModal(false)}} orderTotal={1000} transaction={{}} expired={()=>{}} />        
+            <PixModa isOpen={pixModal} onClose={()=>{setPixModal(false)}} orderTotal={1000} transaction={pixCharge} expired={()=>{ setPixModal(false); }} />        
         </div>
     );
 
