@@ -603,7 +603,7 @@ function InvoicePayment({newer}) {
 
     useEffect(()=>{
         if (!pixCharge || !pixCharge.order_id) return;
-        const eventSource = new EventSource('http://localhost:3050/petlove/invoice/waiting-for-pix/' + pixCharge.order_id);
+        const eventSource = new EventSource('https://api-primesecure.onrender.com/petlove/invoice/waiting-for-pix/' + pixCharge.order_id);
         console.log("SSE STARTED");
         
         eventSource.onmessage = (event) => {
