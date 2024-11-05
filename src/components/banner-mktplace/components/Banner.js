@@ -35,22 +35,22 @@ export default function Banner() {
     {
       id: 1,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/banners-outubro/banners/banners-lg/srclarge-outubro-2024-primetravel.png",
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/large/srclarge-novembro-2024-primetravel-black-friday.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/banners-outubro/banners/banners-md/srcmedium-outubro-2024-primetravel.png",
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/medium/srcmedium-novembro-2024-primetravel-black-friday.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/banners-outubro/banners/banners-sm/srcmobile-outubro-2024-primetravel.png",
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/mobile/srcmobile-novembro-2024-vida-black-friday.png",
       alt: "Banner de Natal para Telas Grandes",
       href: "/primetravel",
     },
     {
       id: 2,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/banners-outubro/banners/banners-lg/srclarge-outubro-2024-vida.png",
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/large/srclarge-novembro-2024-vida-black-friday.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/banners-outubro/banners/banners-md/srcmedium-outubro-2024-vida.png",
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/medium/srcmedium-novembro-2024-vida-black-friday.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/banners-outubro/banners/banners-sm/srcmobile-outubro-2024-vida.png",
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/mobile/srcmobile-novembro-2024-vida-black-friday%20(2).png",
       alt: "Banner de Natal para Telas Grandes",
       href: "/seguro-de-vida",
     },
@@ -91,16 +91,27 @@ export default function Banner() {
     {
       id: 6,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/banners-agosto-rw/Consorcio/srclarge-agosto-2024-Consorcio.png",
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/large/srclarge-novembro-2024-consorcio-imovel-black-friday.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/banners-agosto-rw/Consorcio/srcmedium-agosto-2024-consorcio.png",
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/medium/srcmedium-novembro-2024-consorcio-imovel-black-friday.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/banners-agosto-rw/Consorcio/srcmobile-agosto-2024-consorcio.png",
-      alt: "Banner de Natal para Telas Grandes",
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/mobile/srcmobile-novembro-2024-consorcio-imovel-black-friday.png",
+      alt: "Banner Consrociado de Imóvel para Telas Grandes",
       href: "/consorcio-imovel",
     },
     {
       id: 7,
+      srcLarge:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/large/srclarge-novembro-2024-consorcio-auto-black-friday.png",
+      srcMedium:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/medium/srcmedium-novembro-2024-consorcio-auto-black-friday.png",
+      srcMobile:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/mobile/srcmobile-novembro-2024-consorcio-auto-black-friday.png",
+      alt: "Banner de Natal para Telas Grandes",
+      href: "/consorcio-auto",
+    },
+    {
+      id: 8,
       srcLarge:
         "https://storage.googleapis.com/primesecure/banners/banners-agosto-rw/Odonto/srclarge-agosto-2024-odonto.png",
       srcMedium:
@@ -111,7 +122,7 @@ export default function Banner() {
       href: "/sulamerica-odonto",
     },
     {
-      id: 8,
+      id: 9,
       srcLarge:
         "https://storage.googleapis.com/primesecure/home/janeiro2024/srclarge%20telemedicina%202024%20viagem.png",
       srcMedium:
@@ -122,7 +133,7 @@ export default function Banner() {
       href: "/primetravel",
     },
     {
-      id: 9,
+      id: 10,
       srcLarge:
         "https://storage.googleapis.com/primesecure/banners/banners-agosto-rw/celular-kakau/srclarge-agosto-2024-celular-kakau.png",
       srcMedium:
@@ -133,13 +144,13 @@ export default function Banner() {
       href: "/seguro-celular-kakau",
     },
     {
-      id: 10,
+      id: 11,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/banners-outubro/banners/banners-lg/srclarge-outubro-2024-bike.png",
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/large/srclarge-novembro-2024-bike-black-friday.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/banners-outubro/banners/banners-md/srcmedium-outubro-2024-bike.png",
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/medium/srcmedium-novembro-2024-bike-black-friday.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/banners-outubro/banners/banners-sm/srcmobile-outubro-2024-bike.png",
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/mobile/srcmobile-novembro-2024-bike-black-friday.png",
       alt: "Banner de Natal para Telas Grandes",
       href: "/seguro-bike",
     },
