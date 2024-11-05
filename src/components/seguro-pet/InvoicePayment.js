@@ -593,47 +593,56 @@ function InvoicePayment({newer}) {
             var expires = new Date(expires_at);
             if (expires.getTime() < now.getTime()) return;
 
-            console.log("PIX CHARGE:", { order_id, charge_id, qr_code, qr_code_url, expires_at, amount });
+            console.log("PIX CHARGE:", { order_id, charge_id, qr_code, qr_code_url, expires_at, amount, invoice_id });
 
-            setPixCharge({ order_id, charge_id, qr_code, qr_code_url, expires_at, amount });
+            setPixCharge({ order_id, charge_id, qr_code, qr_code_url, expires_at, amount, invoice_id });
         };
 
         handlePixPayment();        
     },[pixOrder]);
 
     useEffect(()=>{
-        if (!pixCharge || !pixCharge.order_id) return;
-        const eventSource = new EventSource('https://api-primesecure.onrender.com/petlove/invoice/waiting-for-pix/' + pixCharge.order_id);
-        console.log("SSE STARTED");
-        
-        eventSource.onmessage = (event) => {
-            const newMessage = JSON.parse(event.data);
+        if (!pixCharge || !pixCharge.order_id || !pixCharge.invoice_id) return;
+        if (displaySuccess) return;
+
+        const RequestLoop = async () => {
+            var url = 'https://api-primesecure.onrender.com/petlove/invoice/check-pix-payment';
             
-            console.log('SSE:', newMessage);
+            await axios.post(url, {order_id: pixCharge.order_id, invoice_id: pixCharge.invoice_id})
+                .then(async (response) => {
+                    const { data } = response || {};
+                    var { status, error } = data || {};
 
-            var { status, order_id } = newMessage || {};
-            if (order_id == pixCharge.order_id && status == 'paid') {
-                setPixCharge({ ...pixCharge, status: 'paid' });
-                setPixOrder(null);
+                    if (status == 'paid') {
+                        console.log('Pix Pago');
+                        setPixCharge({ ...pixCharge, status: 'paid' });
+                        setPixOrder(null);
+        
+                        var _invoice = { ...invoice };
+                        _invoice.status = 'paid';
+                        if (_invoice.charge) _invoice.charge.status = 'paid';
+                        
+                        setPixModal(false);
+                        setInvoice(_invoice);
+                        setDisplaySuccess(true);
+                        return;
+                    }
 
-                var _invoice = { ...invoice };
-                _invoice.status = 'paid';
-                if (_invoice.charge) _invoice.charge.status = 'paid';
-                
-                setPixModal(false);
-                setInvoice(_invoice);
-                setDisplaySuccess(true);
+                    await new Promise((resolve)=>{
+                        setTimeout(async () => { await RequestLoop(); resolve(); }, 5000);
+                    })  
+                })
+                .catch(async (err) => {
+                    console.error('Erro ao verificar pagamento com Pix', err);
+                    await new Promise((resolve)=>{
+                        setTimeout(async () => { await RequestLoop(); resolve(); }, 5000);
+                    })
+                });
 
-                eventSource.close();
-            }
         };
-    
-        eventSource.onerror = (event) => {
-            console.error('Error occurred while receiving SSE', event);
-            eventSource.close();
-        };
 
-        return () => { eventSource.close(); };
+        RequestLoop();
+
     }, [pixCharge]);
 
     console.log('Subscription:', subscription);
