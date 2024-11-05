@@ -535,8 +535,8 @@ function InvoicePayment({newer}) {
             return;
         }
         
-        var url = 'https://api-primesecure.onrender.com/petlove/invoice/pix-subscription-charge';
-        if (enviroment == 'SANDBOX') url = 'http://localhost:3050/petlove/invoice/pix-subscription-charge';
+        var url = `https://api-primesecure.onrender.com/petlove/invoice/pix-subscription-charge${newer == true ? '/1' : ''}`;
+        if (enviroment == 'SANDBOX') url = `http://localhost:3050/petlove/invoice/pix-subscription-charge${newer == true ? '/1' : ''}`;
 
         await axios.post(url, { subscription_id: 'sub_' + subscriptionId })
             .then((response) => {
