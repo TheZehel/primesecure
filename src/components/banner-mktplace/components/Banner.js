@@ -57,11 +57,11 @@ export default function Banner() {
     {
       id: 3,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/banners-agosto-rw/residencial/srclarge-agosto-2024-residencial.png",
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/large-2/srclarge-novembro-2024-residencial-black-friday.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/banners-agosto-rw/residencial/srcmedium-agosto-2024-residencial.png",
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/medium-2/srcmedium-novembro-2024-residencial-black-friday.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/banners-agosto-rw/residencial/srcmobile-agosto-2024-residencial.png",
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/mobile-3/srcmobile-novembro-2024-residencial-friday.png",
       alt: "Banner de Natal para Telas Grandes",
       href: "/seguro-residencial-porto-2",
     },
@@ -69,22 +69,22 @@ export default function Banner() {
     {
       id: 4,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/banners-agosto-rw/celular-porto/srclarge-agosto-2024-celular-porto.png",
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/large-2/srclarge-novembro-2024-celular-porto.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/banners-agosto-rw/celular-porto/srcmedium-agosto-2024-celular-porto.png",
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/medium-2/srcmedium-novembro-2024--celular-friday.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/banners-agosto-rw/celular-porto/srcmobile-agosto-2024-celular-porto.png",
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/mobile-3/srcmobile-novembro-2024-celular-black-friday.png",
       alt: "Banner de Natal para Telas Grandes",
       href: "/equipamentos-portateis-3",
     },
     {
       id: 5,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/banners-agosto-rw/pet/srclarge-agosto-2024-pet.png",
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/large-2/srclarge-novembro-2024-pet.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/banners-agosto-rw/pet/srcmedium-agosto-2024-pet.png",
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/medium-2/srcmedium-novembro-2024-pet-black-friday.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/banners-agosto-rw/pet/srcmobile-agosto-2024-pet.png",
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/mobile-3/srcmobile-novembro-2024-pet-black-friday.png",
       alt: "Banner de Natal para Telas Grandes",
       href: "/seguro-pet-porto",
     },
@@ -113,11 +113,11 @@ export default function Banner() {
     {
       id: 8,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/banners-agosto-rw/Odonto/srclarge-agosto-2024-odonto.png",
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/large-2/srclarge-novembro-2024-odonto-black-friday.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/banners-agosto-rw/Odonto/srcmedium-agosto-2024-odonto.png",
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/medium-2/srcmedium-novembro-2024-odonto-black-friday.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/banners-agosto-rw/Odonto/srcmobile-agosto-2024-odonto.png",
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/mobile-3/srcmobile-novembro-2024-odontologico-black-friday.png",
       alt: "Banner de Natal para Telas Grandes",
       href: "/sulamerica-odonto",
     },
@@ -135,11 +135,11 @@ export default function Banner() {
     {
       id: 10,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/banners-agosto-rw/celular-kakau/srclarge-agosto-2024-celular-kakau.png",
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/large-2/srclarge-setembro-2024-celular-kakau-black-friday.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/banners-agosto-rw/celular-kakau/srcmedium-agosto-2024-celular-kakau.png",
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/medium-2/srcmedium-novembro-2024-celular-kakau-friday.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/banners-agosto-rw/celular-kakau/srcmobile-agosto-2024-celular-kakau.png",
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/mobile-3/srcmobile-novembro-2024-celular-kakau-black-friday.png",
       alt: "Banner de Natal para Telas Grandes",
       href: "/seguro-celular-kakau",
     },
