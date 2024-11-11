@@ -8,6 +8,7 @@ import Investment from "./components/Investment";
 import Contemplados from "./components/Contemplados";
 //import CenteredImage from "./components/Table";
 import GridImages from "./components/GridImages";
+import BannerPromo from "./components/Banners";
 
 function IndexConsorcioImovel() {
   const targetDate = new Date("December 31, 2023 00:00:00");
@@ -41,6 +42,7 @@ function IndexConsorcioImovel() {
           href="https://www.primesecure.com.br/conscorcio-imovel"
         />
       </Helmet>
+      <BannerPromo />
       <FormConsorcioImovel />
       <Assistance />
       <Investment />

@@ -33,11 +33,11 @@ export default function BannerPromo() {
     {
       id: 1,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/novembro/lp/odonto/srclarge-black-friday-2024-odonto.png",
+        "https://storage.googleapis.com/primesecure/banners/novembro/lp/consorcio-auto/srclarge-black-friday-2024-consorcio-auto.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/novembro/lp/odonto/srcmedium-black-friday-2024-odonto.png",
+        "https://storage.googleapis.com/primesecure/banners/novembro/lp/consorcio-auto/srcmedium-black-friday-2024-cons%C3%B3rcio-auto.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/novembro/lp/odonto/srcmobile-black-friday-2024-odonto.png",
+        "https://storage.googleapis.com/primesecure/banners/novembro/lp/consorcio-auto/srcmobile-black-friday-2024-cons%C3%B3rcio-auto.png",
       alt: "Banner de Natal para Telas Grandes",
       href: "",
     },

@@ -33,11 +33,11 @@ export default function BannerPromo() {
     {
       id: 1,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/banners-julho/banners%20lp%200407/celular-porto/srclarge-julho-2024-celular-porto.png",
+        "https://storage.googleapis.com/primesecure/banners/novembro/lp/celular/srclarge-black-friday-2024-celular-porto.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/banners-julho/banners%20lp%200407/celular-porto/srcmedium-julho-2024-celular-porto.png",
+        "https://storage.googleapis.com/primesecure/banners/novembro/lp/celular/srcmedium-black-friday-2024-celular-1.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/banners-julho/banners%20lp%200407/celular-porto/srcmobile-julho-2024-celular-porto.png",
+        "https://storage.googleapis.com/primesecure/banners/novembro/lp/celular/srcmobile-black-friday-2024-celular.png",
       alt: "Banner de Natal para Telas Grandes",
       href: "",
     },
