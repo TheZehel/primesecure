@@ -33,11 +33,11 @@ export default function BannerPromo() {
     {
       id: 1,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/banners-outubro/banners-lp/banners-lp/vida/srclarge-outubro-2024-vida.png",
+        "https://storage.googleapis.com/primesecure/banners/novembro/lp/vida/srclarge-black-friday-2024-vida.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/banners-outubro/banners-lp/banners-lp/vida/srcmedium-outubro-2024-vida.png",
+        "https://storage.googleapis.com/primesecure/banners/novembro/lp/vida/srcmedium-black-friday-2024-vida.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/banners-outubro/banners-lp/banners-lp/vida/srcmobile-outubro-2024-vida.png",
+        "https://storage.googleapis.com/primesecure/banners/novembro/lp/vida/srcmobile-black-friday-2024-vida.png",
       alt: "Banner de Natal para Telas Grandess",
       href: "",
     },
