@@ -1,0 +1,19 @@
+{
+    "source": {
+      "include": ["src", "utils"],
+      "exclude": ["node_modules", "public"],
+      "includePattern": ".+\\.js(x)?$",
+      "excludePattern": "(^|\\/|\\\\)_"
+    },
+    "opts": {
+      "destination": "./docs",
+      "recurse": true,
+      "readme": "./README.md"
+    },
+    "plugins": ["plugins/markdown"],
+    "templates": {
+      "cleverLinks": true,
+      "monospaceLinks": false
+    }
+  }
+  
