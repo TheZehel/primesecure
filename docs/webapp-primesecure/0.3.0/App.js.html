@@ -1,0 +1,375 @@
+
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+	<meta charset='utf-8'/>
+	<title>Source: App.js - PrimeSecure</title>
+	<link type='text/css' rel='stylesheet' href='css/jsdoc-template.css'/>
+	<meta name="viewport" content="width=device-width,
+                        initial-scale=1"/>
+</head>
+<body data-gs='{"openPageHeader": "is-page-header-open", "searching": "is-searching"}'>
+	<div id='page-wrapper'>
+		<header id='page-header' data-gs-target='openPageHeader'>
+			
+			<h1 id='page-title'>
+				<a href="https://www.primesecure.com.br">PrimeSecure</a>
+			</h1>
+			
+			<nav id='content-nav'>
+				<header>
+					<div id='search'>
+						<div class='textfield-wrapper'>
+							<input type='search' name='q' placeholder='Pesquisar...' data-internal-search='#content-nav li a' data-gs-search='searching'/>
+						</div>
+					</div>
+				</header>
+				<h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="BannerMktplace.html">BannerMktplace</a><ul><li><a href="BannerMktplace.module_IndexBannerMktplace.html">IndexBannerMktplace</a></li><li><a href="module-Banner.html">Banner</a></li></ul></li></ul><h3>Modules</h3><ul><li><abbr title="Module">Mod</abbr> <a href="module-App.html">App</a></li><li><abbr title="Module">Mod</abbr> <a href="module-index.html">index</a></li></ul><h3>Global</h3><ul><li><abbr title="Global">Glo</abbr> <a href="global.html#ScrollToTop">ScrollToTop</a></li></ul>
+			</nav>
+		</header>
+		<div id='main-wrapper'>
+			<button id='page-header-opener' title='Toggle left bar' class='has-icon' data-css-icon='menu' type='button' data-gs-toggle='openPageHeader'>Toggle left bar</button>
+			<main id='content'>
+				<header>
+					<h1 id='content-title'>Source: App.js</h1>
+				</header>
+				
+
+
+
+    
+    <figure class='source-code-wrapper'>
+        <pre class="prettyprint source linenums"><code>import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
+import { useEffect } from "react";
+import { Helmet } from "react-helmet";
+
+// CSS
+import "./App.css";
+
+// COMPONENTES
+//import Banner from "./components/Banner";
+import NavBarMenu from "./components/navBarMenu.js";
+//import Travel from "./components/Travel";
+//import Residencial from "./components/Residencial";
+//import Seguros from "./components/Seguros";
+import Faq from "./components/Faq";
+//import Logos from "./components/Logos";
+import Footer from "./components/Footer";
+import Selos from "./components/Selos";
+import SobrePrime from "./components/SobrePrime";
+import Newsletter from "./components/Newsletter";
+import PaginaLogin from "./components/PaginaLogin";
+import SignUp from "./components/SignUp";
+import IndexBannerMktplace from "./components/banner-mktplace/indexBannerMktplace";
+
+//Páginas de Produtos
+import IndexTravel from "./components/primetravel/IndexTravel";
+import IndexVida from "./components/seguro-de-vida/IndexVida";
+import IndexSeguroCelular from "./components/seguro-celular/indexSeguroCelular";
+import IndexSeguroPet from "./components/seguro-pet/IndexSeguroPet";
+import IndexSeguroResidencial from "./components/Residencial/IndexSeguroResidencial";
+import IndexOdonto from "./components/Odonto/IndexOdonto";
+
+//Páginas de Aviso
+import PaginaObrigadoLP from "./components/globalsubcomponentes/PaginaObrigadoLp";
+import Cotacao from "./components/globalsubcomponentes/Cotacao";
+import PageNotFound from "./components/PageNotFound";
+import IndexSobrePrime from "./components/SobrePrime/IndexSobrePrime";
+import IndexContato from "./components/Contato/IndexContato";
+//import SliderSegurosHome from "./components/SliderSegurosHome";
+import PrivacyPolicy from "./components/globalsubcomponentes/PrivacyPolicy";
+
+//Páginas de Cotação
+import IndexCotacaoPetlove from "./components/cotacao-pet-love/indexCotacaoPet";
+import IndexCotacaoVidaSulamerica from "./components/cotacao-vida-sulamerica/indexCotacaoVidaSulamerica";
+//import StepAddres from "./components/cotacao-vida-sulamerica/components/StepAddress";
+import { CardGraaac } from "./components/CardGraac";
+import SliderTrofeusHome from "./components/SliderTrofeusHome";
+//import CountDown from "./components/CountDown";
+import { CarouselCustomArrows } from "./components/CarouselLogos";
+//import Pet from "./components/Pet";
+import CredentialNetwork from "./components/seguro-pet/rede-credenciada/CredentialNetwork";
+import IndexTravelVenda from "./components/primetravel-venda/IndexTravelVenda";
+import FeaturedInsurance from "./components/FeaturedInsurance";
+//import FeaturedMiniBanners from "./components/mini-banner/components/FeaturedMiniBanners";
+import IndexMiniBanner from "./components/mini-banner/IndexMiniBanner";
+import IndexBenefits from "./components/benefits/IndexBenefits";
+import IndexContactSection from "./components/contact-section/indexContactSection";
+import IndexTrophySection from "./components/trophy-section/IndexTrophySection";
+import IndexLastPostsBlog from "./components/last-posts-blog/IndexLastPostsBlog";
+import IndexSeguroBike from "./components/seguro-bike/IndexSeguroBike";
+
+//Páginas de Pagamento
+import InvoicePayment from "./components/seguro-pet/InvoicePayment";
+import IndexCotacaoSeguroBike from "./components/seguro-bike/cotacao-seguro-bike/IndexCotacaoSeguroBike";
+import IndexSeguroCelularKakau from "./components/seguro-celular-kakau/indexSeguroCelularKakau";
+import IndexCotacaoSeguroCelularkakau from "./components/seguro-celular-kakau/cotacao-seguro-celular-kakau/IndexCotacaoSeguroCelularKakau";
+import Contracts from "./components/accounts/components/Contracts";
+import PageContract from "./components/accounts/components/PageContract";
+import InvoicePaymentVida from "./components/seguro-de-vida/InvoicePaymentVida";
+import IndexConsorcioImovel from "./components/consorcio-imovel/index.js";
+import IndexConsorcioAuto from "./components/consorcio-auto/index.js";
+
+/**
+ *  Componente para fazer o scroll para o topo da página
+ * @function ScrollToTop
+ * @returns {null} Retorna null
+ */
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
+
+/**
+ * Componente principal da aplicação
+ *
+ * @module App
+ * @returns  {JSX.Element} Retorna o JSX da aplicação
+ */
+function App() {
+  // time do countdown
+  const _pathname = window?.location?.pathname || "";
+  const targetDate = new Date("December 31, 2023 00:00:00");
+
+  return (
+    &lt;Router>
+      &lt;ScrollToTop />
+      &lt;div className="App font-montserrat">
+        &lt;Helmet>
+          &lt;title>
+            Prime Secure Marketplace - Protegendo Todos os Seus Momentos
+          &lt;/title>
+          &lt;meta
+            name="description"
+            content="A Prime Secure é um marketplace de seguros que oferece uma variedade de seguros para proteger todos os seus momentos. Encontre o seguro perfeito para você e contrate online em minutos."
+          />
+          &lt;meta
+            name="keywords"
+            content="Prime Secure, Seguros, Insurance, Insurtech, Corretora de Seguros, Marketplace de Seguros, Seguro Celular, Seguro de Vida, Plano de Saúde, Seguro Pet, Seguro Auto, Seguro Residencial, Seguro Odontológico, Plano de Saúde Pet, Prime, Corretora, Seguro Viagem, Secure, Seguro Empresarial, Seguro de Acidentes Pessoais, Seguro de Responsabilidade Civil, Seguro de Equipamentos, Seguro Garantia, Seguro de Transporte, Seguro de Crédito, Seguro Ambiental, Seguro Agrícola, Seguro de Eventos"
+          />
+
+          &lt;meta property="og:url" content="https://primesecure.com.br" />
+          &lt;link rel="canonical" href="https://primesecure.com.br" />
+        &lt;/Helmet>
+
+        &lt;NavBarMenu />
+
+        &lt;Routes>
+          &lt;Route
+            path="/"
+            element={
+              &lt;>
+                {/* &lt;CountDown targetDate={targetDate} /> */}
+                &lt;IndexBannerMktplace />
+                {/* &lt;Banner /> */}
+                &lt;FeaturedInsurance />
+                &lt;IndexMiniBanner />
+                {/*&lt;Pet />*/}
+                {/*&lt;div id="Travel1">
+                  &lt;Travel />
+            &lt;/div>*/}
+                {/* &lt;div id="Residencial">
+                  &lt;Residencial />
+          &lt;/div>*/}
+                {/*&lt;SliderSegurosHome />*/}
+                &lt;IndexBenefits />
+                &lt;div id="Logos" className="sm:mt-[100px]">
+                  &lt;CarouselCustomArrows />
+                &lt;/div>
+                &lt;div id="sobrePrime">
+                  &lt;SobrePrime />
+                &lt;/div>
+                &lt;div id="Newsletter">
+                  &lt;Newsletter />
+                &lt;/div>
+                {/*&lt;SliderTrofeusHome />*/}
+                &lt;IndexTrophySection />
+                &lt;div id="Faq">
+                  &lt;Faq />
+                &lt;/div>
+                &lt;IndexLastPostsBlog />
+                &lt;CardGraaac />
+                &lt;Selos />
+                &lt;IndexContactSection />
+              &lt;/>
+            }
+          />
+          &lt;Route path="/login" element={&lt;PaginaLogin />} />
+          &lt;Route path="/registre-se" element={&lt;SignUp />} />
+          &lt;Route path="/contratos" element={&lt;Contracts />} />
+          &lt;Route path="/contrato" element={&lt;PageContract />} />
+          &lt;Route path="/politicas-de-privacidade" element={&lt;PrivacyPolicy />} />
+          &lt;Route path="/rede-credenciada" element={&lt;CredentialNetwork />} />
+          {/* ROTAS PETLOVE */}
+          &lt;Route
+            path="/cotacao-pet-love/planos"
+            element={&lt;IndexCotacaoPetlove />}
+          />
+          &lt;Route
+            path="/cotacao-vida-sulamerica"
+            element={&lt;IndexCotacaoVidaSulamerica />}
+          />
+          &lt;Route
+            path="/cotacao-vida-sulamerica/planos"
+            element={&lt;IndexCotacaoVidaSulamerica />}
+          />
+          &lt;Route
+            path="/cotacao-vida-sulamerica/endereco"
+            element={&lt;IndexCotacaoVidaSulamerica />}
+          />
+          &lt;Route
+            path="/cotacao-vida-sulamerica/pagamento"
+            element={&lt;IndexCotacaoVidaSulamerica />}
+          />
+          &lt;Route
+            path="/cotacao-vida-sulamerica/obrigado"
+            element={&lt;IndexCotacaoVidaSulamerica />}
+          />
+          &lt;Route
+            path="/fatura-vida-sulamerica/:subscriptionId"
+            element={&lt;InvoicePaymentVida />}
+          />
+
+          &lt;Route
+            path="/cotacao-pet-love/dados-pessoais"
+            element={&lt;IndexCotacaoPetlove />}
+          />
+          &lt;Route
+            path="/cotacao-pet-love/pagamento"
+            element={&lt;IndexCotacaoPetlove />}
+          />
+          &lt;Route
+            path="/cotacao-pet-love/obrigado"
+            element={&lt;IndexCotacaoPetlove />}
+          />
+          &lt;Route
+            path="/fatura-petlove/:subscriptionId"
+            element={&lt;InvoicePayment />}
+          />
+          &lt;Route
+            path="/fatura-petlove/:subscriptionId/1"
+            element={&lt;InvoicePayment newer={true} />}
+          />
+
+          &lt;Route path="/cotacao-pet-love" element={&lt;IndexCotacaoPetlove />} />
+          {/* ROTAS SEGURO BIKE KAKAU */}
+          &lt;Route path="/seguro-bike" element={&lt;IndexSeguroBike />} />
+          &lt;Route
+            path="/seguro-bike/cotacao"
+            element={&lt;IndexCotacaoSeguroBike />}
+          />
+          &lt;Route
+            path="/seguro-bike/cotacao/dados-cadastrais"
+            element={&lt;IndexCotacaoSeguroBike />}
+          />
+          &lt;Route
+            path="/seguro-bike/cotacao/endereco"
+            element={&lt;IndexCotacaoSeguroBike />}
+          />
+          &lt;Route
+            path="/seguro-bike/cotacao/cadastro-bike"
+            element={&lt;IndexCotacaoSeguroBike />}
+          />
+          &lt;Route
+            path="/seguro-bike/cotacao/pagamento"
+            element={&lt;IndexCotacaoSeguroBike />}
+          />
+          &lt;Route
+            path="/seguro-bike/cotacao/pagamento-confirmado"
+            element={&lt;IndexCotacaoSeguroBike />}
+          />
+          {/* ROTAS SEGURO CELULAR KAKAU */}
+          &lt;Route
+            path="/seguro-celular-kakau"
+            element={&lt;IndexSeguroCelularKakau />}
+          />
+          &lt;Route
+            path="/seguro-celular-kakau/cotacao"
+            element={&lt;IndexCotacaoSeguroCelularkakau />}
+          />
+          &lt;Route
+            path="/seguro-celular-kakau/cotacao/dados-cadastrais"
+            element={&lt;IndexCotacaoSeguroCelularkakau />}
+          />
+          &lt;Route
+            path="/seguro-celular-kakau/cotacao/endereco"
+            element={&lt;IndexCotacaoSeguroCelularkakau />}
+          />
+          &lt;Route
+            path="/seguro-celular-kakau/cotacao/cadastro-celular"
+            element={&lt;IndexCotacaoSeguroCelularkakau />}
+          />
+          &lt;Route
+            path="/seguro-celular-kakau/cotacao/pagamento"
+            element={&lt;IndexCotacaoSeguroCelularkakau />}
+          />
+          &lt;Route
+            path="/seguro-celular-kakau/cotacao/pagamento-confirmado"
+            element={&lt;IndexCotacaoSeguroCelularkakau />}
+          />
+          {/* ROTAS PAGES HOME */}
+          &lt;Route path="/sobre" element={&lt;IndexSobrePrime />} />
+          &lt;Route path="/contato" element={&lt;IndexContato />} />
+          &lt;Route path="/primetravel" element={&lt;IndexTravel />} />
+          &lt;Route path="/seguro-viagem" element={&lt;IndexTravelVenda />} />
+          &lt;Route path="/seguro-de-vida" element={&lt;IndexVida />} />
+          &lt;Route
+            path="/equipamentos-portateis-3"
+            element={&lt;IndexSeguroCelular />}
+          />
+          &lt;Route path="/seguro-pet-porto" element={&lt;IndexSeguroPet />} />
+          &lt;Route
+            path="/seguro-residencial-porto-2"
+            element={&lt;IndexSeguroResidencial />}
+          />
+          &lt;Route path="/sulamerica-odonto" element={&lt;IndexOdonto />} />
+          &lt;Route path="/consorcio-imovel" element={&lt;IndexConsorcioImovel />} />
+          &lt;Route path="/consorcio-auto" element={&lt;IndexConsorcioAuto />} />
+          &lt;Route path="/obrigado" element={&lt;PaginaObrigadoLP />} />
+          &lt;Route path="/cotacao" element={&lt;Cotacao />} />
+          &lt;Route path="*" element={&lt;PageNotFound />} />
+        &lt;/Routes>
+        {!_pathname.includes("/seguro-bike") &amp;&amp;
+          !_pathname.includes("/seguro-celular-kakau") &amp;&amp;
+          !_pathname.includes("/seguro-celular-kakau") &amp;&amp; &lt;Footer />}
+      &lt;/div>
+    &lt;/Router>
+  );
+}
+
+export default App;
+</code></pre>
+    </figure>
+
+
+
+
+
+			</main>
+			<footer id='page-footer'>
+				<small>Documentação gerada com: <a href='https://github.com/jsdoc/jsdoc' rel='noreferrer noopener' target='_blank'>JSDoc 4.0.4</a>.</small>
+				<small style='margin-left: 1em;'>Feito por<a
+                        href='https://github.com/TheZehel'
+                        target='_blank'
+                        rel="noopener noreferrer"> Allison Yuri</a>.</small>
+			</footer>
+		</div>
+	</div>
+	<script src='js/jsdoc-template.js' async></script>
+	
+	<script src='js/prettify.min.js' async></script>
+	<link rel='stylesheet' type='text/css' href='css/tomorrow.min.css'/>
+	
+	
+</body>
+</html>

@@ -1,70 +1,121 @@
-# Getting Started with Create React App
+# Documentação Prime Secure
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Bem-vindo ao **Prime Secure**, um marketplace de seguros que protege seus momentos. Este projeto é desenvolvido com React e gerenciado com Create React App.
 
-## Available Scripts
+## Visão Geral
 
-In the project directory, you can run:
+Este projeto utiliza várias bibliotecas modernas para a construção de uma interface rica e interativa. A documentação técnica é gerada automaticamente usando o **JSDoc**.
+
+Acesse as [páginas geradas pelo JSDoc](./index.html) para uma visão técnica detalhada.
+
+---
+
+## Scripts Disponíveis
+
+No diretório do projeto, você pode executar:
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Inicia a aplicação em modo de desenvolvimento.
+- Acesse em [http://localhost:3000](http://localhost:3000) no navegador.
+- O projeto será recarregado automaticamente ao salvar alterações no código.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Gera o build de produção na pasta `build`.
+- Otimiza o React para um melhor desempenho.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### `npm test`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Executa os testes em modo interativo.
+
+### `npm run docs`
+
+- Gera a documentação técnica usando o JSDoc.
+- Os arquivos são salvos no diretório `docs`.
+
+### `npm run generate:sitemap`
+
+- Gera o arquivo `sitemap.xml` automaticamente baseado nas rotas do projeto.
 
 ### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- Remove a dependência de build integrada do React para maior flexibilidade.
+- **Nota:** Uma vez feito, não pode ser revertido.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Tecnologias Utilizadas
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Principais Dependências:
 
-## Learn More
+- **React 18:** Para construir interfaces reativas.
+- **React Router 6:** Gerenciamento de rotas.
+- **Axios:** Comunicação com APIs.
+- **Moment.js:** Manipulação de datas e horários.
+- **Swiper.js:** Carrossel responsivo.
+- **PrimeReact:** Componentes avançados de UI.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Estilo e Design:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- **TailwindCSS:** Utilizado para estilização rápida e eficiente.
+- **Font Awesome:** Ícones para melhorar a experiência visual.
+- **Animate.css:** Animações pré-configuradas para elementos.
 
-### Code Splitting
+### Documentação:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- **JSDoc:** Geração de documentação de código.
+- **@TheZehel/jsdoc-template:** Template moderno para páginas de documentação.
+- **Markdown Plugin:** Permite a inclusão de markdown na documentação.
 
-### Analyzing the Bundle Size
+### Testes:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- **React Testing Library:** Testes de componentes React.
+- **Jest:** Testes unitários e integração.
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Estrutura do Projeto
 
-### Advanced Configuration
+```plaintext
+.
+├── src/                     # Código-fonte da aplicação
+│   ├── components/          # Componentes React reutilizáveis
+│   ├── assets/              # Imagens, ícones e outros recursos estáticos
+│   ├── css/                 # Arquivos CSS globais
+├── docs/                    # Documentação gerada automaticamente pelo JSDoc
+├── utils/                   # Funções utilitárias e geradores (ex: sitemap)
+├── public/                  # Arquivos públicos (favicon, index.html)
+├── README.md                # Documentação do projeto
+├── jsdoc.json               # Configuração do JSDoc
+├── package.json             # Configuração do projeto e dependências
+├── tailwind.config.js       # Configuração do TailwindCSS
+├── sitemap.xml              # Gerado automaticamente pelo script generate:sitemap
+└── .env                     # Variáveis de ambiente
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Como Gerar a Documentação
 
-### Deployment
+1. Certifique-se de que todas as dependências estão instaladas:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+   ```bash
+   npm install
+   ```
 
-### `npm run build` fails to minify
+2. Certifique-se de que todas as dependências estão instaladas:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+   ```bash
+   npm run docs
+   ```
+
+3. Acesse os arquivos gerados no diretório `/docs`
+
+### Metadados do Projeto
+
+- **Nome:** `webapp-primesecure`
+- **Versão:** `0.3.0`
+- **Licença:** Não especificada no `package.json`.
+- **Scripts principais:**
+  - **Build de produção:** `npm run build`
+  - **Documentação:** `npm run docs`
+  - **Início do servidor local:** `npm start`
