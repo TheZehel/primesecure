@@ -1,21 +1,31 @@
-body{
+/* ==================================================
+   Estilos Globais
+   ================================================== */
+
+/* Configuração de cor de fundo para todo o corpo da página */
+body {
   background-color: #fcfcfc;
 }
+
+/* Centralização e formatação da aplicação */
 .App {
   text-align: center;
 }
 
+/* Logo da aplicação */
 .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
 
+/* Animação do logo em telas com movimento preferido */
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
 }
 
+/* Cabeçalho da aplicação */
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -27,29 +37,36 @@ body{
   color: white;
 }
 
-
-
+/* Links da aplicação */
 .App-link {
   color: #61dafb;
 }
 
+/* Animação de rotação para o logo da aplicação */
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
 
+/* ==================================================
+   Estilos do Banner
+   ================================================== */
+
+/* Configuração do container do banner */
 .banner {
   margin-top: 0;
-  padding: 0px 0 0 0;
+  padding: 0;
   background-position: top center;
   background-size: cover;
   background-repeat: no-repeat;
 }
 
+/* Estilo para a tagline dentro do banner */
 .banner .tagline {
   font-weight: 700;
   letter-spacing: 0.8px;
@@ -61,6 +78,7 @@ body{
   display: inline-block;
 }
 
+/* Título principal do banner */
 .banner h1 {
   font-size: 40px;
   font-weight: 700;
@@ -70,6 +88,7 @@ body{
   display: block;
 }
 
+/* Texto descritivo no banner */
 .banner p {
   color: #313131;
   font-size: 18px;
@@ -78,6 +97,7 @@ body{
   width: 96%;
 }
 
+/* Botão no banner */
 .banner button {
   color: #fff;
   font-weight: 700;
@@ -89,6 +109,7 @@ body{
   border-radius: 8px;
 }
 
+/* Configurações do SVG no botão */
 .banner button svg {
   font-size: 25px;
   margin-left: 10px;
@@ -96,38 +117,43 @@ body{
   line-height: 1;
 }
 
+/* Efeito de hover no botão */
 .banner button:hover svg {
   margin-left: 25px;
 }
 
+/* Animação para imagens no banner */
 .banner img {
   animation: updown 3s linear infinite;
 }
 
+/* Animação para movimento vertical */
 @keyframes updown {
   0% {
     transform: translateY(-20px);
   }
+
   50% {
     transform: translateY(20px);
   }
+
   100% {
     transform: translateY(-20px);
   }
 }
 
-.txt-rotate > .wrap {
-  border-right: 0.08em solid #666;
-}
+/* ==================================================
+   Configurações de Habilidades
+   ================================================== */
 
-/************ Skills Css ************/
-.background-skills{
+.background-skills {
   background: linear-gradient(90.21deg, #0095cf -5.91%, #273377 111.58%);
-  padding: 10px
+  padding: 10px;
 }
 
 .skill h2 {
   @apply text-4xl font-bold;
+  /* Utilizando Tailwind CSS */
 }
 
 .skill p {
@@ -137,23 +163,16 @@ body{
   margin: 14px 0 75px 0;
 }
 
+/* Slider de habilidades */
 .skill-slider {
   @apply w-4/5 mx-auto relative;
 }
 
-.skill-slider .item img {
-  @apply w-1/2 mx-auto mb-3;
-}
+/* ==================================================
+   Configurações de Scroll Customizado
+   ================================================== */
 
-.background-image-left {
-  top: 28%;
-  position: absolute;
-  bottom: 0;
-  width: 40%;
-  z-index: -4;
-}
-
-/* Adicione isso ao seu arquivo CSS/SCSS */
+/* Barra de rolagem personalizada */
 .custom-scrollbar::-webkit-scrollbar {
   width: 3px;
 }
@@ -170,27 +189,11 @@ body{
   background: #555;
 }
 
+/* ==================================================
+   Outras Configurações
+   ================================================== */
+
+/* Badge do reCAPTCHA */
 .grecaptcha-badge {
   z-index: 150;
-}
-
-/*Páginação Vida*/
-.swiper-vida-container > .swiper > .swiper-pagination.swiper-pagination-bullets {
-  position: relative;
-}
-
-/* ScrollBar Modal */
-.custom-scroll-modal::-webkit-scrollbar-track {
-	border-radius: 10px;
-	background-color: transparent;
-}
-
-.custom-scroll-modal::-webkit-scrollbar {
-	width: 10px;
-	background-color: transparent;
-}
-
-.custom-scroll-modal::-webkit-scrollbar-thumb {
-	border-radius: 10px;
-	background-color: #e4e4e4;
 }

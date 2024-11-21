@@ -1,0 +1,331 @@
+
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+	<meta charset='utf-8'/>
+	<title>Source: components/banner-mktplace/components/Banner.js - PrimeSecure</title>
+	<link type='text/css' rel='stylesheet' href='css/jsdoc-template.css'/>
+	<meta name="viewport" content="width=device-width,
+                        initial-scale=1"/>
+</head>
+<body data-gs='{"openPageHeader": "is-page-header-open", "searching": "is-searching"}'>
+	<div id='page-wrapper'>
+		<header id='page-header' data-gs-target='openPageHeader'>
+			
+			<h1 id='page-title'>
+				<a href="https://www.primesecure.com.br">PrimeSecure</a>
+			</h1>
+			
+			<nav id='content-nav'>
+				<header>
+					<div id='search'>
+						<div class='textfield-wrapper'>
+							<input type='search' name='q' placeholder='Pesquisar...' data-internal-search='#content-nav li a' data-gs-search='searching'/>
+						</div>
+					</div>
+				</header>
+				<h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="BannerMktplace.html">BannerMktplace</a><ul><li><a href="BannerMktplace.module_IndexBannerMktplace.html">IndexBannerMktplace</a></li><li><a href="module-Banner.html">Banner</a></li></ul></li></ul><h3>Modules</h3><ul><li><abbr title="Module">Mod</abbr> <a href="module-App.html">App</a></li><li><abbr title="Module">Mod</abbr> <a href="module-index.html">index</a></li></ul><h3>Global</h3><ul><li><abbr title="Global">Glo</abbr> <a href="global.html#ScrollToTop">ScrollToTop</a></li></ul>
+			</nav>
+		</header>
+		<div id='main-wrapper'>
+			<button id='page-header-opener' title='Toggle left bar' class='has-icon' data-css-icon='menu' type='button' data-gs-toggle='openPageHeader'>Toggle left bar</button>
+			<main id='content'>
+				<header>
+					<h1 id='content-title'>Source: components/banner-mktplace/components/Banner.js</h1>
+				</header>
+				
+
+
+
+    
+    <figure class='source-code-wrapper'>
+        <pre class="prettyprint source linenums"><code>/**
+ * Componente `Banner`
+ *
+ * Este componente exibe um carrossel de banners responsivos usando o Swiper.js.
+ * Os banners mudam automaticamente e são interativos, permitindo redirecionar o usuário ao clicar.
+ *
+ * @module Banner
+ * @memberof BannerMktplace
+ * @alias BannerMktplace.Banner
+ *
+ * @requires react
+ * @requires swiper/react
+ * @requires swiper/css/pagination
+ * @requires swiper/css/navigation
+ * @requires react-router-dom
+ * @requires swiper/modules
+ * @requires "../css/style.css"
+ *
+ * @example
+ * // Exemplo de uso:
+ * import Banner from './components/Banner';
+ *
+ * function App() {
+ *   return (
+ *     &lt;Banner />
+ *   );
+ * }
+ *
+ * @returns {JSX.Element} Um componente JSX contendo o carrossel de banners.
+ */
+
+import React, { useState, useEffect, useRef } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { useNavigate } from "react-router-dom";
+// Import Swiper styles
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+
+import "../css/style.css";
+
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+
+export default function Banner() {
+  /**
+   * Largura atual da janela de exibição.
+   * @type {number}
+   */
+  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+  /**
+   * Referência para o círculo de progresso de reprodução automática.
+   * Utilizado para manipular o progresso visual do autoplay.
+   * @type {React.RefObject&lt;SVGElement>}
+   */
+
+  const progressCircle = useRef(null);
+  /**
+   * Referência para o conteúdo textual do progresso de reprodução automática.
+   * Mostra o tempo restante em segundos.
+   * @type {React.RefObject&lt;HTMLSpanElement>}
+   */
+  const progressContent = useRef(null);
+
+  /**
+   * Função que atualiza o progresso do autoplay com base no tempo restante.
+   * @param {Swiper} s - Instância do Swiper.
+   * @param {number} time - Tempo restante em milissegundos.
+   * @param {number} progress - Progresso entre 0 e 1.
+   */
+  const onAutoplayTimeLeft = (s, time, progress) => {
+    progressCircle.current.style.setProperty("--progress", 1 - progress);
+    progressContent.current.textContent = `${Math.ceil(time / 1000)}s`;
+  };
+
+  useEffect(() => {
+    /**
+     * Atualiza a largura da tela.
+     */
+    const updateScreenWidth = () => {
+      setViewportWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", updateScreenWidth);
+
+    return () => {
+      window.removeEventListener("resize", updateScreenWidth);
+    };
+  }, []);
+
+  /**
+   * Lista de banners exibidos no carrossel.
+   * @type {Array&lt;Object>}
+   * @property {number} id - Identificador único do banner.
+   * @property {string} srcLarge - URL da imagem para telas grandes.
+   * @property {string} srcMedium - URL da imagem para telas médias.
+   * @property {string} srcMobile - URL da imagem para telas pequenas.
+   * @property {string} alt - Texto alternativo para a imagem.
+   * @property {string} href - URL de redirecionamento ao clicar no banner.
+   */
+
+  const banners = [
+    {
+      id: 1,
+      srcLarge:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/large/srclarge-novembro-2024-primetravel-black-friday.png",
+      srcMedium:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/medium/srcmedium-novembro-2024-primetravel-black-friday.png",
+      srcMobile:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/mobile/srcmobile-novembro-2024-vida-black-friday.png",
+      alt: "Banner de Natal para Telas Grandes",
+      href: "/primetravel",
+    },
+    {
+      id: 2,
+      srcLarge:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/large/srclarge-novembro-2024-vida-black-friday.png",
+      srcMedium:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/medium/srcmedium-novembro-2024-vida-black-friday.png",
+      srcMobile:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/mobile/srcmobile-novembro-2024-vida-black-friday%20(2).png",
+      alt: "Banner de Natal para Telas Grandes",
+      href: "/seguro-de-vida",
+    },
+    {
+      id: 3,
+      srcLarge:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/large-2/srclarge-novembro-2024-residencial-black-friday.png",
+      srcMedium:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/medium-2/srcmedium-novembro-2024-residencial-black-friday.png",
+      srcMobile:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/mobile-3/srcmobile-novembro-2024-residencial-friday.png",
+      alt: "Banner de Natal para Telas Grandes",
+      href: "/seguro-residencial-porto-2",
+    },
+
+    {
+      id: 4,
+      srcLarge:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/large-2/srclarge-novembro-2024-celular-porto.png",
+      srcMedium:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/medium-2/srcmedium-novembro-2024--celular-friday.png",
+      srcMobile:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/mobile-3/srcmobile-novembro-2024-celular-black-friday.png",
+      alt: "Banner de Natal para Telas Grandes",
+      href: "/equipamentos-portateis-3",
+    },
+    {
+      id: 5,
+      srcLarge:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/large-2/srclarge-novembro-2024-pet.png",
+      srcMedium:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/medium-2/srcmedium-novembro-2024-pet-black-friday.png",
+      srcMobile:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/mobile-3/srcmobile-novembro-2024-pet-black-friday.png",
+      alt: "Banner de Natal para Telas Grandes",
+      href: "/seguro-pet-porto",
+    },
+    {
+      id: 6,
+      srcLarge:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/large/srclarge-novembro-2024-consorcio-imovel-black-friday.png",
+      srcMedium:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/medium/srcmedium-novembro-2024-consorcio-imovel-black-friday.png",
+      srcMobile:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/mobile/srcmobile-novembro-2024-consorcio-imovel-black-friday.png",
+      alt: "Banner Consrociado de Imóvel para Telas Grandes",
+      href: "/consorcio-imovel",
+    },
+    {
+      id: 7,
+      srcLarge:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/large/srclarge-novembro-2024-consorcio-auto-black-friday.png",
+      srcMedium:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/medium/srcmedium-novembro-2024-consorcio-auto-black-friday.png",
+      srcMobile:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/mobile/srcmobile-novembro-2024-consorcio-auto-black-friday.png",
+      alt: "Banner de Natal para Telas Grandes",
+      href: "/consorcio-auto",
+    },
+    {
+      id: 8,
+      srcLarge:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/large-2/srclarge-novembro-2024-odonto-black-friday.png",
+      srcMedium:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/medium-2/srcmedium-novembro-2024-odonto-black-friday.png",
+      srcMobile:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/mobile-3/srcmobile-novembro-2024-odontologico-black-friday.png",
+      alt: "Banner de Natal para Telas Grandes",
+      href: "/sulamerica-odonto",
+    },
+    {
+      id: 9,
+      srcLarge:
+        "https://storage.googleapis.com/primesecure/home/janeiro2024/srclarge%20telemedicina%202024%20viagem.png",
+      srcMedium:
+        "https://storage.googleapis.com/primesecure/home/janeiro2024/srcMedium%20telemedicina%202024%20viagem.png",
+      srcMobile:
+        "https://storage.googleapis.com/primesecure/home/janeiro2024/srcMobile%20telemedicina%202024%20viagem%20(1).png",
+      alt: "Banner de Natal para Telas Grandes",
+      href: "/primetravel",
+    },
+    {
+      id: 10,
+      srcLarge:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/large-2/srclarge-setembro-2024-celular-kakau-black-friday.png",
+      srcMedium:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/medium-2/srcmedium-novembro-2024-celular-kakau-friday.png",
+      srcMobile:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/mobile-3/srcmobile-novembro-2024-celular-kakau-black-friday.png",
+      alt: "Banner de Natal para Telas Grandes",
+      href: "/seguro-celular-kakau",
+    },
+    {
+      id: 11,
+      srcLarge:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/large/srclarge-novembro-2024-bike-black-friday.png",
+      srcMedium:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/medium/srcmedium-novembro-2024-bike-black-friday.png",
+      srcMobile:
+        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/mobile/srcmobile-novembro-2024-bike-black-friday.png",
+      alt: "Banner de Natal para Telas Grandes",
+      href: "/seguro-bike",
+    },
+  ];
+
+  return (
+    &lt;div className="m-5">
+      &lt;Swiper
+        className="rounded-xl h-[141px] sm:h-[420px]"
+        pagination={{ clickable: true }}
+        loop={true}
+        grabCursor={true}
+        navigation={true}
+        modules={[Pagination, Navigation, Autoplay]}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
+        onAutoplayTimeLeft={onAutoplayTimeLeft}
+      >
+        {banners.map((banner) => (
+          &lt;SwiperSlide key={banner.id}>
+            &lt;img
+              src={
+                viewportWidth >= 1500
+                  ? banner.srcLarge
+                  : viewportWidth >= 1024
+                  ? banner.srcMedium
+                  : banner.srcMobile
+              }
+              alt={banner.alt}
+              className="h-full w-full cursor-pointer mb-[33px] rounded-xl"
+              onClick={() => (window.location.href = banner.href)}
+            />
+          &lt;/SwiperSlide>
+        ))}
+        &lt;div className="autoplay-progress" slot="container-end">
+          &lt;svg viewBox="0 0 48 48" ref={progressCircle}>
+            &lt;circle cx="24" cy="24" r="20">&lt;/circle>
+          &lt;/svg>
+          &lt;span ref={progressContent}>&lt;/span>
+        &lt;/div>
+      &lt;/Swiper>
+    &lt;/div>
+  );
+}
+</code></pre>
+    </figure>
+
+
+
+
+
+			</main>
+			<footer id='page-footer'>
+				<small>Documentação gerada com: <a href='https://github.com/jsdoc/jsdoc' rel='noreferrer noopener' target='_blank'>JSDoc 4.0.4</a>.</small>
+				<small style='margin-left: 1em;'>Feito por<a
+                        href='https://github.com/TheZehel'
+                        target='_blank'
+                        rel="noopener noreferrer"> Allison Yuri</a>.</small>
+			</footer>
+		</div>
+	</div>
+	<script src='js/jsdoc-template.js' async></script>
+	
+	<script src='js/prettify.min.js' async></script>
+	<link rel='stylesheet' type='text/css' href='css/tomorrow.min.css'/>
+	
+	
+</body>
+</html>

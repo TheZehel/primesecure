@@ -1,19 +1,37 @@
 {
-    "source": {
-      "include": ["src", "utils"],
-      "exclude": ["node_modules", "public"],
-      "includePattern": ".+\\.js(x)?$",
-      "excludePattern": "(^|\\/|\\\\)_"
+  "source": {
+    "include": ["src", "utils"],
+    "exclude": ["node_modules", "public"],
+    "includePattern": ".+\\.js(x)?$",
+    "excludePattern": "(^|\\/|\\\\)_"
+  },
+  "opts": {
+    "destination": "./docs",
+    "template": "./doc-template",
+    "recurse": true,
+    "encoding": "utf8",
+    "readme": "./README.md",
+    "package": "./package.json"
+  },
+  "plugins": ["plugins/markdown"],
+  "templates": {
+    "default": {
+      "outputSourceFiles": true
     },
-    "opts": {
-      "destination": "./docs",
-      "recurse": true,
-      "readme": "./README.md"
+    "applicationName": "Prime Secure", 
+    "logoFile": "https://storage.googleapis.com/primesecure/logo-prime-secure.webp",
+    "footer": "<p>Prime Secure © 2024 - Todos os direitos reservados.</p>",
+    "title": "Documentação | Prime Secure",
+    "meta": {
+      "title": "Documentação | Prime Secure",
+      "description": "Documentação do projeto Prime Secure",
+      "keyword": "Prime Secure, documentação, jsdoc, seguros"
     },
-    "plugins": ["plugins/markdown"],
-    "templates": {
-      "cleverLinks": true,
-      "monospaceLinks": false
-    }
+    "cleverLinks": true,
+    "monospaceLinks": false
+  },
+  "metadata": {
+    "title": "Documentação | Prime Secure",
+    "description": "Documentação do projeto Prime Secure"
   }
-  
+}

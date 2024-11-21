@@ -1,3 +1,34 @@
+/**
+ * Componente `Banner`
+ *
+ * Este componente exibe um carrossel de banners responsivos usando o Swiper.js.
+ * Os banners mudam automaticamente e são interativos, permitindo redirecionar o usuário ao clicar.
+ *
+ * @module Banner
+ * @memberof BannerMktplace
+ * @alias BannerMktplace.Banner
+ *
+ * @requires react
+ * @requires swiper/react
+ * @requires swiper/css/pagination
+ * @requires swiper/css/navigation
+ * @requires react-router-dom
+ * @requires swiper/modules
+ * @requires "../css/style.css"
+ *
+ * @example
+ * // Exemplo de uso:
+ * import Banner from './components/Banner';
+ *
+ * function App() {
+ *   return (
+ *     <Banner />
+ *   );
+ * }
+ *
+ * @returns {JSX.Element} Um componente JSX contendo o carrossel de banners.
+ */
+
 import React, { useState, useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useNavigate } from "react-router-dom";
@@ -10,16 +41,40 @@ import "../css/style.css";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 
 export default function Banner() {
+  /**
+   * Largura atual da janela de exibição.
+   * @type {number}
+   */
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+  /**
+   * Referência para o círculo de progresso de reprodução automática.
+   * Utilizado para manipular o progresso visual do autoplay.
+   * @type {React.RefObject<SVGElement>}
+   */
 
   const progressCircle = useRef(null);
+  /**
+   * Referência para o conteúdo textual do progresso de reprodução automática.
+   * Mostra o tempo restante em segundos.
+   * @type {React.RefObject<HTMLSpanElement>}
+   */
   const progressContent = useRef(null);
+
+  /**
+   * Função que atualiza o progresso do autoplay com base no tempo restante.
+   * @param {Swiper} s - Instância do Swiper.
+   * @param {number} time - Tempo restante em milissegundos.
+   * @param {number} progress - Progresso entre 0 e 1.
+   */
   const onAutoplayTimeLeft = (s, time, progress) => {
     progressCircle.current.style.setProperty("--progress", 1 - progress);
     progressContent.current.textContent = `${Math.ceil(time / 1000)}s`;
   };
 
   useEffect(() => {
+    /**
+     * Atualiza a largura da tela.
+     */
     const updateScreenWidth = () => {
       setViewportWidth(window.innerWidth);
     };
@@ -30,6 +85,17 @@ export default function Banner() {
       window.removeEventListener("resize", updateScreenWidth);
     };
   }, []);
+
+  /**
+   * Lista de banners exibidos no carrossel.
+   * @type {Array<Object>}
+   * @property {number} id - Identificador único do banner.
+   * @property {string} srcLarge - URL da imagem para telas grandes.
+   * @property {string} srcMedium - URL da imagem para telas médias.
+   * @property {string} srcMobile - URL da imagem para telas pequenas.
+   * @property {string} alt - Texto alternativo para a imagem.
+   * @property {string} href - URL de redirecionamento ao clicar no banner.
+   */
 
   const banners = [
     {
