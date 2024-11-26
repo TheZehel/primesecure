@@ -7,7 +7,6 @@ import Payment from "./components/payment";
 
 const IndexCotacaoTravel = () => {
   const [activeStep, setActiveStep] = useState(0); // Estado do passo atual
-  const steps = [<Plans />, <Resume />, <Passengers />, <Payment />];
 
   const handleNext = () => {
     if (activeStep < steps.length - 1) {
@@ -21,8 +20,16 @@ const IndexCotacaoTravel = () => {
     }
   };
 
+  // Array de componentes dos passos (declarado depois das funções)
+  const steps = [
+    <Plans handleNext={handleNext} />,
+    <Resume />,
+    <Passengers />,
+    <Payment />,
+  ];
+
   return (
-    <section className="max-w-5xl mx-auto mt-20">
+    <section className="max-w-6xl mx-auto mt-10">
       <StepperControl activeStep={activeStep} />
       <div className="my-10">{steps[activeStep]}</div>
       <div className="flex justify-between mt-10">
@@ -36,7 +43,7 @@ const IndexCotacaoTravel = () => {
         <button
           onClick={handleNext}
           disabled={activeStep === steps.length - 1}
-          className="px-4 py-2 bg-blue-500 text-white rounded"
+          className="px-4 py-2 bg-bluePrime text-white rounded"
         >
           Avançar
         </button>

@@ -1,6 +1,6 @@
 import React from "react";
 
-const Plans = () => {
+const Plans = ({ handleNext }) => {
   return (
     <div>
       <div>
@@ -42,6 +42,17 @@ const Plans = () => {
           <h6 className="text-bluePrime font-bold">R$ 15.000,00</h6>
         </div>
 
+        {/* Buttons */}
+        <div className="flex flex-col items-center mt-6 space-y-3">
+          <button
+            onClick={handleNext}
+            href="#"
+            className="bg-bluePrime cursor-pointer text-white uppercase text-sm py-2 px-4 rounded-md shadow-md"
+          >
+            Contratar
+          </button>
+        </div>
+
         {/* Benefits */}
         <hr className="my-4" />
         <ul className="space-y-2 text-start">
@@ -79,12 +90,13 @@ const Plans = () => {
           <button type="button" className="text-blue-600 text-sm underline">
             Ver Todas as Coberturas
           </button>
-          <p
+          <button
+            onClick={handleNext}
             href="#"
-            className="bg-blue-500 text-white uppercase text-sm py-2 px-4 rounded-md shadow-md"
+            className="bg-bluePrime cursor-pointer text-white uppercase text-sm py-2 px-4 rounded-md shadow-md"
           >
             Contratar
-          </p>
+          </button>
         </div>
       </div>
     </div>
