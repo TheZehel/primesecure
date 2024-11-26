@@ -73,6 +73,7 @@ import PageContract from "./components/accounts/components/PageContract";
 import InvoicePaymentVida from "./components/seguro-de-vida/InvoicePaymentVida";
 import IndexConsorcioImovel from "./components/consorcio-imovel/index.js";
 import IndexConsorcioAuto from "./components/consorcio-auto/index.js";
+import IndexCotacaoTravel from "./components/primetravel/cotador/indexCotacaoTravel.js";
 
 /**
  *  Componente para fazer o scroll para o topo da página
@@ -276,6 +277,8 @@ function App() {
             path="/seguro-celular-kakau/cotacao/pagamento-confirmado"
             element={<IndexCotacaoSeguroCelularkakau />}
           />
+          {/* ROTAS COTAÇÃO PRIMETRAVEL */}
+          <Route path="/cotacao-primetravel" element={<IndexCotacaoTravel />} />
           {/* ROTAS PAGES HOME */}
           <Route path="/sobre" element={<IndexSobrePrime />} />
           <Route path="/contato" element={<IndexContato />} />
