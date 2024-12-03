@@ -33,11 +33,11 @@ export default function BannerPromo() {
     {
       id: 1,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/novembro/lp/primetravel/srclarge-black-friday-2024-viagem.png",
+        "https://storage.googleapis.com/primesecure/banners/Dezembro/banners-natal-2024/Viagem/srclarge-natal-2024-viagem.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/novembro/lp/primetravel/srcmedium-black-friday-2024-viagem.png",
+        "https://storage.googleapis.com/primesecure/banners/Dezembro/banners-natal-2024/Viagem/srcmedium-natal-2024-viagem.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/novembro/lp/primetravel/srcmobile-black-friday-2024-viagem.png",
+        "https://storage.googleapis.com/primesecure/banners/Dezembro/banners-natal-2024/Viagem/srcmobile-natal-2024-viagem.png",
       alt: "Banner de Natal para Telas Grandes",
       href: "",
     },

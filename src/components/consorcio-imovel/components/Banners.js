@@ -33,11 +33,11 @@ export default function BannerPromo() {
     {
       id: 1,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/novembro/lp/consorcio-imovel/srclarge-black-friday-2024-imovel.png",
+        "https://storage.googleapis.com/primesecure/banners/Dezembro/banners-natal-2024/Consorcio%20Imovel/srclarge-natal-2024-cons%C3%B3rcio-im%C3%B3vel.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/novembro/lp/consorcio-imovel/srcmedium-black-friday-2024-cons%C3%B3rcio-im%C3%B3vel.png",
+        "https://storage.googleapis.com/primesecure/banners/Dezembro/banners-natal-2024/Consorcio%20Imovel/srcmedium-natal-2024-cons%C3%B3rcio-im%C3%B3vel.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/novembro/lp/consorcio-imovel/srcmobile-black-friday-2024-cons%C3%B3rcio-im%C3%B3vel.png",
+        "https://storage.googleapis.com/primesecure/banners/Dezembro/banners-natal-2024/Consorcio%20Imovel/srcmobile-natal-2024-cons%C3%B3rcio-im%C3%B3vel.png",
       alt: "Banner de Natal para Telas Grandes",
       href: "",
     },
