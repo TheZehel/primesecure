@@ -33,11 +33,11 @@ export default function BannerPromo() {
     {
       id: 1,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/novembro/lp/pet/srclarge-black-friday-2024-pet.png",
+        "https://storage.googleapis.com/primesecure/banners/Dezembro/banners-natal-2024/Pet/srclarge-natal-2024-seguro-pet.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/novembro/lp/pet/srcmedium-black-friday-2024-pet.png",
+        "https://storage.googleapis.com/primesecure/banners/Dezembro/banners-natal-2024/Pet/srcmedium-natal-2024-seguro-pet.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/novembro/lp/pet/srcmobile-black-friday-2024-pet.png",
+        "https://storage.googleapis.com/primesecure/banners/Dezembro/banners-natal-2024/Pet/srcmobile-natal-2024-seguro-pet.png",
       alt: "Banner de Natal para Telas Grandes",
       href: "",
     },
