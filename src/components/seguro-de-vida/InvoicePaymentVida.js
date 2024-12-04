@@ -135,7 +135,7 @@ const plans = [
     price: "4250",//"4249",
     award: "Sorteio de R$20.000,00",
     resume: "Detalhes:",
-    resumeDesc: "Assistência Pessoal + Assistência Residencial + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar.",
+    resumeDesc: "Assistência Pessoal + App Namu + Faz tudo (Assistência Residencial) + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar + Rede Saúde Familiar.",
       //"Assistência pessoal + residencial + dezenas de serviços Desconto em farmácia + funeral familiar + Médico na Tela Familiar.",
       features: [
         { 

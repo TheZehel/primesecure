@@ -1208,7 +1208,7 @@ export default function StepPayment({
                     );
                   })}
                 </div>
-                <div className="text-left mt-3 mx-1">
+                {/* <div className="text-left mt-3 mx-1">
                   <a
                     href={link}
                     target="_blank"
@@ -1217,7 +1217,7 @@ export default function StepPayment({
                   >
                     Mais detalhes...
                   </a>
-                </div>
+                </div> */}
               </div>
 
               <div>
@@ -1257,7 +1257,7 @@ export default function StepPayment({
 
               <div className={`text-grayPrime font-normal pt-4 pb-2`}>
                 <span className="font-semibold text-lg">Total:</span>{" "}
-                <span className="text-base text-black">R$</span>{" "}
+                <span className="text-base font-semibold">R$</span>{" "}
                 <span className="font-semibold text-lg ">{planPrice}</span>{" "}
                 <span
                   className={`text-base text-black ${

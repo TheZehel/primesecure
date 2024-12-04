@@ -180,7 +180,7 @@ export default function PlanSlider({
       award: "Sorteio de R$20.000,00",
       resume: "Detalhes:",
       resumeDesc:
-        "Assistência pessoal + residencial + dezenas de serviços Desconto em farmácia + funeral familiar + Médico na Tela Familiar.",
+        "Assistência Pessoal + App Namu + Faz tudo (Assistência Residencial) + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar + Rede Saúde Familiar.",
       features: [
         "Morte Acidental - 100 mil", 
         "Invalidez Permanente Total por Acidente - 50 mil",
@@ -197,7 +197,7 @@ export default function PlanSlider({
       award: "Sorteio de R$20.000,00",
       resume: "Detalhes:",
       resumeDesc:
-        "Assistência pessoal + residencial + dezenas de serviços Desconto em farmácia + funeral familiar + Médico na Tela Familiar.",
+        "Assistência Pessoal + App Namu + Faz tudo (Assistência Residencial) + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar + Rede Saúde Familiar.",
       features: [
         "Morte Acidental - 150 mil", 
         "Invalidez Permanente Total por Acidente - 75 mil",
@@ -214,7 +214,7 @@ export default function PlanSlider({
       award: "Sorteio de R$20.000,00",
       resume: "Detalhes:",
       resumeDesc:
-        "Assistência pessoal + residencial + dezenas de serviços Desconto em farmácia + funeral familiar + Médico na Tela Familiar.",
+        "Assistência Pessoal + App Namu + Faz tudo (Assistência Residencial) + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar + Rede Saúde Familiar.",
       features: [
         "Morte Acidental - 200 mil", 
         "Invalidez Permanente Total por Acidente - 100 mil",
@@ -231,7 +231,7 @@ export default function PlanSlider({
       award: "Sorteio de R$20.000,00",
       resume: "Detalhes:",
       resumeDesc:
-        "Assistência pessoal + residencial + dezenas de serviços Desconto em farmácia + funeral familiar + Médico na Tela Familiar.",
+        "Assistência Pessoal + App Namu + Faz tudo (Assistência Residencial) + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar + Rede Saúde Familiar.",
       features: [
         "Morte Acidental - 300 mil", 
         "Invalidez Permanente Total por Acidente - 150 mil",
