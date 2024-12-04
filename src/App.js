@@ -74,6 +74,7 @@ import InvoicePaymentVida from "./components/seguro-de-vida/InvoicePaymentVida";
 import IndexConsorcioImovel from "./components/consorcio-imovel/index.js";
 import IndexConsorcioAuto from "./components/consorcio-auto/index.js";
 import IndexCotacaoTravel from "./components/primetravel/cotador/indexCotacaoTravel.js";
+import IndexSeguroMoto from "./components/seguro-moto/indexSeguroMoto.js";
 
 /**
  *  Componente para fazer o scroll para o topo da página
@@ -170,6 +171,10 @@ function App() {
           <Route path="/contrato" element={<PageContract />} />
           <Route path="/politicas-de-privacidade" element={<PrivacyPolicy />} />
           <Route path="/rede-credenciada" element={<CredentialNetwork />} />
+
+          {/* SEGURO MOTO TESTE */}
+          <Route path="/seguro-moto" element={<IndexSeguroMoto />} />
+
           {/* ROTAS PETLOVE */}
           <Route
             path="/cotacao-pet-love/planos"

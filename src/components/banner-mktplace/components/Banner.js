@@ -101,9 +101,9 @@ export default function Banner() {
     {
       id: 1,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/large/srclarge-novembro-2024-primetravel-black-friday.png",
+        "https://storage.googleapis.com/primesecure/home/janeiro2024/srclarge%20telemedicina%202024%20viagem.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/medium/srcmedium-novembro-2024-primetravel-black-friday.png",
+        "https://storage.googleapis.com/primesecure/home/janeiro2024/srcMedium%20telemedicina%202024%20viagem.png",
       srcMobile:
         "https://storage.googleapis.com/primesecure/banners/imgs-black-friday-2024/mobile/srcmobile-novembro-2024-vida-black-friday.png",
       alt: "Banner de Natal para Telas Grandes",
