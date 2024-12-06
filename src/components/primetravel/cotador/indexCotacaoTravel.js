@@ -25,15 +25,21 @@ const IndexCotacaoTravel = () => {
   // Função para rolar a tela até o botão "Avançar"
   const scrollTo = () => {
     if (avancarRef.current) {
-      avancarRef.current.scrollIntoView({ behavior: "smooth" });
-      // Depois de um pequeno delay, adiciona a animação bounce
-      setTimeout(() => {
-        setShouldBounce(true);
-        // Remove a animação após 1 segundo, para não ficar infinita
+      // Pega a posição do botão Avançar
+    const elementRect = avancarRef.current.getBoundingClientRect();
+    const elementPosition = elementRect.top + window.scrollY;
+    
+    // Calcula um offset de 50% da altura da janela, você pode ajustar conforme necessário.
+    const offset = window.innerHeight * 0.5;
+    
+    // Rola para a posição do botão menos o offset desejado, criando um efeito de parar 50% antes.
+    window.scrollTo({
+      top: elementPosition - offset,
+      behavior: 'smooth',
+    });
         setTimeout(() => {
           setShouldBounce(false);
         }, 1000);
-      }, 500);
     }
   };
 
