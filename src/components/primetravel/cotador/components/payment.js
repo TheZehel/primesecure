@@ -1,16 +1,23 @@
 import React from "react";
 import { useState } from "react";
 import InputMask from "react-input-mask";
+import { ccNumberFormated, formatExpirationDate, formatCVC } from "../modules/formatFunctions"
 import chip from "../../../../../src/assets/svg/payment-card/cc-chip.svg";
 import imgDefault from "../../../../../src/assets/svg/payment-card/cc-icon.svg";
 //import LoadingAnimation from "loadingSvg";
 
 const Payment = () => {
-  let handleAddCard = 0;
+  //ESTADOS
+  const [cardNumber, setCardNumber] = useState("") //0000 0000 0000 0000
+  const [cardHolder, setCardHolder] = useState("") // Nome Impresso
+  const [expirationDate, setExpirationDate] = useState("") //20/24
+  const [ cvc, setCvc ] = useState("") // 000
+  const [isLoading, setIsLoading] = useState("false") 
 
-  console.log(handleAddCard);
-
-  const [isLoading, setIsLoading] = useState(false);
+  const handleAddCard = () => {
+    // lógica para envio do cartão
+    console.log("Realizando pagamento");
+  };
 
   return (
     <div className="mx-2 flex flex-col lg:flex-row gap-8">
@@ -29,6 +36,8 @@ const Payment = () => {
               className="border-bluePrime border rounded-md h-10 px-4 w-full text-grayPrime uppercase focus:outline-none focus:ring-2 focus:ring-inset focus:ring-bluePrime2 focus:border-none"
               mask={"9999 9999 9999 9999"}
               maskChar={null}
+              value={cardNumber}
+              onChange={(e) => setCardNumber(e.target.value)}
             />
           </div>
 
@@ -39,6 +48,9 @@ const Payment = () => {
             <input
               id="card-holder"
               className="border-bluePrime border rounded-md h-10 px-4 w-full text-grayPrime uppercase focus:outline-none focus:ring-2 focus:ring-inset focus:ring-bluePrime2 focus:border-none"
+              value={cardHolder}
+              onChange={(e) => setCardHolder(e.target.value)}
+              maxLength={40}
             />
           </div>
 
@@ -52,6 +64,8 @@ const Payment = () => {
                 className={`border-bluePrime border rounded-md h-10 px-4 w-full text-grayPrime uppercase focus:outline-none focus:ring-2 focus:ring-inset focus:ring-bluePrime2 focus:border-none`}
                 mask={"99/99"}
                 maskChar={null}
+                value={expirationDate}
+                onChange={(e) => setExpirationDate(e.target.value)}
               />
             </div>
 
@@ -64,6 +78,8 @@ const Payment = () => {
                 className={`border-bluePrime border rounded-md h-10 px-4 w-full text-grayPrime uppercase focus:outline-none focus:ring-2 focus:ring-inset focus:ring-bluePrime2 focus:border-none`}
                 mask={"999"}
                 maskChar={null}
+                value={cvc}
+                onChange={(e) => setCvc(e.target.value)}
               />
             </div>
           </div>
@@ -90,31 +106,28 @@ const Payment = () => {
             </div>
             <div className="flex justify-between items-center mb-6"></div>
             <div className="text-white text-2xl font-bold text-start">
-              {/* {ccNumberFormated(cardNumber) || "0000 0000 0000 0000"} */}
-              0000 0000 0000 0000
+            {cardNumber ? ccNumberFormated(cardNumber) : "0000 0000 0000 0000"}
             </div>
             <div className="mt-3">
               <div className="text-md font-bold text-gray-300 text-start">
                 Nome do titular
               </div>
               <div className="text-sm font-bold text-white uppercase text-start">
-                {/* {cardHolder || "NOME DO TITULAR"} */}
-                Nome do titular
+                {cardHolder || "NOME DO TITULAR"}
+                
               </div>
             </div>
             <div className="flex justify-between items-center mt-3">
               <div>
                 <div className="text-sm text-gray-300">Expiração</div>
                 <div className="text-sm font-bold text-white uppercase">
-                  {/* {expirationDate || "00/00"} */}
-                  00/00
+                  {expirationDate ? formatExpirationDate(expirationDate) : "00/00"}
                 </div>
               </div>
               <div>
                 <div className="text-sm text-gray-300">CVV</div>
                 <div className="text-sm font-bold text-white uppercase">
-                  {/* {cvc || "000"} */}
-                  000
+                  {cvc ? formatCVC(cvc) : "000"}
                 </div>
               </div>
               <div>

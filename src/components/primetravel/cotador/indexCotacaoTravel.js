@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import StepperControl from "./components/Stepper";
 import Plans from "./components/plans";
 import Resume from "./components/resume";
@@ -7,6 +7,8 @@ import Payment from "./components/payment";
 
 const IndexCotacaoTravel = () => {
   const [activeStep, setActiveStep] = useState(0); // Estado do passo atual
+  const avancarRef = useRef(null); // Referência para o botão "Avançar"
+  const [shouldBounce, setShouldBounce] = useState(false);
 
   const handleNext = () => {
     if (activeStep < steps.length - 1) {
@@ -20,9 +22,24 @@ const IndexCotacaoTravel = () => {
     }
   };
 
-  // Array de componentes dos passos (declarado depois das funções)
+  // Função para rolar a tela até o botão "Avançar"
+  const scrollTo = () => {
+    if (avancarRef.current) {
+      avancarRef.current.scrollIntoView({ behavior: "smooth" });
+      // Depois de um pequeno delay, adiciona a animação bounce
+      setTimeout(() => {
+        setShouldBounce(true);
+        // Remove a animação após 1 segundo, para não ficar infinita
+        setTimeout(() => {
+          setShouldBounce(false);
+        }, 1000);
+      }, 500);
+    }
+  };
+
+  // Array de componentes dos passos
   const steps = [
-    <Plans handleNext={handleNext} />,
+    <Plans handleNext={handleNext} onSelected={scrollTo} />,
     <Resume />,
     <Passengers />,
     <Payment />,
@@ -41,9 +58,10 @@ const IndexCotacaoTravel = () => {
           Voltar
         </button>
         <button
+          ref={avancarRef}
           onClick={handleNext}
           disabled={activeStep === steps.length - 1}
-          className="px-4 py-2 bg-bluePrime text-white rounded"
+          className={`px-4 py-2 bg-bluePrime text-white rounded ${shouldBounce ? 'animate-bounce' : ''}`}
         >
           Avançar
         </button>

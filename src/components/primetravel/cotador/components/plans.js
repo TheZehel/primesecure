@@ -1,6 +1,31 @@
 import React from "react";
+import { useState } from "react"
 
-const Plans = ({ handleNext }) => {
+const Plans = ({onSelected }) => {
+  // Estados e variáveis estáticas
+  const [selectedPlanId, setSelectedPlanId] = useState("");
+  const [isSelected, setIsSelected] = useState(false);
+
+  const planId = "plano_estatico";
+
+  // Funções fictícias para evitar erro no ESLint
+  const updateFormData = (data) => {
+    console.log("Form Data Updated:", data);
+  };
+
+  const handleNext = () => {
+    console.log("Próximo passo executado");
+  };
+
+  const handleButtonClick = () => {
+    updateFormData({ selectedPlanId: planId });
+    setIsSelected(true);
+    handleNext();
+
+    // Chama a função recebida via props do ParentComponent
+    onSelected();
+  };
+
   return (
     <div>
       <div>
@@ -45,12 +70,20 @@ const Plans = ({ handleNext }) => {
         {/* Buttons */}
         <div className="flex flex-col items-center mt-6 space-y-3">
           <button
-            onClick={handleNext}
-            href="#"
-            className="bg-bluePrime cursor-pointer text-white uppercase text-sm py-2 px-4 rounded-md shadow-md"
+            onClick={handleButtonClick}
+            className={`${isSelected ? "bg-bluePrime2" : "bg-bluePrime"}
+          cursor-pointer text-white uppercase text-sm py-2 px-4 rounded-md shadow-md 
+          flex items-center justify-center w-full`}
           >
-            Contratar
+            <input
+              className="accent-bluePrime rounded-full mr-2 cursor-pointer"
+              type="checkbox"
+              checked={isSelected}
+              onChange={(e) => e.stopPropagation()}
+            />
+            {isSelected ? "Selecionado" : "Contratar"}
           </button>
+
         </div>
 
         {/* Benefits */}
@@ -90,13 +123,13 @@ const Plans = ({ handleNext }) => {
           <button type="button" className="text-blue-600 text-sm underline">
             Ver Todas as Coberturas
           </button>
-          <button
+          {/* <button
             onClick={handleNext}
             href="#"
             className="bg-bluePrime cursor-pointer text-white uppercase text-sm py-2 px-4 rounded-md shadow-md"
           >
             Contratar
-          </button>
+          </button> */}
         </div>
       </div>
     </div>
