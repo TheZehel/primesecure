@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import ConteudoSessaoInfo from "../../../globalsubcomponentes/ConteudoSessaoInfo";
 import sessaoInfoLp from "../../../modules/SessaoInfoLp";
+import { Headset, HeartPulse, MapPin } from "lucide-react";
 
 export default function ContainerCoberturas() {
   const [modalOpen, setModalIsOpen] = useState(false);
@@ -34,6 +35,14 @@ export default function ContainerCoberturas() {
               São Mais de 30 Coberturas Exclusivas Para as Suas Próximas
               Viagens.
             </p>
+            <div className="flex flex-row space-x-3 my-3">
+              <div className="bg-gray-50 p-2">
+                  texto 1
+              </div>
+              <div>
+                  texto 2
+              </div>
+            </div>
           </div>
           <div>
             <div className="mt-10">
@@ -41,7 +50,22 @@ export default function ContainerCoberturas() {
                 aria-hidden="true"
                 className="pointer-events-none lg:absolute lg:inset-y-0 lg:mx-auto lg:w-full lg:max-w-7xl"
               >
-                <div className="absolute transform sm:left-1/2 sm:top-0 sm:translate-x-8 lg:left-1/2 lg:top-1/2 lg:-translate-y-1/2 lg:translate-x-8">
+
+                <div>
+                  <MapPin />
+                  <h2>A melhor rede internacional do mercado</h2>
+                </div>
+
+                <div>
+                  <HeartPulse />
+                  <h2>Cobertura para doeças preexistentes</h2>
+                </div>
+
+                <div>
+                  <Headset />
+                  <h2>Atendimento 24h por dia em português</h2>
+                </div>
+                {/* <div className="absolute transform sm:left-1/2 sm:top-0 sm:translate-x-8 lg:left-1/2 lg:top-1/2 lg:-translate-y-1/2 lg:translate-x-8">
                   <div className="flex items-center space-x-6 lg:space-x-8">
                     <div className="grid flex-shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
                       <div className="h-64 w-44 overflow-hidden rounded-lg sm:opacity-0 lg:opacity-100">
@@ -120,7 +144,7 @@ export default function ContainerCoberturas() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
 
               <div className="flex justify-self-center">
@@ -137,7 +161,7 @@ export default function ContainerCoberturas() {
           </div>
         </div>
       </div>
-      <Modal
+      {/* <Modal
         isOpen={modalOpen}
         onRequestClose={closeModal}
         style={{
@@ -162,7 +186,7 @@ export default function ContainerCoberturas() {
             <ConteudoSessaoInfo sessaoInfoLp={sessaoInfoLp} sessaoInfoId="2" />
           </div>
         </div>
-      </Modal>
+      </Modal> */}
     </div>
   );
 }

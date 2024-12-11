@@ -1,4 +1,5 @@
 import React from "react";
+import GlobeImage from "../../../../../src/assets/img/world.jpg";
 
 import imageManagerPrimeTravel from "../../bancodeimagens/BancoDeImagensPrimeTravel";
 
@@ -16,7 +17,7 @@ export default function AlbertEinstein() {
         É ideal para quem precisa estar protegido em duas ou mais viagens ao exterior durante o período de um ano. 
         Você não precisa fazer um seguro toda vez que viaja, com o EASY Multiviagens, você tem uma apólice válida por um ano, que pode ser ativada todas as vezes que necessitar!
         </p>
-        <img src="../../../../../src/assets/img/world.jpg" alt="Mundo"/>
+        <img src="https://storage.googleapis.com/primesecure/world.png" className="w-1/3 mx-auto" />
       </div>
 
       
