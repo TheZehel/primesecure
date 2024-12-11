@@ -13,6 +13,12 @@ const IndexCotacaoTravel = () => {
   const handleNext = () => {
     if (activeStep < steps.length - 1) {
       setActiveStep((prev) => prev + 1);
+
+      // A tela do resumo sobe quando clica em avançar
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
     }
   };
 
@@ -37,11 +43,16 @@ const IndexCotacaoTravel = () => {
       top: elementPosition - offset,
       behavior: 'smooth',
     });
+
+        // Ativa o bounce
+    setShouldBounce(true);
+
         setTimeout(() => {
           setShouldBounce(false);
         }, 1000);
     }
   };
+
 
   // Array de componentes dos passos
   const steps = [

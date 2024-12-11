@@ -1,20 +1,218 @@
 import { Chip } from "@material-tailwind/react";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {CirclePlus} from "lucide-react"
+import { prepareCssVars } from "@mui/system";
+import InputMask from "react-input-mask";
 
 const Passengers = () => {
   const [isSaved, setIsSaved] = useState(false);
-  const [passengerName, setPassengerName] = useState("");
+  const [passengerFirstName, setPassengerFirstName] = useState("");
+  const [passengerSecondName, setPassengerSecondName] = useState("");
+  const [passengerCPF, setPassengerCPF] = useState("");
+  const [passengerBirthday, setPassengerBirthday] = useState("");
+  const [passengerGender, setPassengerGender] = useState("");
+  const [passengerExposedPerson, setPessengerExposedPerson] = useState("");
+  const [passengerEmail, setPassengerEmail] = useState("");
+  const [passengerTell, setPassengerTell] = useState("");
+  const [passengerSocialName, setPassengerSocialName] = useState("");
+  const [passengerZipCode, setPassengerZipCode] = useState("");
+  const [passengerAddress, setPassengerAddress] = useState("");
+  const [passengerNumberAddress, setPassengerNumberAddress] = useState("");
+  const [passengerCompleteAddress, setPassengerCompleteAddress] = useState("");
+  const [passengerDistrict, setPassengerDistrict] = useState("");
+  const [passengerCity, setPassengerCity] = useState("");
+   const [errors, setErrors] = useState({ 
+     firstName: false,
+     secondName: false,
+     CPF: false,
+     birthday: false,
+     gender: false,
+     exposedPerson: false,
+     email: false,
+     tell: false,
+     socialName: false,
+     zipCode: false,
+     address: false,
+     numberAddress: false,
+     completeAddress: false,
+     district: false,
+     city: false,
+   }); // Controle de erros
+
+  const firstNameRef = useRef(null); //Referencia para o campo de "Primeiro nome"
+  const secondNameRef = useRef(null);
+  const CPFRef = useRef(null);
+  const birthdayRef = useRef(null);
+  const genderRef = useRef(null);
+  const exposedPersonRef = useRef(null);
+  const emailRef = useRef(null);
+  const tellRef = useRef(null);
+  const socialNameRef = useRef(null);
+  const zipCodeRef = useRef(null);
+  const addressRef = useRef(null);
+  const numberAddressRef = useRef(null);
+  const completeAddressRef = useRef(null);
+  const districtRef = useRef(null);
+  const cityRef = useRef(null);
 
   const handleSave = () => {
-    // Atualiza o estado para "salvo"
+    let hasError = false; // Controle de erros
+  
+    // Verifica todos os campos de uma vez
+    const newErrors = {
+      firstName: !passengerFirstName,
+      secondName: !passengerSecondName,
+      CPF: !passengerCPF,
+      birthday: !passengerBirthday,
+      gender: !passengerGender,
+      exposedPerson: !passengerExposedPerson,
+      email: !passengerEmail,
+      tell: !passengerTell,
+      socialName: false, // Opcional, pode ser removido se não for obrigatório
+      zipCode: !passengerZipCode,
+      address: !passengerAddress,
+      numberAddress: !passengerNumberAddress,
+      completeAddress: false, // Opcional
+      district: !passengerDistrict,
+      city: !passengerCity,
+    };
+  
+    // Define se há algum erro
+    Object.values(newErrors).forEach((value) => {
+      if (value) hasError = true;
+    });
+  
+    // Atualiza os erros no estado
+    setErrors(newErrors);
+  
+    // Se houver erro, interrompe o fluxo
+    if (hasError) {
+      // Rola para o primeiro erro encontrado
+      if (newErrors.firstName) {
+        firstNameRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      } else if (newErrors.secondName) {
+        secondNameRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      } else if (newErrors.CPF){
+        CPFRef.current?.scrollIntoView({ behavior: "smooth", block: "center"});
+      } else if (newErrors.birthday) {
+        birthdayRef.current?.scrollIntoView({ behavior: "smooth", block: "center"});
+      } else if (newErrors.gender) {
+        genderRef.current?.scrollIntoView({ behavior: "smooth", block: "center"});
+      } else if (newErrors.exposedPerson) {
+        exposedPersonRef.current?.scrollIntoView({ behavior: "smooth", block: "center"});
+      } else if (newErrors.email) {
+        emailRef.current?.scrollIntoView({ behavior: "smooth", block: "center"});
+      } else if (newErrors.tell) {
+        tellRef.current?.scrollIntoView({ behavior: "smooth", block: "center"});
+      } else if (newErrors.socialName) {
+        socialNameRef.current?.scrollIntoView({ behavior: "smooth", block: "center"});
+      } else if (newErrors.zipCode) {
+        zipCodeRef.current?.scrollIntoView({ behavior: "smooth", block: "center"});
+      } else if (newErrors.address) {
+        addressRef.current?.scrollIntoView({ behavior: "smooth", block: "center"});
+      } else if (newErrors.numberAddress) {
+        numberAddressRef.current?.scrollIntoView({ behavior: "smooth", block: "center"});
+      } else if (newErrors.completeAddress) {
+        completeAddressRef.current?.scrollIntoView({ behavior: "smooth", block: "center"});
+      } else if (newErrors.district) {
+        districtRef.current?.scrollIntoView({ behavior: "smooth", block: "center"});
+      } else if (newErrors.city) {
+        cityRef.current?.scrollIntoView({ behavior: "smooth", block: "center"});
+      }
+      return;
+    }
+  
+    // Caso não tenha erros, salva o formulário
+    setErrors({}); // Reseta os erros
     setIsSaved(true);
   };
 
-  const handleEdit = () => {
-    // Atualiza o estado para "editar"
-    setIsSaved(false);
+  //Scrolla pra cima para o campo vazio 
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  })
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+  
+    if (name === "firstName") {
+      setPassengerFirstName(value);
+      if (value) {
+        setErrors((prev) => ({ ...prev, firstName: false })); // Remove o erro de primeiro nome
+      }
+    } else if (name === "secondName") {
+      setPassengerSecondName(value);
+      if (value) {
+        setErrors((prev) => ({ ...prev, secondName: false })); // Remove o erro de segundo nome
+      }
+    } else if (name === "CPF") {
+      setPassengerCPF(value);
+      if(value){
+        setErrors((prev) => ({...prev, CPF: false }));
+      }
+    } else if (name === "birthday"){
+      setPassengerBirthday(value);
+      if(value){
+        setErrors((prev) => ({ ...prev, birthday: false}));
+      } 
+    } else if (name === "gender"){
+      setPassengerGender(value);
+      if(value){
+        setErrors((prev) => ({...prev, gender: false}));
+      }
+    } else if (name === "exposedPerson"){
+      setPessengerExposedPerson(value);
+      if(value){
+        setErrors((prev) => ({...prev, exposedPerson: false}));
+      }
+    } else if (name === "email"){
+      setPassengerEmail(value);
+      if(value){
+        setErrors((prev) => ({...prev, email: false}));
+      }
+    } else if (name === "tell"){
+      setPassengerTell(value);
+      if(value){
+        setErrors((prev) => ({...prev, tell: false}));
+      }
+    } else if (name === "socialName"){
+      setPassengerSocialName(value);
+      if(value){
+        setErrors((prev) => ({...prev, socialName: false}));
+      }
+    } else if (name === "address"){
+      setPassengerAddress(value);
+      if(value){
+        setErrors((prev) => ({...prev, address: false}));
+      }
+    } else if (name === "numberAddress"){
+      setPassengerNumberAddress(value);
+      if(value){
+        setErrors((prev) => ({...prev, numberAddress: false}));
+      }
+    } else if (name === "completeAddress"){
+      setPassengerCompleteAddress(value);
+      if(value){
+        setErrors((prev) => ({...prev, completeAddress: false}));
+      }
+    } else if (name === "district"){
+      setPassengerDistrict(value);
+      if(value){
+        setErrors((prev) => ({...prev, district: false}));
+      }
+    } else if (name === "city"){
+      setPassengerCity(value);
+      if(value){
+        setErrors((prev) => ({...prev, city: false}));
+      }
+    }
   };
+
+  // const handleEdit = () => {
+  //   // Atualiza o estado para "editar"
+  //   setIsSaved(false);
+  // };
 
   return (
     <div>
@@ -30,7 +228,7 @@ const Passengers = () => {
           <div className="flex justify-between items-center">
             <div>
               <h2 className="text-xl font-bold text-[#313131]">
-                {passengerName || "Passageiro"} {/* Nome salvo */}
+                {passengerFirstName || "Passageiro"} {/* Nome salvo */}
               </h2>
               <Chip
                 className="bg-bluePrime items-center"
@@ -39,7 +237,7 @@ const Passengers = () => {
               />
             </div>
             <button
-              onClick={handleEdit}
+              onClick={handleSave}
               className="bg-bluePrime px-4 py-2 text-white rounded-md"
             >
               Editar Passageiro
@@ -67,35 +265,70 @@ const Passengers = () => {
               {/* COLUNA 1 */}
               <div className="sm:flex sm:space-x-4 space-y-2 sm:space-y-0 mt-2">
                 <input
+                ref={firstNameRef} //Atribuir o ref ao campo "Primeiro nome"
+                name="firstName" // Adicione o atributo name
                   type="text"
-                  placeholder="Primeiro Nome"
-                  className="rounded-md border border-bluePrime p-2 w-full focus:ring-bluePrime ring-bluePrime focus:ring-1 focus:ring-inset"
+                  placeholder={errors.firstName ? "Coloque somente o primeiro nome" : "Primeiro nome"}
+                  value={passengerFirstName}
+                  onChange={handleInputChange}
+                  className={`rounded-md border p-2 w-full ${
+                    errors.firstName
+                    ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
+                    : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
+                  }`}
                 />
                 {/* INPUT SEGUNDO NOME */}
                 <input
+                ref={secondNameRef}
+                name="secondName"
                   type="text"
-                  placeholder="Segundo Nome"
-                  className="rounded-md border border-bluePrime p-2 w-full focus:ring-bluePrime ring-bluePrime focus:ring-1 focus:ring-inset"
+                  placeholder={errors.secondName ? "Coloque somente seu segundo nome" : "Segundo nome"}
+                  value={passengerSecondName}
+                  onChange={handleInputChange}
+                  className={`rounded-md border p-2 w-full ${
+                    errors.secondName
+                    ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
+                    : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
+                  }`}
                 />
                 {/* CPF */}
-                <input
+                <InputMask
+                ref={CPFRef}
+                name="CPF"
                   type="text"
-                  placeholder="CPF"
-                  className="rounded-md border border-bluePrime p-2 w-full focus:ring-bluePrime ring-bluePrime focus:ring-1 focus:ring-inset"
+                  mask="999.999.999-99"
+                  placeholder={errors.CPF ? "Coloque o seu CPF completo" : "Seu CPF"}
+                  className={`rounded-md border p-2 w-full ${
+                    errors.secondName
+                    ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
+                    : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
+                  }`}
                 />
               </div>
               {/* COLUNA 2 */}
               <div className="sm:flex sm:space-x-4 space-y-2 sm:space-y-0 mt-2">
                 {/* INPUT DATA */}
                 <input
+                  ref={birthdayRef}
                   type="date"
-                  name="date"
-                  className="rounded-md border border-bluePrime p-2 w-full focus:ring-bluePrime ring-bluePrime focus:ring-1 focus:ring-inset"
+                  name="birthday"
+                  placeholder={errors.birthday ? "Coloque sua data de nascimento" : "Data de nascimento"}
+                  className={`rounded-md border p-2 w-full ${
+                    errors.birthday
+                    ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
+                    : "border-bluePrime focus:ring-bluePrime ring-bluePrime"                    
+                  }`}
                 />
                 {/* INPUT SEXO */}
                 <select
+                  ref={genderRef}
+                  placeholder={errors.gender ? "Coloque o seu gênero" : "Gênero"}
                   name="sexo"
-                  className="rounded-md border border-bluePrime p-2 w-full focus:ring-bluePrime ring-bluePrime focus:ring-1 focus:ring-inset cursor-pointer"
+                  className={`rounded-md border p-2 w-full ${
+                    errors.gender
+                    ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
+                    : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
+                  }`}
                 >
                   <option value="0">Gênero</option>
                   <option value="Masculino">Masculino</option>
@@ -103,8 +336,14 @@ const Passengers = () => {
                 </select>
                 {/* INPUT PESSOA POLITICAMENTE EXPOSTA */}
                 <select
+                  ref={exposedPersonRef}
+                  placeholder={errors.exposedPerson ? "" : "Pessoa politicamente exposta?"}
                   name="politica"
-                  className="rounded-md border border-bluePrime p-2 w-full focus:ring-bluePrime ring-bluePrime focus:ring-1 focus:ring-inset cursor-pointer"
+                  className={`rounded-md border p-2 w-full ${
+                    errors.exposedPerson
+                    ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
+                    : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
+                  }`}
                 >
                   <option value="0">Pessoa políticamente exposta?</option>
                   <option value="Sim">Sim</option>
@@ -115,70 +354,117 @@ const Passengers = () => {
               <div className="sm:flex sm:space-x-4 space-y-2 sm:space-y-0 mt-2">
                 {/* INPUT CEP */}
                 <input
+                  ref={emailRef}
                   type="email"
-                  placeholder="Email"
+                  placeholder={errors.email ? "Coloque um email válido" : "Seu email"}
                   name="email"
-                  className="rounded-md border border-bluePrime p-2 w-full focus:ring-bluePrime ring-bluePrime focus:ring-1 focus:ring-inset"
+                  className={`rounded-md border p-2 w-full ${
+                    errors.exposedPerson
+                    ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
+                    : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
+                  }`}
                 />
                 {/* INPUT Telefone */}
-                <input
+                <InputMask
+                  mask={"(99) 99999-9999"}                
+                ref={emailRef}
                   type="text"
-                  placeholder="Telefone"
+                  placeholder={errors.email ? "Coloque um telefone válido" : "Seu telefone"}
                   name="telefone"
-                  className="rounded-md border border-bluePrime p-2 w-full focus:ring-bluePrime ring-bluePrime focus:ring-1 focus:ring-inset"
+                  className={`rounded-md border p-2 w-full ${
+                    errors.exposedPerson
+                    ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
+                    : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
+                  }`}
                 />
                 {/* INPUT NOME SOCIAL */}
                 <input
+                  ref={socialNameRef}
                   type="text"
-                  placeholder="Nome Social"
+                  placeholder={errors.socialName ? "Coloque um nome social válido" : "Seu nome social"}
                   name="social-name"
-                  className="rounded-md border border-bluePrime p-2 w-full focus:ring-bluePrime ring-bluePrime focus:ring-1 focus:ring-inset"
+                  className={`rounded-md border p-2 w-full ${
+                    errors.exposedPerson
+                    ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
+                    : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
+                  }`}
                 />
               </div>
               {/* COLUNA 4 */}
               <div className="sm:flex sm:space-x-4 space-y-2 sm:space-y-0 mt-2">
-                {/* INPUT EMAIL */}
-                <input
+                {/* INPUT CEP */}
+                <InputMask
+                mask={"9999-999"}
+                ref={zipCodeRef}
                   type="text"
-                  placeholder="Cep"
+                  placeholder={errors.zipCode ? "Coloque um CEP" : "Seu CEP"}
                   name="cep"
-                  className="rounded-md border border-bluePrime w-full sm:w-[32.5%] p-2 focus:ring-bluePrime ring-bluePrime focus:ring-1 focus:ring-inset"
+                  className={`rounded-md border p-2 w-full ${
+                    errors.exposedPerson
+                    ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
+                    : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
+                  }`}
                 />
                 {/* ENDEREÇO */}
                 <input
+                ref={addressRef}
                   type="text"
-                  placeholder="Endereço"
-                  className="rounded-md border border-bluePrime w-full sm:w-[50%] p-2 focus:ring-bluePrime ring-bluePrime focus:ring-1 focus:ring-inset"
+                  placeholder={errors.address ? "Coloque seu endereço" : "Seu endereço"}
+                  className={`rounded-md border p-2 w-full ${
+                    errors.exposedPerson
+                    ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
+                    : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
+                  }`}
                 />
                 {/* NUMERO ENDEREÇO */}
                 <input
+                  ref={numberAddressRef}
                   type="text"
-                  placeholder="Número"
-                  className="rounded-md border border-bluePrime w-full sm:w-[14.5%] p-2 focus:ring-bluePrime ring-bluePrime focus:ring-1 focus:ring-inset"
+                  placeholder={errors.numberAddress ? "Seu número" : "Número"}
+                  className={`rounded-md border p-2 w-full ${
+                    errors.exposedPerson
+                    ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
+                    : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
+                  }`}
                 />
               </div>
               {/* COLUNA 5 */}
               <div className="sm:flex sm:space-x-4 space-y-2 sm:space-y-0 mt-2">
                 {/* INPUT COMPLEMENTO */}
                 <input
+                  ref={completeAddressRef}
                   type="text"
-                  placeholder="Complemento"
+                  placeholder={errors.completeAddress ? "" : "Complemento"}
                   name="complemento"
-                  className="rounded-md border border-bluePrime p-2 w-full focus:ring-bluePrime ring-bluePrime focus:ring-1 focus:ring-inset"
+                  className={`rounded-md border p-2 w-full ${
+                    errors.exposedPerson
+                    ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
+                    : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
+                  }`}
                 />
                 {/* INPUT BAIRRO */}
                 <input
+                  ref={districtRef}
                   type="text"
-                  placeholder="Bairro"
+                  placeholder={errors.district ? "Coloque um bairro válido" : "Seu bairro"}
                   name="bairro"
-                  className="rounded-md border border-bluePrime p-2 w-full focus:ring-bluePrime ring-bluePrime focus:ring-1 focus:ring-inset"
+                  className={`rounded-md border p-2 w-full ${
+                    errors.exposedPerson
+                    ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
+                    : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
+                  }`}
                 />
                 {/* INPUT CIDADE*/}
                 <input
+                  ref={cityRef}
                   type="text"
-                  placeholder="Cidade"
+                  placeholder={errors.city ? "Coloque um cidade válida" : "Sua cidade"}
                   name="cidade"
-                  className="rounded-md border border-bluePrime p-2 w-full focus:ring-bluePrime ring-bluePrime focus:ring-1 focus:ring-inset"
+                  className={`rounded-md border p-2 w-full ${
+                    errors.exposedPerson
+                    ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
+                    : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
+                  }`}
                 />
               </div>
             </div>
@@ -210,7 +496,7 @@ const Passengers = () => {
           <div className="flex justify-between items-center">
             <div>
               <h2 className="text-xl font-bold text-[#313131]">
-                {passengerName || "Passageiro"} {/* Nome salvo */}
+                {passengerFirstName || "Passageiro"} {/* Nome salvo */}
               </h2>
               <Chip
                 className="bg-bluePrime items-center"
@@ -219,7 +505,7 @@ const Passengers = () => {
               />
             </div>
             <button
-              onClick={handleEdit}
+              onClick={handleSave}
               className="bg-bluePrime px-4 py-2 text-white rounded-md"
             >
               Editar Passageiro
@@ -247,35 +533,70 @@ const Passengers = () => {
               {/* COLUNA 1 */}
               <div className="sm:flex sm:space-x-4 space-y-2 sm:space-y-0 mt-2">
                 <input
+                ref={firstNameRef} //Atribuir o ref ao campo "Primeiro nome"
+                name="firstName" // Adicione o atributo name
                   type="text"
-                  placeholder="Primeiro Nome"
-                  className="rounded-md border border-bluePrime p-2 w-full focus:ring-bluePrime ring-bluePrime focus:ring-1 focus:ring-inset"
+                  placeholder={errors.firstName ? "Coloque somente o primeiro nome" : "Primeiro nome"}
+                  value={passengerFirstName}
+                  onChange={handleInputChange}
+                  className={`rounded-md border p-2 w-full ${
+                    errors.firstName
+                    ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
+                    : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
+                  }`}
                 />
                 {/* INPUT SEGUNDO NOME */}
                 <input
+                ref={secondNameRef}
+                name="secondName"
                   type="text"
-                  placeholder="Segundo Nome"
-                  className="rounded-md border border-bluePrime p-2 w-full focus:ring-bluePrime ring-bluePrime focus:ring-1 focus:ring-inset"
+                  placeholder={errors.secondName ? "Coloque somente seu segundo nome" : "Segundo nome"}
+                  value={passengerSecondName}
+                  onChange={handleInputChange}
+                  className={`rounded-md border p-2 w-full ${
+                    errors.secondName
+                    ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
+                    : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
+                  }`}
                 />
                 {/* CPF */}
-                <input
+                <InputMask
+                ref={CPFRef}
+                name="CPF"
                   type="text"
-                  placeholder="CPF"
-                  className="rounded-md border border-bluePrime p-2 w-full focus:ring-bluePrime ring-bluePrime focus:ring-1 focus:ring-inset"
+                  mask="999.999.999-99"
+                  placeholder={errors.CPF ? "Coloque o seu CPF completo" : "Seu CPF"}
+                  className={`rounded-md border p-2 w-full ${
+                    errors.secondName
+                    ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
+                    : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
+                  }`}
                 />
               </div>
               {/* COLUNA 2 */}
               <div className="sm:flex sm:space-x-4 space-y-2 sm:space-y-0 mt-2">
                 {/* INPUT DATA */}
                 <input
+                  ref={birthdayRef}
                   type="date"
-                  name="date"
-                  className="rounded-md border border-bluePrime p-2 w-full focus:ring-bluePrime ring-bluePrime focus:ring-1 focus:ring-inset"
+                  name="birthday"
+                  placeholder={errors.birthday ? "Coloque sua data de nascimento" : "Data de nascimento"}
+                  className={`rounded-md border p-2 w-full ${
+                    errors.birthday
+                    ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
+                    : "border-bluePrime focus:ring-bluePrime ring-bluePrime"                    
+                  }`}
                 />
                 {/* INPUT SEXO */}
                 <select
+                  ref={genderRef}
+                  placeholder={errors.gender ? "Coloque o seu gênero" : "Gênero"}
                   name="sexo"
-                  className="rounded-md border border-bluePrime p-2 w-full focus:ring-bluePrime ring-bluePrime focus:ring-1 focus:ring-inset cursor-pointer"
+                  className={`rounded-md border p-2 w-full ${
+                    errors.gender
+                    ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
+                    : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
+                  }`}
                 >
                   <option value="0">Gênero</option>
                   <option value="Masculino">Masculino</option>
@@ -283,8 +604,14 @@ const Passengers = () => {
                 </select>
                 {/* INPUT PESSOA POLITICAMENTE EXPOSTA */}
                 <select
+                  ref={exposedPersonRef}
+                  placeholder={errors.exposedPerson ? "" : "Pessoa politicamente exposta?"}
                   name="politica"
-                  className="rounded-md border border-bluePrime p-2 w-full focus:ring-bluePrime ring-bluePrime focus:ring-1 focus:ring-inset cursor-pointer"
+                  className={`rounded-md border p-2 w-full ${
+                    errors.exposedPerson
+                    ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
+                    : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
+                  }`}
                 >
                   <option value="0">Pessoa políticamente exposta?</option>
                   <option value="Sim">Sim</option>

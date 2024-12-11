@@ -30,13 +30,10 @@ export default function SomeToppings() {
             />
             <div className="text-left">
               <h3 className="text-2xl font-bold mb-5 text-bluePrime mx-2">
-                Atraso de Voo (até 12H)
+                Proteção na palma da mão
               </h3>
               <p className="text-lg mx-2 text-justify">
-                A política cobre reembolsos para despesas de alimentação e
-                hospedagem em caso de atrasos de voo de 12 horas ou mais,
-                causados por clima severo, questões trabalhistas ou quebras
-                inesperadas na aeronave.
+                Com a PrimeSecure, você acessa todas as informações de cobertura, assistência e status de reivindicações por meio de um aplicativo. É rápido e fácil!
               </p>
             </div>
           </div>
@@ -50,13 +47,10 @@ export default function SomeToppings() {
             />
             <div className="text-left">
               <h3 className="text-2xl font-bold mb-5 text-bluePrime mx-2">
-                Cancelamento de Viagem
+              Suporte em qualquer lugar
               </h3>
               <p className="text-lg mx-2 text-justify">
-                Consiste no reembolso das despesas não reembolsáveis com a
-                aquisição de pacotes turísticos e/ou serviços de viagens, como
-                transporte e hospedagem, na ocorrência de evento coberto que
-                impeça o segurado de iniciar a viagem.
+              Quem conta com a PrimeSecure garante acesso a uma ampla rede de hospitais e centros de atendimento em mais de 110 países.
               </p>
             </div>
           </div>
@@ -75,12 +69,9 @@ export default function SomeToppings() {
             />
             <div className="text-left">
               <h3 className="text-2xl font-bold mb-5 text-bluePrime mx-2">
-                Perda de bagagem
-              </h3>
+              Agilidade no Atendimento              </h3>
               <p className="text-lg text-justify mx-2 ">
-                A política prevê reembolso de despesas com artigos de uso
-                pessoal se a bagagem do segurado for atrasada em 8 horas ou mais
-                pela companhia transportadora.
+              Com a PrimeSecure Seguro-Viagem, você tem suporte via WhatsApp ou ligação todos os dias da semana e em qualquer lugar do mundo. São 74 centrais disponíveis 24 horas para te ajudar.
               </p>
             </div>
           </div>
@@ -94,13 +85,27 @@ export default function SomeToppings() {
             />
             <div className="text-left">
               <h3 className="text-2xl font-bold mb-5 text-bluePrime mx-2">
-                Concierge
+              Planos Especiais
               </h3>
               <p className="text-lg mx-2 text-justify">
-                O Serviço de Concierge, disponível 24/7, auxilia os
-                beneficiários com informações sobre ingressos para shows,
-                viagens, aluguel de veículos e reservas de teatro em grandes
-                cidades do mundo.
+              Faça a extensão do seguro já em viagem e garanta os planos anuais e multiviagens.
+              </p>
+            </div>
+          </div>
+
+          {/* Item 5 */}
+          <div className="flex flex-col items-start">
+            <img
+              src={imageManagerPrimeTravel.SomeToppings.iconConcierge}
+              alt="Ilustração de um Gato dormindo"
+              className="mb-6 w-[90px] h-[90px]"
+            />
+            <div className="text-left">
+              <h3 className="text-2xl font-bold mb-5 text-bluePrime mx-2">
+              Sala VIP
+              </h3>
+              <p className="text-lg mx-2 text-justify">
+              A partir do plano 250, tenha acesso às salas VIPs dos aeroportos de Guarulhos, Recife e Belém.
               </p>
             </div>
           </div>

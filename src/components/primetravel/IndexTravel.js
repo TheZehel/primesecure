@@ -27,6 +27,7 @@ import SomeToppings from "./components/subcomponents/SomeToppings";
 import BannerPromos from "./components/subcomponents/BannerPromos";
 import StepsHiring from "./components/subcomponents/HiringSteps";
 import BannerPromo from "./components/subcomponents/BannerPromo";
+import FormTravelBanner2 from "./components/FormTravelBanner2";
 
 function IndexTravel() {
   const FaqRef = useRef();
@@ -77,7 +78,7 @@ function IndexTravel() {
       {/*<BannerPromos />*/}
       <BannerPromo />
       {/*<CountDown targetDate={targetDate} />*/}
-      <FormTravelBanner />
+      <FormTravelBanner2/>
       <FaixaBanner />
       <StepsHiring />
       {/*<BrindeTravel />*/}

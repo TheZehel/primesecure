@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react"
+import CardCotacao from "./cardCotacao";
 
 const Plans = ({onSelected }) => {
   // Estados e variáveis estáticas
@@ -28,6 +29,9 @@ const Plans = ({onSelected }) => {
 
   return (
     <div>
+      <div>
+        <CardCotacao/>
+      </div>
       <div>
         <h2 className="text-3xl font-bold text-[#313131] ">
           Selecionamos os Melhores Planos Para Você.

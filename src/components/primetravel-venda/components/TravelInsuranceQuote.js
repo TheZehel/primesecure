@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import { DatePicker, Space } from "antd";
 import InputMask from "react-input-mask";
-import Modal from "react-modal";
+import Modal from "react-modal"; 
 import imageManager from "../../bancoDeImagens";
 import { Chip } from "@material-tailwind/react";
 import ListaPaises from "../modules/ListaPaises";

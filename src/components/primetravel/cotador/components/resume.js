@@ -6,6 +6,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { Steps } from "antd";
+import { DollarSign, Plane, Users } from "lucide-react";
 
 function createData(planName, passengers, total) {
   return { planName, passengers, total };
@@ -19,6 +21,7 @@ const rows = [
   createData("Plano Premium", 3, "R$ 1500,00"),
 ];
 
+
 const Resume = () => {
   return (
     <div>
@@ -30,9 +33,24 @@ const Resume = () => {
         <Table sx={{ minWidth: 650 }} aria-label="tabela de planos">
           <TableHead>
             <TableRow>
-              <TableCell>Nome do Plano</TableCell>
-              <TableCell align="right">Qtd. Passageiros</TableCell>
-              <TableCell align="right">Total</TableCell>
+            <TableCell align="right">
+            <div className="flex items-center">
+              <Plane className="mr-2 text-sm text-bluePrime" />
+              Nome do Plano
+            </div>
+          </TableCell>
+          <TableCell align="right">
+            <div className="flex justify-end">
+              <Users className="mr-2 text-sm text-bluePrime" />
+              Qtd Passageiros
+            </div>
+          </TableCell>
+          <TableCell className="right">
+            <div className="flex justify-end">
+              <DollarSign className="mr-2 text-sm text-bluePrime" />
+              Total
+            </div>
+          </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -54,5 +72,7 @@ const Resume = () => {
     </div>
   );
 };
+
+
 
 export default Resume;

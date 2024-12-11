@@ -5,30 +5,22 @@ import imageManagerPrimeTravel from "../../bancodeimagens/BancoDeImagensPrimeTra
 export default function AlbertEinstein() {
   return (
     <section className="my-20">
-      <div>
-        <img
-          src={imageManagerPrimeTravel.Telemedicina.logoAlbertEinstein}
-          alt="Logo Albert Einstein"
-          className="mx-auto  font-montserrat"
-        />
-      </div>
-      <div className="mx-5 sm:mx-20 p-5 sm:p-10">
-        <p className="text-2xl text-justify">
-          Todos os planos contam com o{" "}
-          <span className="text-bluePrime font-bold text-justify">
-            Pronto Atendimento Virtual | Seguro Viagem
-          </span>
-          , um serviço de orientação médica online para atendimento de sintomas
-          de baixa complexidade com profissionais da Telemedicina do Einstein. O
-          acesso a este benefício é rápido e fácil por meio do celular ou
-          computador, basta apenas ter conexão com internet e que fica
-          disponível 24h por dia 7 dias por semana.
+          <div className="mx-5  p-5 ">
+        <h2 className="text-2xl font-bold mb-5 text-bluePrime mx-2">
+        Plano EASY Multiviagens
+        </h2>
+        <h3 className="text-2xl font-bold mb-5 text-bluePrime2 mx-">
+        Contrate uma única vez e use durante um ano
+        </h3>
+        <p className="text-lg mx-2 text-justify">
+        É ideal para quem precisa estar protegido em duas ou mais viagens ao exterior durante o período de um ano. 
+        Você não precisa fazer um seguro toda vez que viaja, com o EASY Multiviagens, você tem uma apólice válida por um ano, que pode ser ativada todas as vezes que necessitar!
         </p>
-        <p className="mx-auto font-bold text-lg text-bluePrime mt-5">
-          Você poderá resolver casos com sintomas não urgentes, como:
-        </p>
+        <img src="../../../../../src/assets/img/world.jpg" alt="Mundo"/>
       </div>
-      <div className="flex flex-wrap justify-center items-center space-x-4 sm:flex-row sm:flex-wrap">
+
+      
+      {/* <div className="flex flex-wrap justify-center items-center space-x-4 sm:flex-row sm:flex-wrap">
         <div className="flex flex-col items-center w-16 h-auto sm:w-16 sm:h-16">
           <img
             src={imageManagerPrimeTravel.Telemedicina.iconSintomasCovid}
@@ -117,9 +109,9 @@ export default function AlbertEinstein() {
             auditivos
           </span>
         </div>
-      </div>
+      </div> */}
       {/* Linha 2 */}
-      <div className="flex flex-wrap justify-center items-center space-x-4 sm:flex-row sm:flex-wrap sm:mt-16">
+      {/* <div className="flex flex-wrap justify-center items-center space-x-4 sm:flex-row sm:flex-wrap sm:mt-16">
         <div className="flex flex-col items-center w-16 h-auto sm:w-16 sm:h-16">
           <img
             src={imageManagerPrimeTravel.Telemedicina.iconSintomasRespiratorios}
@@ -175,8 +167,7 @@ export default function AlbertEinstein() {
             lombar
           </span>
         </div>
-        {/* Adicione outros ícones e títulos aqui */}
-      </div>
+      </div> */}
     </section>
   );
 }
