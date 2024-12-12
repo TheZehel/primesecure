@@ -28,6 +28,7 @@ import BannerPromos from "./components/subcomponents/BannerPromos";
 import StepsHiring from "./components/subcomponents/HiringSteps";
 import BannerPromo from "./components/subcomponents/BannerPromo";
 import FormTravelBanner2 from "./components/FormTravelBanner2";
+import NewPlans from "./components/subcomponents/newPlans";
 
 function IndexTravel() {
   const FaqRef = useRef();
@@ -85,7 +86,8 @@ function IndexTravel() {
       <SomeToppings />
       <AlbertEinstein />
       <ContainerCoberturas />
-      {<SliderPlanos />}
+      <NewPlans/>
+      {/* {<SliderPlanos />} */}
       {/*<TelemedicinaTravel />*/}
       <ContainerContato scroll={scrollToFaq} />
       {/*<ContainerDepoimetos />*/}

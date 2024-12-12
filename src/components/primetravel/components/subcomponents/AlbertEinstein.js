@@ -6,19 +6,48 @@ import imageManagerPrimeTravel from "../../bancodeimagens/BancoDeImagensPrimeTra
 export default function AlbertEinstein() {
   return (
     <section className="my-20">
-          <div className="mx-5  p-5 ">
-        <h2 className="text-2xl font-bold mb-5 text-bluePrime mx-2">
-        Plano EASY Multiviagens
+      {/* Cabeçalho */}
+      <div className="text-center mb-10 px-5">
+        <h2 className="text-2xl font-bold text-bluePrime">
+          Plano EASY Multiviagens
         </h2>
-        <h3 className="text-2xl font-bold mb-5 text-bluePrime2 mx-">
-        Contrate uma única vez e use durante um ano
+        <h3 className="text-xl font-bold text-bluePrime2 mt-2 break-words">
+          Contrate uma única vez e use durante um ano
         </h3>
-        <p className="text-lg mx-2 text-justify">
-        É ideal para quem precisa estar protegido em duas ou mais viagens ao exterior durante o período de um ano. 
-        Você não precisa fazer um seguro toda vez que viaja, com o EASY Multiviagens, você tem uma apólice válida por um ano, que pode ser ativada todas as vezes que necessitar!
-        </p>
-        <img src="https://storage.googleapis.com/primesecure/world.png" className="w-1/3 mx-auto" />
       </div>
+
+      {/* Conteúdo */}
+      <div className="flex flex-col md:flex-row items-center md:items-start mx-5 md:mx-32 p-5 gap-8">
+        {/* Texto à esquerda */}
+        <div className="w-full md:w-2/3 text-center md:text-left">
+          <p className="text-lg text-justify">
+            É ideal para quem precisa estar protegido em duas ou mais viagens ao exterior durante o período de um ano. 
+            Você não precisa fazer um seguro toda vez que viaja, com o EASY Multiviagens, você tem uma apólice válida por um ano, que pode ser ativada todas as vezes que necessitar!
+          </p>
+        </div>
+
+        {/* Imagem à direita */}
+        <div className="w-full md:w-1/3 flex justify-center md:justify-end">
+          <img
+            src="https://storage.googleapis.com/primesecure/world%20(1).png"
+            className="w-1/2 sm:w-[50%] h-auto"
+            alt="Imagem representando o mundo"
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+
+
+
+
+
+
+
+
 
       
       {/* <div className="flex flex-wrap justify-center items-center space-x-4 sm:flex-row sm:flex-wrap">
@@ -169,6 +198,4 @@ export default function AlbertEinstein() {
           </span>
         </div>
       </div> */}
-    </section>
-  );
-}
+    

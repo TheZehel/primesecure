@@ -24,9 +24,9 @@ export default function ContainerCoberturas() {
   }, [modalOpen]);
 
   return (
-    <div className="relative overflow-hidden bg-white">
-      <div className="pb-80 pt-16 sm:pb-40 sm:pt-24 lg:pb-48 lg:pt-40">
-        <div className="relative mx-auto max-w-7xl px-4 sm:static sm:px-6 lg:px-8">
+    <div className="relative overflow-hidden bg-white h-[800px]">
+      <div className=" pt-16  sm:pt-24 lg:pt-40 py-20 sm:my-32">
+        <div className="static mx-auto max-w-7xl px-4 sm:static sm:px-6 lg:px-8">
           <div className="sm:max-w-lg">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl text-start">
               Todas as Coberturas
@@ -35,14 +35,7 @@ export default function ContainerCoberturas() {
               São Mais de 30 Coberturas Exclusivas Para as Suas Próximas
               Viagens.
             </p>
-            <div className="flex flex-row space-x-3 my-3">
-              <div className="bg-gray-50 p-2">
-                  texto 1
-              </div>
-              <div>
-                  texto 2
-              </div>
-            </div>
+
           </div>
           <div>
             <div className="mt-10">
@@ -51,21 +44,8 @@ export default function ContainerCoberturas() {
                 className="pointer-events-none lg:absolute lg:inset-y-0 lg:mx-auto lg:w-full lg:max-w-7xl"
               >
 
-                <div>
-                  <MapPin />
-                  <h2>A melhor rede internacional do mercado</h2>
-                </div>
-
-                <div>
-                  <HeartPulse />
-                  <h2>Cobertura para doeças preexistentes</h2>
-                </div>
-
-                <div>
-                  <Headset />
-                  <h2>Atendimento 24h por dia em português</h2>
-                </div>
-                {/* <div className="absolute transform sm:left-1/2 sm:top-0 sm:translate-x-8 lg:left-1/2 lg:top-1/2 lg:-translate-y-1/2 lg:translate-x-8">
+                
+                <div className="absolute transform sm:left-1/2 sm:top-0 sm:translate-x-8 lg:left-1/2 lg:top-1/2 lg:-translate-y-1/2 lg:translate-x-8">
                   <div className="flex items-center space-x-6 lg:space-x-8">
                     <div className="grid flex-shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
                       <div className="h-64 w-44 overflow-hidden rounded-lg sm:opacity-0 lg:opacity-100">
@@ -78,7 +58,7 @@ export default function ContainerCoberturas() {
                           className="h-full w-full object-cover object-center"
                         />
                       </div>
-                      <div className="h-64 w-44 overflow-hidden rounded-lg">
+                      {/* <div className="h-64 w-44 overflow-hidden rounded-lg">
                         <img
                           src={
                             imageManagerPrimeTravel.ContainerCoberturas
@@ -87,7 +67,7 @@ export default function ContainerCoberturas() {
                           alt=""
                           className="h-full w-full object-cover object-center"
                         />
-                      </div>
+                      </div> */}
                     </div>
                     <div className="grid flex-shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
                       <div className="h-64 w-44 overflow-hidden rounded-lg">
@@ -100,7 +80,7 @@ export default function ContainerCoberturas() {
                           className="h-full w-full object-cover object-center"
                         />
                       </div>
-                      <div className="h-64 w-44 overflow-hidden rounded-lg">
+                      {/* <div className="h-64 w-44 overflow-hidden rounded-lg">
                         <img
                           src={
                             imageManagerPrimeTravel.ContainerCoberturas
@@ -109,7 +89,7 @@ export default function ContainerCoberturas() {
                           alt=""
                           className="h-full w-full object-cover object-center"
                         />
-                      </div>
+                      </div> */}
                       <div className="h-64 w-44 overflow-hidden rounded-lg">
                         <img
                           src={
@@ -144,14 +124,14 @@ export default function ContainerCoberturas() {
                       </div>
                     </div>
                   </div>
-                </div> */}
+                </div>
               </div>
 
-              <div className="flex justify-self-center">
+              <div className="flex">
                 <button
                   onClick={() => setModalIsOpen(true)}
                   className="inline-block rounded-md border border-transparent
-                  bg-bluePrime px-8 py-3 text-center font-medium text-white
+                  bg-bluePrime px-8 py-3 text-center justify-start items-start font-medium text-white
                   hover:bg-bluePrime2"
                 >
                   Ver Coberturas
@@ -161,7 +141,7 @@ export default function ContainerCoberturas() {
           </div>
         </div>
       </div>
-      {/* <Modal
+      <Modal
         isOpen={modalOpen}
         onRequestClose={closeModal}
         style={{
@@ -186,7 +166,7 @@ export default function ContainerCoberturas() {
             <ConteudoSessaoInfo sessaoInfoLp={sessaoInfoLp} sessaoInfoId="2" />
           </div>
         </div>
-      </Modal> */}
+      </Modal>
     </div>
   );
 }
