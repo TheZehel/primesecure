@@ -19,11 +19,11 @@ export default function FaixaBanner() {
       >
         <p className="leading-6">Seguro garantido pela</p>
         <img
-          src={imageManagerPrimeTravel.ImagensLandPage.ImgLogoGenerali}
+          src="https://storage.googleapis.com/primesecure/logo-omint.png"
           alt="Logo da empresa parceira Too Seguros"
-          className="w-40"
+          className="w-24"
         />
-        <p className="leading-6">uma seguradora com mais de 100 anos.</p>
+        <p className="leading-6">uma seguradora atuando à 45 anos no mercado.</p>
       </div>
     </div>
   );

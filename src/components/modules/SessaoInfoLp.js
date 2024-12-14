@@ -42,6 +42,9 @@ import {
   faClock,
   faTags,
 } from "@fortawesome/free-solid-svg-icons";
+import { Descriptions } from "antd";
+import { Baby, Bed, CarFront, CircleX, PersonStanding, PiggyBank, Plane, SquareActivity, TicketsPlane } from "lucide-react";
+import { icon } from "@fortawesome/fontawesome-svg-core";
 
 const sessaoInfoLp = [
   {
@@ -84,12 +87,12 @@ const sessaoInfoLp = [
           "Cobertura para despesas médicas e hospitalares necessárias devido a doença ou acidente durante a viagem.",
         icon: <FontAwesomeIcon icon={faClinicMedical} />,
       },
-      {
-        name: "Despesas Médicas e Hospitalares (COVID)",
-        description:
-          "Cobertura para despesas médicas e hospitalares relacionadas ao COVID-19 durante a viagem.",
-        icon: <FontAwesomeIcon icon={faVirus} />,
-      },
+      // {
+      //   name: "Despesas Médicas e Hospitalares (COVID)",
+      //   description:
+      //     "Cobertura para despesas médicas e hospitalares relacionadas ao COVID-19 durante a viagem.",
+      //   icon: <FontAwesomeIcon icon={faVirus} />,
+      // },
       {
         name: "Despesas odontológicas",
         description:
@@ -102,12 +105,12 @@ const sessaoInfoLp = [
           "Consiste no reembolso das despesas com a compra de medicamentos necessários em virtude de atendimento médico ou odontológico emergencial e decorrente de acidente pessoal coberto ou doença de caráter súbito ocorridos durante a viagem segurada efetuadas pelo segurado para seu tratamento.",
         icon: <FontAwesomeIcon icon={faPrescriptionBottleAlt} />,
       },
-      {
-        name: "Prática esportiva Amadora",
-        description:
-          "Cobertura para despesas médicas e danos pessoais relacionados à prática de esportes amadores durante a viagem.",
-        icon: <FontAwesomeIcon icon={faRunning} />,
-      },
+      // {
+      //   name: "Prática esportiva Amadora",
+      //   description:
+      //     "Cobertura para despesas médicas e danos pessoais relacionados à prática de esportes amadores durante a viagem.",
+      //   icon: <FontAwesomeIcon icon={faRunning} />,
+      // },
       {
         name: "Regresso sanitário",
         description:
@@ -121,63 +124,123 @@ const sessaoInfoLp = [
         icon: <FontAwesomeIcon icon={faHospitalUser} />,
       },
       {
-        name: "Cancelamento de viagem",
+        name: "Cancelamento de viagem ao exterior",
         description:
           "Consiste no reembolso das despesas não reembolsáveis com a aquisição de pacotes turísticos e/ou serviços de viagens, como transporte e hospedagem, na ocorrência de evento coberto que impeça o segurado de iniciar a viagem.",
         icon: <FontAwesomeIcon icon={faBan} />,
       },
       {
-        name: "Interrupção de viagem",
+        name: "Interrupção de viagem ao exterior",
         description:
           "Consiste no reembolso ao segurado ou a seu beneficiário das perdas irrecuperáveis com depósitos e/ou despesas pagas por antecipação em referência à viagem do segurado.",
         icon: <FontAwesomeIcon icon={faStop} />,
       },
       {
-        name: "Atraso de voo (superior 12h)",
+        name: "Atraso de embarque",
         description:
           "A política cobre reembolsos para despesas de alimentação e hospedagem em caso de atrasos de voo de 12 horas ou mais, causados por clima severo, questões trabalhistas ou quebras inesperadas na aeronave. Isso se aplica apenas se a companhia aérea não cobrir essas despesas.",
         icon: <FontAwesomeIcon icon={faStop} />,
       },
       {
-        name: "Atraso de bagagem (superior 12h)",
+        name: "Bagagem",
         description:
-          "A política prevê reembolso de despesas com artigos de uso pessoal se a bagagem do segurado for atrasada em 8 horas ou mais pela companhia transportadora. A reclamação deve ser comprovada por meio de um relatório de irregularidade de bagagem (PIR ou RIB).",
+        "A política prevê reembolso de despesas com artigos de uso pessoal se a bagagem do segurado for atrasada em 8 horas ou mais pela companhia transportadora. A reclamação deve ser comprovada por meio de um relatório de irregularidade de bagagem (PIR ou RIB).",
         icon: <FontAwesomeIcon icon={faSuitcaseRolling} />,
       },
       {
-        name: "Auxílio na localização de bagagem",
-        description:
-          "A central de assistência ajudará o beneficiário em caso de extravio ou roubo de bagagem, bem como na perda de documentos de viagem ou cartão de crédito, fornecendo instruções para fazer a denúncia e auxiliar na recuperação desses itens.",
+        name: "Compensação por demora na localização de bagagem",
+        //description:
+          // "A central de assistência ajudará o beneficiário em caso de extravio ou roubo de bagagem, bem como na perda de documentos de viagem ou cartão de crédito, fornecendo instruções para fazer a denúncia e auxiliar na recuperação desses itens.",
         icon: <FontAwesomeIcon icon={faSearch} />,
       },
       {
-        name: "Perda de bagagem - garantia suplementar",
+        name: "Visita ao Segurado Hospitalizado",
+        description:
+          "descrição",
+        icon: <Bed />,
+      },
+      {
+        name: "Acompanhamento de Menores e Seniores",
+        description:
+          "descrição",
+        icon: <Baby />,
+      },
+      {
+        name: "Regresso do segurado",
+        description:
+          "Regresso devido a acidente/ enfermidade que impossibilite a continuidade da viagem. Regresso devido a morte ou doença familiar. Regresso devido a notificação judicial improrrogavel. Retorno por sinistro no Domicílio.",
+        icon: <Plane />,
+      },
+      {
+        name: "Perda de bagagem",
         description:
           "Consiste no pagamento da diferença do valor pago pela cia aérea até o limite total da cobertura.",
         icon: <FontAwesomeIcon icon={faBriefcase} />,
       },
       {
-        name: "Retorno antecipado de acompanhantes",
-        description:
-          "A política cobre o reembolso da passagem aérea para o retorno do acompanhante do segurado ao seu país de origem, caso o segurado seja impedido de concluir a viagem devido a doença, acidente ou morte. Isso se aplica quando o acompanhante não pode retornar pelo meio originalmente planejado.",
-        icon: <FontAwesomeIcon icon={faPeopleArrows} />,
+        name: "Compensação por demora na localização da bagagem",
+        description: 
+          "descrição",
+        icon: <FontAwesomeIcon icon={faBriefcase} />,
       },
       {
-        name: "Retorno antecipado do segurado",
+        name: "Hospedagem após alta hospitalar",
         description:
-          "A política reembolsa despesas de retorno do segurado ao seu domicílio se a viagem for interrompida devido a doença, acidente ou morte do companheiro de viagem ou membro da família, ou problemas em sua residência como incêndio, explosão ou roubo. Membros da família e companheiros de viagem são definidos por relações conjugais, parentais ou convivência durante a viagem.",
-        icon: <FontAwesomeIcon icon={faHome} />,
+          "Descrição",
+        icon: <SquareActivity icon={faBriefcase} />,
       },
       {
-        name: "Assistência Jurídica p/ Acidentes de Trânsito",
+        name: "Hospedagem de acompanhante",
+        description:
+          "descrição",
+        icon: <PersonStanding />
+      },
+      {
+        name: "Reembolso por Gastos de Emissão de Passaporte Provisório",
+        description: 
+          "Descrição",
+        icon: <TicketsPlane />,
+      },
+      {
+        name: "Adiantamento de finança",
+        description: 
+          "descrição",
+        icon: <PiggyBank />,
+      },
+      {
+        name: "Assistencia Jurídica em acidente de trânsito",
+        description: 
+          "descrição",
+        icon: <CarFront />,
+      },
+      {
+        name: "Cancelamento de Viagem Premium",
+        description:
+          "descrição",
+        icon: <CircleX />,
+      },
+      //{
+        //name: "Retorno antecipado de acompanhantes",
+        //description:
+          //"A política cobre o reembolso da passagem aérea para o retorno do acompanhante do segurado ao seu país de origem, caso o segurado seja impedido de concluir a viagem devido a doença, acidente ou morte. Isso se aplica quando o acompanhante não pode retornar pelo meio originalmente planejado.",
+        //icon: <FontAwesomeIcon icon={faPeopleArrows} />,
+      //},
+      // {
+      //   name: "Retorno antecipado do segurado",
+      //   description:
+      //     "A política reembolsa despesas de retorno do segurado ao seu domicílio se a viagem for interrompida devido a doença, acidente ou morte do companheiro de viagem ou membro da família, ou problemas em sua residência como incêndio, explosão ou roubo. Membros da família e companheiros de viagem são definidos por relações conjugais, parentais ou convivência durante a viagem.",
+      //   icon: <FontAwesomeIcon icon={faHome} />,
+      // },
+      {
+        name: "Assistência Jurídica em Acidentes de Trânsito",
         description:
           "Assistência jurídica para lidar com questões legais resultantes de acidentes de trânsito durante a viagem.",
         icon: <FontAwesomeIcon icon={faBalanceScale} />,
       },
       {
-        name: "Transferência de fundos",
-        description:
-          "Em caso de necessidade durante a viagem, a política cobre o envio de uma quantia para pagamento de uma fiança penal, após o depósito do valor pela família do beneficiário. O valor coberto é apenas o custo da transferência. Este serviço é oferecido uma única vez e aplica-se mesmo se o beneficiário for detido devido a um acidente de trânsito. A cobertura tem um limite especificado nas condições gerais.",
+        name: "Adiantamento de fundos no exterior",
+        //description:
+          //"Em caso de necessidade durante a viagem, a política cobre o envio de uma quantia para pagamento de uma fiança penal, após o depósito do valor pela família do beneficiário. O valor coberto é apenas o custo da transferência. Este serviço é oferecido uma única vez e aplica-se mesmo se o beneficiário for detido devido a um acidente de trânsito. A cobertura tem um limite especificado nas condições gerais.",
         icon: <FontAwesomeIcon icon={faMoneyBillWave} />,
       },
       {
@@ -187,9 +250,9 @@ const sessaoInfoLp = [
         icon: <FontAwesomeIcon icon={faWheelchair} />,
       },
       {
-        name: "Morte acidental",
-        description:
-          "Consiste no pagamento do capital segurado ao(s) beneficiário(s) indicado(s) no bilhete, de uma única vez, em caso de falecimento do segurado, por acidente pessoal ocorrido durante o período de viagem.",
+        name: "Morte acidental em viagem ao exterior",
+        //description:
+          //"Consiste no pagamento do capital segurado ao(s) beneficiário(s) indicado(s) no bilhete, de uma única vez, em caso de falecimento do segurado, por acidente pessoal ocorrido durante o período de viagem.",
         icon: <FontAwesomeIcon icon={faSkullCrossbones} />,
       },
       {
@@ -198,24 +261,24 @@ const sessaoInfoLp = [
           "Consiste em trazer o corpo do local do óbito até o domicílio ou local do sepultamento.",
         icon: <FontAwesomeIcon icon={faSkullCrossbones} />,
       },
-      {
-        name: "Concierge",
-        description:
-          "O Serviço de Concierge, disponível 24/7, auxilia os beneficiários com informações sobre ingressos para shows, viagens, aluguel de veículos e reservas de teatro em grandes cidades do mundo. Os custos e despesas relacionados aos serviços solicitados são responsabilidade do beneficiário. Este serviço é puramente informativo.",
-        icon: <FontAwesomeIcon icon={faConciergeBell} />,
-      },
-      {
-        name: "Informação em caso de perda/roubo de documento",
-        description:
-          "A central assessorará ao beneficiário em caso de perda de documentos de viagens e ou cartão de crédito, oferecendo as instruções para que o beneficiário possa fazer o respectivo denuncio, e processar a recuperação dessa documentação.",
-        icon: <FontAwesomeIcon icon={faInfoCircle} />,
-      },
-      {
-        name: "Transmissão de mensagens urgentes",
-        description:
-          "A central transmitirá as mensagens urgentes e justificadas, relativas a qualquer um dos eventos que são objeto das prestações contempladas nas Condições Gerais desse seguro.",
-        icon: <FontAwesomeIcon icon={faEnvelope} />,
-      },
+      // {
+      //   name: "Concierge",
+      //   description:
+      //     "O Serviço de Concierge, disponível 24/7, auxilia os beneficiários com informações sobre ingressos para shows, viagens, aluguel de veículos e reservas de teatro em grandes cidades do mundo. Os custos e despesas relacionados aos serviços solicitados são responsabilidade do beneficiário. Este serviço é puramente informativo.",
+      //   icon: <FontAwesomeIcon icon={faConciergeBell} />,
+      // },
+      // {
+      //   name: "Informação em caso de perda/roubo de documento",
+      //   description:
+      //     "A central assessorará ao beneficiário em caso de perda de documentos de viagens e ou cartão de crédito, oferecendo as instruções para que o beneficiário possa fazer o respectivo denuncio, e processar a recuperação dessa documentação.",
+      //   icon: <FontAwesomeIcon icon={faInfoCircle} />,
+      // },
+      // {
+      //   name: "Transmissão de mensagens urgentes",
+      //   description:
+      //     "A central transmitirá as mensagens urgentes e justificadas, relativas a qualquer um dos eventos que são objeto das prestações contempladas nas Condições Gerais desse seguro.",
+      //   icon: <FontAwesomeIcon icon={faEnvelope} />,
+      // },
     ],
   },
   {

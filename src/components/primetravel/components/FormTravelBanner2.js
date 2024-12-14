@@ -531,10 +531,13 @@ export default function FormTravelBanner2() {
               Não importa como e para onde você viaja, nós te protegemos. Ainda
               Contamos Com + de 30 Coberturas.
             </p>
+            <p className="text-white text-lg font-semibold pt-5">
+              Em parceiria com: 
+            </p>
             <img
-              src={imageManagerPrimeTravel.ImagensLandPage.ImgEmParceriaGenerali}
-              alt="Proteção Covid, Preços Imbatíveis, 30 Serviços e coberturas, Totalmente Digital"
-              className="m-auto w-80 justify-center items-center pt-5"
+              src="https://storage.googleapis.com/primesecure/logo-omint.png"
+              alt="Logo Ominit Travel"
+              className="m-auto w-32 justify-center items-center p-2"
             />
             <BannerParcelamento />
           </div>

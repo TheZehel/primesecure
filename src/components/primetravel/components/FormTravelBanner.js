@@ -506,16 +506,8 @@ export default function FormTravelBanner() {
               Prime Travel{" "}
             </h1>
             <p className="text-white text-2xl font-semibold">
-              Não importa como e para onde você viaja, nós te protegemos. Ainda
-              Contamos Com + de 30 Coberturas.
+              Leve na mala a tranquilidade de contar com <img src="https://storage.googleapis.com/primesecure/logo-omint.png" className="m-auto w-80 justify-center items-center pt-5"/>
             </p>
-            <img
-              src={
-                imageManagerPrimeTravel.ImagensLandPage.ImgEmParceriaGenerali
-              }
-              alt="Proteção Covid, Preços Imbativeis, 30 Serviços e coberturas, Totalmente Digital"
-              className="m-auto w-80 justify-center items-center pt-5"
-            />
             <BannerParcelamento />
           </div>
           <div className="animate__animated animate__zoomIn rounded-lg bg-white p-5 sm:p-4">

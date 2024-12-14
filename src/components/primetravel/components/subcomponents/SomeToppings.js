@@ -83,11 +83,11 @@ export default function SomeToppings() {
       </div>
 
       {/* Item 5 */}
-      <div className="flex justify-center mt-10">
+      <div className="flex justify-center flex-col">
         <div className="flex flex-col items-start text-left px-10 md:items-center md:text-center md:px-0">
           <Gem className="mb-6 w-[90px] h-[90px] text-grayPrime" />
           <div>
-            <h3 className="text-2xl font-bold mb-5 text-bluePrime">Sala VIP</h3>
+            <h3 className="text-2xl font-bold mb-5 text-bluePrime mx-2">Sala VIP</h3>
             <p className="text-lg text-justify md:text-center">
               A partir do plano 250, tenha acesso às salas VIPs dos aeroportos de Guarulhos, Recife e Belém.
             </p>

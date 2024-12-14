@@ -1,29 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Baby, Briefcase, Glasses, MapPin, PhoneCall, Stethoscope, Video, Volleyball } from "lucide-react";
 
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
-import "swiper/css/navigation";
 
 import { Pagination, Autoplay } from "swiper/modules";
 
 export default function Diferenciais() {
-  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    const updateScreenWidth = () => {
-      setViewportWidth(window.innerWidth);
-    };
-
-    window.addEventListener("resize", updateScreenWidth);
-
-    return () => {
-      window.removeEventListener("resize", updateScreenWidth);
-    };
-  }, []);
-
   const diferenciais = [
     {
       id: 1,
@@ -68,55 +53,53 @@ export default function Diferenciais() {
   ];
 
   return (
-    <div>
-      <div className="text-4xl text-grayPrime font-bold text-center my-5">
-        <p>Nossos Diferenciais</p>
+    <section className="passos">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-6">
+          <h2 className="text-4xl font-bold text-grayPrime">Nossos Diferenciais</h2>
+        </div>
+        <div className="relative w-full">
+          <Swiper
+            slidesPerView={1}
+            spaceBetween={20}
+            pagination={{
+              clickable: true,
+            }}
+            breakpoints={{
+              640: {
+                slidesPerView: 2,
+                spaceBetween: 20,
+              },
+              1024: {
+                slidesPerView: 3,
+                spaceBetween: 30,
+              },
+            }}
+            loop={true}
+            grabCursor={true}
+            modules={[Pagination, Autoplay]}
+            autoplay={{
+              delay: 2500,
+              disableOnInteraction: false,
+            }}
+            className="mySwiper"
+          >
+            {diferenciais.map((diferencial) => (
+              <SwiperSlide
+                key={diferencial.id}
+                className="flex flex-col items-center justify-center shadow-lg rounded-lg w-64  border-2 p-6 h-64"
+              >
+                <div className="flex flex-col items-center justify-center gap-4 h-28">
+                  <div className="text-8xl text-bluePrime">{diferencial.icon}</div>
+                  <p className="text-lg font-semibold text-center text-grayPrime">
+                    {diferencial.text}
+                  </p>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
       </div>
-      <div className="relative justify-center w-full align-middle">
-        <Swiper
-          slidesPerView={2} // Mostra dois slides por vez
-          spaceBetween={30} // Espaçamento entre slides
-          pagination={{
-            dynamicBullets: false,
-            clickable: true,
-          }}
-          breakpoints={{
-            // Configurações responsivas
-            0: {
-              slidesPerView: 1, // 1 slide em telas pequenas
-              spaceBetween: 10,
-            },
-            640: {
-              slidesPerView: 1, // 2 slides em telas maiores
-              spaceBetween: 20,
-            },
-            1024: {
-              slidesPerView: 1,
-              spaceBetween: 30,
-            },
-          }}
-          loop={true}
-          grabCursor={true}
-          modules={[Pagination, Autoplay]}
-          autoplay={{
-            delay: 2500,
-            disableOnInteraction: false,
-          }}
-          className="mySwiper overflow-hidden"
-        >
-          {diferenciais.map((diferencial) => (
-            <SwiperSlide
-              key={diferencial.id}
-              className="flex flex-col items-center justify-center h-full"
-            >
-              <div className="flex flex-col items-center justify-center text-center h-[150px]">
-                <div className="text-6xl mb-4 text-bluePrime">{diferencial.icon}</div>
-                <p className="text-lg font-semibold text text-bluePrime">{diferencial.text}</p>
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
-    </div>
+    </section>
   );
 }
