@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import StepperControl from "./components/Stepper";
 import Plans from "./components/plans";
 import Resume from "./components/resume";
@@ -9,7 +9,8 @@ const IndexCotacaoTravel = () => {
   const [activeStep, setActiveStep] = useState(0); // Estado do passo atual
   const avancarRef = useRef(null); // Referência para o botão "Avançar"
   const [shouldBounce, setShouldBounce] = useState(false);
-
+  
+  
   const handleNext = () => {
     if (activeStep < steps.length - 1) {
       setActiveStep((prev) => prev + 1);

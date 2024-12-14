@@ -1,6 +1,10 @@
 import React from "react";
-import { useState } from "react"
+import { useEffect , useState } from "react"
 import CardCotacao from "./cardCotacao";
+import Modal from "react-modal"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ConteudoSessaoInfo from "../../../globalsubcomponentes/ConteudoSessaoInfo";
+import sessaoInfoLp from "../../../modules/SessaoInfoLp";
 
 const Plans = ({onSelected }) => {
   // Estados e variáveis estáticas
@@ -8,6 +12,20 @@ const Plans = ({onSelected }) => {
   const [isSelected, setIsSelected] = useState(false);
 
   const planId = "plano_estatico";
+  const [modalOpen, setModalIsOpen] = useState(false);
+  const closeModal = () => setModalIsOpen(false);
+  
+  useEffect(() => {
+    if (modalOpen){
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    return () => {
+      document.body.style.overflow = "unset";
+    }
+  }, [modalOpen]);
 
   // Funções fictícias para evitar erro no ESLint
   const updateFormData = (data) => {
@@ -124,7 +142,11 @@ const Plans = ({onSelected }) => {
 
         {/* Buttons */}
         <div className="flex flex-col items-center mt-6 space-y-3">
-          <button type="button" className="text-blue-600 text-sm underline">
+          
+          <button 
+          onClick={() => setModalIsOpen(true)}
+          type="button" 
+          className="text-blue-600 text-sm underline">
             Ver Todas as Coberturas
           </button>
           {/* <button
@@ -136,6 +158,33 @@ const Plans = ({onSelected }) => {
           </button> */}
         </div>
       </div>
+
+      <Modal
+        isOpen={modalOpen}
+        onRequestClose={closeModal}
+        style={{
+          overlay: {
+            zIndex: 1000,
+            backgroundColor: "rgba(0, 0, 0, 0.75)",
+          },
+        }}
+        className="fixed inset-0 flex items-center justify-center p-6 bg-gray-800 bg-opacity-50"
+      >
+        <div className="animate__animated animate__fadeIn bg-white rounded-lg shadow px-2 py-4 my-10 mx-auto h-100 border border-gray-300  overflow-hidden order-1">
+          <div className="flex justify-between items-center mb-4 p-3">
+            <h2 className="text-2xl">Todas as Coberturas</h2>
+            <button onClick={closeModal} className="bg-transparent">
+              <FontAwesomeIcon
+                // icon={faTimes}
+                className="h-6 w-6 text-gray-700 hover:text-red-500 cursor-pointer"
+              />
+            </button>
+          </div>
+          <div style={{ maxHeight: "80vh", overflowY: "auto" }}>
+            <ConteudoSessaoInfo sessaoInfoLp ={sessaoInfoLp} sessaoInfoId="2" />
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
