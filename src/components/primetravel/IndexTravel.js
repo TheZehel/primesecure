@@ -33,7 +33,6 @@ import Diferenciais from "./components/subcomponents/diferenciais";
 import ComoUtilizar from "./components/subcomponents/comoUtilizar";
 import UmaSolucao from "./components/subcomponents/umaSolucao";
 
-
 function IndexTravel() {
   const FaqRef = useRef();
   const scrollToFaq = () => {
@@ -83,8 +82,7 @@ function IndexTravel() {
       {/*<BannerPromos />*/}
       <BannerPromo />
       {/*<CountDown targetDate={targetDate} />*/}
-      <FormTravelBanner2/>
-      
+      <FormTravelBanner2 />
       <FaixaBanner />
       <StepsHiring />
       {/*<BrindeTravel />*/}
@@ -93,7 +91,6 @@ function IndexTravel() {
       <ComoUtilizar />
       <AlbertEinstein />
       <ContainerCoberturas />
-      
       <UmaSolucao />
       {/* {<SliderPlanos />} */}
       {/*<TelemedicinaTravel />*/}
