@@ -26,8 +26,9 @@ import CryptoFunctions  from "../globalsubcomponentes/CryptoFunctions";
 
 import LoadingIcon from "../cotacao-pet-love/components/icons/loadingIcon";
 
-
 import CardBrands from "./components/icons/CardBrands";
+
+import PixModa from "./components/subcomponents/PixModal";
 
 
 const crypto = new CryptoFunctions();
@@ -224,6 +225,7 @@ function InvoicePaymentVida() {
     const [encrypted, setEncrypted] = useState(null);
 
     const [contractData, setContractData] = useState({});
+    const [pixModal, setPixModal] = useState(false);
 
     var params = useParams();
     params = { ...params };
@@ -410,7 +412,7 @@ function InvoicePaymentVida() {
                 </div>
             </div> 
         )
-    }
+    };
 
     const displayErrorMessage = () => {   
         let error = { ...errorAlert };    
@@ -497,7 +499,7 @@ function InvoicePaymentVida() {
                     document,
                     subscription,
                     invoice
-                } = data;         
+                } = data || {};         
 
                 setSubscription(subscription);
                 setDocument(document);
@@ -550,10 +552,136 @@ function InvoicePaymentVida() {
             console.error('Erro ao atualizar invoice', e);
         }
     }, [invoice]);
+
+    const [pixOrder, setPixOrder] = useState(null);
+    const [pixCharge, setPixCharge] = useState(null);
+
+    const payWithPix = async () => {
+        if (pixModal) return;
+
+        if (pixOrder) {
+            setPixModal(true);
+            return;
+        }
+        
+        var url = `https://api-primesecure.onrender.com/vida-sulamerica/invoice/pix-subscription-charge`;
+        if (enviroment == 'SANDBOX') url = `http://localhost:3050/vida-sulamerica/invoice/pix-subscription-charge`;
+
+        await axios.post(url, { subscription_id: 'sub_' + subscriptionId })
+            .then((response) => {
+                const { data } = response || {};
+                var { order, error } = data || {};
+
+                console.log('Pix Order:', data);
+
+                if (error) {
+                    console.error('Erro ao processar pagamento com Pix', error);
+                    setPixOrder(null);
+                    setPixModal(false);
+                    return;
+                }
+
+                setPixModal(true);
+                setPixOrder(order);
+            })
+            .catch((err) => {
+                let error = err;
+
+                if (error && error.response) error = error.response;   
+                if (error && error.data) error = error.data;                
+
+                console.error('Erro ao processar pagamento com Pix', error);
+                setPixOrder(null);
+                setPixModal(false);
+            });
+    }
+
+    console.log('Pix Order:', pixOrder);
+
+    useEffect(()=>{
+        const handlePixPayment = async () => {
+            if (!pixOrder) return;
+
+            var { charges, status, metadata, id: order_id } = pixOrder || {};
+            if ((!Array.isArray(charges) && charges.length > 0) || status == 'paid') return;
+            
+            var { metadata = {} } = pixOrder || {};
+            var { product, produto, tipo, id_assinatura: subscription_id, id_fatura: invoice_id } = metadata || {};
+
+            if ((product != "vida-sulamerica" && produto != "vida-sulamerica") || tipo != "pagamento_fatura") return;
+            if (!subscription_id || !invoice_id) return;
+
+            var { last_transaction, id: charge_id } = charges[0] || {};
+            if (!last_transaction) return;
+
+            const now = new Date();
+
+            var { qr_code, qr_code_url, expires_at, transaction_type, amount } = last_transaction || {};
+
+            if (!qr_code || !qr_code_url || !expires_at || !transaction_type) return;
+            if (transaction_type != 'pix') return;
+
+            var expires = new Date(expires_at);
+            if (expires.getTime() < now.getTime()) return;
+
+            console.log("PIX CHARGE:", { order_id, charge_id, qr_code, qr_code_url, expires_at, amount, invoice_id });
+
+            setPixCharge({ order_id, charge_id, qr_code, qr_code_url, expires_at, amount, invoice_id });
+        };
+
+        handlePixPayment();        
+    },[pixOrder]);
+
+    useEffect(()=>{
+        if (!pixCharge || !pixCharge.order_id || !pixCharge.invoice_id) return;
+        if (displaySuccess) return;
+
+        const RequestLoop = async () => {
+            var url = 'https://api-primesecure.onrender.com/vida-sulamerica/invoice/check-pix-payment';
+            if (enviroment == 'SANDBOX') url = 'http://localhost:3050/vida-sulamerica/invoice/check-pix-payment';
+            
+            await axios.post(url, {order_id: pixCharge.order_id, invoice_id: pixCharge.invoice_id})
+                .then(async (response) => {
+                    const { data } = response || {};
+                    var { status, error } = data || {};
+
+                    if (status == 'paid') {
+                        console.log('Pix Pago');
+                        setPixCharge({ ...pixCharge, status: 'paid' });
+                        setPixOrder(null);
+        
+                        var _invoice = { ...invoice };
+                        _invoice.status = 'paid';
+                        if (_invoice.charge) _invoice.charge.status = 'paid';
+                        
+                        setPixModal(false);
+                        setInvoice(_invoice);
+                        setDisplaySuccess(true);
+                        return;
+                    }
+
+                    await new Promise((resolve)=>{
+                        setTimeout(async () => { await RequestLoop(); resolve(); }, 5000);
+                    })  
+                })
+                .catch(async (err) => {
+                    console.error('Erro ao verificar pagamento com Pix', err);
+                    await new Promise((resolve)=>{
+                        setTimeout(async () => { await RequestLoop(); resolve(); }, 5000);
+                    })
+                });
+
+        };
+
+        RequestLoop();
+
+    }, [pixCharge]);
     
     console.log('Subscription:', subscription);
     console.log('Invoice:', invoice);  
     console.log('Document:', document);
+    console.log('PixModal:', pixModal);
+    console.log('PixCharge:', pixCharge);
 
     console.log('ContractData:', contractData);
 
@@ -670,7 +798,7 @@ function InvoicePaymentVida() {
                                 className="font-medium h-[17px] leading-[17px] mt-[2px] text-left"
                             >
                                 {(subscription.customer) ? subscription.customer.email : "" }
-                            </div>                            
+                            </div>              
                         </div>                        
                     </div>
                     <div
@@ -832,16 +960,12 @@ function InvoicePaymentVida() {
                         </div>
                         <div
                             className={`w-full h-[50px] mt-[10px] pl-[15px] pr-[20px] rounded-lg bg-white shadow-petlove-shadow flex border 
-                                ${paymentMethod != "current-card" ? "border-[#03A8DB] cursor-default hidden" : "border-[#000000]/0.08 cursor-pointer"}
+                                ${paymentMethod == "new-card" ? "border-[#03A8DB] cursor-default hidden" : "border-[#000000]/0.08 cursor-pointer"}
                                 ${invoice.status == "paid" ? "hidden" : ""}
                             `}
                             onClick={()=>{ 
-                                if (paymentMethod != 'new-card' && !processing && invoice.status != 'paid') { 
-                                    setPaymentMethod('new-card'); 
-                                } 
-                                if (invoice.status == 'paid') {
-                                    setPaymentMethod('current-card');
-                                }
+                                if (paymentMethod != 'new-card' && !processing && invoice.status != 'paid') setPaymentMethod('new-card');                                
+                                if (invoice.status == 'paid')  setPaymentMethod('current-card');   
                             }}
                         >
                             <div
@@ -855,17 +979,17 @@ function InvoicePaymentVida() {
                                 Novo cartão de crédito
                             </div>
                             <div
-                                className={`h-[16px] w-[16px] rounded-full border-[2px] ml-auto my-auto flex ${paymentMethod != "current-card" ? "border-[#03A8DB]" : "border-[#000000]/[0.3]"}`}
+                                className={`h-[16px] w-[16px] rounded-full border-[2px] ml-auto my-auto flex ${paymentMethod == "new-card" ? "border-[#03A8DB] hidden" : "border-[#000000]/[0.3]"}`}
                             >
                                 <div
-                                    className={`h-[8px] w-[8px] rounded-full bg-[#03A8DB] m-auto ${paymentMethod == "current-card" ? "hidden" : ""}`}
+                                    className={`h-[8px] w-[8px] rounded-full bg-[#03A8DB] m-auto ${paymentMethod != "new-card" ? "hidden" : ""}`}
                                 >                                    
                                 </div>
                             </div>
                         </div>
                         <div
-                            className={`w-full mt-[15px] px-[20px] rounded-lg bg-white shadow-petlove-shadow overflow-hidden 
-                                ${paymentMethod == "current-card" ? "max-h-0" : "max-h-max border border-[#03A8DB]"} 
+                            className={`w-full px-[20px] rounded-lg bg-white shadow-petlove-shadow overflow-hidden 
+                                ${paymentMethod != "new-card" ? "max-h-0 mt-0" : "max-h-max border border-[#03A8DB] mt-[15px]"} 
                                 ${invoice.status == "paid" ? "hidden" : ""}
                             `}
                         >
@@ -962,26 +1086,60 @@ function InvoicePaymentVida() {
                             </div>
                         </div>
                         <div
+                            className={`w-full h-[50px] mt-[10px] mb-3 pl-[15px] pr-[20px] rounded-lg bg-white shadow-petlove-shadow flex border
+                                ${paymentMethod == "pix" ? "border-[#03A8DB] cursor-default" : "border-[#000000]/0.08 cursor-pointer"}
+                                ${invoice.status == "paid" ? "hidden" : ""}
+                            `}
+                            onClick={()=>{ 
+                                if (paymentMethod != 'pix' && !processing && invoice.status != 'paid') setPaymentMethod('pix');                                 
+                                if (invoice.status == 'paid') setPaymentMethod('pix');                                
+                            }}
+                        >
+                            <div
+                                className={`w-[42px] h-[42px] mr-[5px] my-auto flex`}
+                            >
+                                <CardBrands brand="pix" color={(paymentMethod == "pix") ? "#32bcad" : "#858585"} />
+                            </div>
+                            <div
+                                className={`ml-[5px] text-[13px] font-semibold my-auto ${paymentMethod != 'pix' ? 'text-[#666666]' : ''}`}
+                            >
+                                Pagar fatura com Pix
+                            </div>
+                            <div
+                                className={`h-[16px] w-[16px] rounded-full border-[2px] ml-auto my-auto flex ${paymentMethod == "pix" ? "border-[#03A8DB]" : "border-[#000000]/[0.3]"}`}
+                            >
+                                <div
+                                    className={`h-[8px] w-[8px] rounded-full bg-[#03A8DB] m-auto ${paymentMethod == "pix" ? "" : "hidden"}`}
+                                >                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div
                             className={`w-full mt-1 text-center font-medium text-white text-[14px] h-[32px] rounded-[6px] inline-flex items-center transition ease-in-out duration-150 
-                                ${ (paymentMethod != "current-card") ? "hidden " : "" } 
+                                ${ (paymentMethod != "current-card" && paymentMethod != "pix") ? "hidden " : "" } 
                                 ${ (processing) ? "cursor-not-allowed bg-bluePrime2 hover:bg-bluePrime2 " : "cursor-pointer bg-[#41D134] hover:bg-greenPromo " }      
                                 ${ (invoice.status == 'paid') ? "hidden " : " " }                       
                             }`}
                             onClick={()=>{
-                                if (processing) { return; }
-                                if (invoice && invoice.status == 'paid') { return; }
+                                if (processing) return; 
+                                if (invoice && invoice.status == 'paid') return; 
+                                if (paymentMethod == "pix") {                                     
+                                    payWithPix();
+                                    return; 
+                                }
 
                                 retryPayment();
                             }}
                         >
                             <div className="flex m-auto">
                                 <LoadingIcon display={(processing && invoice.status != 'paid')} />
-                                {(processing) ? 'Processando' : 'Pagar Fatura'}
+                                {(processing) ? 'Processando' : (paymentMethod == "pix") ? 'Pagar com Pix' : 'Pagar Fatura'}
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>            
+            </div>    
+            <PixModa isOpen={pixModal} onClose={()=>{setPixModal(false)}} orderTotal={1000} transaction={pixCharge} expired={()=>{ setPixModal(false); }} />        
         </div>
     );
 

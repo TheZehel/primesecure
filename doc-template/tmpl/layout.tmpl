@@ -1,0 +1,87 @@
+<?js
+var config = env.conf;
+var templatesConfig = config.templates;
+var customTemplateConfig = templatesConfig.custom;
+
+var themes = customTemplateConfig.themes;
+var prettifyTheme = themes.prettify;
+
+var siteName = customTemplateConfig.siteName;
+var siteURL = customTemplateConfig.siteURL;
+
+var getTags = function (elementName, type) {
+	return (/default/i.test(type) ?
+		customTemplateConfig.defaultTags[elementName] :
+		customTemplateConfig.tags[elementName]
+	);
+};
+
+var currentMember = /\:(.+)/.test(title) ? RegExp.$1 : RegExp.$0;
+
+/** @return {string} */
+var printTags = function (tags) {
+	if (!Array.isArray(tags)) {
+		tags = [tags];
+	}
+
+	return tags.join('');
+};
+var printTagsByName = function (tagName) {
+	return [].concat(
+		getTags(tagName, 'default'),
+		getTags(tagName)
+	).join('');
+};
+
+?>
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+	<meta charset='utf-8'/>
+	<title><?js= title + (siteName ? ' - ' + siteName : '') ?></title>
+	<link type='text/css' rel='stylesheet' href='css/jsdoc-template.css'/>
+	<?js= printTagsByName('head') ?>
+</head>
+<body data-gs='{"openPageHeader": "is-page-header-open", "searching": "is-searching"}'>
+	<div id='page-wrapper'>
+		<header id='page-header' data-gs-target='openPageHeader'>
+			<?js if (!getTags('header').length) { ?>
+			<h1 id='page-title'>
+				<?js= (siteURL ? '<a href="' + siteURL + '">' + siteName + '</a>' : siteName) ?>
+			</h1>
+			<?js } else { ?>
+			<?js= printTagsByName('header') ?>
+			<?js } ?>
+			<nav id='content-nav'>
+				<header>
+					<div id='search'>
+						<div class='textfield-wrapper'>
+							<input type='search' name='q' placeholder='Pesquisar...' data-internal-search='#content-nav li a' data-gs-search='searching'/>
+						</div>
+					</div>
+				</header>
+				<?js= this.nav ?>
+			</nav>
+		</header>
+		<div id='main-wrapper'>
+			<button id='page-header-opener' title='Toggle left bar' class='has-icon' data-css-icon='menu' type='button' data-gs-toggle='openPageHeader'>Toggle left bar</button>
+			<main id='content'>
+				<header>
+					<h1 id='content-title'><?js= title ?></h1>
+				</header>
+				<?js= content ?>
+			</main>
+			<footer id='page-footer'>
+				<small>Documentação gerada com: <a href='https://github.com/jsdoc/jsdoc' rel='noreferrer noopener' target='_blank'>JSDoc <?js= env.version.number ?></a><?js if(config.templates && config.templates.default && config.templates.default.includeDate !== false) { ?> on <?js= (new Date()) ?><?js } ?>.</small>
+				<?js= printTagsByName('footer') ?>
+			</footer>
+		</div>
+	</div>
+	<script src='js/jsdoc-template.js' async></script>
+	<?js if (prettifyTheme) { ?>
+	<script src='js/prettify.min.js' async></script>
+	<link rel='stylesheet' type='text/css' href='<?js= prettifyTheme ?>'/>
+	<?js } ?>
+	<?js= printTagsByName('body') ?>
+</body>
+</html>
