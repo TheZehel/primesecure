@@ -1,15 +1,36 @@
 import React, { useState } from "react";
 import InputMask from "react-input-mask";
 import { CirclePlus, Save, Trash2, Edit } from "lucide-react";
+import GlobalFuntions from "../../../globalsubcomponentes/globalFunctions";
+
+const globalFunctions = new GlobalFuntions();
 
 // Validação genérica de campos
 const validateFields = (data, requiredFields) => {
   const errors = {};
+
   requiredFields.forEach((field) => {
-    errors[field] = !data[field] || data[field].trim() === ""; // Verifica campos vazios ou espaços em branco
+    switch (field) {
+      case "CPF":
+        errors[field] = !globalFunctions.validateCPF(data[field]);
+        break;
+      case "email":
+        errors[field] = !globalFunctions.validateEmail(data[field]);
+        break;
+      case "tell":
+        errors[field] = !globalFunctions.validatePhone(data[field]);
+        break;
+      case "firstName":
+        errors[field] = !globalFunctions.validateFirstName(data[field]);
+        break;
+      default:
+        errors[field] = !data[field] || data[field].trim() === "";
+    }
   });
+
   return errors;
 };
+
 
 // Componente para o Primeiro Passageiro
 const FirstPassenger = ({ onSave, data, onChange, errors }) => {
@@ -235,6 +256,8 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
   );
 };
 
+
+
 // Componente para Passageiros Adicionais
 const Passenger = ({ id, data, onChange, onRemove, onSave, errors }) => {  // Adicione 'errors' aqui
 
@@ -246,6 +269,7 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors }) => {  // Ad
       setIsEditing(false); // Fecha o modo de edição apenas se não houver erros
     }
   };
+
 
   return (
     <div className="bg-gray-100 p-4 rounded-md mb-4">
@@ -441,20 +465,22 @@ const Passengers = () => {
     const requiredFields = ["firstName", "secondName", "CPF", "birthday", "gender", "politica"];
     const passengerData = passengers[id];
 
+    // Valida os campos do passageiro usando a função otimizada
     const errors = validateFields(passengerData, requiredFields);
 
+    // Atualiza os erros do passageiro no estado
     setPassengerErrors((prevErrors) => {
       const updatedErrors = [...prevErrors];
       updatedErrors[id] = errors;
       return updatedErrors;
     });
 
-    const hasErrors = Object.values(errors).some((err) => err);
-    return hasErrors;
+    // Retorna se há erros
+    return Object.values(errors).some((err) => err);
   };
 
   const addPassenger = () => {
-    if (passengers.length >= 7) return;
+    if (passengers.length >= 6) return;
     setPassengers([...passengers, { firstName: "", secondName: "", CPF: "" }]);
   };
 
