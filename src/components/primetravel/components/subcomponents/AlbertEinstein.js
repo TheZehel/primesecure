@@ -1,3 +1,4 @@
+/* eslint-disable no-lone-blocks */
 import React from "react";
 import GlobeImage from "../../../../../src/assets/img/world.jpg";
 
@@ -21,7 +22,7 @@ export default function AlbertEinstein() {
         {/* Texto à esquerda */}
         <div className="w-full md:w-2/3 text-center md:text-left">
           <p className="text-lg text-justify">
-            É ideal para quem precisa estar protegido em duas ou mais viagens ao exterior durante o período de um ano. 
+            É ideal para quem precisa estar protegido em duas ou mais viagens ao exterior durante o período de um ano.
             Você não precisa fazer um seguro toda vez que viaja, com o EASY Multiviagens, você tem uma apólice válida por um ano, que pode ser ativada todas as vezes que necessitar!
           </p>
         </div>
@@ -39,18 +40,7 @@ export default function AlbertEinstein() {
   );
 }
 
-
-
-
-
-
-
-
-
-
-
-      
-      {/* <div className="flex flex-wrap justify-center items-center space-x-4 sm:flex-row sm:flex-wrap">
+{/* <div className="flex flex-wrap justify-center items-center space-x-4 sm:flex-row sm:flex-wrap">
         <div className="flex flex-col items-center w-16 h-auto sm:w-16 sm:h-16">
           <img
             src={imageManagerPrimeTravel.Telemedicina.iconSintomasCovid}
@@ -140,8 +130,9 @@ export default function AlbertEinstein() {
           </span>
         </div>
       </div> */}
-      {/* Linha 2 */}
-      {/* <div className="flex flex-wrap justify-center items-center space-x-4 sm:flex-row sm:flex-wrap sm:mt-16">
+{/* Linha 2 */ }
+// eslint-disable-next-line no-lone-blocks
+{/* <div className="flex flex-wrap justify-center items-center space-x-4 sm:flex-row sm:flex-wrap sm:mt-16">
         <div className="flex flex-col items-center w-16 h-auto sm:w-16 sm:h-16">
           <img
             src={imageManagerPrimeTravel.Telemedicina.iconSintomasRespiratorios}
@@ -198,4 +189,3 @@ export default function AlbertEinstein() {
           </span>
         </div>
       </div> */}
-    
