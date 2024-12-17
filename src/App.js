@@ -3,77 +3,81 @@ import {
   Routes,
   Route,
   useLocation,
-} from "react-router-dom";
-import { useEffect } from "react";
-import { Helmet } from "react-helmet";
+} from 'react-router-dom';
+import { useEffect } from 'react';
+import { Helmet } from 'react-helmet';
 
 // CSS
-import "./App.css";
+import './App.css';
 
 // COMPONENTES
 //import Banner from "./components/Banner";
-import NavBarMenu from "./components/navBarMenu.js";
+import NavBarMenu from './components/navBarMenu.js';
 //import Travel from "./components/Travel";
 //import Residencial from "./components/Residencial";
 //import Seguros from "./components/Seguros";
-import Faq from "./components/Faq";
+import Faq from './components/Faq';
 //import Logos from "./components/Logos";
-import Footer from "./components/Footer";
-import Selos from "./components/Selos";
-import SobrePrime from "./components/SobrePrime";
-import Newsletter from "./components/Newsletter";
-import PaginaLogin from "./components/PaginaLogin";
-import SignUp from "./components/SignUp";
-import IndexBannerMktplace from "./components/banner-mktplace/indexBannerMktplace";
+import Footer from './components/Footer';
+import Selos from './components/Selos';
+import SobrePrime from './components/SobrePrime';
+import Newsletter from './components/Newsletter';
+import PaginaLogin from './components/PaginaLogin';
+import SignUp from './components/SignUp';
+import IndexBannerMktplace from './components/banner-mktplace/indexBannerMktplace';
 
 //Páginas de Produtos
-import IndexTravel from "./components/primetravel/IndexTravel";
-import IndexVida from "./components/seguro-de-vida/IndexVida";
-import IndexSeguroCelular from "./components/seguro-celular/indexSeguroCelular";
-import IndexSeguroPet from "./components/seguro-pet/IndexSeguroPet";
-import IndexSeguroResidencial from "./components/Residencial/IndexSeguroResidencial";
-import IndexOdonto from "./components/Odonto/IndexOdonto";
+import IndexTravel from './components/primetravel/IndexTravel';
+import IndexVida from './components/seguro-de-vida/IndexVida';
+import IndexSeguroCelular from './components/seguro-celular/indexSeguroCelular';
+import IndexSeguroPet from './components/seguro-pet/IndexSeguroPet';
+import IndexSeguroResidencial from './components/Residencial/IndexSeguroResidencial';
+import IndexOdonto from './components/Odonto/IndexOdonto';
 
 //Páginas de Aviso
-import PaginaObrigadoLP from "./components/globalsubcomponentes/PaginaObrigadoLp";
-import Cotacao from "./components/globalsubcomponentes/Cotacao";
-import PageNotFound from "./components/PageNotFound";
-import IndexSobrePrime from "./components/SobrePrime/IndexSobrePrime";
-import IndexContato from "./components/Contato/IndexContato";
+import PaginaObrigadoLP from './components/globalsubcomponentes/PaginaObrigadoLp';
+import Cotacao from './components/globalsubcomponentes/Cotacao';
+import PageNotFound from './components/PageNotFound';
+import IndexSobrePrime from './components/SobrePrime/IndexSobrePrime';
+import IndexContato from './components/Contato/IndexContato';
 //import SliderSegurosHome from "./components/SliderSegurosHome";
-import PrivacyPolicy from "./components/globalsubcomponentes/PrivacyPolicy";
+import PrivacyPolicy from './components/globalsubcomponentes/PrivacyPolicy';
 
 //Páginas de Cotação
-import IndexCotacaoPetlove from "./components/cotacao-pet-love/indexCotacaoPet";
-import IndexCotacaoVidaSulamerica from "./components/cotacao-vida-sulamerica/indexCotacaoVidaSulamerica";
+import IndexCotacaoPetlove from './components/cotacao-pet-love/indexCotacaoPet';
+import IndexCotacaoVidaSulamerica from './components/cotacao-vida-sulamerica/indexCotacaoVidaSulamerica';
 //import StepAddres from "./components/cotacao-vida-sulamerica/components/StepAddress";
-import { CardGraaac } from "./components/CardGraac";
-import SliderTrofeusHome from "./components/SliderTrofeusHome";
+import { CardGraaac } from './components/CardGraac';
+import SliderTrofeusHome from './components/SliderTrofeusHome';
 //import CountDown from "./components/CountDown";
-import { CarouselCustomArrows } from "./components/CarouselLogos";
+import { CarouselCustomArrows } from './components/CarouselLogos';
 //import Pet from "./components/Pet";
-import CredentialNetwork from "./components/seguro-pet/rede-credenciada/CredentialNetwork";
-import IndexTravelVenda from "./components/primetravel-venda/IndexTravelVenda";
-import FeaturedInsurance from "./components/FeaturedInsurance";
+import CredentialNetwork from './components/seguro-pet/rede-credenciada/CredentialNetwork';
+import IndexTravelVenda from './components/primetravel-venda/IndexTravelVenda';
+import FeaturedInsurance from './components/FeaturedInsurance';
 //import FeaturedMiniBanners from "./components/mini-banner/components/FeaturedMiniBanners";
-import IndexMiniBanner from "./components/mini-banner/IndexMiniBanner";
-import IndexBenefits from "./components/benefits/IndexBenefits";
-import IndexContactSection from "./components/contact-section/indexContactSection";
-import IndexTrophySection from "./components/trophy-section/IndexTrophySection";
-import IndexLastPostsBlog from "./components/last-posts-blog/IndexLastPostsBlog";
-import IndexSeguroBike from "./components/seguro-bike/IndexSeguroBike";
+import IndexMiniBanner from './components/mini-banner/IndexMiniBanner';
+import IndexBenefits from './components/benefits/IndexBenefits';
+import IndexContactSection from './components/contact-section/indexContactSection';
+import IndexTrophySection from './components/trophy-section/IndexTrophySection';
+import IndexLastPostsBlog from './components/last-posts-blog/IndexLastPostsBlog';
+import IndexSeguroBike from './components/seguro-bike/IndexSeguroBike';
 
 //Páginas de Pagamento
-import InvoicePayment from "./components/seguro-pet/InvoicePayment";
-import IndexCotacaoSeguroBike from "./components/seguro-bike/cotacao-seguro-bike/IndexCotacaoSeguroBike";
-import IndexSeguroCelularKakau from "./components/seguro-celular-kakau/indexSeguroCelularKakau";
-import IndexCotacaoSeguroCelularkakau from "./components/seguro-celular-kakau/cotacao-seguro-celular-kakau/IndexCotacaoSeguroCelularKakau";
-import Contracts from "./components/accounts/components/Contracts";
-import PageContract from "./components/accounts/components/PageContract";
-import InvoicePaymentVida from "./components/seguro-de-vida/InvoicePaymentVida";
-import IndexConsorcioImovel from "./components/consorcio-imovel/index.js";
-import IndexConsorcioAuto from "./components/consorcio-auto/index.js";
-import IndexCotacaoTravel from "./components/primetravel/cotador/indexCotacaoTravel.js";
+import InvoicePayment from './components/seguro-pet/InvoicePayment';
+import IndexCotacaoSeguroBike from './components/seguro-bike/cotacao-seguro-bike/IndexCotacaoSeguroBike';
+import IndexSeguroCelularKakau from './components/seguro-celular-kakau/indexSeguroCelularKakau';
+import IndexCotacaoSeguroCelularkakau from './components/seguro-celular-kakau/cotacao-seguro-celular-kakau/IndexCotacaoSeguroCelularKakau';
+import Contracts from './components/accounts/components/Contracts';
+import PageContract from './components/accounts/components/PageContract';
+import InvoicePaymentVida from './components/seguro-de-vida/InvoicePaymentVida';
+import IndexConsorcioImovel from './components/consorcio-imovel/index.js';
+import IndexConsorcioAuto from './components/consorcio-auto/index.js';
+import IndexCotacaoTravel from './components/primetravel/cotador/indexCotacaoTravel.js';
+import Passengers from './components/primetravel/cotador/components/passengers.js';
+import InvoiceTable from './components/primetravel/cotador/components/resume.js';
+import Payment from './components/primetravel/cotador/components/payment.js';
+import Purchased from './components/primetravel/cotador/components/purchased.js';
 
 /**
  *  Componente para fazer o scroll para o topo da página
@@ -98,8 +102,8 @@ function ScrollToTop() {
  */
 function App() {
   // time do countdown
-  const _pathname = window?.location?.pathname || "";
-  const targetDate = new Date("December 31, 2023 00:00:00");
+  const _pathname = window?.location?.pathname || '';
+  const targetDate = new Date('December 31, 2023 00:00:00');
 
   return (
     <Router>
@@ -137,10 +141,10 @@ function App() {
                 {/*<Pet />*/}
                 {/*<div id="Travel1">
                   <Travel />
-            </div>*/}
+                </div>*/}
                 {/* <div id="Residencial">
                   <Residencial />
-          </div>*/}
+                </div>*/}
                 {/*<SliderSegurosHome />*/}
                 <IndexBenefits />
                 <div id="Logos" className="sm:mt-[100px]">
@@ -279,6 +283,23 @@ function App() {
           />
           {/* ROTAS COTAÇÃO PRIMETRAVEL */}
           <Route path="/cotacao-primetravel" element={<IndexCotacaoTravel />} />
+          <Route
+            path="/cotacao-primetravel/resumo"
+            element={<IndexCotacaoTravel />}
+          />
+          <Route
+            path="/cotacao-primetravel/passageiros"
+            element={<IndexCotacaoTravel />}
+          />
+          <Route
+            path="cotacao-primetravel/pagamento"
+            element={<IndexCotacaoTravel />}
+          />
+          <Route
+            path="/cotacao-primetravel/obrigado"
+            element={<IndexCotacaoTravel />}
+          />
+
           {/* ROTAS PAGES HOME */}
           <Route path="/sobre" element={<IndexSobrePrime />} />
           <Route path="/contato" element={<IndexContato />} />
@@ -301,9 +322,9 @@ function App() {
           <Route path="/cotacao" element={<Cotacao />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
-        {!_pathname.includes("/seguro-bike") &&
-          !_pathname.includes("/seguro-celular-kakau") &&
-          !_pathname.includes("/seguro-celular-kakau") && <Footer />}
+        {!_pathname.includes('/seguro-bike') &&
+          !_pathname.includes('/seguro-celular-kakau') &&
+          !_pathname.includes('/seguro-celular-kakau') && <Footer />}
       </div>
     </Router>
   );
