@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import InputMask from "react-input-mask";
-import { CirclePlus, Save, Trash2, Edit } from "lucide-react";
+import { CirclePlus, Save, Trash2, Edit, UsersRound, Star } from "lucide-react";
 import GlobalFuntions from "../../../globalsubcomponentes/globalFunctions";
+
 
 const globalFunctions = new GlobalFuntions();
 
@@ -31,10 +32,45 @@ const validateFields = (data, requiredFields) => {
   return errors;
 };
 
+// Lógica de busca no ViaCEP
+const fetchAddressFromCEP = async (cep, onChange) => {
+  const cleanedCep = cep.replace(/\D/g, ""); // Remove tudo que não é número
+
+  if (cleanedCep.length !== 8) {
+    //alert("CEP inválido. O CEP deve ter 8 dígitos.");
+    return;
+  }
+
+  try {
+    const response = await fetch(`https://viacep.com.br/ws/${cleanedCep}/json/`);
+    if (!response.ok) throw new Error("Erro ao buscar o CEP.");
+    const data = await response.json();
+
+    //console.log(data);
+
+    if (data.erro) {
+      //alert("CEP não encontrado. Verifique o CEP e tente novamente.");
+      return;
+    }
+
+    // Preenche os campos
+    onChange("address", data.logradouro || "");
+    onChange("district", data.bairro || "");
+    onChange("city", data.localidade || "");
+    onChange("state", data.uf || "");
+  } catch (error) {
+    console.error("Erro ao buscar o CEP:", error);
+    //console.log("Erro ao buscar o CEP. Tente novamente.", error);
+    //alert("Erro ao buscar o CEP. Tente novamente.");
+  }
+};
+
 
 // Componente para o Primeiro Passageiro
 const FirstPassenger = ({ onSave, data, onChange, errors }) => {
   const [isEditing, setIsEditing] = useState(true);
+
+
 
   const handleSave = () => {
     const hasErrors = onSave(); // Validação
@@ -43,12 +79,19 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
     }
   };
 
+
+
   return (
-    <div className="bg-gray-100 p-4 rounded-md mb-4">
+    <div className="bg-gray-50 p-4 rounded-md mb-4 shadow-sm sm:m-0 mx-2 shadow-indigo-500/40">
       {isEditing ? (
         // Modo de edição
         <>
-          <h2 className="text-xl font-bold text-[#313131]">Passageiro responsável</h2>
+          <h2 className="text-base sm:text-lg md:text-xl font-bold text-[#313131] flex items-center">
+            <Star size={20} className="mr-2 text-bluePrime" />
+            Passageiro responsável
+          </h2>
+
+
           <div className="sm:flex sm:space-x-4 space-y-2 sm:space-y-0 mt-2">
             <input
               name="firstName"
@@ -152,11 +195,12 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
           <div className="sm:flex sm:space-x-4 space-y-2 sm:space-y-0 mt-2">
             {/* INPUT CEP */}
             <InputMask
-              mask={"9999-999"}
+              mask={"99999-999"}
               type="text"
               placeholder={errors.zipCode ? "Coloque um CEP" : "Seu CEP"}
               name="zipCode"
               onChange={(e) => onChange(e.target.name, e.target.value)}
+              onBlur={(e) => fetchAddressFromCEP(e.target.value, onChange)}
               className={`rounded-md border p-2 w-full ${errors.zipCode ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
                 : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
                 }`}
@@ -225,21 +269,27 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
             />
           </div>
           {/* Outros campos permanecem inalterados */}
-          <div className="mt-4">
+          <div className="mt-4 flex justify-end">
             <button
-              className="bg-green-500 px-4 py-2 text-white rounded-md"
+              className="bg-green-500 px-4 py-2 text-white rounded-md flex items-center"
               onClick={handleSave} // Chama a validação e só fecha se não houver erros
             >
               <Save className="inline-block mr-2" />
               Salvar
             </button>
           </div>
+
         </>
       ) : (
         // Modo de visualização (Card)
         <div className="flex justify-between items-center">
           <div>
-            <h2 className="text-xl font-bold text-[#313131]">Passageiro responsável</h2>
+            <h2 className="text-base sm:text-lg md:text-xl font-bold text-[#313131] flex items-center">
+              <Star size={20} className="mr-2 text-bluePrime" />
+              Passageiro responsável
+            </h2>
+
+
             <p>Nome: {data.firstName} {data.secondName}</p>
             <p>CPF: {data.CPF}</p>
           </div>
@@ -272,10 +322,14 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors }) => {  // Ad
 
 
   return (
-    <div className="bg-gray-100 p-4 rounded-md mb-4">
+    <div className="bg-gray-50 p-4 rounded-md mb-4 shadow-sm sm:m-0 mx-2 shadow-indigo-500/40">
       {isEditing ? (
         <>
-          <h3 className="text-lg font-bold text-[#313131]">Passageiro {id + 2}</h3>
+          <h3 className="text-base sm:text-lg md:text-xl font-bold text-[#313131] flex items-center">
+            <UsersRound size={20} className="mr-2 text-bluePrime" />
+            Passageiro {id + 2}
+          </h3>
+
           <div className="sm:flex sm:space-x-4 space-y-2 sm:space-y-0 mt-2">
             <input
               name="firstName"
@@ -350,14 +404,7 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors }) => {  // Ad
               <option value="Não">Não</option>
             </select>
           </div>
-          <div className="mt-4 flex space-x-4">
-            <button
-              className="bg-green-500 px-4 py-2 text-white rounded-md"
-              onClick={handleSave}
-            >
-              <Save className="inline-block mr-2" />
-              Salvar
-            </button>
+          <div className="mt-4 flex justify-end space-x-4">
             <button
               className="bg-red-500 px-4 py-2 text-white rounded-md"
               onClick={() => onRemove(id)}
@@ -365,15 +412,26 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors }) => {  // Ad
               <Trash2 className="inline-block mr-2" />
               Remover
             </button>
+            <button
+              className="bg-green-500 px-4 py-2 text-white rounded-md"
+              onClick={handleSave}
+            >
+              <Save className="inline-block mr-2" />
+              Salvar
+            </button>
+
           </div>
         </>
       ) : (
         // Visualização como Card
         <div className="flex justify-between items-center">
           <div>
-            <h3 className="text-lg font-bold text-[#313131]">
+            <h3 className="text-base sm:text-lg md:text-xl font-bold text-[#313131] flex items-center">
+              <UsersRound size={20} className="mr-2 text-bluePrime" />
               Passageiro {id + 2}
             </h3>
+
+
             <p>
               Nome: {data.firstName} {data.secondName}
             </p>
@@ -449,6 +507,7 @@ const Passengers = () => {
     setResponsibleData((prev) => ({ ...prev, [field]: value }));
   };
 
+
   const handlePassengerChange = (id, field, value) => {
     const updatedPassengers = passengers.map((p, index) =>
       index === id ? { ...p, [field]: value } : p
@@ -507,7 +566,7 @@ const Passengers = () => {
 
         ))}
         <button
-          className={`px-4 py-2 mt-4 rounded-md text-white ${isResponsibleSaved ? "bg-blue-500" : "bg-gray-400 opacity-50"
+          className={`px-4 py-2 mt-4 rounded-md text-white ${isResponsibleSaved ? "bg-bluePrime" : "bg-gray-400 opacity-50"
             }`}
           onClick={addPassenger}
           disabled={!isResponsibleSaved}
