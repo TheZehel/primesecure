@@ -1,31 +1,70 @@
-import React, { useState, useRef, useEffect } from "react";
-import StepperControl from "./components/Stepper";
-import Plans from "./components/plans";
-import Resume from "./components/resume";
-import Passengers from "./components/passengers";
-import Payment from "./components/payment";
+import React, { useState, useRef, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import StepperControl from './components/Stepper';
+import Plans from './components/plans';
+import Resume from './components/resume';
+import Passengers from './components/passengers';
+import Payment from './components/payment';
+import Purchased from './components/purchased';
 
 const IndexCotacaoTravel = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(0); // Estado do passo atual
   const avancarRef = useRef(null); // Referência para o botão "Avançar"
   const [shouldBounce, setShouldBounce] = useState(false);
-  
-  
+
   const handleNext = () => {
     if (activeStep < steps.length - 1) {
-      setActiveStep((prev) => prev + 1);
+      const nextStep = activeStep + 1;
+      setActiveStep(nextStep);
 
-      // A tela do resumo sobe quando clica em avançar
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      })
+      // Troca a URL conforme a etapa
+      switch (nextStep) {
+        case 1:
+          navigate('/cotacao-primetravel/resumo');
+          break;
+        case 2:
+          navigate('/cotacao-primetravel/passageiros');
+          break;
+        case 3:
+          navigate('/cotacao-primetravel/pagamento');
+          break;
+        case 4:
+          navigate('/cotacao-primetravel/obrigado');
+          break;
+        default:
+          break;
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
   const handleBack = () => {
     if (activeStep > 0) {
-      setActiveStep((prev) => prev - 1);
+      const prevStep = activeStep - 1;
+      setActiveStep(prevStep);
+
+      // Troca a URL conforme a etapa anterior
+      switch (prevStep) {
+        case 0:
+          navigate('/cotacao-primetravel');
+          break;
+        case 1:
+          navigate('/cotacao-primetravel/resumo');
+          break;
+        case 2:
+          navigate('/cotacao-primetravel/passageiros');
+          break;
+        case 3:
+          navigate('/cotacao-primetravel/pagamento');
+          break;
+        default:
+          break;
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -33,27 +72,26 @@ const IndexCotacaoTravel = () => {
   const scrollTo = () => {
     if (avancarRef.current) {
       // Pega a posição do botão Avançar
-    const elementRect = avancarRef.current.getBoundingClientRect();
-    const elementPosition = elementRect.top + window.scrollY;
-    
-    // Calcula um offset de 50% da altura da janela, você pode ajustar conforme necessário.
-    const offset = window.innerHeight * 0.5;
-    
-    // Rola para a posição do botão menos o offset desejado, criando um efeito de parar 50% antes.
-    window.scrollTo({
-      top: elementPosition - offset,
-      behavior: 'smooth',
-    });
+      const elementRect = avancarRef.current.getBoundingClientRect();
+      const elementPosition = elementRect.top + window.scrollY;
 
-        // Ativa o bounce
-    setShouldBounce(true);
+      // Calcula um offset de 50% da altura da janela, você pode ajustar conforme necessário.
+      const offset = window.innerHeight * 0.5;
 
-        setTimeout(() => {
-          setShouldBounce(false);
-        }, 1000);
+      // Rola para a posição do botão menos o offset desejado, criando um efeito de parar 50% antes.
+      window.scrollTo({
+        top: elementPosition - offset,
+        behavior: 'smooth',
+      });
+
+      // Ativa o bounce
+      setShouldBounce(true);
+
+      setTimeout(() => {
+        setShouldBounce(false);
+      }, 1000);
     }
   };
-
 
   // Array de componentes dos passos
   const steps = [
@@ -61,6 +99,7 @@ const IndexCotacaoTravel = () => {
     <Resume />,
     <Passengers />,
     <Payment />,
+    <Purchased />,
   ];
 
   return (
@@ -79,7 +118,9 @@ const IndexCotacaoTravel = () => {
           ref={avancarRef}
           onClick={handleNext}
           disabled={activeStep === steps.length - 1}
-          className={`px-4 py-2 bg-bluePrime text-white rounded ${shouldBounce ? 'animate-bounce' : ''}`}
+          className={`px-4 py-2 bg-bluePrime text-white rounded ${
+            shouldBounce ? 'animate-bounce' : ''
+          }`}
         >
           Avançar
         </button>
