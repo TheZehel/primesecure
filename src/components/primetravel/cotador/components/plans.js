@@ -1,7 +1,9 @@
-import React from "react";
-import { useState } from "react"
+import React, { useState } from "react";
+import CardCotacao from "./cardCotacao";
+import ModalCoberturas from "./modalCoberturas";
 
-const Plans = ({onSelected }) => {
+
+const Plans = ({ onSelected }) => {
   // Estados e variáveis estáticas
   const [selectedPlanId, setSelectedPlanId] = useState("");
   const [isSelected, setIsSelected] = useState(false);
@@ -29,11 +31,14 @@ const Plans = ({onSelected }) => {
   return (
     <div>
       <div>
+        <CardCotacao />
+      </div>
+      <div>
         <h2 className="text-3xl font-bold text-[#313131] ">
           Selecionamos os Melhores Planos Para Você.
         </h2>
         <p className="mb-5">
-          Agora com prorrogação de estadia disponível em todos os planos!{" "}
+          Agora com prorrogação de estadia disponível em todos os planos!
         </p>
       </div>
       <div className="border rounded-lg shadow-lg p-6 max-w-md mx-auto">
@@ -83,7 +88,6 @@ const Plans = ({onSelected }) => {
             />
             {isSelected ? "Selecionado" : "Contratar"}
           </button>
-
         </div>
 
         {/* Benefits */}
@@ -118,18 +122,9 @@ const Plans = ({onSelected }) => {
           </li>
         </ul>
 
-        {/* Buttons */}
+        {/* Botão para abrir o novo modal */}
         <div className="flex flex-col items-center mt-6 space-y-3">
-          <button type="button" className="text-blue-600 text-sm underline">
-            Ver Todas as Coberturas
-          </button>
-          {/* <button
-            onClick={handleNext}
-            href="#"
-            className="bg-bluePrime cursor-pointer text-white uppercase text-sm py-2 px-4 rounded-md shadow-md"
-          >
-            Contratar
-          </button> */}
+          <ModalCoberturas />
         </div>
       </div>
     </div>

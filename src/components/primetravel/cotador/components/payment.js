@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import InputMask from "react-input-mask";
 import { ccNumberFormated, formatExpirationDate, formatCVC } from "../modules/formatFunctions"
 import chip from "../../../../../src/assets/svg/payment-card/cc-chip.svg";
@@ -13,11 +13,73 @@ const Payment = () => {
   const [expirationDate, setExpirationDate] = useState("") //20/24
   const [ cvc, setCvc ] = useState("") // 000
   const [isLoading, setIsLoading] = useState("false") 
+  const [errors, setErrors] = useState({
+    cardNumber: false,
+    cardHolder: false,
+    expirationDate: false,
+    cvc: false,
+  });
+
+  const cardNumberRef = useRef(null);
+  const cardHolderRef = useRef(null);
+  const expirationDateRef = useRef(null);
+  const cvcRef = useRef(null);
 
   const handleAddCard = () => {
+    let hasError = false;
+
+    const newErrors = {
+      cardNumber: !cardNumber,
+      cardHolder: !cardHolder,
+      expirationDate: !expirationDate,
+      cvc: !cvc,
+    };
+
+    Object.values(newErrors).forEach((value) => {
+      if (value) hasError = true;
+    });
+
+    setErrors(newErrors);
+
+    if(hasError){
+      if (newErrors.cardNumber){
+        cardNumberRef.current?.scrollIntoView({behavior: "smooth", block: "center"});
+      } else if (newErrors.cardHolder){
+        cardHolderRef.current?.scrollIntoView({behavior: "smooth", block: "center"});
+      } else if (newErrors.expirationDate){
+        expirationDateRef.current?.scrollIntoView({behavior: "smooth", block: "center"});
+      } else if (newErrors.cvc){
+        cvcRef.current?.scrollIntoView({behavior: "smooth", block: "center"});
+      }
+    }
+
     // lógica para envio do cartão
     console.log("Realizando pagamento");
   };
+
+  const handleInputChange = (name, value) => {
+    if(name === "cardNumber"){
+      setCardNumber(value);
+      if(value){
+        setErrors((prev) => ({...prev, cardNumber: false}));
+      }
+    } else if(name === "cardHolder"){
+      setCardHolder(value);
+      if(value){
+        setErrors((prev) => ({...prev, cardHolder: false}));
+      }
+    } else if(name === "expirationDate"){
+      setExpirationDate(value);
+      if(value){
+        setErrors((prev) => ({...prev, expirationDate: false}));
+      }
+    } else if(name === "cvc"){
+      setCvc(value);
+      if(value){
+        setErrors((prev) => ({...prev, cvc: false}));
+      }
+    }
+  }
 
   return (
     <div className="mx-2 flex flex-col lg:flex-row gap-8">
@@ -32,12 +94,19 @@ const Payment = () => {
               Numero do Cartão
             </label>
             <InputMask
+            name="cardNumber"
+              inputRef={cardNumberRef}
               id="card-number"
-              className="border-bluePrime border rounded-md h-10 px-4 w-full text-grayPrime uppercase focus:outline-none focus:ring-2 focus:ring-inset focus:ring-bluePrime2 focus:border-none"
               mask={"9999 9999 9999 9999"}
               maskChar={null}
               value={cardNumber}
-              onChange={(e) => setCardNumber(e.target.value)}
+              placeholder={errors.cardNumber ? "Preencha o número do cartão" : "0000 0000 0000 0000"}
+              onChange={(e) => handleInputChange("cardNumber", e.target.value)}
+              className={`border rounded-md h-10 px-4 w-full focus:outline-none ${
+                errors.cardNumber
+                ? "border-red-500 placeholder:text-red-500 focus:ring-red-500"
+                : "border-bluePrime focus:ring-bluePrime"
+              }`}
             />
           </div>
 
@@ -46,10 +115,17 @@ const Payment = () => {
               Nome do titular
             </label>
             <input
+              name="cardHolder"
+            ref={cardHolderRef} 
               id="card-holder"
-              className="border-bluePrime border rounded-md h-10 px-4 w-full text-grayPrime uppercase focus:outline-none focus:ring-2 focus:ring-inset focus:ring-bluePrime2 focus:border-none"
               value={cardHolder}
-              onChange={(e) => setCardHolder(e.target.value)}
+              placeholder={errors.cardHolder ? "Preencha o nome do titular" : "NOME COMPLETO"}
+              onChange={(e) => handleInputChange("cardHolder", e.target.value)}
+              className={`border rounded-md h-10 px-4 w-full focus:outline-none ${
+                errors.cardHolder
+                ? "border-red-500 placeholder:text-red-500 focus:ring-red-500"
+                : "border-bluePrime focus:ring-bluePrime"
+              }`}
               maxLength={40}
             />
           </div>
@@ -60,12 +136,19 @@ const Payment = () => {
                 Expiração
               </label>
               <InputMask
+                name="expirationDate"
+                inputRef={expirationDateRef}
                 id="expiration-date"
-                className={`border-bluePrime border rounded-md h-10 px-4 w-full text-grayPrime uppercase focus:outline-none focus:ring-2 focus:ring-inset focus:ring-bluePrime2 focus:border-none`}
-                mask={"99/99"}
                 maskChar={null}
+                mask={"99/99"}
                 value={expirationDate}
-                onChange={(e) => setExpirationDate(e.target.value)}
+                placeholder={errors.expirationDate ? "Preencha a data de expiração" : "00/00"}
+              onChange={(e) => handleInputChange("expirationDate", e.target.value)}
+              className={`border rounded-md h-10 px-4 w-full focus:outline-none ${
+                errors.expirationDate
+                ? "border-red-500 placeholder:text-red-500 focus:ring-red-500"
+                : "border-bluePrime focus:ring-bluePrime"
+              }`}
               />
             </div>
 
@@ -74,12 +157,19 @@ const Payment = () => {
                 CVV
               </label>
               <InputMask
+                name="cvc"
+                inputRef={cvcRef}
                 id="secuty-code"
-                className={`border-bluePrime border rounded-md h-10 px-4 w-full text-grayPrime uppercase focus:outline-none focus:ring-2 focus:ring-inset focus:ring-bluePrime2 focus:border-none`}
                 mask={"999"}
                 maskChar={null}
                 value={cvc}
-                onChange={(e) => setCvc(e.target.value)}
+                placeholder={errors.cvc ? "Preencha o CVV" : "000"}
+              onChange={(e) => handleInputChange("cvc", e.target.value)}
+              className={`border rounded-md h-10 px-4 w-full focus:outline-none ${
+                errors.cvc
+                ? "border-red-500 placeholder:text-red-500 focus:ring-red-500"
+                : "border-bluePrime focus:ring-bluePrime"
+              }`}
               />
             </div>
           </div>

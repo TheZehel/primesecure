@@ -175,20 +175,30 @@ class GlobalFuntions extends Object {
   validateNameLastName(name) {
     if (typeof name !== "string") return false;
     name = name.trim();
-    
+
     if (name.length < 5 || !name.includes(" ")) return false;
-    
+
     name = name.split(" ");
 
     const firstName = name[0];
 
-    name.shift();  
+    name.shift();
 
     var lastName = name.join(' ').trim();
-    
+
     if (firstName.length < 2 || lastName.length < 2) return false;
 
-    return true;    
+    return true;
+  }
+
+  // validação onde pode somente o primeiro nome, ao reconhecer espaço ou caracteres após o espaço invalida
+  validateFirstName(name) {
+    if (typeof name !== "string") return false;
+    name = name.trim();
+
+    if (name.length < 2 || name.includes(" ")) return false;
+
+    return true;
   }
 
   _validateName(name) {
@@ -385,7 +395,7 @@ class GlobalFuntions extends Object {
     return /^.{1,20}$/.test(number);
   }
 
-  validateComplement(complement) {    
+  validateComplement(complement) {
     return /^.{0,35}$/.test(complement);
   }
 
@@ -788,22 +798,22 @@ class GlobalFuntions extends Object {
 
     const today = new Date();
     const birthDate = new Date(date);
-  
+
     let years = today.getFullYear() - birthDate.getFullYear();
     let months = today.getMonth() - birthDate.getMonth();
     let days = today.getDate() - birthDate.getDate();
-  
+
     if (days < 0) {
       months--;
       const prevMonth = new Date(today.getFullYear(), today.getMonth(), 0);
       days += prevMonth.getDate();
     }
-  
+
     if (months < 0) {
       years--;
       months += 12;
     }
-  
+
     return {
       years: years,
       months: months,
@@ -815,7 +825,7 @@ class GlobalFuntions extends Object {
     if (!date) {
       return false;
     }
-    
+
     if (!this.pattern.data.test(date)) {
       return false;
     }
@@ -830,12 +840,12 @@ class GlobalFuntions extends Object {
   }
 
   getParamsFromObj(obj) {
-    for(const _key in obj) if (!obj[_key]) delete obj[_key];
-    
+    for (const _key in obj) if (!obj[_key]) delete obj[_key];
+
     const params = Object.entries(obj)
       .map(([key, value]) => {
         if (Array.isArray(value)) value = JSON.stringify(value);
-        if (typeof value === 'object') value = JSON.stringify(value); 
+        if (typeof value === 'object') value = JSON.stringify(value);
 
         return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
       })
@@ -875,7 +885,7 @@ class GlobalFuntions extends Object {
 
     let _params = this.getParamsFromObj(params);
     if (typeof _params === 'string' && _params.length > 0) path += `?${_params}`;
-    
+
     return path;
   }
 
@@ -894,15 +904,15 @@ class GlobalFuntions extends Object {
 
   applyDocumentMask(value, mask) {
     if (typeof value !== 'string' || typeof mask !== 'string') return value;
-  
+
     value = value.replace(/\D/g, "");
-  
+
     if (value.length > mask.replace(/[^#]/g, "").length) value = value.slice(0, mask.replace(/[^#]/g, "").length);
     if (value.length < mask.replace(/[^#]/g, "").length) mask = mask.slice(0, value.length);
-  
+
     for (let i = 0; i < value.length; i++) mask = mask.replace(/#/, value[i]);
-    
-    return mask;  
+
+    return mask;
   }
 }
 
