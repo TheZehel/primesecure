@@ -221,7 +221,9 @@ export default function FormTravelBanner2() {
       destiny: formData.selectedOption || { value: '', label: '', regiao: 0 },
       departure: formData.departure,
       arrival: formData.arrival,
-      ages: formData.olds.reduce((total, age) => total + age, 0),
+      ages: Array.isArray(formData.olds)
+        ? formData.olds.reduce((total, age) => total + age, 0)
+        : 0,
       name: formData.name,
       email: formData.email,
       phone: formData.phone.replace(/\D/g, ''),
@@ -297,23 +299,18 @@ export default function FormTravelBanner2() {
   const closeModal = () => setModalIsOpen(false);
 
   const handleOld = (index, value) => {
-    // Administra o número de passageiros por idade
-    if (errorList.includes('ages')) {
-      let errors = errorList.filter((item) => item !== 'ages');
-      setErrorList(errors);
-    }
-
-    let ages = 0;
     let formOlds = [...formData.olds];
 
-    for (let i = 0; i < formOlds.length; i++) {
-      ages += formOlds[i];
+    // Garante que o valor mínimo seja 0 e incrementa/decrementa de 1 em 1
+    if (value === 1 || value === -1) {
+      if (value === 1 && formOlds.reduce((sum, age) => sum + age, 0) < 10) {
+        formOlds[index] += 1;
+      } else if (value === -1 && formOlds[index] > 0) {
+        formOlds[index] -= 1;
+      }
     }
-    if ((value > 0 && ages < 10) || (value < 0 && formOlds[index] > 0)) {
-      // Impede que tenham mais de 10 passageiros e que o número de passageiros fique negativo
-      formOlds[index] = formOlds[index] + value;
-      setFormData({ ...formData, olds: formOlds });
-    }
+
+    setFormData({ ...formData, olds: formOlds });
   };
 
   const inputHandler = (event) => {
@@ -350,6 +347,7 @@ export default function FormTravelBanner2() {
     DiasMultiviagem: '0',
     CodigoTipoProduto: '',
     CNPJ: '',
+    olds: [0, 0, 0, 0], // Garante que olds seja um array
   });
 
   useEffect(() => {
@@ -357,7 +355,7 @@ export default function FormTravelBanner2() {
     if (storedFormData) {
       let storageData = JSON.parse(storedFormData);
       if (!Array.isArray(storageData.olds)) {
-        storageData.olds = [0, 0, 0, 0];
+        storageData.olds = [0, 0, 0, 0]; // Garante que olds seja um array
       }
       setFormData({
         ...storageData,
