@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import CardCotacao from "./cardCotacao";
 import ModalCoberturas from "./modalCoberturas";
+import EditQuote from "./editQuote";
 
 
 const Plans = ({ onSelected }) => {
@@ -34,6 +35,9 @@ const Plans = ({ onSelected }) => {
         <CardCotacao />
       </div>
       <div>
+
+        {/* Adicionando o EditQuote no topo */}
+        <EditQuote />
         <h2 className="text-3xl font-bold text-[#313131] ">
           Selecionamos os Melhores Planos Para Você.
         </h2>
@@ -47,30 +51,38 @@ const Plans = ({ onSelected }) => {
           PRIME BR 15
         </h5>
 
-        {/* Price and Discount */}
-        <div className="text-center mt-4">
-          <div className="bg-green-500 text-[#313131] font-bold rounded-full px-3 py-1 text-sm inline-block mt-2">
-            65% OFF
-          </div>
-          <div className="text-xl font-bold text-[#313131]">R$ 104,23</div>
-        </div>
-
-        {/* Installments */}
         <div className="text-center mt-6">
-          <h6 className="text-lg font-medium">
-            <span className="text-gray-600">12x</span>{" "}
-            <span className="text-[#313131] text-2xl font-bold">R$ 3,04</span>{" "}
-            <span className="text-gray-600">Sem Juros</span>
-          </h6>
-          <p className="text-green-600 text-sm mt-2 hidden">Cupom Aplicado!</p>
-          <p className="text-gray-600">Valor à vista: R$ 36,48</p>
+          {/* Preço Parcelado e Desconto */}
+          <div className="flex flex-col items-center">
+            <h6 className="text-lg font-medium">
+              <span className="text-gray-600">12x</span>{" "}
+              <span className="text-[#313131] text-2xl font-bold">R$ 3,04</span>{" "}
+              <span className="text-gray-600">Sem Juros</span>
+            </h6>
+            <p className="bg-green-500 font-bold text-sm mt-1 text-white py-1 px-2 rounded-md">
+              65% OFF
+            </p>
+
+          </div>
+
+          {/* Preço à Vista */}
+          <p className="text-gray-600 mt-2 text-sm">
+            <span className="font-bold">R$ 36,48</span>{" "}
+            <span className="font-normal">à vista</span>
+          </p>
+
+          {/* Linha de Separação */}
+          <div className="border-t border-gray-300 my-4 w-3/4 mx-auto"></div>
+
+          {/* Cobertura Total */}
+          <div className="flex justify-between items-center text-sm px-4">
+            <h6 className="text-gray-700 font-medium">Cobertura Total:</h6>
+            <h6 className="text-bluePrime font-bold">R$ 15.000,00</h6>
+          </div>
         </div>
 
-        {/* Coverage Details */}
-        <div className="text-center mt-4">
-          <h6 className="text-gray-700">Cobertura Total:</h6>
-          <h6 className="text-bluePrime font-bold">R$ 15.000,00</h6>
-        </div>
+
+
 
         {/* Buttons */}
         <div className="flex flex-col items-center mt-6 space-y-3">

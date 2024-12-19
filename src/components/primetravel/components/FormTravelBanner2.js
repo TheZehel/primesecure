@@ -36,10 +36,8 @@ const getUtmParams = () => {
 };
 
 const reasonOptions = [
-  { value: 'lazer', label: 'Lazer' },
-  { value: 'negocios', label: 'Negócios' },
-  { value: 'estudo', label: 'Estudo' },
-  { value: 'outros', label: 'Outros' },
+  { value: 'lazer/negocios', label: 'Lazer/Negócios' },
+  { value: 'esporte de competicao', label: 'Esporte de Competição' },
 ];
 
 export default function FormTravelBanner2() {
@@ -283,15 +281,17 @@ export default function FormTravelBanner2() {
     );
   };
 
-  const selectHandler = (selectedOption) => {
-    // Administra o select de Destino
-    setFormData({ ...formData, selectedOption });
+  const selectHandler = (event) => {
+    const selectedValue = event.target.value; // Obtém o valor selecionado
+    setFormData({ ...formData, selectedOption: selectedValue }); // Atualiza o estado
+
     if (errorList.includes('destinyGroup')) {
-      // Retorna e atualiza array de erros no formulário
+      // Remove 'destinyGroup' da lista de erros, se necessário
       let errors = errorList.filter((item) => item !== 'destinyGroup');
       setErrorList(errors);
     }
   };
+
 
   const [modalOpen, setModalIsOpen] = useState(false);
 
@@ -303,7 +303,7 @@ export default function FormTravelBanner2() {
 
     // Garante que o valor mínimo seja 0 e incrementa/decrementa de 1 em 1
     if (value === 1 || value === -1) {
-      if (value === 1 && formOlds.reduce((sum, age) => sum + age, 0) < 10) {
+      if (value === 1 && formOlds.reduce((sum, age) => sum + age, 0) < 8) {
         formOlds[index] += 1;
       } else if (value === -1 && formOlds[index] > 0) {
         formOlds[index] -= 1;
@@ -420,15 +420,57 @@ export default function FormTravelBanner2() {
                 <div className="w-full gap-x-8 gap-y-6 grid grid-cols-1">
                   <div>
                     <div className="mt-2.5">
-                      <Select
+                      {/* <Select
+                        type="select"
                         id="destinyGroup"
                         value={formData.selectedOption}
                         onChange={selectHandler}
-                        options={ListaPaises}
+                        //options={ListaPaises}
                         isSearchable
                         placeholder="Selecione o Destino..."
                         className="cursor-pointer text-lg w-full text-[#313131] placeholder:text-[#313131]"
-                      />
+
+                      >
+                        <option value="0">Brasil</option>
+                      </Select> */}
+                      <select
+                        id="destinyGroup"
+                        value={formData.selectedOption}
+                        onChange={selectHandler}
+                        className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime text-lg leading-6 text-center" // Adicionado text-center
+                      >
+                        <option value="" disabled selected className="text-center">
+                          Destino
+                        </option>
+                        <option value="1" className="text-center">
+                          África
+                        </option>
+                        <option value="2" className="text-center">
+                          América Central
+                        </option>
+                        <option value="3" className="text-center">
+                          Ásia
+                        </option>
+                        <option value="4" className="text-center">
+                          Europa
+                        </option>
+                        <option value="5" className="text-center">
+                          América do Norte
+                        </option>
+                        <option value="6" className="text-center">
+                          Oceania
+                        </option>
+                        <option value="7" className="text-center">
+                          América do Sul
+                        </option>
+                        <option value="8" className="text-center">
+                          Brasil
+                        </option>
+                        <option value="9" className="text-center">
+                          Múltiplos destinos
+                        </option>
+                      </select>
+
                     </div>
                   </div>
                   {/* Nova Seção para Motivo da Viagem */}
@@ -497,9 +539,9 @@ export default function FormTravelBanner2() {
                       value={
                         formData.olds.reduce((total, age) => total + age, 0) > 0
                           ? `${formData.olds.reduce(
-                              (total, age) => total + age,
-                              0,
-                            )} Passageiros`
+                            (total, age) => total + age,
+                            0,
+                          )} Passageiros`
                           : 'Selecione os Passageiros'
                       }
                       onClick={openModal}
