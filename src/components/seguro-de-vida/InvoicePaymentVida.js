@@ -207,6 +207,23 @@ const plans = [
     textColor: 'white',
     planId: 4,
   },
+  {
+    headTitle: 'PRIME DIAMOND',
+    title: 'Pacote 5',
+    price: '160,20', //"65,31",
+    award: 'Sorteio de R$20.000,00',
+    resume: 'Detalhes:',
+    resumeDesc:
+      'Assistência Pessoal + App Namu + Faz tudo (Assistência Residencial) + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar + Rede Saúde Familiar.',
+    features: [
+      'Morte Acidental - 500 mil',
+      'Invalidez Permanente Total por Acidente - 500 mil',
+      'Funeral Familiar Até 10 mil',
+    ],
+    bgColor: 'bluePrime',
+    textColor: 'white',
+    planId: 6,
+  },
 ];
 
 function InvoicePaymentVida() {
