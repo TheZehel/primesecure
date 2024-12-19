@@ -4,11 +4,8 @@ import "moment/locale/pt-br";
 import { DatePicker, Space } from "antd";
 import Select from "react-select";
 import Modal from "react-modal";
-
-import "animate.css";
-import ListaPaises from "../../components/ListaPaises";
 import { Pen, Save } from "lucide-react";
-import locale from "antd/lib/date-picker/locale/pt_BR"; // Importa locale
+import locale from "antd/lib/date-picker/locale/pt_BR";
 
 moment.locale("pt-br");
 
@@ -49,47 +46,35 @@ const EditQuote = () => {
     const closeModal = () => setModalOpen(false);
 
     const onChangeDeparture = (date) => {
-        setFormData({
-            ...formData,
-            departure: date ? date.format("DD/MM/YYYY") : null,
-            arrival:
-                formData.arrival &&
-                    moment(formData.arrival, "DD/MM/YYYY").isBefore(date)
-                    ? null
-                    : formData.arrival,
-        });
+        setFormData(prev => ({
+            ...prev,
+            departure: date,
+            // Limpa a data de chegada se a nova data de partida for depois da data de chegada atual
+            arrival: prev.arrival && date && date.isAfter(prev.arrival) ? null : prev.arrival
+        }));
     };
 
     const onChangeArrival = (date) => {
-        setFormData({
-            ...formData,
-            arrival: date ? date.format("DD/MM/YYYY") : null,
-        });
+        setFormData(prev => ({
+            ...prev,
+            arrival: date
+        }));
     };
 
     const disabledDepartureDate = (current) => {
-        let limitAfter = formData.arrival;
-        // Gera TimeStamp da "Data de Volta" para interagir com DatePicker
-        limitAfter = moment(limitAfter, 'DD/MM/YYYY');
-        return (
-            // Bloqueia datas após a data da input "Data de Ida"
-            (current && current.isAfter(limitAfter, 'day')) ||
-            // Bloqueia datas anteriores a hoje na input "Data de Ida"
-            current < moment().startOf('day')
-        );
+        // Apenas desabilita datas anteriores a hoje
+        return current && current.isBefore(moment().startOf('day'));
     };
 
     const disabledArrivalDate = (current) => {
-        let limitBefore = formData.departure;
-        // Gera TimeStamp da "Data de Ida" para interagir com DatePicker
-        limitBefore = moment(limitBefore, 'DD/MM/YYYY');
-        return (
-            // Bloqueia datas anteriores a "Data de Ida"
-            (current && current < moment(limitBefore, 'DD/MM/YYYY').startOf('day')) ||
-            // Bloqueia datas anteriores a hoje na input "Data de Volta"
-            current < moment().startOf('day')
-        );
+        // Desabilita datas anteriores à data de partida selecionada
+        if (formData.departure) {
+            return current && current.isBefore(formData.departure);
+        }
+        // Desabilita datas anteriores a hoje se não houver data de partida
+        return current && current.isBefore(moment().startOf('day'));
     };
+
 
     return (
         <div className="w-full bg-white border rounded-lg shadow-md p-4 sm:p-2">
@@ -128,10 +113,6 @@ const EditQuote = () => {
                         </p>
                     )}
                 </div>
-
-
-
-
 
                 {/* Passageiros */}
                 <div>
@@ -199,60 +180,46 @@ const EditQuote = () => {
 
                 {/* Período */}
                 <div>
-                    <h3 className="text-sm font-bold sm:text-xs md:text-sm">Período</h3> {/* Título adicionado */}
+                    <h3 className="text-sm font-bold sm:text-xs md:text-sm">Período</h3>
                     {isEditing ? (
                         <div className="grid grid-cols-2 gap-4">
                             <div className="w-full">
                                 <div className="mt-2.5">
-                                    <Space direction="vertical">
-                                        <DatePicker
-                                            locale={locale}
-                                            id="departure"
-                                            selected={
-                                                formData.departure
-                                                    ? moment(formData.departure, 'DD/MM/YYYY')
-                                                    : null
-                                            }
-                                            onChange={onChangeDeparture}
-                                            placeholderText="Data de ida"
-                                            disabledDate={disabledDepartureDate}
-                                            dateFormat="dd/MM/yyyy"
-                                            className="block w-full rounded-md border-0 px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-bluePrime lg:text-lg lg:leading-6 text-[#313131] placeholder:text-[#313131]"
-                                        />
-                                    </Space>
+                                    <DatePicker
+                                        locale={locale}
+                                        value={formData.departure}
+                                        onChange={onChangeDeparture}
+                                        placeholder="Data de ida"
+                                        disabledDate={disabledDepartureDate}
+                                        format="DD/MM/YYYY"
+                                        className="block w-full rounded-md border-0 px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-bluePrime lg:text-lg lg:leading-6 text-[#313131] placeholder:text-[#313131]"
+                                    />
                                 </div>
                             </div>
                             <div className="w-full">
                                 <div className="mt-2.5">
-                                    <Space direction="vertical">
-                                        <DatePicker
-                                            id="arrival"
-                                            locale={locale}
-                                            selected={
-                                                formData.arrival
-                                                    ? moment(formData.arrival, 'DD/MM/YYYY')
-                                                    : null
-                                            }
-                                            onChange={onChangeArrival}
-                                            placeholderText="Volta"
-                                            disabledDate={disabledArrivalDate}
-                                            dateFormat="dd/MM/yyyy"
-                                            className="block w-full rounded-md border-0 px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-bluePrime lg:text-lg lg:leading-6 text-[#313131] placeholder:text-[#313131]"
-                                        />
-                                    </Space>
+                                    <DatePicker
+                                        locale={locale}
+                                        value={formData.arrival}
+                                        onChange={onChangeArrival}
+                                        placeholder="Volta"
+                                        disabledDate={disabledArrivalDate}
+                                        format="DD/MM/YYYY"
+                                        className="block w-full rounded-md border-0 px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-bluePrime lg:text-lg lg:leading-6 text-[#313131] placeholder:text-[#313131]"
+                                    />
                                 </div>
                             </div>
                         </div>
                     ) : (
                         <p className="text-base sm:text-sm md:text-base text-center">
-                            {formData.departure && formData.arrival
-                                ? `De ${moment(formData.departure).format('DD/MM/YYYY')} até ${moment(formData.arrival).format('DD/MM/YYYY')} (${moment(formData.arrival).diff(moment(formData.departure), 'days')} dias)`
-                                : "Período não selecionado"}
+                            {formData.departure && formData.arrival ? (
+                                `De ${formData.departure.format('DD/MM/YYYY')} até ${formData.arrival.format('DD/MM/YYYY')}`
+                            ) : (
+                                "Período não selecionado"
+                            )}
                         </p>
                     )}
                 </div>
-
-
 
                 {/* Botão de Ação */}
                 <div className="flex justify-center mt-4 md:mt-0">
