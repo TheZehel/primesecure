@@ -144,13 +144,13 @@ const sessaoInfoLp = [
       {
         name: "Bagagem",
         description:
-        "A política prevê reembolso de despesas com artigos de uso pessoal se a bagagem do segurado for atrasada em 8 horas ou mais pela companhia transportadora. A reclamação deve ser comprovada por meio de um relatório de irregularidade de bagagem (PIR ou RIB).",
+          "A política prevê reembolso de despesas com artigos de uso pessoal se a bagagem do segurado for atrasada em 8 horas ou mais pela companhia transportadora. A reclamação deve ser comprovada por meio de um relatório de irregularidade de bagagem (PIR ou RIB).",
         icon: <FontAwesomeIcon icon={faSuitcaseRolling} />,
       },
       {
         name: "Compensação por demora na localização de bagagem",
         //description:
-          // "A central de assistência ajudará o beneficiário em caso de extravio ou roubo de bagagem, bem como na perda de documentos de viagem ou cartão de crédito, fornecendo instruções para fazer a denúncia e auxiliar na recuperação desses itens.",
+        // "A central de assistência ajudará o beneficiário em caso de extravio ou roubo de bagagem, bem como na perda de documentos de viagem ou cartão de crédito, fornecendo instruções para fazer a denúncia e auxiliar na recuperação desses itens.",
         icon: <FontAwesomeIcon icon={faSearch} />,
       },
       {
@@ -179,7 +179,7 @@ const sessaoInfoLp = [
       },
       {
         name: "Compensação por demora na localização da bagagem",
-        description: 
+        description:
           "descrição",
         icon: <FontAwesomeIcon icon={faBriefcase} />,
       },
@@ -197,19 +197,19 @@ const sessaoInfoLp = [
       },
       {
         name: "Reembolso por Gastos de Emissão de Passaporte Provisório",
-        description: 
+        description:
           "Descrição",
         icon: <TicketsPlane />,
       },
       {
         name: "Adiantamento de finança",
-        description: 
+        description:
           "descrição",
         icon: <PiggyBank />,
       },
       {
         name: "Assistencia Jurídica em acidente de trânsito",
-        description: 
+        description:
           "descrição",
         icon: <CarFront />,
       },
@@ -220,10 +220,10 @@ const sessaoInfoLp = [
         icon: <CircleX />,
       },
       //{
-        //name: "Retorno antecipado de acompanhantes",
-        //description:
-          //"A política cobre o reembolso da passagem aérea para o retorno do acompanhante do segurado ao seu país de origem, caso o segurado seja impedido de concluir a viagem devido a doença, acidente ou morte. Isso se aplica quando o acompanhante não pode retornar pelo meio originalmente planejado.",
-        //icon: <FontAwesomeIcon icon={faPeopleArrows} />,
+      //name: "Retorno antecipado de acompanhantes",
+      //description:
+      //"A política cobre o reembolso da passagem aérea para o retorno do acompanhante do segurado ao seu país de origem, caso o segurado seja impedido de concluir a viagem devido a doença, acidente ou morte. Isso se aplica quando o acompanhante não pode retornar pelo meio originalmente planejado.",
+      //icon: <FontAwesomeIcon icon={faPeopleArrows} />,
       //},
       // {
       //   name: "Retorno antecipado do segurado",
@@ -240,7 +240,7 @@ const sessaoInfoLp = [
       {
         name: "Adiantamento de fundos no exterior",
         //description:
-          //"Em caso de necessidade durante a viagem, a política cobre o envio de uma quantia para pagamento de uma fiança penal, após o depósito do valor pela família do beneficiário. O valor coberto é apenas o custo da transferência. Este serviço é oferecido uma única vez e aplica-se mesmo se o beneficiário for detido devido a um acidente de trânsito. A cobertura tem um limite especificado nas condições gerais.",
+        //"Em caso de necessidade durante a viagem, a política cobre o envio de uma quantia para pagamento de uma fiança penal, após o depósito do valor pela família do beneficiário. O valor coberto é apenas o custo da transferência. Este serviço é oferecido uma única vez e aplica-se mesmo se o beneficiário for detido devido a um acidente de trânsito. A cobertura tem um limite especificado nas condições gerais.",
         icon: <FontAwesomeIcon icon={faMoneyBillWave} />,
       },
       {
@@ -252,7 +252,7 @@ const sessaoInfoLp = [
       {
         name: "Morte acidental em viagem ao exterior",
         //description:
-          //"Consiste no pagamento do capital segurado ao(s) beneficiário(s) indicado(s) no bilhete, de uma única vez, em caso de falecimento do segurado, por acidente pessoal ocorrido durante o período de viagem.",
+        //"Consiste no pagamento do capital segurado ao(s) beneficiário(s) indicado(s) no bilhete, de uma única vez, em caso de falecimento do segurado, por acidente pessoal ocorrido durante o período de viagem.",
         icon: <FontAwesomeIcon icon={faSkullCrossbones} />,
       },
       {

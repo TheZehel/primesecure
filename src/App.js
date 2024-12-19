@@ -74,10 +74,10 @@ import InvoicePaymentVida from './components/seguro-de-vida/InvoicePaymentVida';
 import IndexConsorcioImovel from './components/consorcio-imovel/index.js';
 import IndexConsorcioAuto from './components/consorcio-auto/index.js';
 import IndexCotacaoTravel from './components/primetravel/cotador/indexCotacaoTravel.js';
-import Passengers from './components/primetravel/cotador/components/passengers.js';
-import InvoiceTable from './components/primetravel/cotador/components/resume.js';
-import Payment from './components/primetravel/cotador/components/payment.js';
-import Purchased from './components/primetravel/cotador/components/purchased.js';
+// import Passengers from './components/primetravel/cotador/components/passengers.js';
+// import InvoiceTable from './components/primetravel/cotador/components/resume.js';
+// import Payment from './components/primetravel/cotador/components/payment.js';
+// import Purchased from './components/primetravel/cotador/components/purchased.js';
 
 /**
  *  Componente para fazer o scroll para o topo da página

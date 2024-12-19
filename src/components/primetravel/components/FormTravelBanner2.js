@@ -221,7 +221,9 @@ export default function FormTravelBanner2() {
       destiny: formData.selectedOption || { value: '', label: '', regiao: 0 },
       departure: formData.departure,
       arrival: formData.arrival,
-      ages: formData.olds.reduce((total, age) => total + age, 0),
+      ages: Array.isArray(formData.olds)
+        ? formData.olds.reduce((total, age) => total + age, 0)
+        : 0,
       name: formData.name,
       email: formData.email,
       phone: formData.phone.replace(/\D/g, ''),
@@ -297,23 +299,18 @@ export default function FormTravelBanner2() {
   const closeModal = () => setModalIsOpen(false);
 
   const handleOld = (index, value) => {
-    // Administra o número de passageiros por idade
-    if (errorList.includes('ages')) {
-      let errors = errorList.filter((item) => item !== 'ages');
-      setErrorList(errors);
-    }
-
-    let ages = 0;
     let formOlds = [...formData.olds];
 
-    for (let i = 0; i < formOlds.length; i++) {
-      ages += formOlds[i];
+    // Garante que o valor mínimo seja 0 e incrementa/decrementa de 1 em 1
+    if (value === 1 || value === -1) {
+      if (value === 1 && formOlds.reduce((sum, age) => sum + age, 0) < 10) {
+        formOlds[index] += 1;
+      } else if (value === -1 && formOlds[index] > 0) {
+        formOlds[index] -= 1;
+      }
     }
-    if ((value > 0 && ages < 10) || (value < 0 && formOlds[index] > 0)) {
-      // Impede que tenham mais de 10 passageiros e que o número de passageiros fique negativo
-      formOlds[index] = formOlds[index] + value;
-      setFormData({ ...formData, olds: formOlds });
-    }
+
+    setFormData({ ...formData, olds: formOlds });
   };
 
   const inputHandler = (event) => {
@@ -350,6 +347,7 @@ export default function FormTravelBanner2() {
     DiasMultiviagem: '0',
     CodigoTipoProduto: '',
     CNPJ: '',
+    olds: [0, 0, 0], // Garante que olds seja um array
   });
 
   useEffect(() => {
@@ -357,7 +355,7 @@ export default function FormTravelBanner2() {
     if (storedFormData) {
       let storageData = JSON.parse(storedFormData);
       if (!Array.isArray(storageData.olds)) {
-        storageData.olds = [0, 0, 0, 0];
+        storageData.olds = [0, 0, 0]; // Garante que olds seja um array
       }
       setFormData({
         ...storageData,
@@ -498,14 +496,10 @@ export default function FormTravelBanner2() {
                       name="ages"
                       value={
                         formData.olds.reduce((total, age) => total + age, 0) > 0
-                          ? `${
-                              Array.isArray(formData.olds)
-                                ? formData.olds.reduce(
-                                    (total, age) => total + age,
-                                    0,
-                                  )
-                                : 0
-                            } Passageiros`
+                          ? `${formData.olds.reduce(
+                              (total, age) => total + age,
+                              0,
+                            )} Passageiros`
                           : 'Selecione os Passageiros'
                       }
                       onClick={openModal}
@@ -546,39 +540,36 @@ export default function FormTravelBanner2() {
                         </div>
                         <hr className="mb-4" />
                         {/* Repetir para cada grupo de idade */}
-                        {[
-                          '0 a 40 anos',
-                          '41 a 64 anos',
-                          '65 a 75 anos',
-                          '76 a 99 anos',
-                        ].map((group, index) => (
-                          <div
-                            className="flex items-center justify-between mb-2"
-                            key={index}
-                          >
-                            <h3 className="text-xl">{group}</h3>
-                            <div className="flex items-center justify-around w-32">
-                              <button
-                                onClick={() => handleOld(index, -1)}
-                                className="bg-bluePrime hover:bg-bluePrime2 text-white w-8 h-8 rounded-full flex items-center justify-center focus:outline-none"
-                              >
-                                -
-                              </button>
-                              <input
-                                type="text"
-                                value={formData.olds[index]}
-                                readOnly
-                                className="text-center block w-12 h-8 text-lg rounded-lg border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
-                              />
-                              <button
-                                onClick={() => handleOld(index, 1)}
-                                className="bg-bluePrime hover:bg-bluePrime2 text-white w-8 h-8 rounded-full flex items-center justify-center focus:outline-none"
-                              >
-                                +
-                              </button>
+                        {['0 a 75 anos', '76 a 85 anos', '86 a 99 anos'].map(
+                          (group, index) => (
+                            <div
+                              className="flex items-center justify-between mb-2"
+                              key={index}
+                            >
+                              <h3 className="text-xl">{group}</h3>
+                              <div className="flex items-center justify-around w-32">
+                                <button
+                                  onClick={() => handleOld(index, -1)}
+                                  className="bg-bluePrime hover:bg-bluePrime2 text-white w-8 h-8 rounded-full flex items-center justify-center focus:outline-none"
+                                >
+                                  -
+                                </button>
+                                <input
+                                  type="text"
+                                  value={formData.olds[index]}
+                                  readOnly
+                                  className="text-center block w-12 h-8 text-lg rounded-lg border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
+                                />
+                                <button
+                                  onClick={() => handleOld(index, 1)}
+                                  className="bg-bluePrime hover:bg-bluePrime2 text-white w-8 h-8 rounded-full flex items-center justify-center focus:outline-none"
+                                >
+                                  +
+                                </button>
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          ),
+                        )}
                         <button
                           onClick={closeModal}
                           className="bg-bluePrime hover:bg-bluePrime2 text-white font-bold py-2 px-4 rounded w-1/2 mx-auto block"

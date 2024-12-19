@@ -1,5 +1,7 @@
+//Dependências
 import React, { useState, useRef, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+//Componentes
 import StepperControl from './components/Stepper';
 import Plans from './components/plans';
 import Resume from './components/resume';
