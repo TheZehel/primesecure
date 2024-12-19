@@ -794,9 +794,11 @@ function InvoicePaymentVida() {
     cycle: invoice.cycle ? invoice.cycle.cycle : '',
   };
 
-  let plan = { ...plans[0] };
-  if (document && document.plan && document.plan.id !== undefined)
-    plan = { ...plans[document.plan.id] };
+  //   let plan = { ...plans[0] };
+  //   if (document && document.plan && document.plan.id !== undefined)
+  //     plan = { ...plans[document.plan.id] };
+
+  const plan = plans.find((p) => p.planId === document.plan?.id) || plans[0];
 
   console.log('Plan Features:', plan.features);
 
