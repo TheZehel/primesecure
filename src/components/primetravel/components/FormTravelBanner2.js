@@ -347,25 +347,28 @@ export default function FormTravelBanner2() {
     DiasMultiviagem: '0',
     CodigoTipoProduto: '',
     CNPJ: '',
-    olds: [0, 0, 0], // Garante que olds seja um array
+    olds: [0, 0, 0],
+    selectedOption: null,
+    reason: null,
+    name: '',
+    email: '',
+    phone: '',
+    departure: null,
+    arrival: null,
   });
 
   useEffect(() => {
+    // Carregar dados do sessionStorage quando o componente é montado
     const storedFormData = sessionStorage.getItem('formData-travel');
     if (storedFormData) {
-      let storageData = JSON.parse(storedFormData);
-      if (!Array.isArray(storageData.olds)) {
-        storageData.olds = [0, 0, 0]; // Garante que olds seja um array
-      }
-      setFormData({
-        ...storageData,
-        departure: null, // Deleta os dados de data anteriores por darem conflito com o DatePicker
-        arrival: null,
-      });
+      setFormData(JSON.parse(storedFormData));
     }
-    // Deleta sessionStorage ao carregar para o form
-    sessionStorage.removeItem('formData-travel');
   }, []);
+
+  useEffect(() => {
+    // Salvar automaticamente o formData no sessionStorage
+    sessionStorage.setItem('formData-travel', JSON.stringify(formData));
+  }, [formData]);
 
   return (
     <ConfigProvider locale={locale}>
