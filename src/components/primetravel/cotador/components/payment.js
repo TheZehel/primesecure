@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import InputMask from "react-input-mask";
 import { ccNumberFormated, formatExpirationDate, formatCVC } from "../modules/formatFunctions"
 import chip from "../../../../../src/assets/svg/payment-card/cc-chip.svg";
@@ -8,11 +8,11 @@ import imgDefault from "../../../../../src/assets/svg/payment-card/cc-icon.svg";
 
 const Payment = () => {
   //ESTADOS
-  const [cardNumber, setCardNumber] = useState("") //0000 0000 0000 0000
-  const [cardHolder, setCardHolder] = useState("") // Nome Impresso
-  const [expirationDate, setExpirationDate] = useState("") //20/24
-  const [ cvc, setCvc ] = useState("") // 000
-  const [isLoading, setIsLoading] = useState("false") 
+  const [cardNumber, setCardNumber] = useState(""); //0000 0000 0000 0000
+  const [cardHolder, setCardHolder] = useState(""); // Nome Impresso
+  const [expirationDate, setExpirationDate] = useState(""); //20/24
+  const [cvc, setCvc] = useState(""); // 000
+  const [isLoading, setIsLoading] = useState("false");
   const [errors, setErrors] = useState({
     cardNumber: false,
     cardHolder: false,
@@ -24,6 +24,24 @@ const Payment = () => {
   const cardHolderRef = useRef(null);
   const expirationDateRef = useRef(null);
   const cvcRef = useRef(null);
+
+  // Carregar dados do sessionStorage ao iniciar
+  useEffect(() => {
+    const storedData = sessionStorage.getItem("paymentData");
+    if (storedData) {
+      const { cardNumber, cardHolder, expirationDate, cvc } = JSON.parse(storedData);
+      setCardNumber(cardNumber || "");
+      setCardHolder(cardHolder || "");
+      setExpirationDate(expirationDate || "");
+      setCvc(cvc || "");
+    }
+  }, []);
+
+  // Salvar dados no sessionStorage ao atualizar
+  useEffect(() => {
+    const paymentData = { cardNumber, cardHolder, expirationDate, cvc };
+    sessionStorage.setItem("paymentData", JSON.stringify(paymentData));
+  }, [cardNumber, cardHolder, expirationDate, cvc]);
 
   const handleAddCard = () => {
     let hasError = false;
@@ -41,15 +59,15 @@ const Payment = () => {
 
     setErrors(newErrors);
 
-    if(hasError){
-      if (newErrors.cardNumber){
-        cardNumberRef.current?.scrollIntoView({behavior: "smooth", block: "center"});
-      } else if (newErrors.cardHolder){
-        cardHolderRef.current?.scrollIntoView({behavior: "smooth", block: "center"});
-      } else if (newErrors.expirationDate){
-        expirationDateRef.current?.scrollIntoView({behavior: "smooth", block: "center"});
-      } else if (newErrors.cvc){
-        cvcRef.current?.scrollIntoView({behavior: "smooth", block: "center"});
+    if (hasError) {
+      if (newErrors.cardNumber) {
+        cardNumberRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      } else if (newErrors.cardHolder) {
+        cardHolderRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      } else if (newErrors.expirationDate) {
+        expirationDateRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      } else if (newErrors.cvc) {
+        cvcRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
       }
     }
 
@@ -58,28 +76,28 @@ const Payment = () => {
   };
 
   const handleInputChange = (name, value) => {
-    if(name === "cardNumber"){
+    if (name === "cardNumber") {
       setCardNumber(value);
-      if(value){
-        setErrors((prev) => ({...prev, cardNumber: false}));
+      if (value) {
+        setErrors((prev) => ({ ...prev, cardNumber: false }));
       }
-    } else if(name === "cardHolder"){
+    } else if (name === "cardHolder") {
       setCardHolder(value);
-      if(value){
-        setErrors((prev) => ({...prev, cardHolder: false}));
+      if (value) {
+        setErrors((prev) => ({ ...prev, cardHolder: false }));
       }
-    } else if(name === "expirationDate"){
+    } else if (name === "expirationDate") {
       setExpirationDate(value);
-      if(value){
-        setErrors((prev) => ({...prev, expirationDate: false}));
+      if (value) {
+        setErrors((prev) => ({ ...prev, expirationDate: false }));
       }
-    } else if(name === "cvc"){
+    } else if (name === "cvc") {
       setCvc(value);
-      if(value){
-        setErrors((prev) => ({...prev, cvc: false}));
+      if (value) {
+        setErrors((prev) => ({ ...prev, cvc: false }));
       }
     }
-  }
+  };
 
   return (
     <div className="mx-2 flex flex-col lg:flex-row gap-8">
@@ -94,7 +112,7 @@ const Payment = () => {
               Numero do Cartão
             </label>
             <InputMask
-            name="cardNumber"
+              name="cardNumber"
               inputRef={cardNumberRef}
               id="card-number"
               mask={"9999 9999 9999 9999"}
@@ -102,11 +120,10 @@ const Payment = () => {
               value={cardNumber}
               placeholder={errors.cardNumber ? "Preencha o número do cartão" : "0000 0000 0000 0000"}
               onChange={(e) => handleInputChange("cardNumber", e.target.value)}
-              className={`border rounded-md h-10 px-4 w-full focus:outline-none ${
-                errors.cardNumber
+              className={`border rounded-md h-10 px-4 w-full focus:outline-none ${errors.cardNumber
                 ? "border-red-500 placeholder:text-red-500 focus:ring-red-500"
                 : "border-bluePrime focus:ring-bluePrime"
-              }`}
+                }`}
             />
           </div>
 
@@ -116,16 +133,15 @@ const Payment = () => {
             </label>
             <input
               name="cardHolder"
-            ref={cardHolderRef} 
+              ref={cardHolderRef}
               id="card-holder"
               value={cardHolder}
               placeholder={errors.cardHolder ? "Preencha o nome do titular" : "NOME COMPLETO"}
               onChange={(e) => handleInputChange("cardHolder", e.target.value)}
-              className={`border rounded-md h-10 px-4 w-full focus:outline-none ${
-                errors.cardHolder
+              className={`border rounded-md h-10 px-4 w-full focus:outline-none ${errors.cardHolder
                 ? "border-red-500 placeholder:text-red-500 focus:ring-red-500"
                 : "border-bluePrime focus:ring-bluePrime"
-              }`}
+                }`}
               maxLength={40}
             />
           </div>
@@ -143,12 +159,11 @@ const Payment = () => {
                 mask={"99/99"}
                 value={expirationDate}
                 placeholder={errors.expirationDate ? "Preencha a data de expiração" : "00/00"}
-              onChange={(e) => handleInputChange("expirationDate", e.target.value)}
-              className={`border rounded-md h-10 px-4 w-full focus:outline-none ${
-                errors.expirationDate
-                ? "border-red-500 placeholder:text-red-500 focus:ring-red-500"
-                : "border-bluePrime focus:ring-bluePrime"
-              }`}
+                onChange={(e) => handleInputChange("expirationDate", e.target.value)}
+                className={`border rounded-md h-10 px-4 w-full focus:outline-none ${errors.expirationDate
+                  ? "border-red-500 placeholder:text-red-500 focus:ring-red-500"
+                  : "border-bluePrime focus:ring-bluePrime"
+                  }`}
               />
             </div>
 
@@ -164,12 +179,11 @@ const Payment = () => {
                 maskChar={null}
                 value={cvc}
                 placeholder={errors.cvc ? "Preencha o CVV" : "000"}
-              onChange={(e) => handleInputChange("cvc", e.target.value)}
-              className={`border rounded-md h-10 px-4 w-full focus:outline-none ${
-                errors.cvc
-                ? "border-red-500 placeholder:text-red-500 focus:ring-red-500"
-                : "border-bluePrime focus:ring-bluePrime"
-              }`}
+                onChange={(e) => handleInputChange("cvc", e.target.value)}
+                className={`border rounded-md h-10 px-4 w-full focus:outline-none ${errors.cvc
+                  ? "border-red-500 placeholder:text-red-500 focus:ring-red-500"
+                  : "border-bluePrime focus:ring-bluePrime"
+                  }`}
               />
             </div>
           </div>
@@ -196,7 +210,7 @@ const Payment = () => {
             </div>
             <div className="flex justify-between items-center mb-6"></div>
             <div className="text-white text-2xl font-bold text-start">
-            {cardNumber ? ccNumberFormated(cardNumber) : "0000 0000 0000 0000"}
+              {cardNumber ? ccNumberFormated(cardNumber) : "0000 0000 0000 0000"}
             </div>
             <div className="mt-3">
               <div className="text-md font-bold text-gray-300 text-start">
@@ -204,7 +218,7 @@ const Payment = () => {
               </div>
               <div className="text-sm font-bold text-white uppercase text-start">
                 {cardHolder || "NOME DO TITULAR"}
-                
+
               </div>
             </div>
             <div className="flex justify-between items-center mt-3">
@@ -231,13 +245,13 @@ const Payment = () => {
         <div className="m-2 p-3 bg-white rounded-lg shadow-md border-2 border-bluePrime">
           <div className="text-black font-bold text-left">Detalhes da compra:</div>
           <div className="text-left text-gray-600 text-sm">
-          
-          <div>Nome e Sobrenome: </div>
-          <div>Endereço com numero: </div>
-          <div>CPF: </div>
-          <div>Preço: </div>
-          <div>Destino: </div>
-          <div>Data e hora da viagem: ida-volta</div>
+
+            <div>Nome e Sobrenome: </div>
+            <div>Endereço com numero: </div>
+            <div>CPF: </div>
+            <div>Preço: </div>
+            <div>Destino: </div>
+            <div>Data e hora da viagem: ida-volta</div>
           </div>
 
         </div>

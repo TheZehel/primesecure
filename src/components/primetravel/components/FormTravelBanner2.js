@@ -71,6 +71,7 @@ export default function FormTravelBanner2() {
     }
   };
 
+
   async function submitFormToRD(payload, redirect, attempts = 0) {
     const MAX_ATTEMPTS = 3; // Número máximo de tentativas
 
