@@ -10,13 +10,30 @@ import Payment from './components/payment';
 import Purchased from './components/purchased';
 
 const IndexCotacaoTravel = () => {
-  const location = useLocation();
+  //const location = useLocation();
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(0); // Estado do passo atual
   const avancarRef = useRef(null); // Referência para o botão "Avançar"
   const [shouldBounce, setShouldBounce] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState(null);
+
+  useEffect(() => {
+    const storedData = sessionStorage.getItem('formData-Travel');
+    if (storedData) {
+      const { activeStep, selectedPlan } = JSON.parse(storedData);
+
+      if (activeStep !== undefined) setActiveStep(activeStep); // Define o passo salvo
+      if (selectedPlan) setSelectedPlan(selectedPlan); // Define o plano salvo
+    }
+  }, []);
 
   const handleNext = () => {
+    // Verificar se estamos na etapa de planos e um plano foi selecionado
+    if (activeStep === 0 && !selectedPlan) {
+      alert('Você deve selecionar um plano para continuar.');
+      return;
+    }
+
     if (activeStep < steps.length - 1) {
       const nextStep = activeStep + 1;
       setActiveStep(nextStep);
@@ -97,7 +114,7 @@ const IndexCotacaoTravel = () => {
 
   // Array de componentes dos passos
   const steps = [
-    <Plans handleNext={handleNext} onSelected={scrollTo} />,
+    <Plans onSelected={scrollTo} setSelectedPlan={setSelectedPlan} />,
     <Resume />,
     <Passengers />,
     <Payment />,
@@ -118,10 +135,21 @@ const IndexCotacaoTravel = () => {
         </button>
         <button
           ref={avancarRef}
-          onClick={handleNext}
-          disabled={activeStep === steps.length - 1}
-          className={`px-4 py-2 bg-bluePrime text-white rounded ${
+          onClick={() => {
+            if (activeStep === 0 && !selectedPlan) {
+              alert('Você deve selecionar um plano para continuar.');
+            } else {
+              handleNext();
+            }
+          }}
+          className={`px-4 py-2 rounded transition-all ${
             shouldBounce ? 'animate-bounce' : ''
+          } ${
+            activeStep === steps.length - 1
+              ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
+              : !selectedPlan && activeStep === 0
+              ? 'bg-gray-300 text-gray-600'
+              : 'bg-bluePrime text-white'
           }`}
         >
           Avançar

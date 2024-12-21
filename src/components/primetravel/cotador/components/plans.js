@@ -35,7 +35,7 @@ const cardData = [
   },
 ];
 
-const Plans = ({ onSelected }) => {
+const Plans = ({ onSelected, setSelectedPlan }) => {
   const [selectedPlanId, setSelectedPlanId] = useState(null);
 
   useEffect(() => {
@@ -52,18 +52,12 @@ const Plans = ({ onSelected }) => {
     const selectedPlan = cardData.find((card) => card.id === id);
     setSelectedPlanId(id);
 
-    if (selectedPlan) {
-      // Update the formData-Travel object in sessionStorage
-      const storedData = sessionStorage.getItem('formData-Travel');
-      let updatedData = {};
-      if (storedData) {
-        updatedData = JSON.parse(storedData);
-      }
-      updatedData.selectedPlan = selectedPlan; // Add the selected plan to formData-Travel
-      sessionStorage.setItem('formData-Travel', JSON.stringify(updatedData));
-    }
+    const storedData = sessionStorage.getItem('formData-Travel');
+    const updatedData = storedData ? JSON.parse(storedData) : {};
+    updatedData.selectedPlan = selectedPlan;
+    sessionStorage.setItem('formData-Travel', JSON.stringify(updatedData));
 
-    if (onSelected) onSelected(id);
+    if (onSelected) onSelected();
   };
 
   return (

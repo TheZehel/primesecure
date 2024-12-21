@@ -43,34 +43,34 @@ const EditQuote = () => {
   const [isEditing, setIsEditing] = useState(false);
 
   // Load and Save formData in sessionStorage
-  useEffect(() => {
-    const storedFormData = sessionStorage.getItem('formData-Travel');
-    if (storedFormData) {
-      const parsedData = JSON.parse(storedFormData);
-      setFormData({
-        ...parsedData,
-        DataInicioViagem: parsedData.DataInicioViagem
-          ? moment(parsedData.DataInicioViagem, 'YYYY-MM-DD')
-          : null,
-        DataFinalViagem: parsedData.DataFinalViagem
-          ? moment(parsedData.DataFinalViagem, 'YYYY-MM-DD')
-          : null,
-      });
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedFormData = sessionStorage.getItem('formData-Travel');
+  //   if (storedFormData) {
+  //     const parsedData = JSON.parse(storedFormData);
+  //     setFormData({
+  //       ...parsedData,
+  //       DataInicioViagem: parsedData.DataInicioViagem
+  //         ? moment(parsedData.DataInicioViagem, 'YYYY-MM-DD')
+  //         : null,
+  //       DataFinalViagem: parsedData.DataFinalViagem
+  //         ? moment(parsedData.DataFinalViagem, 'YYYY-MM-DD')
+  //         : null,
+  //     });
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    const dataToStore = {
-      ...formData,
-      DataInicioViagem: formData.DataInicioViagem
-        ? formData.DataInicioViagem.format('YYYY-MM-DD')
-        : null,
-      DataFinalViagem: formData.DataFinalViagem
-        ? formData.DataFinalViagem.format('YYYY-MM-DD')
-        : null,
-    };
-    sessionStorage.setItem('formData-Travel', JSON.stringify(dataToStore));
-  }, [formData]);
+  // useEffect(() => {
+  //   const dataToStore = {
+  //     ...formData,
+  //     DataInicioViagem: formData.DataInicioViagem
+  //       ? formData.DataInicioViagem.format('YYYY-MM-DD')
+  //       : null,
+  //     DataFinalViagem: formData.DataFinalViagem
+  //       ? formData.DataFinalViagem.format('YYYY-MM-DD')
+  //       : null,
+  //   };
+  //   sessionStorage.setItem('formData-Travel', JSON.stringify(dataToStore));
+  // }, [formData]);
 
   const handleOld = (index, value) => {
     let formOlds = [...formData.olds];
