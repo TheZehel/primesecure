@@ -1,31 +1,26 @@
-import React, { useState } from "react";
-import InputMask from "react-input-mask";
-import { CirclePlus, Save, Trash2, Edit, UsersRound, Star } from "lucide-react";
-import GlobalFuntions from "../../../globalsubcomponentes/globalFunctions";
-
+import React, { useState, useEffect } from 'react';
+import InputMask from 'react-input-mask';
+import { CirclePlus, Save, Trash2, Edit, UsersRound, Star } from 'lucide-react';
+import GlobalFuntions from '../../../globalsubcomponentes/globalFunctions';
 
 const globalFunctions = new GlobalFuntions();
 
 // Validação genérica de campos
 const validateFields = (data, requiredFields) => {
   const errors = {};
-
   requiredFields.forEach((field) => {
     switch (field) {
-      case "CPF":
+      case 'CPF':
         errors[field] = !globalFunctions.validateCPF(data[field]);
         break;
-      case "email":
+      case 'email':
         errors[field] = !globalFunctions.validateEmail(data[field]);
         break;
-      case "tell":
+      case 'tell':
         errors[field] = !globalFunctions.validatePhone(data[field]);
         break;
-      case "firstName":
-        errors[field] = !globalFunctions.validateFirstName(data[field]);
-        break;
       default:
-        errors[field] = !data[field] || data[field].trim() === "";
+        errors[field] = !data[field] || data[field].trim() === '';
     }
   });
 
@@ -34,7 +29,7 @@ const validateFields = (data, requiredFields) => {
 
 // Lógica de busca no ViaCEP
 const fetchAddressFromCEP = async (cep, onChange) => {
-  const cleanedCep = cep.replace(/\D/g, ""); // Remove tudo que não é número
+  const cleanedCep = cep.replace(/\D/g, ''); // Remove tudo que não é número
 
   if (cleanedCep.length !== 8) {
     //alert("CEP inválido. O CEP deve ter 8 dígitos.");
@@ -42,8 +37,10 @@ const fetchAddressFromCEP = async (cep, onChange) => {
   }
 
   try {
-    const response = await fetch(`https://viacep.com.br/ws/${cleanedCep}/json/`);
-    if (!response.ok) throw new Error("Erro ao buscar o CEP.");
+    const response = await fetch(
+      `https://viacep.com.br/ws/${cleanedCep}/json/`,
+    );
+    if (!response.ok) throw new Error('Erro ao buscar o CEP.');
     const data = await response.json();
 
     //console.log(data);
@@ -54,23 +51,20 @@ const fetchAddressFromCEP = async (cep, onChange) => {
     }
 
     // Preenche os campos
-    onChange("address", data.logradouro || "");
-    onChange("district", data.bairro || "");
-    onChange("city", data.localidade || "");
-    onChange("state", data.uf || "");
+    onChange('address', data.logradouro || '');
+    onChange('district', data.bairro || '');
+    onChange('city', data.localidade || '');
+    onChange('state', data.uf || '');
   } catch (error) {
-    console.error("Erro ao buscar o CEP:", error);
+    console.error('Erro ao buscar o CEP:', error);
     //console.log("Erro ao buscar o CEP. Tente novamente.", error);
     //alert("Erro ao buscar o CEP. Tente novamente.");
   }
 };
 
-
 // Componente para o Primeiro Passageiro
 const FirstPassenger = ({ onSave, data, onChange, errors }) => {
   const [isEditing, setIsEditing] = useState(true);
-
-
 
   const handleSave = () => {
     const hasErrors = onSave(); // Validação
@@ -78,8 +72,6 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
       setIsEditing(false); // Só fecha se não houver erros
     }
   };
-
-
 
   return (
     <div className="bg-gray-50 p-4 rounded-md mb-4 shadow-sm sm:m-0 mx-2 shadow-indigo-500/40">
@@ -91,7 +83,6 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
             Passageiro responsável
           </h2>
 
-
           <div className="sm:flex sm:space-x-4 space-y-2 sm:space-y-0 mt-2">
             <input
               name="firstName"
@@ -99,9 +90,11 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               placeholder="Primeiro Nome"
               value={data.firstName}
               onChange={(e) => onChange(e.target.name, e.target.value)}
-              className={`rounded-md border p-2 w-full ${errors.firstName ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
-                : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
-                }`}
+              className={`rounded-md border p-2 w-full ${
+                errors.firstName
+                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+              }`}
             />
             <input
               name="secondName"
@@ -109,9 +102,11 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               placeholder="Sobrenome"
               value={data.secondName}
               onChange={(e) => onChange(e.target.name, e.target.value)}
-              className={`rounded-md border p-2 w-full ${errors.secondName ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
-                : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
-                }`}
+              className={`rounded-md border p-2 w-full ${
+                errors.secondName
+                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+              }`}
             />
             <InputMask
               name="CPF"
@@ -119,9 +114,11 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               placeholder="CPF"
               value={data.CPF}
               onChange={(e) => onChange(e.target.name, e.target.value)}
-              className={`rounded-md border p-2 w-full ${errors.CPF ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
-                : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
-                }`}
+              className={`rounded-md border p-2 w-full ${
+                errors.CPF
+                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+              }`}
             />
           </div>
           <div className="sm:flex sm:space-x-4 space-y-2 sm:space-y-0 mt-2">
@@ -130,17 +127,21 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               type="date"
               value={data.birthday}
               onChange={(e) => onChange(e.target.name, e.target.value)}
-              className={`rounded-md border p-2 w-full ${errors.birthday ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
-                : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
-                }`}
+              className={`rounded-md border p-2 w-full ${
+                errors.birthday
+                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+              }`}
             />
             <select
               name="gender"
               value={data.gender}
               onChange={(e) => onChange(e.target.name, e.target.value)}
-              className={`rounded-md border p-2 w-full ${errors.gender ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
-                : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
-                }`}
+              className={`rounded-md border p-2 w-full ${
+                errors.gender
+                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+              }`}
             >
               <option value="">Selecione o Gênero</option>
               <option value="Masculino">Masculino</option>
@@ -150,9 +151,11 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               name="politica"
               value={data.politica}
               onChange={(e) => onChange(e.target.name, e.target.value)}
-              className={`rounded-md border p-2 w-full ${errors.politica ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
-                : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
-                }`}
+              className={`rounded-md border p-2 w-full ${
+                errors.politica
+                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+              }`}
             >
               <option value="">Pessoa politicamente exposta?</option>
               <option value="Sim">Sim</option>
@@ -166,9 +169,11 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               placeholder="E-mail"
               value={data.email}
               onChange={(e) => onChange(e.target.name, e.target.value)}
-              className={`rounded-md border p-2 w-full ${errors.email ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
-                : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
-                }`}
+              className={`rounded-md border p-2 w-full ${
+                errors.email
+                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+              }`}
             />
             <InputMask
               name="tell"
@@ -176,9 +181,11 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               placeholder="Telefone"
               value={data.tell}
               onChange={(e) => onChange(e.target.name, e.target.value)}
-              className={`rounded-md border p-2 w-full ${errors.tell ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
-                : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
-                }`}
+              className={`rounded-md border p-2 w-full ${
+                errors.tell
+                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+              }`}
             />
             <input
               name="socialName"
@@ -186,24 +193,28 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               placeholder="Nome Social"
               value={data.socialName}
               onChange={(e) => onChange(e.target.name, e.target.value)}
-              className={`rounded-md border p-2 w-full ${errors.socialName ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
-                : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
-                }`}
+              className={`rounded-md border p-2 w-full ${
+                errors.socialName
+                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+              }`}
             />
           </div>
           {/* COLUNA 4 */}
           <div className="sm:flex sm:space-x-4 space-y-2 sm:space-y-0 mt-2">
             {/* INPUT CEP */}
             <InputMask
-              mask={"99999-999"}
+              mask={'99999-999'}
               type="text"
-              placeholder={errors.zipCode ? "Coloque um CEP" : "Seu CEP"}
+              placeholder={errors.zipCode ? 'Coloque um CEP' : 'Seu CEP'}
               name="zipCode"
               onChange={(e) => onChange(e.target.name, e.target.value)}
               onBlur={(e) => fetchAddressFromCEP(e.target.value, onChange)}
-              className={`rounded-md border p-2 w-full ${errors.zipCode ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
-                : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
-                }`}
+              className={`rounded-md border p-2 w-full ${
+                errors.zipCode
+                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+              }`}
             />
             {/* ENDEREÇO */}
             <input
@@ -211,11 +222,14 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               name="address"
               value={data.address}
               onChange={(e) => onChange(e.target.name, e.target.value)}
-              placeholder={errors.address ? "Coloque seu endereço" : "Seu endereço"}
-              className={`rounded-md border p-2 w-full ${errors.address
-                ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
-                : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
-                }`}
+              placeholder={
+                errors.address ? 'Coloque seu endereço' : 'Seu endereço'
+              }
+              className={`rounded-md border p-2 w-full ${
+                errors.address
+                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+              }`}
             />
             {/* NUMERO ENDEREÇO */}
             <input
@@ -223,11 +237,12 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               onChange={(e) => onChange(e.target.name, e.target.value)}
               value={data.numberAddress}
               type="text"
-              placeholder={errors.numberAddress ? "Seu número" : "Número"}
-              className={`rounded-md border p-2 w-full ${errors.numberAddress
-                ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
-                : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
-                }`}
+              placeholder={errors.numberAddress ? 'Seu número' : 'Número'}
+              className={`rounded-md border p-2 w-full ${
+                errors.numberAddress
+                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+              }`}
             />
           </div>
           {/* COLUNA 5 */}
@@ -239,33 +254,41 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               placeholder="Complemento"
               value={data.completeAddress}
               onChange={(e) => onChange(e.target.name, e.target.value)}
-              className={`rounded-md border p-2 w-full ${errors.completeAddress ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
-                : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
-                }`}
+              className={`rounded-md border p-2 w-full ${
+                errors.completeAddress
+                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+              }`}
             />
             {/* INPUT BAIRRO */}
             <input
               onChange={(e) => onChange(e.target.name, e.target.value)}
               value={data.district}
               type="text"
-              placeholder={errors.district ? "Coloque um bairro válido" : "Seu bairro"}
+              placeholder={
+                errors.district ? 'Coloque um bairro válido' : 'Seu bairro'
+              }
               name="district"
-              className={`rounded-md border p-2 w-full ${errors.district
-                ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
-                : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
-                }`}
+              className={`rounded-md border p-2 w-full ${
+                errors.district
+                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+              }`}
             />
             {/* INPUT CIDADE*/}
             <input
               onChange={(e) => onChange(e.target.name, e.target.value)}
               value={data.city}
               type="text"
-              placeholder={errors.city ? "Coloque um cidade válida" : "Sua cidade"}
+              placeholder={
+                errors.city ? 'Coloque um cidade válida' : 'Sua cidade'
+              }
               name="city"
-              className={`rounded-md border p-2 w-full ${errors.city
-                ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
-                : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
-                }`}
+              className={`rounded-md border p-2 w-full ${
+                errors.city
+                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+              }`}
             />
           </div>
           {/* Outros campos permanecem inalterados */}
@@ -278,7 +301,6 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               Salvar
             </button>
           </div>
-
         </>
       ) : (
         // Modo de visualização (Card)
@@ -289,8 +311,9 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               Passageiro responsável
             </h2>
 
-
-            <p>Nome: {data.firstName} {data.secondName}</p>
+            <p>
+              Nome: {data.firstName} {data.secondName}
+            </p>
             <p>CPF: {data.CPF}</p>
           </div>
           <button
@@ -306,10 +329,9 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
   );
 };
 
-
-
 // Componente para Passageiros Adicionais
-const Passenger = ({ id, data, onChange, onRemove, onSave, errors }) => {  // Adicione 'errors' aqui
+const Passenger = ({ id, data, onChange, onRemove, onSave, errors }) => {
+  // Adicione 'errors' aqui
 
   const [isEditing, setIsEditing] = useState(true);
 
@@ -319,7 +341,6 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors }) => {  // Ad
       setIsEditing(false); // Fecha o modo de edição apenas se não houver erros
     }
   };
-
 
   return (
     <div className="bg-gray-50 p-4 rounded-md mb-4 shadow-sm sm:m-0 mx-2 shadow-indigo-500/40">
@@ -337,10 +358,11 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors }) => {  // Ad
               placeholder="Primeiro Nome"
               value={data.firstName}
               onChange={(e) => onChange(id, e.target.name, e.target.value)}
-              className={`rounded-md border p-2 w-full ${errors.firstName
-                ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
-                : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
-                }`}
+              className={`rounded-md border p-2 w-full ${
+                errors.firstName
+                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+              }`}
             />
             <input
               name="secondName"
@@ -348,10 +370,11 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors }) => {  // Ad
               placeholder="Sobrenome"
               value={data.secondName}
               onChange={(e) => onChange(id, e.target.name, e.target.value)}
-              className={`rounded-md border p-2 w-full ${errors.secondName
-                ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
-                : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
-                }`}
+              className={`rounded-md border p-2 w-full ${
+                errors.secondName
+                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+              }`}
             />
             <InputMask
               name="CPF"
@@ -359,10 +382,11 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors }) => {  // Ad
               placeholder="CPF"
               value={data.CPF}
               onChange={(e) => onChange(id, e.target.name, e.target.value)}
-              className={`rounded-md border p-2 w-full ${errors.CPF
-                ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
-                : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
-                }`}
+              className={`rounded-md border p-2 w-full ${
+                errors.CPF
+                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+              }`}
             />
           </div>
           <div className="sm:flex sm:space-x-4 space-y-2 sm:space-y-0 mt-2">
@@ -371,20 +395,22 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors }) => {  // Ad
               type="date"
               value={data.birthday}
               onChange={(e) => onChange(id, e.target.name, e.target.value)}
-              className={`rounded-md border p-2 w-full ${errors.birthday
-                ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
-                : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
-                }`}
+              className={`rounded-md border p-2 w-full ${
+                errors.birthday
+                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+              }`}
               placeholder="Data de Nascimento"
             />
             <select
               name="gender"
               value={data.gender}
               onChange={(e) => onChange(id, e.target.name, e.target.value)}
-              className={`rounded-md border p-2 w-full ${errors.gender
-                ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
-                : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
-                }`}
+              className={`rounded-md border p-2 w-full ${
+                errors.gender
+                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+              }`}
             >
               <option value="">Selecione o Gênero</option>
               <option value="Masculino">Masculino</option>
@@ -394,10 +420,11 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors }) => {  // Ad
               name="politica"
               value={data.politica}
               onChange={(e) => onChange(id, e.target.name, e.target.value)}
-              className={`rounded-md border p-2 w-full ${errors.politica
-                ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
-                : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
-                }`}
+              className={`rounded-md border p-2 w-full ${
+                errors.politica
+                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+              }`}
             >
               <option value="">Pessoa politicamente exposta?</option>
               <option value="Sim">Sim</option>
@@ -419,7 +446,6 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors }) => {  // Ad
               <Save className="inline-block mr-2" />
               Salvar
             </button>
-
           </div>
         </>
       ) : (
@@ -430,7 +456,6 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors }) => {  // Ad
               <UsersRound size={20} className="mr-2 text-bluePrime" />
               Passageiro {id + 2}
             </h3>
-
 
             <p>
               Nome: {data.firstName} {data.secondName}
@@ -453,44 +478,60 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors }) => {  // Ad
 // Componente Principal
 const Passengers = () => {
   const [responsibleData, setResponsibleData] = useState({
-    firstName: "",
-    secondName: "",
-    CPF: "",
-    birthday: "",
-    gender: "",
-    politica: "",
-    email: "",
-    tell: "",
-    socialName: "",
-    zipCode: "",
-    address: "",
-    numberAddress: "",
-    completeAddress: "",
-    district: "",
-    city: "",
+    firstName: '',
+    secondName: '',
+    CPF: '',
+    birthday: '',
+    gender: '',
+    politica: '',
+    email: '',
+    tell: '',
+    socialName: '',
+    zipCode: '',
+    address: '',
+    numberAddress: '',
+    completeAddress: '',
+    district: '',
+    city: '',
   });
   const [responsibleErrors, setResponsibleErrors] = useState({});
   const [isResponsibleSaved, setIsResponsibleSaved] = useState(false);
   const [passengers, setPassengers] = useState([]);
   const [passengerErrors, setPassengerErrors] = useState([]);
 
+  // useEffect(() => {
+  //   const storedData = sessionStorage.getItem('formData-Travel');
+  //   if (storedData) {
+  //     const parsedData = JSON.parse(storedData);
+  //     setResponsibleData(parsedData.responsibleData || responsibleData);
+  //     setPassengers(parsedData.passengers || []);
+  //   }
+  // }, []);
+
+  //Atualiza o sessionStorage sempre que os dados mudam
+  useEffect(() => {
+    sessionStorage.setItem(
+      'passengersData',
+      JSON.stringify({ responsibleData, passengers }),
+    );
+  });
 
   // Valida e salva o passageiro responsável
   const handleSaveResponsible = () => {
     const requiredFields = [
-      "firstName",
-      "secondName",
-      "CPF",
-      "birthday",
-      "gender",
-      "politica",
-      "email",
-      "tell",
-      "zipCode",
-      "address",
-      "numberAddress",
-      "district",
-      "city",
+      'firstName',
+      'secondName',
+      'CPF',
+      'birthday',
+      'gender',
+      'politica',
+      'email',
+      'tell',
+      'zipCode',
+      'address',
+      'numberAddress',
+      'district',
+      'city',
     ];
 
     const errors = validateFields(responsibleData, requiredFields);
@@ -507,10 +548,9 @@ const Passengers = () => {
     setResponsibleData((prev) => ({ ...prev, [field]: value }));
   };
 
-
   const handlePassengerChange = (id, field, value) => {
     const updatedPassengers = passengers.map((p, index) =>
-      index === id ? { ...p, [field]: value } : p
+      index === id ? { ...p, [field]: value } : p,
     );
     setPassengers(updatedPassengers);
   };
@@ -521,7 +561,14 @@ const Passengers = () => {
   };
 
   const handleSavePassenger = (id) => {
-    const requiredFields = ["firstName", "secondName", "CPF", "birthday", "gender", "politica"];
+    const requiredFields = [
+      'firstName',
+      'secondName',
+      'CPF',
+      'birthday',
+      'gender',
+      'politica',
+    ];
     const passengerData = passengers[id];
 
     // Valida os campos do passageiro usando a função otimizada
@@ -540,7 +587,7 @@ const Passengers = () => {
 
   const addPassenger = () => {
     if (passengers.length >= 6) return;
-    setPassengers([...passengers, { firstName: "", secondName: "", CPF: "" }]);
+    setPassengers([...passengers, { firstName: '', secondName: '', CPF: '' }]);
   };
 
   return (
@@ -562,19 +609,17 @@ const Passengers = () => {
             onSave={() => handleSavePassenger(index)} // Valida os dados
             errors={passengerErrors[index] || {}} // Passa os erros do passageiro específico
           />
-
-
         ))}
         <button
-          className={`px-4 py-2 mt-4 rounded-md text-white ${isResponsibleSaved ? "bg-bluePrime" : "bg-gray-400 opacity-50"
-            }`}
+          className={`px-4 py-2 mt-4 rounded-md text-white ${
+            isResponsibleSaved ? 'bg-bluePrime' : 'bg-gray-400 opacity-50'
+          }`}
           onClick={addPassenger}
           disabled={!isResponsibleSaved}
         >
           <CirclePlus className="inline-block mr-2" />
           Adicionar Passageiro
         </button>
-
       </div>
     </div>
   );
