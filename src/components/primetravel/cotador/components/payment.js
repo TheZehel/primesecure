@@ -1,18 +1,22 @@
-import React from "react";
-import { useState, useRef, useEffect } from "react";
-import InputMask from "react-input-mask";
-import { ccNumberFormated, formatExpirationDate, formatCVC } from "../modules/formatFunctions"
-import chip from "../../../../../src/assets/svg/payment-card/cc-chip.svg";
-import imgDefault from "../../../../../src/assets/svg/payment-card/cc-icon.svg";
+import React from 'react';
+import { useState, useRef, useEffect } from 'react';
+import InputMask from 'react-input-mask';
+import {
+  ccNumberFormated,
+  formatExpirationDate,
+  formatCVC,
+} from '../modules/formatFunctions';
+import chip from '../../../../../src/assets/svg/payment-card/cc-chip.svg';
+import imgDefault from '../../../../../src/assets/svg/payment-card/cc-icon.svg';
 //import LoadingAnimation from "loadingSvg";
 
 const Payment = () => {
   //ESTADOS
-  const [cardNumber, setCardNumber] = useState(""); //0000 0000 0000 0000
-  const [cardHolder, setCardHolder] = useState(""); // Nome Impresso
-  const [expirationDate, setExpirationDate] = useState(""); //20/24
-  const [cvc, setCvc] = useState(""); // 000
-  const [isLoading, setIsLoading] = useState("false");
+  const [cardNumber, setCardNumber] = useState(''); //0000 0000 0000 0000
+  const [cardHolder, setCardHolder] = useState(''); // Nome Impresso
+  const [expirationDate, setExpirationDate] = useState(''); //20/24
+  const [cvc, setCvc] = useState(''); // 000
+  const [isLoading, setIsLoading] = useState('false');
   const [errors, setErrors] = useState({
     cardNumber: false,
     cardHolder: false,
@@ -26,22 +30,22 @@ const Payment = () => {
   const cvcRef = useRef(null);
 
   // Carregar dados do sessionStorage ao iniciar
-  useEffect(() => {
-    const storedData = sessionStorage.getItem("paymentData");
-    if (storedData) {
-      const { cardNumber, cardHolder, expirationDate, cvc } = JSON.parse(storedData);
-      setCardNumber(cardNumber || "");
-      setCardHolder(cardHolder || "");
-      setExpirationDate(expirationDate || "");
-      setCvc(cvc || "");
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedData = sessionStorage.getItem("paymentData");
+  //   if (storedData) {
+  //     const { cardNumber, cardHolder, expirationDate, cvc } = JSON.parse(storedData);
+  //     setCardNumber(cardNumber || "");
+  //     setCardHolder(cardHolder || "");
+  //     setExpirationDate(expirationDate || "");
+  //     setCvc(cvc || "");
+  //   }
+  // }, []);
 
   // Salvar dados no sessionStorage ao atualizar
-  useEffect(() => {
-    const paymentData = { cardNumber, cardHolder, expirationDate, cvc };
-    sessionStorage.setItem("paymentData", JSON.stringify(paymentData));
-  }, [cardNumber, cardHolder, expirationDate, cvc]);
+  // useEffect(() => {
+  //   const paymentData = { cardNumber, cardHolder, expirationDate, cvc };
+  //   sessionStorage.setItem("paymentData", JSON.stringify(paymentData));
+  // }, [cardNumber, cardHolder, expirationDate, cvc]);
 
   const handleAddCard = () => {
     let hasError = false;
@@ -61,37 +65,46 @@ const Payment = () => {
 
     if (hasError) {
       if (newErrors.cardNumber) {
-        cardNumberRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+        cardNumberRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
       } else if (newErrors.cardHolder) {
-        cardHolderRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+        cardHolderRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
       } else if (newErrors.expirationDate) {
-        expirationDateRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+        expirationDateRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
       } else if (newErrors.cvc) {
-        cvcRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+        cvcRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     }
 
     // lógica para envio do cartão
-    console.log("Realizando pagamento");
+    console.log('Realizando pagamento');
   };
 
   const handleInputChange = (name, value) => {
-    if (name === "cardNumber") {
+    if (name === 'cardNumber') {
       setCardNumber(value);
       if (value) {
         setErrors((prev) => ({ ...prev, cardNumber: false }));
       }
-    } else if (name === "cardHolder") {
+    } else if (name === 'cardHolder') {
       setCardHolder(value);
       if (value) {
         setErrors((prev) => ({ ...prev, cardHolder: false }));
       }
-    } else if (name === "expirationDate") {
+    } else if (name === 'expirationDate') {
       setExpirationDate(value);
       if (value) {
         setErrors((prev) => ({ ...prev, expirationDate: false }));
       }
-    } else if (name === "cvc") {
+    } else if (name === 'cvc') {
       setCvc(value);
       if (value) {
         setErrors((prev) => ({ ...prev, cvc: false }));
@@ -115,15 +128,20 @@ const Payment = () => {
               name="cardNumber"
               inputRef={cardNumberRef}
               id="card-number"
-              mask={"9999 9999 9999 9999"}
+              mask={'9999 9999 9999 9999'}
               maskChar={null}
               value={cardNumber}
-              placeholder={errors.cardNumber ? "Preencha o número do cartão" : "0000 0000 0000 0000"}
-              onChange={(e) => handleInputChange("cardNumber", e.target.value)}
-              className={`border rounded-md h-10 px-4 w-full focus:outline-none ${errors.cardNumber
-                ? "border-red-500 placeholder:text-red-500 focus:ring-red-500"
-                : "border-bluePrime focus:ring-bluePrime"
-                }`}
+              placeholder={
+                errors.cardNumber
+                  ? 'Preencha o número do cartão'
+                  : '0000 0000 0000 0000'
+              }
+              onChange={(e) => handleInputChange('cardNumber', e.target.value)}
+              className={`border rounded-md h-10 px-4 w-full focus:outline-none ${
+                errors.cardNumber
+                  ? 'border-red-500 placeholder:text-red-500 focus:ring-red-500'
+                  : 'border-bluePrime focus:ring-bluePrime'
+              }`}
             />
           </div>
 
@@ -136,12 +154,17 @@ const Payment = () => {
               ref={cardHolderRef}
               id="card-holder"
               value={cardHolder}
-              placeholder={errors.cardHolder ? "Preencha o nome do titular" : "NOME COMPLETO"}
-              onChange={(e) => handleInputChange("cardHolder", e.target.value)}
-              className={`border rounded-md h-10 px-4 w-full focus:outline-none ${errors.cardHolder
-                ? "border-red-500 placeholder:text-red-500 focus:ring-red-500"
-                : "border-bluePrime focus:ring-bluePrime"
-                }`}
+              placeholder={
+                errors.cardHolder
+                  ? 'Preencha o nome do titular'
+                  : 'NOME COMPLETO'
+              }
+              onChange={(e) => handleInputChange('cardHolder', e.target.value)}
+              className={`border rounded-md h-10 px-4 w-full focus:outline-none ${
+                errors.cardHolder
+                  ? 'border-red-500 placeholder:text-red-500 focus:ring-red-500'
+                  : 'border-bluePrime focus:ring-bluePrime'
+              }`}
               maxLength={40}
             />
           </div>
@@ -156,14 +179,21 @@ const Payment = () => {
                 inputRef={expirationDateRef}
                 id="expiration-date"
                 maskChar={null}
-                mask={"99/99"}
+                mask={'99/99'}
                 value={expirationDate}
-                placeholder={errors.expirationDate ? "Preencha a data de expiração" : "00/00"}
-                onChange={(e) => handleInputChange("expirationDate", e.target.value)}
-                className={`border rounded-md h-10 px-4 w-full focus:outline-none ${errors.expirationDate
-                  ? "border-red-500 placeholder:text-red-500 focus:ring-red-500"
-                  : "border-bluePrime focus:ring-bluePrime"
-                  }`}
+                placeholder={
+                  errors.expirationDate
+                    ? 'Preencha a data de expiração'
+                    : '00/00'
+                }
+                onChange={(e) =>
+                  handleInputChange('expirationDate', e.target.value)
+                }
+                className={`border rounded-md h-10 px-4 w-full focus:outline-none ${
+                  errors.expirationDate
+                    ? 'border-red-500 placeholder:text-red-500 focus:ring-red-500'
+                    : 'border-bluePrime focus:ring-bluePrime'
+                }`}
               />
             </div>
 
@@ -175,15 +205,16 @@ const Payment = () => {
                 name="cvc"
                 inputRef={cvcRef}
                 id="secuty-code"
-                mask={"999"}
+                mask={'999'}
                 maskChar={null}
                 value={cvc}
-                placeholder={errors.cvc ? "Preencha o CVV" : "000"}
-                onChange={(e) => handleInputChange("cvc", e.target.value)}
-                className={`border rounded-md h-10 px-4 w-full focus:outline-none ${errors.cvc
-                  ? "border-red-500 placeholder:text-red-500 focus:ring-red-500"
-                  : "border-bluePrime focus:ring-bluePrime"
-                  }`}
+                placeholder={errors.cvc ? 'Preencha o CVV' : '000'}
+                onChange={(e) => handleInputChange('cvc', e.target.value)}
+                className={`border rounded-md h-10 px-4 w-full focus:outline-none ${
+                  errors.cvc
+                    ? 'border-red-500 placeholder:text-red-500 focus:ring-red-500'
+                    : 'border-bluePrime focus:ring-bluePrime'
+                }`}
               />
             </div>
           </div>
@@ -210,28 +241,31 @@ const Payment = () => {
             </div>
             <div className="flex justify-between items-center mb-6"></div>
             <div className="text-white text-2xl font-bold text-start">
-              {cardNumber ? ccNumberFormated(cardNumber) : "0000 0000 0000 0000"}
+              {cardNumber
+                ? ccNumberFormated(cardNumber)
+                : '0000 0000 0000 0000'}
             </div>
             <div className="mt-3">
               <div className="text-md font-bold text-gray-300 text-start">
                 Nome do titular
               </div>
               <div className="text-sm font-bold text-white uppercase text-start">
-                {cardHolder || "NOME DO TITULAR"}
-
+                {cardHolder || 'NOME DO TITULAR'}
               </div>
             </div>
             <div className="flex justify-between items-center mt-3">
               <div>
                 <div className="text-sm text-gray-300">Expiração</div>
                 <div className="text-sm font-bold text-white uppercase">
-                  {expirationDate ? formatExpirationDate(expirationDate) : "00/00"}
+                  {expirationDate
+                    ? formatExpirationDate(expirationDate)
+                    : '00/00'}
                 </div>
               </div>
               <div>
                 <div className="text-sm text-gray-300">CVV</div>
                 <div className="text-sm font-bold text-white uppercase">
-                  {cvc ? formatCVC(cvc) : "000"}
+                  {cvc ? formatCVC(cvc) : '000'}
                 </div>
               </div>
               <div>
@@ -239,13 +273,13 @@ const Payment = () => {
               </div>
             </div>
           </div>
-
         </div>
         {/* Sessão */}
         <div className="m-2 p-3 bg-white rounded-lg shadow-md border-2 border-bluePrime">
-          <div className="text-black font-bold text-left">Detalhes da compra:</div>
+          <div className="text-black font-bold text-left">
+            Detalhes da compra:
+          </div>
           <div className="text-left text-gray-600 text-sm">
-
             <div>Nome e Sobrenome: </div>
             <div>Endereço com numero: </div>
             <div>CPF: </div>
@@ -253,7 +287,6 @@ const Payment = () => {
             <div>Destino: </div>
             <div>Data e hora da viagem: ida-volta</div>
           </div>
-
         </div>
       </div>
     </div>

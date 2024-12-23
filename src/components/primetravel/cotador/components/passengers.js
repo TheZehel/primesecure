@@ -6,7 +6,7 @@ import GlobalFuntions from '../../../globalsubcomponentes/globalFunctions';
 const globalFunctions = new GlobalFuntions();
 
 // Validação genérica de campos
-const validateFields = (data, requiredFields) => {
+export const validateFields = (data, requiredFields) => {
   const errors = {};
   requiredFields.forEach((field) => {
     switch (field) {
@@ -295,7 +295,7 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
           <div className="mt-4 flex justify-end">
             <button
               className="bg-green-500 px-4 py-2 text-white rounded-md flex items-center"
-              onClick={handleSave} // Chama a validação e só fecha se não houver erros
+              onClick={handleSave}
             >
               <Save className="inline-block mr-2" />
               Salvar
@@ -318,7 +318,7 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
           </div>
           <button
             className="bg-yellow-500 px-4 py-2 text-white rounded-md"
-            onClick={() => setIsEditing(true)} // Retorna ao modo de edição
+            onClick={() => setIsEditing(true)}
           >
             <Edit className="inline-block mr-2" />
             Editar
@@ -334,11 +334,10 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors }) => {
   // Adicione 'errors' aqui
 
   const [isEditing, setIsEditing] = useState(true);
-
   const handleSave = () => {
     const hasErrors = onSave(id);
     if (!hasErrors) {
-      setIsEditing(false); // Fecha o modo de edição apenas se não houver erros
+      setIsEditing(false);
     }
   };
 
@@ -476,48 +475,44 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors }) => {
 };
 
 // Componente Principal
-const Passengers = () => {
-  const [responsibleData, setResponsibleData] = useState({
-    firstName: '',
-    secondName: '',
-    CPF: '',
-    birthday: '',
-    gender: '',
-    politica: '',
-    email: '',
-    tell: '',
-    socialName: '',
-    zipCode: '',
-    address: '',
-    numberAddress: '',
-    completeAddress: '',
-    district: '',
-    city: '',
-  });
+const Passengers = ({
+  data,
+  errors,
+  onChange,
+  responsibleData,
+  setResponsibleData, // Recebido como props
+}) => {
   const [responsibleErrors, setResponsibleErrors] = useState({});
   const [isResponsibleSaved, setIsResponsibleSaved] = useState(false);
   const [passengers, setPassengers] = useState([]);
   const [passengerErrors, setPassengerErrors] = useState([]);
+  const [passengerEditingStatus, setPassengerEditingStatus] = useState([]);
 
-  // useEffect(() => {
-  //   const storedData = sessionStorage.getItem('formData-Travel');
-  //   if (storedData) {
-  //     const parsedData = JSON.parse(storedData);
-  //     setResponsibleData(parsedData.responsibleData || responsibleData);
-  //     setPassengers(parsedData.passengers || []);
-  //   }
-  // }, []);
-
-  //Atualiza o sessionStorage sempre que os dados mudam
+  // Carregar dados do sessionStorage ao montar o componente
   useEffect(() => {
-    sessionStorage.setItem(
-      'passengersData',
-      JSON.stringify({ responsibleData, passengers }),
-    );
-  });
+    const storedData =
+      JSON.parse(sessionStorage.getItem('formData-Travel')) || {};
+    if (storedData?.passengers) {
+      setPassengers(storedData.passengers);
+      setPassengerEditingStatus(storedData.passengerEditingStatus || []);
+    }
+    if (storedData?.responsibleData) {
+      setResponsibleData(storedData.responsibleData);
+    }
+  }, []); // Executa apenas uma vez
+
+  // Salvar dados dos passageiros no sessionStorage ao alterar
+  useEffect(() => {
+    const currentData =
+      JSON.parse(sessionStorage.getItem('formData-Travel')) || {};
+    currentData.passengers = passengers;
+    currentData.passengerEditingStatus = passengerEditingStatus;
+    currentData.responsibleData = responsibleData;
+    sessionStorage.setItem('formData-Travel', JSON.stringify(currentData));
+  }, [passengers, passengerEditingStatus, responsibleData]);
 
   // Valida e salva o passageiro responsável
-  const handleSaveResponsible = () => {
+  const handleSaveResponsible = (id) => {
     const requiredFields = [
       'firstName',
       'secondName',
@@ -571,17 +566,13 @@ const Passengers = () => {
     ];
     const passengerData = passengers[id];
 
-    // Valida os campos do passageiro usando a função otimizada
     const errors = validateFields(passengerData, requiredFields);
-
-    // Atualiza os erros do passageiro no estado
     setPassengerErrors((prevErrors) => {
       const updatedErrors = [...prevErrors];
       updatedErrors[id] = errors;
       return updatedErrors;
     });
 
-    // Retorna se há erros
     return Object.values(errors).some((err) => err);
   };
 

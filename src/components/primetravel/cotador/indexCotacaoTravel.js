@@ -1,6 +1,7 @@
 //Dependências
 import React, { useState, useRef, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { validateFields } from './components/passengers';
 //Componentes
 import StepperControl from './components/Stepper';
 import Plans from './components/plans';
@@ -16,29 +17,58 @@ const IndexCotacaoTravel = () => {
   const avancarRef = useRef(null); // Referência para o botão "Avançar"
   const [shouldBounce, setShouldBounce] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
+  const [passengerErrors, setPassengerErrors] = useState([]); // Erros dos passageiros
+  const [passengers, setPassengers] = useState([]); // Dados dos passageiros
+  const [responsibleData, setResponsibleData] = useState({
+    firstName: '',
+    secondName: '',
+    CPF: '',
+    birthday: '',
+    gender: '',
+    politica: '',
+    email: '',
+    tell: '',
+    socialName: '',
+    zipCode: '',
+    address: '',
+    numberAddress: '',
+    completeAddress: '',
+    district: '',
+    city: '',
+  });
 
   useEffect(() => {
     const storedData = sessionStorage.getItem('formData-Travel');
     if (storedData) {
-      const { activeStep, selectedPlan } = JSON.parse(storedData);
+      const { activeStep, selectedPlan, passengers, responsibleData } =
+        JSON.parse(storedData);
 
-      if (activeStep !== undefined) setActiveStep(activeStep); // Define o passo salvo
-      if (selectedPlan) setSelectedPlan(selectedPlan); // Define o plano salvo
+      if (activeStep !== undefined) setActiveStep(activeStep);
+      if (selectedPlan) setSelectedPlan(selectedPlan);
+      if (passengers) setPassengers(passengers); // Restaura passageiros
+      if (responsibleData) setResponsibleData(responsibleData); // Restaura dados do responsável
     }
-  }, []);
+  }, []); // Executa apenas uma vez no carregamento inicial
 
   const handleNext = () => {
-    // Verificar se estamos na etapa de planos e um plano foi selecionado
     if (activeStep === 0 && !selectedPlan) {
       alert('Você deve selecionar um plano para continuar.');
       return;
     }
 
+    // Salva os dados completos no sessionStorage antes de avançar
+    const currentData = {
+      activeStep: activeStep + 1, // Salva o próximo passo
+      selectedPlan,
+      passengers,
+      responsibleData,
+    };
+    sessionStorage.setItem('formData-Travel', JSON.stringify(currentData));
+
     if (activeStep < steps.length - 1) {
       const nextStep = activeStep + 1;
       setActiveStep(nextStep);
 
-      // Troca a URL conforme a etapa
       switch (nextStep) {
         case 1:
           navigate('/cotacao-primetravel/resumo');
@@ -116,7 +146,13 @@ const IndexCotacaoTravel = () => {
   const steps = [
     <Plans onSelected={scrollTo} setSelectedPlan={setSelectedPlan} />,
     <Resume />,
-    <Passengers />,
+    <Passengers
+      data={passengers}
+      responsibleData={responsibleData}
+      setResponsibleData={setResponsibleData}
+      errors={passengerErrors}
+      onChange={(updatedPassengers) => setPassengers(updatedPassengers)}
+    />,
     <Payment />,
     <Purchased />,
   ];
