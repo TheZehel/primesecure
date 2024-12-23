@@ -57,7 +57,9 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
     updatedData.selectedPlan = selectedPlan;
     sessionStorage.setItem('formData-Travel', JSON.stringify(updatedData));
 
-    if (onSelected) onSelected();
+    setSelectedPlan(selectedPlan); // Atualize o estado no componente pai
+
+    if (onSelected) onSelected(id);
   };
 
   return (
