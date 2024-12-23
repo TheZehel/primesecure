@@ -48,19 +48,18 @@ export default function Planos() {
 
 const messageExamples = [
     {
-        primary: 'Brunch this week?',
-        secondary: "I'll be in the neighbourhood this week. Let's grab a bite to eat",
+        primary: 'Morte',
+        secondary: "Garante o pagamento do capital segurado, de uma única vez, aos beneficiários em caso de morte do segurado por causas naturais ou acidentais, devidamente coberta pelo seguro, durante a vigência da apólice",
         person: '/static/images/avatar/5.jpg',
     },
     {
-        primary: 'Birthday Gift',
-        secondary: `Do you have a suggestion for a good present for John on his work
-        anniversary. I am really confused & would love your thoughts on it.`,
+        primary: 'Morte acidental',
+        secondary: `Garante o pagamento do capital segurado, de uma única vez, aos beneficiários em caso de morte do segurado durante a vigência da apólice exclusivamente decorrente de acidente pessoal coberto.`,
         person: '/static/images/avatar/1.jpg',
     },
     {
-        primary: 'Recipe to try',
-        secondary: 'I am try out this new BBQ recipe, I think this might be amazing',
+        primary: 'Invalidez Permanente Total ou Parcial por Acidente',
+        secondary: 'Garante o pagamento de indenização ao segurado, proporcional à incapacidade física permanente, total ou parcial, decorrente de acidente pessoal coberto.',
         person: '/static/images/avatar/2.jpg',
     },
     {
@@ -69,7 +68,7 @@ const messageExamples = [
         person: '/static/images/avatar/3.jpg',
     },
     {
-        primary: "Doctor's Appointment",
+        primary: "Invalidez Permanente Total ou Parcial por Acidente Majorada",
         secondary: 'My appointment for the doctor was rescheduled for next Saturday.',
         person: '/static/images/avatar/4.jpg',
     },
