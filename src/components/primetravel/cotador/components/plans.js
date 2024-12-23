@@ -90,9 +90,8 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
         {cardData.map((card) => (
           <SwiperSlide key={card.id}>
             <div
-              className={`border rounded-lg shadow-lg p-6 ${
-                selectedPlanId === card.id ? 'border-bluePrime' : ''
-              }`}
+              className={`border rounded-lg shadow-lg p-6 ${selectedPlanId === card.id ? 'border-bluePrime' : ''
+                }`}
             >
               <h5 className="text-gray-500 uppercase text-center font-semibold text-sm">
                 {card.title}
@@ -125,11 +124,10 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
               <div className="flex flex-col items-center mt-6 space-y-3">
                 <button
                   onClick={() => handleCardSelected(card.id)}
-                  className={`${
-                    selectedPlanId === card.id
+                  className={`${selectedPlanId === card.id
                       ? 'bg-bluePrime2'
                       : 'bg-bluePrime'
-                  } cursor-pointer text-white uppercase text-sm py-2 px-4 rounded-md shadow-md w-full flex items-center justify-center`}
+                    } cursor-pointer text-white uppercase text-sm py-2 px-4 rounded-md shadow-md w-full flex items-center justify-center`}
                 >
                   <input
                     className="accent-bluePrime rounded-full mr-2 cursor-pointer"
