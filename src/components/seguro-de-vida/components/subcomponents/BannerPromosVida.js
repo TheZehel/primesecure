@@ -33,11 +33,11 @@ export default function BannerPromo() {
     {
       id: 1,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/Dezembro/banners-natal-2024/Vida/srclarge-natal-2024-vida.png",
+        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-lp/vida/srclarge-ver%C3%A3o-2025-seguro-de-vida.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/Dezembro/banners-natal-2024/Vida/srcmedium-natal-2024-vida.png",
+        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-lp/vida/srcmedium-ver%C3%A3o-2025-seguro-de-vida.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/Dezembro/banners-natal-2024/Vida/srcmobile-natal-2024-vida.png",
+        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-lp/vida/srcmobile-ver%C3%A3o-2025-seguro-de-vida.png",
       alt: "Banner de Natal para Telas Grandess",
       href: "",
     },
@@ -66,8 +66,8 @@ export default function BannerPromo() {
                 viewportWidth >= 1500
                   ? banner.srcLarge
                   : viewportWidth >= 1024
-                  ? banner.srcMedium
-                  : banner.srcMobile
+                    ? banner.srcMedium
+                    : banner.srcMobile
               }
               alt={banner.alt}
               className="h-full w-full cursor-pointer mb-[33px] rounded-xl"

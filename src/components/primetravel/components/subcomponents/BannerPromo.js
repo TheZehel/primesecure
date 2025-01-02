@@ -33,11 +33,11 @@ export default function BannerPromo() {
     {
       id: 1,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/Dezembro/banners-natal-2024/Viagem/srclarge-natal-2024-viagem.png",
+        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-lp/primetravel/srclarge-ver%C3%A3o-2025-seguro-viagem.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/Dezembro/banners-natal-2024/Viagem/srcmedium-natal-2024-viagem.png",
+        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-lp/primetravel/srcmedium-ver%C3%A3o-2025-seguro-viagem.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/Dezembro/banners-natal-2024/Viagem/srcmobile-natal-2024-viagem.png",
+        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-lp/primetravel/srcmobile-ver%C3%A3o-2025-seguro-viagem.png",
       alt: "Banner de Natal para Telas Grandes",
       href: "",
     },
@@ -66,8 +66,8 @@ export default function BannerPromo() {
                 viewportWidth >= 1500
                   ? banner.srcLarge
                   : viewportWidth >= 1024
-                  ? banner.srcMedium
-                  : banner.srcMobile
+                    ? banner.srcMedium
+                    : banner.srcMobile
               }
               alt={banner.alt}
               className="h-full w-full cursor-pointer mb-[33px] rounded-xl"

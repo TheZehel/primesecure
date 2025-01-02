@@ -66,8 +66,8 @@ export default function BannerPromo() {
                 viewportWidth >= 1500
                   ? banner.srcLarge
                   : viewportWidth >= 1024
-                  ? banner.srcMedium
-                  : banner.srcMobile
+                    ? banner.srcMedium
+                    : banner.srcMobile
               }
               alt={banner.alt}
               className="h-full w-full cursor-pointer mb-[33px] rounded-xl"
