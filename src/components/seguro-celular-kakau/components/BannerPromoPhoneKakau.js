@@ -33,11 +33,11 @@ export default function BannerPromoPhoneKakau() {
     {
       id: 1,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/banners-julho/banners%20lp%200407/celular-kakau/srclarge-julho-2024-celular-kakau.png",
+        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-lp/celular/srclarge-ver%C3%A3o-2025-seguro-celular-kakau.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/banners-julho/banners%20lp%200407/celular-kakau/srcmedium-julho-2024-celular-kakau.png",
+        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-lp/celular/srcmedium-ver%C3%A3o-2025-seguro-celular-kakau.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/banners-julho/banners%20lp%200407/celular-kakau/srcmobile-julho-2024-celular-kakau.png",
+        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-lp/celular/srcmobile-ver%C3%A3o-2025-seguro-celular-kakau.png",
       alt: "Banner de Natal para Telas Grandess",
       href: "",
     },
@@ -66,8 +66,8 @@ export default function BannerPromoPhoneKakau() {
                 viewportWidth >= 1500
                   ? banner.srcLarge
                   : viewportWidth >= 1024
-                  ? banner.srcMedium
-                  : banner.srcMobile
+                    ? banner.srcMedium
+                    : banner.srcMobile
               }
               alt={banner.alt}
               className="h-full w-full cursor-pointer mb-[33px] rounded-xl"
