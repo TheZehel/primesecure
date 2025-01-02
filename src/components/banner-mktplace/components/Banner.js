@@ -29,16 +29,16 @@
  * @returns {JSX.Element} Um componente JSX contendo o carrossel de banners.
  */
 
-import React, { useState, useEffect, useRef } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useRef } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { useNavigate } from 'react-router-dom';
 // Import Swiper styles
-import "swiper/css/pagination";
-import "swiper/css/navigation";
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
-import "../css/style.css";
+import '../css/style.css';
 
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 
 export default function Banner() {
   /**
@@ -67,7 +67,7 @@ export default function Banner() {
    * @param {number} progress - Progresso entre 0 e 1.
    */
   const onAutoplayTimeLeft = (s, time, progress) => {
-    progressCircle.current.style.setProperty("--progress", 1 - progress);
+    progressCircle.current.style.setProperty('--progress', 1 - progress);
     progressContent.current.textContent = `${Math.ceil(time / 1000)}s`;
   };
 
@@ -79,10 +79,10 @@ export default function Banner() {
       setViewportWidth(window.innerWidth);
     };
 
-    window.addEventListener("resize", updateScreenWidth);
+    window.addEventListener('resize', updateScreenWidth);
 
     return () => {
-      window.removeEventListener("resize", updateScreenWidth);
+      window.removeEventListener('resize', updateScreenWidth);
     };
   }, []);
 
@@ -101,35 +101,35 @@ export default function Banner() {
     {
       id: 1,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/primetravel/srclarge-ver%C3%A3o-2025-seguro-viagem.png",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/primetravel-lp-2/srclarge-ver%C3%A3o-2025-seguro-viagem.png',
       srcMedium:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/primetravel/srcmedium-ver%C3%A3o-2025-seguro-viagem.png",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/primetravel-lp-2/srcmedium-ver%C3%A3o-2025-seguro-viagem.png',
       srcMobile:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/primetravel/srcmobile-ver%C3%A3o-2025-seguro-viagem.png",
-      alt: "Banner de Natal para Telas Grandes",
-      href: "/primetravel",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/primetravel-lp-2/srcmobile-ver%C3%A3o-2025-seguro-viagem.png',
+      alt: 'Banner de Natal para Telas Grandes',
+      href: '/primetravel',
     },
     {
       id: 2,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/vida/srclarge-ver%C3%A3o-2025-seguro-vida.png",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/vida/srclarge-ver%C3%A3o-2025-seguro-vida.png',
       srcMedium:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/vida/srcmedium-ver%C3%A3o-2025-seguro-de-vida.png",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/vida/srcmedium-ver%C3%A3o-2025-seguro-de-vida.png',
       srcMobile:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/vida/srcmobile-ver%C3%A3o-2025-seguro-de-vida.png",
-      alt: "Banner de Natal para Telas Grandes",
-      href: "/seguro-de-vida",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/vida/srcmobile-ver%C3%A3o-2025-seguro-de-vida.png',
+      alt: 'Banner de Natal para Telas Grandes',
+      href: '/seguro-de-vida',
     },
     {
       id: 3,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/residencial/srclarge-ver%C3%A3o-2025-seguro-residencial.png",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/residencial/srclarge-ver%C3%A3o-2025-seguro-residencial.png',
       srcMedium:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/residencial/srcmedium-ver%C3%A3o-2025-seguro-residencial.png",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/residencial/srcmedium-ver%C3%A3o-2025-seguro-residencial.png',
       srcMobile:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/residencial/srcmobile-ver%C3%A3o-2025-seguro-residencial.png",
-      alt: "Banner de Natal para Telas Grandes",
-      href: "/seguro-residencial-porto-2",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/residencial/srcmobile-ver%C3%A3o-2025-seguro-residencial.png',
+      alt: 'Banner de Natal para Telas Grandes',
+      href: '/seguro-residencial-porto-2',
     },
 
     //{
@@ -146,79 +146,79 @@ export default function Banner() {
     {
       id: 5,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/pet/srclarge-ver%C3%A3o-2025-seguro-pet.png",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/pet/srclarge-ver%C3%A3o-2025-seguro-pet.png',
       srcMedium:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/pet/srcmedium-ver%C3%A3o-2025-seguro-pet.png",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/pet/srcmedium-ver%C3%A3o-2025-seguro-pet.png',
       srcMobile:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/pet/srcmobile-ver%C3%A3o-2025-seguro-pet.png",
-      alt: "Banner de Natal para Telas Grandes",
-      href: "/seguro-pet-porto",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/pet/srcmobile-ver%C3%A3o-2025-seguro-pet.png',
+      alt: 'Banner de Natal para Telas Grandes',
+      href: '/seguro-pet-porto',
     },
     {
       id: 6,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/imovel/srclarge-ver%C3%A3o-2025-cons%C3%B3rcio-im%C3%B3vel.png",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/imovel/srclarge-ver%C3%A3o-2025-cons%C3%B3rcio-im%C3%B3vel.png',
       srcMedium:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/imovel/srcmedium-ver%C3%A3o-2025-cons%C3%B3rcio-im%C3%B3vel.png",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/imovel/srcmedium-ver%C3%A3o-2025-cons%C3%B3rcio-im%C3%B3vel.png',
       srcMobile:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/imovel/srcmobile-ver%C3%A3o-2025-cons%C3%B3rcio-im%C3%B3vel.png",
-      alt: "Banner Consrociado de Imóvel para Telas Grandes",
-      href: "/consorcio-imovel",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/imovel/srcmobile-ver%C3%A3o-2025-cons%C3%B3rcio-im%C3%B3vel.png',
+      alt: 'Banner Consrociado de Imóvel para Telas Grandes',
+      href: '/consorcio-imovel',
     },
     {
       id: 7,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/auto/srclarge-ver%C3%A3o-2025-cons%C3%B3rcio-auto.png",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/auto/srclarge-ver%C3%A3o-2025-cons%C3%B3rcio-auto.png',
       srcMedium:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/auto/srcmedium-ver%C3%A3o-2025-cons%C3%B3rcio-auto.png",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/auto/srcmedium-ver%C3%A3o-2025-cons%C3%B3rcio-auto.png',
       srcMobile:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/auto/srcmobile-ver%C3%A3o-2025-cons%C3%B3rcio-auto.png",
-      alt: "Banner de Natal para Telas Grandes",
-      href: "/consorcio-auto",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/auto/srcmobile-ver%C3%A3o-2025-cons%C3%B3rcio-auto.png',
+      alt: 'Banner de Natal para Telas Grandes',
+      href: '/consorcio-auto',
     },
     {
       id: 8,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/odonto/srclarge-ver%C3%A3o-2025-odonto.png",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/odonto/srclarge-ver%C3%A3o-2025-odonto.png',
       srcMedium:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/odonto/srcmedium-ver%C3%A3o-2025-odonto.png",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/odonto/srcmedium-ver%C3%A3o-2025-odonto.png',
       srcMobile:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/odonto/srcmobile-ver%C3%A3o-2025-odonto.png",
-      alt: "Banner de Natal para Telas Grandes",
-      href: "/sulamerica-odonto",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/odonto/srcmobile-ver%C3%A3o-2025-odonto.png',
+      alt: 'Banner de Natal para Telas Grandes',
+      href: '/sulamerica-odonto',
     },
     {
       id: 9,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/primetravel/srclarge-ver%C3%A3o-2025-seguro-viagem.png",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/primetravel/srclarge-ver%C3%A3o-2025-seguro-viagem.png',
       srcMedium:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/primetravel/srcmedium-ver%C3%A3o-2025-seguro-viagem.png",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/primetravel/srcmedium-ver%C3%A3o-2025-seguro-viagem.png',
       srcMobile:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/primetravel/srcmobile-ver%C3%A3o-2025-seguro-viagem.png",
-      alt: "Banner de Natal para Telas Grandes",
-      href: "/primetravel",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/primetravel/srcmobile-ver%C3%A3o-2025-seguro-viagem.png',
+      alt: 'Banner de Natal para Telas Grandes',
+      href: '/primetravel',
     },
     {
       id: 10,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/celular/srclarge-ver%C3%A3o-2025-seguro-celular-kakau.png",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/celular/srclarge-ver%C3%A3o-2025-seguro-celular-kakau.png',
       srcMedium:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/celular/srcmedium-ver%C3%A3o-2025-celular-kakau.png",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/celular/srcmedium-ver%C3%A3o-2025-celular-kakau.png',
       srcMobile:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/celular/srcmobile-ver%C3%A3o-2025-seguro-celular-kakau.png",
-      alt: "Banner de Natal para Telas Grandes",
-      href: "/seguro-celular-kakau",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/celular/srcmobile-ver%C3%A3o-2025-seguro-celular-kakau.png',
+      alt: 'Banner de Natal para Telas Grandes',
+      href: '/seguro-celular-kakau',
     },
     {
       id: 11,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/bike/srclarge-ver%C3%A3o-2025-seguro-bike-kakau.png",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/bike/srclarge-ver%C3%A3o-2025-seguro-bike-kakau.png',
       srcMedium:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/bike/srcmedium-ver%C3%A3o-2025-seguro-bike-kakau.png",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/bike/srcmedium-ver%C3%A3o-2025-seguro-bike-kakau.png',
       srcMobile:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/bike/srcmobile-ver%C3%A3o-2025-seguro-bike-kakau.png",
-      alt: "Banner de Natal para Telas Grandes",
-      href: "/seguro-bike",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-home/bike/srcmobile-ver%C3%A3o-2025-seguro-bike-kakau.png',
+      alt: 'Banner de Natal para Telas Grandes',
+      href: '/seguro-bike',
     },
   ];
 
@@ -244,8 +244,8 @@ export default function Banner() {
                 viewportWidth >= 1500
                   ? banner.srcLarge
                   : viewportWidth >= 1024
-                    ? banner.srcMedium
-                    : banner.srcMobile
+                  ? banner.srcMedium
+                  : banner.srcMobile
               }
               alt={banner.alt}
               className="h-full w-full cursor-pointer mb-[33px] rounded-xl"
