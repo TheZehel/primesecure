@@ -4,28 +4,31 @@ export default function Superior() {
             {/* Imagem de fundo */}
             <img
                 src="https://storage.googleapis.com/primesecure/vida-omint/vida-omint.png"
-                className="w-full h-auto brightness-50"
+                className="w-full h-auto sm:h-[500px] md:h-[600px] lg:h-auto object-cover brightness-50"
                 alt="Imagem de fundo"
             />
 
             {/* Conteúdo sobre a imagem */}
-            <div className="absolute top-0 left-0 flex flex-col justify-center items-start h-full p-8 text-white">
-                <h1 className="text-4xl font-bold mb-4">Benefício da Prime</h1>
+            <div className="absolute top-0 left-0 flex flex-col justify-center items-center h-full p-8 text-white ml-5 sm:ml-10 lg:ml-20">
+                <h1 className="text-3xl sm:text-4xl lg:text-4xl font-bold mb-4 text-center">
+                    Benefício da Prime
+                </h1>
 
-                <p className="relative grid items-center font-sans font-bold uppercase whitespace-nowrap select-none py-1.5 px-3 rounded-lg bg-bluePrime text-lg mb-4">
+                <p className="relative grid items-center font-sans font-bold uppercase whitespace-nowrap select-none py-1.5 px-3 rounded-lg bg-bluePrime text-base sm:text-lg lg:text-lg mb-4 text-center">
                     Seguro de vida
                 </p>
 
-                <p className="text-lg mb-6">
-                    O seguro que protege o que é importante pra você, por você.
+                <p className="text-sm sm:text-lg lg:text-lg mb-6 text-center leading-relaxed">
+                    O seguro que protege o que é importante <br />
+                    pra você, por você.
                 </p>
 
-                <div className="flex items-center">
-                    <p className="mr-2">Em parceria com:</p>
+                <div className="flex flex-col items-center">
+                    <p className="text-xs sm:text-sm lg:text-sm mb-2 text-center">Em parceria com:</p>
                     <img
                         src="https://storage.googleapis.com/primesecure/logo-omint.png"
                         alt="Logo Omint"
-                        className="w-24 h-auto"
+                        className="w-16 sm:w-20 lg:w-24 h-auto"
                     />
                 </div>
             </div>
