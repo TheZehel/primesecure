@@ -49,7 +49,7 @@ const faqs = [
   {
     question: '9 - Quais as formas de pagamento da Petlove?',
     answer:
-      'A forma mais usual de pagamento é o cartão de crédito, aceitando as principais bandeiras utilizadas no país, como Visa, Mastercard e outras. Para maior conveniência, você pode optar pelo pagamento mensal, que não compromete o limite total do seu cartão, sendo necessário apenas o valor contratado disponível na data de cobrança. Também oferecemos a opção de pagamento via Pix, garantindo ainda mais praticidade e agilidade. As cobranças são processadas por meio do sistema VINDI, uma plataforma reconhecida nacionalmente por sua segurança e eficiência.',
+      'A forma mais usual de pagamento é o cartão de crédito, aceitando as principais bandeiras utilizadas no país, como Visa, Mastercard e outras. Para maior conveniência, você pode optar pelo pagamento mensal, que não compromete o limite total do seu cartão, sendo necessário apenas o valor contratado disponível na data de cobrança. Também oferecemos a opção de pagamento via Pix, garantindo ainda mais praticidade e agilidade. ',
   },
   {
     question:
