@@ -153,7 +153,7 @@ const PrimeIdeal = () => {
             {/* Content Section */}
             <div className="max-w-6xl mx-auto px-4 py-24">
                 {activeTab === 'coverages' && (
-                    <div className="grid gap-4 xl:grid-cols-1 w-[830px] mx-auto">
+                    <div className="grid gap-4 xl:grid-cols-1 sm:w-[830px] mx-auto">
                         {coverages.map((coverage) => (
                             <div key={coverage.id} className="border border-gray-300 rounded-md w-full">
                                 <button

@@ -1,15 +1,15 @@
 export default function Superior() {
     return (
-        <div className="relative">
-            {/* Imagem de fundo */}
+        <div className="relative overflow-hidden h-auto">
+            {/* Imagem de fundo que cresce verticalmente */}
             <img
                 src="https://storage.googleapis.com/primesecure/vida-omint/vida-omint.png"
-                className="w-full h-auto sm:h-[500px] md:h-[600px] lg:h-auto object-cover brightness-50"
+                className="w-full object-cover brightness-50 min-h-[500px] sm:min-h-[600px] md:min-h-[700px] lg:min-h-[800px] xl:min-h-[900px]"
                 alt="Imagem de fundo"
             />
 
             {/* Conteúdo sobre a imagem */}
-            <div className="absolute top-0 left-0 flex flex-col justify-center items-center h-full p-8 text-white ml-5 sm:ml-10 lg:ml-20">
+            <div className="absolute top-0 left-0 flex flex-col justify-center items-center h-full p-8 text-white ml-5 lg:ml-20">
                 <h1 className="text-3xl sm:text-4xl lg:text-4xl font-bold mb-4 text-center">
                     Benefício da Prime
                 </h1>
