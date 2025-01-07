@@ -2,9 +2,10 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import InputMask from 'react-input-mask';
 import Select from 'react-select';
-import { ConfigProvider } from 'antd';
+import { ConfigProvider, Typography } from 'antd';
 import locale from 'antd/lib/date-picker/locale/pt_BR';
 import moment from 'moment';
+import { useNavigate } from "react-router-dom";
 
 moment.locale('pt-br');
 
@@ -45,6 +46,13 @@ export default function FormVidaOmint() {
         gender: null,
     });
 
+    const [errors, setErrors] = useState({});
+    const navigate = useNavigate();
+
+    const handleNavigateToPrivacyPolicy = () => {
+        navigate("/politicas-de-privacidade");
+    };
+
     const handleOcupationChange = (selectedOcupation) => {
         setFormData({ ...formData, ocupation: selectedOcupation });
     };
@@ -60,56 +68,104 @@ export default function FormVidaOmint() {
     const inputHandler = (event) => {
         const { id, value } = event.target;
         setFormData({ ...formData, [id]: value });
+
+        // Remove o erro ao preencher corretamente
+        if (value) {
+            setErrors({ ...errors, [id]: '' });
+        }
     };
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const { name, email, phone } = formData;
 
-        if (!name || !email || !phone) {
-            alert('Preencha todos os campos obrigatórios.');
+        const { name, email, phone, dataNascimento, ocupation, incomeRange, gender } = formData;
+
+        // Criação do objeto de erros
+        let newErrors = {};
+
+        // Verificação dos campos obrigatórios
+        if (!name) newErrors.name = 'Nome é obrigatório.';
+        if (!email) newErrors.email = 'Email é obrigatório.';
+        if (!phone) newErrors.phone = 'Telefone é obrigatório.';
+        if (!dataNascimento) newErrors.dataNascimento = 'Data de nascimento é obrigatória.';
+        if (!ocupation) newErrors.ocupation = 'Ocupação é obrigatória.';
+        if (!incomeRange) newErrors.incomeRange = 'Faixa de renda é obrigatória.';
+        if (!gender) newErrors.gender = 'Sexo é obrigatório.';
+
+        // Se houver erros, atualiza o estado e interrompe o envio
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
             return;
         }
 
+        // Se não houver erros, tenta enviar o formulário
         try {
             const response = await axios.post('/submit-form', formData);
             console.log('Formulário enviado:', response.data);
+            alert('Formulário enviado com sucesso!');
         } catch (error) {
             console.error('Erro ao enviar formulário:', error);
+            alert('Erro ao enviar o formulário. Tente novamente mais tarde.');
         }
     };
+
+
 
     return (
         <ConfigProvider locale={locale}>
             <form
-                className="bg-white p-4 sm:p-6 rounded-lg shadow-md mx-auto w-full max-w-lg sm:max-w-md lg:max-w-xl"
+                className="bg-white p-3 rounded-lg shadow-md mx-auto w-full max-w-md"
                 onSubmit={handleSubmit}
             >
-                <h2 className="text-2xl font-bold mb-4 text-grayPrime text-center">Faça Sua Cotação</h2>
-                <p className="text-lg mb-6 text-gray-600 text-center">
+                <h2 className="text-xl font-bold mb-2 text-grayPrime text-center">Faça Sua Cotação</h2>
+                <p className="text-sm mb-4 text-gray-600 text-center">
                     Preencha o formulário abaixo para iniciar sua cotação.
                 </p>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-6">
-                    {/* Nome */}
-                    <div className="col-span-1">
-                        <label htmlFor="name" className="block font-bold text-grayPrime">
-                            Nome Completo
-                        </label>
+                {/* Nome */}
+                <div className="col-span-1">
+                    <label htmlFor="name" className="block font-bold text-grayPrime text-sm">
+                        Nome Completo
+                    </label>
+                    <div className="mb-4">
                         <input
                             id="name"
                             type="text"
                             value={formData.name}
                             onChange={inputHandler}
-                            className="w-full mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            className={`w-full mt-1 p-1.5 border rounded-md focus:outline-none focus:ring-2 text-sm ${errors.name ? 'border-red-500' : 'border-gray-300'
+                                }`}
                             placeholder="Seu nome"
-                            required
                         />
+                        {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-4">
+                    {/* Data de Nascimento */}
+                    <div className="col-span-1">
+                        <label htmlFor="dataNascimento" className="block text-sm font-bold text-grayPrime">
+                            Data de Nascimento
+                        </label>
+                        <div className="mt-1">
+                            <input
+                                type="date"
+                                name="dataNascimento"
+                                id="dataNascimento"
+                                value={formData.dataNascimento}
+                                onChange={inputHandler}
+                                className={`w-full mt-1 p-1.5 border rounded-md focus:outline-none focus:ring-2 text-sm ${errors.dataNascimento ? 'border-red-500' : 'border-gray-300'
+                                    }`}
+                                placeholder="Data de nascimento"
+                            />
+                            {errors.dataNascimento && <p className="text-red-500 text-xs mt-1">{errors.dataNascimento}</p>}
+                        </div>
                     </div>
 
                     {/* Email */}
                     <div className="col-span-1">
-                        <label htmlFor="email" className="block font-bold text-grayPrime">
+                        <label htmlFor="email" className="block font-bold text-grayPrime text-sm">
                             Email
                         </label>
                         <input
@@ -117,15 +173,16 @@ export default function FormVidaOmint() {
                             type="email"
                             value={formData.email}
                             onChange={inputHandler}
-                            className="w-full mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            className={`w-full mt-1 p-1.5 border rounded-md focus:outline-none focus:ring-2 text-sm ${errors.email ? 'border-red-500' : 'border-gray-300'
+                                }`}
                             placeholder="Seu email"
-                            required
                         />
+                        {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
                     </div>
 
                     {/* Telefone */}
                     <div className="col-span-1">
-                        <label htmlFor="phone" className="block font-bold text-grayPrime">
+                        <label htmlFor="phone" className="block font-bold text-grayPrime text-sm">
                             Telefone
                         </label>
                         <InputMask
@@ -133,15 +190,16 @@ export default function FormVidaOmint() {
                             id="phone"
                             value={formData.phone}
                             onChange={inputHandler}
-                            className="w-full mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            className={`w-full mt-1 p-1.5 border rounded-md focus:outline-none focus:ring-2 text-sm ${errors.phone ? 'border-red-500' : 'border-gray-300'
+                                }`}
                             placeholder="Seu telefone"
-                            required
                         />
+                        {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
                     </div>
 
                     {/* Ocupação */}
                     <div className="col-span-1">
-                        <label htmlFor="ocupation" className="block font-bold text-grayPrime">
+                        <label htmlFor="ocupation" className="block font-bold text-grayPrime text-sm">
                             Ocupação Atual
                         </label>
                         <Select
@@ -149,14 +207,18 @@ export default function FormVidaOmint() {
                             value={formData.ocupation}
                             onChange={handleOcupationChange}
                             options={ocupationOptions}
-                            placeholder="Selecione"
-                            className="mt-2 text-sm"
+                            className={`w-full mt-1 p-1.5 border rounded-md focus:outline-none focus:ring-2 text-sm ${errors.ocupation ? 'border-red-500' : 'border-white'
+                                }`}
+                            placeholder="Sua ocupação"
                         />
+                        {errors.ocupation && <p className="text-red-500 text-xs mt-1">{errors.ocupation}</p>}
                     </div>
+                </div>
 
-                    {/* Faixa de Renda */}
+                {/* Faixa de Renda + Sexo */}
+                <div className="grid grid-cols-2 gap-x-3 mt-4">
                     <div className="col-span-1">
-                        <label htmlFor="incomeRange" className="block font-bold text-grayPrime">
+                        <label htmlFor="incomeRange" className="block font-bold text-grayPrime text-sm">
                             Faixa de Renda
                         </label>
                         <Select
@@ -164,14 +226,15 @@ export default function FormVidaOmint() {
                             value={formData.incomeRange}
                             onChange={handleIncomeRangeChange}
                             options={incomeRangeOptions}
-                            placeholder="Selecione"
-                            className="mt-2 text-sm"
+                            className={`w-full mt-1 p-1.5 border rounded-md focus:outline-none focus:ring-2 text-sm ${errors.incomeRange ? 'border-red-500' : 'border-white'
+                                }`}
+                            placeholder="Sua renda"
                         />
+                        {errors.incomeRange && <p className="text-red-500 text-xs mt-1">{errors.incomeRange}</p>}
                     </div>
 
-                    {/* Sexo */}
                     <div className="col-span-1">
-                        <label htmlFor="gender" className="block font-bold text-grayPrime">
+                        <label htmlFor="gender" className="block font-bold text-grayPrime text-sm">
                             Sexo
                         </label>
                         <Select
@@ -179,20 +242,33 @@ export default function FormVidaOmint() {
                             value={formData.gender}
                             onChange={handleGenderChange}
                             options={genderOptions}
-                            placeholder="Selecione"
-                            className="mt-2 text-sm"
+                            className={`w-full mt-1 p-1.5 border rounded-md focus:outline-none focus:ring-2 text-sm ${errors.gender ? 'border-red-500' : 'border-white'
+                                }`}
+                            placeholder="Seu gênero"
                         />
+                        {errors.gender && <p className="text-red-500 text-xs mt-1">{errors.gender}</p>}
                     </div>
                 </div>
 
                 <button
                     type="submit"
-                    className="mt-8 w-full bg-bluePrime hover:bg-bluePrime2 text-white font-bold py-3 px-6 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    className="bg-bluePrime hover:bg-bluePrime2 text-white font-bold py-1.5 px-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 w-52 h-9 mt-6 text-sm"
                 >
                     Cotar Agora
                 </button>
-            </form>
 
+                <div className="sm:w-4/4 flex mt-5 text-start">
+                    <Typography>
+                        Ao preencher aceito os
+                        <button
+                            onClick={handleNavigateToPrivacyPolicy}
+                            className="font-medium transition-colors hover:text-bluePrime2"
+                        >
+                            &nbsp;Termos & Condições
+                        </button>
+                    </Typography>
+                </div>
+            </form>
         </ConfigProvider>
     );
 }

@@ -1,3 +1,4 @@
+import BannerPix from "../../primetravel/components/subcomponents/BannerPix";
 import FormVidaOmint from "./formVida";
 import React from "react";
 
@@ -38,6 +39,9 @@ export default function Superior() {
                             alt="Logo Omint"
                             className="w-16 sm:w-20 lg:w-24 h-auto"
                         />
+                    </div>
+                    <div className="mt-16 w-80">
+                        <BannerPix />
                     </div>
                 </div>
 
