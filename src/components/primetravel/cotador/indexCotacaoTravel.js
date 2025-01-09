@@ -1,8 +1,6 @@
-//Dependências
 import React, { useState, useRef, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { validateFields } from './components/passengers';
-//Componentes
 import StepperControl from './components/Stepper';
 import Plans from './components/plans';
 import Resume from './components/resume';
@@ -11,14 +9,13 @@ import Payment from './components/payment';
 import Purchased from './components/purchased';
 
 const IndexCotacaoTravel = () => {
-  //const location = useLocation();
   const navigate = useNavigate();
-  const [activeStep, setActiveStep] = useState(0); // Estado do passo atual
-  const avancarRef = useRef(null); // Referência para o botão "Avançar"
+  const [activeStep, setActiveStep] = useState(0);
+  const avancarRef = useRef(null);
   const [shouldBounce, setShouldBounce] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
-  const [passengerErrors, setPassengerErrors] = useState([]); // Erros dos passageiros
-  const [passengers, setPassengers] = useState([]); // Dados dos passageiros
+  const [passengerErrors, setPassengerErrors] = useState([]);
+  const [passengers, setPassengers] = useState([]);
   const [responsibleData, setResponsibleData] = useState({
     firstName: '',
     secondName: '',
@@ -45,10 +42,10 @@ const IndexCotacaoTravel = () => {
 
       if (activeStep !== undefined) setActiveStep(activeStep);
       if (selectedPlan) setSelectedPlan(selectedPlan);
-      if (passengers) setPassengers(passengers); // Restaura passageiros
-      if (responsibleData) setResponsibleData(responsibleData); // Restaura dados do responsável
+      if (passengers) setPassengers(passengers);
+      if (responsibleData) setResponsibleData(responsibleData);
     }
-  }, []); // Executa apenas uma vez no carregamento inicial
+  }, []);
 
   const handleNext = () => {
     if (activeStep === 0 && !selectedPlan) {
@@ -56,9 +53,8 @@ const IndexCotacaoTravel = () => {
       return;
     }
 
-    // Salva os dados completos no sessionStorage antes de avançar
     const currentData = {
-      activeStep: activeStep + 1, // Salva o próximo passo
+      activeStep: activeStep + 1,
       selectedPlan,
       passengers,
       responsibleData,
@@ -95,7 +91,6 @@ const IndexCotacaoTravel = () => {
       const prevStep = activeStep - 1;
       setActiveStep(prevStep);
 
-      // Troca a URL conforme a etapa anterior
       switch (prevStep) {
         case 0:
           navigate('/cotacao-primetravel');
@@ -117,23 +112,17 @@ const IndexCotacaoTravel = () => {
     }
   };
 
-  // Função para rolar a tela até o botão "Avançar"
   const scrollTo = () => {
     if (avancarRef.current) {
-      // Pega a posição do botão Avançar
       const elementRect = avancarRef.current.getBoundingClientRect();
       const elementPosition = elementRect.top + window.scrollY;
-
-      // Calcula um offset de 50% da altura da janela, você pode ajustar conforme necessário.
       const offset = window.innerHeight * 0.5;
 
-      // Rola para a posição do botão menos o offset desejado, criando um efeito de parar 50% antes.
       window.scrollTo({
         top: elementPosition - offset,
         behavior: 'smooth',
       });
 
-      // Ativa o bounce
       setShouldBounce(true);
 
       setTimeout(() => {
@@ -142,7 +131,6 @@ const IndexCotacaoTravel = () => {
     }
   };
 
-  // Array de componentes dos passos
   const steps = [
     <Plans onSelected={scrollTo} setSelectedPlan={setSelectedPlan} />,
     <Resume />,
@@ -158,40 +146,44 @@ const IndexCotacaoTravel = () => {
   ];
 
   return (
-    <section className="max-w-6xl mx-auto mt-10">
-      <StepperControl activeStep={activeStep} />
-      <div className="my-10">{steps[activeStep]}</div>
-      <div className="flex justify-between mt-10">
-        <button
-          onClick={handleBack}
-          disabled={activeStep === 0}
-          className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
-        >
-          Voltar
-        </button>
-        <button
-          ref={avancarRef}
-          onClick={() => {
-            if (activeStep === 0 && !selectedPlan) {
-              alert('Você deve selecionar um plano para continuar.');
-            } else {
-              handleNext();
-            }
-          }}
-          className={`px-4 py-2 rounded transition-all ${
-            shouldBounce ? 'animate-bounce' : ''
-          } ${
-            activeStep === steps.length - 1
-              ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
-              : !selectedPlan && activeStep === 0
-              ? 'bg-gray-300 text-gray-600'
-              : 'bg-bluePrime text-white'
-          }`}
-        >
-          Avançar
-        </button>
-      </div>
-    </section>
+    <div className="pb-24 md:pb-0"> {/* Added padding bottom for mobile */}
+      <section className="max-w-6xl mx-auto mt-10">
+        <StepperControl activeStep={activeStep} />
+        <div className="my-10">{steps[activeStep]}</div>
+
+        {/* Navigation buttons wrapper with fixed positioning and high z-index */}
+        <div className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-t border-gray-200 p-4 shadow-lg md:shadow-none md:static md:bg-transparent md:border-none md:backdrop-blur-none md:p-0 md:mt-10">
+          <div className="max-w-6xl mx-auto flex justify-between gap-4">
+            <button
+              onClick={handleBack}
+              disabled={activeStep === 0}
+              className="w-full md:w-auto px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
+            >
+              Voltar
+            </button>
+            <button
+              ref={avancarRef}
+              onClick={() => {
+                if (activeStep === 0 && !selectedPlan) {
+                  alert('Você deve selecionar um plano para continuar.');
+                } else {
+                  handleNext();
+                }
+              }}
+              className={`w-full md:w-auto px-4 py-2 rounded transition-all ${shouldBounce ? 'animate-bounce' : ''
+                } ${activeStep === steps.length - 1
+                  ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
+                  : !selectedPlan && activeStep === 0
+                    ? 'bg-gray-300 text-gray-600'
+                    : 'bg-bluePrime text-white'
+                }`}
+            >
+              Avançar
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 };
 

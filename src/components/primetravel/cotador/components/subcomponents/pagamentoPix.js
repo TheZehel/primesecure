@@ -8,8 +8,8 @@ export default function PagamentoPix() {
 
     return (
         <>
-            <Card className="px-4 border-none shadow-none">
-                <div className="flex items-center justify-center p-4 text-lg text-bluePrime bg-transparent">
+            <Card className="px-4 border-none shadow-none w-full max-w-md mx-auto lg:max-w-4xl">
+                <div className="flex items-center justify-center p-4 text-lg text-bluePrime bg-transparent flex-col sm:flex-row">
                     <PixIcon
                         className="hover:bluePrime"
                         color="#32BCAD"
@@ -17,16 +17,17 @@ export default function PagamentoPix() {
                         width="1.5rem"
                         opacity="1"
                     />
-                    <span className="ml-3">
-                        Anual à Vista | Pix
+                    <span className="ml-0 mt-2 sm:ml-3 sm:mt-0 text-center sm:text-left">
+                        À Vista no pix
                     </span>
                 </div>
+
                 <CardBody className="pt-2 text-base font-normal">
-                    <p className="leading-6">
+                    <p className="leading-6 text-gray-800">
                         Para seguir o seu pagamento com Pix, clique no botão
                         <Button
                             onClick={() => setIsModalOpen(true)} // Abre o modal ao clicar
-                            className="font-semibold bg-pixGreen px-4 py-1 rounded-md text-white whitespace-nowrap"
+                            className="font-semibold bg-pixGreen px-4 py-2 rounded-md text-white mt-4 sm:mt-0 sm:ml-2 block sm:inline-block w-full sm:w-auto text-center"
                         >
                             Pagar com Pix
                         </Button>

@@ -90,11 +90,10 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               placeholder="Primeiro Nome"
               value={data.firstName}
               onChange={(e) => onChange(e.target.name, e.target.value)}
-              className={`rounded-md border p-2 w-full ${
-                errors.firstName
+              className={`rounded-md border p-2 w-full ${errors.firstName
                   ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
                   : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
-              }`}
+                }`}
             />
             <input
               name="secondName"
@@ -102,11 +101,10 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               placeholder="Sobrenome"
               value={data.secondName}
               onChange={(e) => onChange(e.target.name, e.target.value)}
-              className={`rounded-md border p-2 w-full ${
-                errors.secondName
+              className={`rounded-md border p-2 w-full ${errors.secondName
                   ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
                   : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
-              }`}
+                }`}
             />
             <InputMask
               name="CPF"
@@ -114,11 +112,10 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               placeholder="CPF"
               value={data.CPF}
               onChange={(e) => onChange(e.target.name, e.target.value)}
-              className={`rounded-md border p-2 w-full ${
-                errors.CPF
+              className={`rounded-md border p-2 w-full ${errors.CPF
                   ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
                   : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
-              }`}
+                }`}
             />
           </div>
           <div className="sm:flex sm:space-x-4 space-y-2 sm:space-y-0 mt-2">
@@ -127,21 +124,19 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               type="date"
               value={data.birthday}
               onChange={(e) => onChange(e.target.name, e.target.value)}
-              className={`rounded-md border p-2 w-full ${
-                errors.birthday
+              className={`rounded-md border p-2 w-full ${errors.birthday
                   ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
                   : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
-              }`}
+                }`}
             />
             <select
               name="gender"
               value={data.gender}
               onChange={(e) => onChange(e.target.name, e.target.value)}
-              className={`rounded-md border p-2 w-full ${
-                errors.gender
+              className={`rounded-md border p-2 w-full ${errors.gender
                   ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
                   : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
-              }`}
+                }`}
             >
               <option value="">Selecione o Gênero</option>
               <option value="Masculino">Masculino</option>
@@ -151,11 +146,10 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               name="politica"
               value={data.politica}
               onChange={(e) => onChange(e.target.name, e.target.value)}
-              className={`rounded-md border p-2 w-full ${
-                errors.politica
+              className={`rounded-md border p-2 w-full ${errors.politica
                   ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
                   : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
-              }`}
+                }`}
             >
               <option value="">Pessoa politicamente exposta?</option>
               <option value="Sim">Sim</option>
@@ -169,11 +163,10 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               placeholder="E-mail"
               value={data.email}
               onChange={(e) => onChange(e.target.name, e.target.value)}
-              className={`rounded-md border p-2 w-full ${
-                errors.email
+              className={`rounded-md border p-2 w-full ${errors.email
                   ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
                   : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
-              }`}
+                }`}
             />
             <InputMask
               name="tell"
@@ -181,11 +174,10 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               placeholder="Telefone"
               value={data.tell}
               onChange={(e) => onChange(e.target.name, e.target.value)}
-              className={`rounded-md border p-2 w-full ${
-                errors.tell
+              className={`rounded-md border p-2 w-full ${errors.tell
                   ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
                   : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
-              }`}
+                }`}
             />
             <input
               name="socialName"
@@ -193,11 +185,10 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               placeholder="Nome Social"
               value={data.socialName}
               onChange={(e) => onChange(e.target.name, e.target.value)}
-              className={`rounded-md border p-2 w-full ${
-                errors.socialName
+              className={`rounded-md border p-2 w-full ${errors.socialName
                   ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
                   : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
-              }`}
+                }`}
             />
           </div>
           {/* COLUNA 4 */}
@@ -210,11 +201,10 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               name="zipCode"
               onChange={(e) => onChange(e.target.name, e.target.value)}
               onBlur={(e) => fetchAddressFromCEP(e.target.value, onChange)}
-              className={`rounded-md border p-2 w-full ${
-                errors.zipCode
+              className={`rounded-md border p-2 w-full ${errors.zipCode
                   ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
                   : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
-              }`}
+                }`}
             />
             {/* ENDEREÇO */}
             <input
@@ -225,11 +215,10 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               placeholder={
                 errors.address ? 'Coloque seu endereço' : 'Seu endereço'
               }
-              className={`rounded-md border p-2 w-full ${
-                errors.address
+              className={`rounded-md border p-2 w-full ${errors.address
                   ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
                   : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
-              }`}
+                }`}
             />
             {/* NUMERO ENDEREÇO */}
             <input
@@ -238,11 +227,10 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               value={data.numberAddress}
               type="text"
               placeholder={errors.numberAddress ? 'Seu número' : 'Número'}
-              className={`rounded-md border p-2 w-full ${
-                errors.numberAddress
+              className={`rounded-md border p-2 w-full ${errors.numberAddress
                   ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
                   : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
-              }`}
+                }`}
             />
           </div>
           {/* COLUNA 5 */}
@@ -254,11 +242,10 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               placeholder="Complemento"
               value={data.completeAddress}
               onChange={(e) => onChange(e.target.name, e.target.value)}
-              className={`rounded-md border p-2 w-full ${
-                errors.completeAddress
+              className={`rounded-md border p-2 w-full ${errors.completeAddress
                   ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
                   : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
-              }`}
+                }`}
             />
             {/* INPUT BAIRRO */}
             <input
@@ -269,11 +256,10 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
                 errors.district ? 'Coloque um bairro válido' : 'Seu bairro'
               }
               name="district"
-              className={`rounded-md border p-2 w-full ${
-                errors.district
+              className={`rounded-md border p-2 w-full ${errors.district
                   ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
                   : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
-              }`}
+                }`}
             />
             {/* INPUT CIDADE*/}
             <input
@@ -284,11 +270,10 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
                 errors.city ? 'Coloque um cidade válida' : 'Sua cidade'
               }
               name="city"
-              className={`rounded-md border p-2 w-full ${
-                errors.city
+              className={`rounded-md border p-2 w-full ${errors.city
                   ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
                   : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
-              }`}
+                }`}
             />
           </div>
           {/* Outros campos permanecem inalterados */}
@@ -357,11 +342,10 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors }) => {
               placeholder="Primeiro Nome"
               value={data.firstName}
               onChange={(e) => onChange(id, e.target.name, e.target.value)}
-              className={`rounded-md border p-2 w-full ${
-                errors.firstName
+              className={`rounded-md border p-2 w-full ${errors.firstName
                   ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
                   : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
-              }`}
+                }`}
             />
             <input
               name="secondName"
@@ -369,11 +353,10 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors }) => {
               placeholder="Sobrenome"
               value={data.secondName}
               onChange={(e) => onChange(id, e.target.name, e.target.value)}
-              className={`rounded-md border p-2 w-full ${
-                errors.secondName
+              className={`rounded-md border p-2 w-full ${errors.secondName
                   ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
                   : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
-              }`}
+                }`}
             />
             <InputMask
               name="CPF"
@@ -381,11 +364,10 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors }) => {
               placeholder="CPF"
               value={data.CPF}
               onChange={(e) => onChange(id, e.target.name, e.target.value)}
-              className={`rounded-md border p-2 w-full ${
-                errors.CPF
+              className={`rounded-md border p-2 w-full ${errors.CPF
                   ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
                   : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
-              }`}
+                }`}
             />
           </div>
           <div className="sm:flex sm:space-x-4 space-y-2 sm:space-y-0 mt-2">
@@ -394,22 +376,20 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors }) => {
               type="date"
               value={data.birthday}
               onChange={(e) => onChange(id, e.target.name, e.target.value)}
-              className={`rounded-md border p-2 w-full ${
-                errors.birthday
+              className={`rounded-md border p-2 w-full ${errors.birthday
                   ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
                   : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
-              }`}
+                }`}
               placeholder="Data de Nascimento"
             />
             <select
               name="gender"
               value={data.gender}
               onChange={(e) => onChange(id, e.target.name, e.target.value)}
-              className={`rounded-md border p-2 w-full ${
-                errors.gender
+              className={`rounded-md border p-2 w-full ${errors.gender
                   ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
                   : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
-              }`}
+                }`}
             >
               <option value="">Selecione o Gênero</option>
               <option value="Masculino">Masculino</option>
@@ -419,11 +399,10 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors }) => {
               name="politica"
               value={data.politica}
               onChange={(e) => onChange(id, e.target.name, e.target.value)}
-              className={`rounded-md border p-2 w-full ${
-                errors.politica
+              className={`rounded-md border p-2 w-full ${errors.politica
                   ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
                   : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
-              }`}
+                }`}
             >
               <option value="">Pessoa politicamente exposta?</option>
               <option value="Sim">Sim</option>
@@ -602,9 +581,8 @@ const Passengers = ({
           />
         ))}
         <button
-          className={`px-4 py-2 mt-4 rounded-md text-white ${
-            isResponsibleSaved ? 'bg-bluePrime' : 'bg-gray-400 opacity-50'
-          }`}
+          className={`px-4 py-2 mt-4 rounded-md text-white ${isResponsibleSaved ? 'bg-bluePrime' : 'bg-gray-400 opacity-50'
+            }`}
           onClick={addPassenger}
           disabled={!isResponsibleSaved}
         >

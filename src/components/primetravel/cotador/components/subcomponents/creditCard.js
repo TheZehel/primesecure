@@ -1,8 +1,6 @@
-
-// import chip from '../../../../../src/assets/svg/payment-card/cc-chip.svg';
+import { Wifi } from 'lucide-react';
 import React, { useState, useRef } from 'react';
 import InputMask from 'react-input-mask';
-
 
 const CreditCard = ({ onSubmit }) => {
     const [cardNumber, setCardNumber] = useState('');
@@ -57,7 +55,7 @@ const CreditCard = ({ onSubmit }) => {
     };
 
     return (
-        <div className="grid gap-8 lg:grid-cols-2">
+        <div className="max-w-[1024px] w-full mx-auto px-4 grid gap-8 lg:grid-cols-2 p-4 md:p-6">
             {/* Formulário de Entrada */}
             <div className="grid gap-4">
                 <div className="grid gap-1.5">
@@ -72,8 +70,7 @@ const CreditCard = ({ onSubmit }) => {
                         value={cardNumber}
                         placeholder="0000 0000 0000 0000"
                         onChange={(e) => handleInputChange('cardNumber', e.target.value)}
-                        className={`border rounded-md h-10 px-4 w-full focus:outline-none ${errors.cardNumber ? 'border-red-500' : 'border-bluePrime'
-                            }`}
+                        className={`border rounded-md h-10 px-4 w-full focus:outline-none ${errors.cardNumber ? 'border-red-500' : 'border-bluePrime'}`}
                     />
                 </div>
 
@@ -88,13 +85,12 @@ const CreditCard = ({ onSubmit }) => {
                         value={cardHolder}
                         placeholder="NOME COMPLETO"
                         onChange={(e) => handleInputChange('cardHolder', e.target.value)}
-                        className={`border rounded-md h-10 px-4 w-full focus:outline-none ${errors.cardHolder ? 'border-red-500' : 'border-bluePrime'
-                            }`}
+                        className={`border rounded-md h-10 px-4 w-full focus:outline-none ${errors.cardHolder ? 'border-red-500' : 'border-bluePrime'}`}
                     />
                 </div>
 
-                <div className="flex gap-4">
-                    <div className="flex-1 grid gap-1.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="flex flex-col">
                         <label htmlFor="expiration-date" className="font-semibold">
                             Expiração
                         </label>
@@ -104,14 +100,13 @@ const CreditCard = ({ onSubmit }) => {
                             id="expiration-date"
                             mask="99/99"
                             value={expirationDate}
-                            placeholder="00/00"
+                            placeholder="MM/AA"
                             onChange={(e) => handleInputChange('expirationDate', e.target.value)}
-                            className={`border rounded-md h-10 px-4 w-full focus:outline-none ${errors.expirationDate ? 'border-red-500' : 'border-bluePrime'
-                                }`}
+                            className={`border rounded-md h-10 px-4 w-full focus:outline-none ${errors.expirationDate ? 'border-red-500' : 'border-bluePrime'}`}
                         />
                     </div>
 
-                    <div className="flex-1 grid gap-1.5">
+                    <div className="flex flex-col">
                         <label htmlFor="cvc" className="font-semibold">
                             CVV
                         </label>
@@ -123,49 +118,48 @@ const CreditCard = ({ onSubmit }) => {
                             value={cvc}
                             placeholder="000"
                             onChange={(e) => handleInputChange('cvc', e.target.value)}
-                            className={`border rounded-md h-10 px-4 w-full focus:outline-none ${errors.cvc ? 'border-red-500' : 'border-bluePrime'
-                                }`}
+                            className={`border rounded-md h-10 px-4 w-full focus:outline-none ${errors.cvc ? 'border-red-500' : 'border-bluePrime'}`}
                         />
                     </div>
                 </div>
 
                 <button
                     onClick={handleAddCard}
-                    className="mt-4 w-full h-10 bg-bluePrime text-white font-bold rounded-md"
+                    className="mt-4 w-full h-12 bg-bluePrime text-white font-bold rounded-md hover:bg-bluePrime2 transition-all"
                 >
                     Realizar Pagamento
                 </button>
             </div>
 
             {/* Cartão Virtual */}
-            <div className="bg-gradient-to-r from-bluePrime to-bluePrime2 text-white rounded-xl shadow-lg p-6 max-w-sm mx-auto lg:max-w-full">
+            <div className="bg-gradient-to-r from-bluePrime to-bluePrime2 text-white rounded-xl shadow-lg p-6 w-full sm:w-[340px] md:w-[360px] lg:w-[380px] h-[190px] sm:h-[210px] md:h-[220px] lg:h-[240px] mx-auto flex flex-col justify-between">
                 <div className="flex justify-between items-center">
-                    <div className="flex items-center gap-2">
-                        {/* <chip className="h-6 w-6" /> Substitua pelo seu ícone personalizado */}
+                    <div style={{ transform: 'rotate(90deg)' }}>
+                        <Wifi />
                     </div>
                 </div>
 
-                <div className="mt-6">
-                    <h4 className="text-2xl font-bold">
+                <div className="flex flex-col items-start mt-6">
+                    <h4 className="text-xl sm:text-2xl font-bold tracking-wide">
                         {cardNumber ? formatCardNumber(cardNumber) : '0000 0000 0000 0000'}
                     </h4>
-                </div>
 
-                <div className="mt-4">
-                    <div className="text-sm font-semibold">Nome do Titular</div>
-                    <div className="text-md font-bold uppercase">
-                        {cardHolder || 'NOME COMPLETO'}
+                    <div className="mt-3 flex flex-col items-start">
+                        <div className="text-xs font-semibold">Nome do Titular</div>
+                        <div className="text-sm font-bold uppercase">
+                            {cardHolder || 'NOME COMPLETO'}
+                        </div>
                     </div>
                 </div>
 
-                <div className="flex justify-between items-center mt-4">
+                <div className="flex justify-between w-full text-xs">
                     <div>
-                        <div className="text-sm">Expiração</div>
-                        <div className="text-md font-bold">{expirationDate || '00/00'}</div>
+                        <div>Expiração</div>
+                        <div className="text-sm font-bold">{expirationDate || '00/00'}</div>
                     </div>
                     <div>
-                        <div className="text-sm">CVV</div>
-                        <div className="text-md font-bold">{cvc || '000'}</div>
+                        <div>CVV</div>
+                        <div className="text-sm font-bold">{cvc || '000'}</div>
                     </div>
                 </div>
             </div>
