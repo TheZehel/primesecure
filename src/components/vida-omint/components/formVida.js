@@ -1,57 +1,55 @@
-import axios from 'axios';
-import React, { useState } from 'react';
-import InputMask from 'react-input-mask';
-import Select from 'react-select';
-import { ConfigProvider, Typography } from 'antd';
-import locale from 'antd/lib/date-picker/locale/pt_BR';
-import moment from 'moment';
+import axios from "axios";
+import React, { useState } from "react";
+import InputMask from "react-input-mask";
+import Select from "react-select";
+import { ConfigProvider, Spin, Typography } from "antd";
+import locale from "antd/lib/date-picker/locale/pt_BR";
+import moment from "moment";
 import { useNavigate } from "react-router-dom";
 
-moment.locale('pt-br');
+moment.locale("pt-br");
 
 const ocupationOptions = [
-    { value: 'Aposentado', label: 'Aposentado' },
-    { value: 'Administrador de Empresa', label: 'Administrador de Empresa' },
-    { value: 'Estudante Universitário', label: 'Estudante Universitário' },
-    { value: 'Dona de casa', label: 'Dona de casa' },
-    { value: 'Empresário e Prodt.Espetáculo', label: 'Empresário e Prodt.Espetáculo' },
-    { value: 'Corretores de seguros', label: 'Corretores de seguros' },
-    { value: 'Comerciante/Comerciario', label: 'Comerciante/Comerciario' },
-    { value: 'Médico', label: 'Médico' },
-    { value: 'Outro', label: 'Outro' },
+    { value: "Aposentado", label: "Aposentado" },
+    { value: "Administrador de Empresa", label: "Administrador de Empresa" },
+    { value: "Estudante Universitário", label: "Estudante Universitário" },
+    { value: "Dona de casa", label: "Dona de casa" },
+    { value: "Empresário e Prodt.Espetáculo", label: "Empresário e Prodt.Espetáculo" },
+    { value: "Corretores de seguros", label: "Corretores de seguros" },
+    { value: "Comerciante/Comerciario", label: "Comerciante/Comerciario" },
+    { value: "Médico", label: "Médico" },
+    { value: "Outro", label: "Outro" },
 ];
 
 const incomeRangeOptions = [
-    { value: 'ate2.5k', label: 'Até R$2.500' },
-    { value: '2.5k-5k', label: 'Entre R$2.500 e R$5.000' },
-    { value: '5k-7.5k', label: 'Entre R$5.000 e R$7.500' },
-    { value: '7.5k-10k', label: 'Entre R$7.500 e R$10.000' },
-    { value: '10k+', label: 'Acima de R$10.000' },
+    { value: "ate2.5k", label: "Até R$2.500" },
+    { value: "2.5k-5k", label: "Entre R$2.500 e R$5.000" },
+    { value: "5k-7.5k", label: "Entre R$5.000 e R$7.500" },
+    { value: "7.5k-10k", label: "Entre R$7.500 e R$10.000" },
+    { value: "10k+", label: "Acima de R$10.000" },
 ];
 
 const genderOptions = [
-    { value: 'masculino', label: 'Masculino' },
-    { value: 'feminino', label: 'Feminino' },
-    { value: 'nao-binario', label: 'Não Binário' },
-    { value: 'prefiro-nao-dizer', label: 'Prefiro não dizer' },
+    { value: "masculino", label: "Masculino" },
+    { value: "feminino", label: "Feminino" },
+    { value: "nao-binario", label: "Não Binário" },
+    { value: "prefiro-nao-dizer", label: "Prefiro não dizer" },
 ];
 
 export default function FormVidaOmint() {
     const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        phone: '',
+        name: "",
+        email: "",
+        phone: "",
+        dataNascimento: "",
         ocupation: null,
         incomeRange: null,
         gender: null,
     });
 
     const [errors, setErrors] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
-
-    const handleNavigateToPrivacyPolicy = () => {
-        navigate("/politicas-de-privacidade");
-    };
 
     const handleOcupationChange = (selectedOcupation) => {
         setFormData({ ...formData, ocupation: selectedOcupation });
@@ -69,54 +67,108 @@ export default function FormVidaOmint() {
         const { id, value } = event.target;
         setFormData({ ...formData, [id]: value });
 
-        // Remove o erro ao preencher corretamente
         if (value) {
-            setErrors({ ...errors, [id]: '' });
+            setErrors({ ...errors, [id]: "" });
         }
     };
 
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-
+    const validateForm = () => {
         const { name, email, phone, dataNascimento, ocupation, incomeRange, gender } = formData;
 
-        // Criação do objeto de erros
         let newErrors = {};
 
-        // Verificação dos campos obrigatórios
-        if (!name) newErrors.name = 'Nome é obrigatório.';
-        if (!email) newErrors.email = 'Email é obrigatório.';
-        if (!phone) newErrors.phone = 'Telefone é obrigatório.';
-        if (!dataNascimento) newErrors.dataNascimento = 'Data de nascimento é obrigatória.';
-        if (!ocupation) newErrors.ocupation = 'Ocupação é obrigatória.';
-        if (!incomeRange) newErrors.incomeRange = 'Faixa de renda é obrigatória.';
-        if (!gender) newErrors.gender = 'Sexo é obrigatório.';
+        if (!name) newErrors.name = "Nome é obrigatório.";
+        if (!email) newErrors.email = "Email é obrigatório.";
+        if (!phone) newErrors.phone = "Telefone é obrigatório.";
+        if (!dataNascimento) newErrors.dataNascimento = "Data de nascimento é obrigatória.";
+        if (!ocupation) newErrors.ocupation = "Ocupação é obrigatória.";
+        if (!incomeRange) newErrors.incomeRange = "Faixa de renda é obrigatória.";
+        if (!gender) newErrors.gender = "Sexo é obrigatório.";
 
-        // Se houver erros, atualiza o estado e interrompe o envio
-        if (Object.keys(newErrors).length > 0) {
-            setErrors(newErrors);
-            return;
-        }
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
-        // Se não houver erros, tenta enviar o formulário
-        try {
-            const response = await axios.post('/submit-form', formData);
-            console.log('Formulário enviado:', response.data);
-            alert('Formulário enviado com sucesso!');
-        } catch (error) {
-            console.error('Erro ao enviar formulário:', error);
-            alert('Erro ao enviar o formulário. Tente novamente mais tarde.');
+    const navigateBasedOnPath = () => {
+        if (window.location.pathname.includes("/seguro-residencial-porto-2")) {
+            window.location.href = "https://residencial.primesecure.com.br/";
+        } else if (
+            window.location.pathname.includes("seguro-pet-porto") ||
+            window.location.pathname.includes("seguro-bike") ||
+            window.location.pathname.includes("seguro-celular-kakau") ||
+            window.location.pathname.includes("seguro-de-vida")
+        ) {
+            console.log("Form data submitted:", formData);
+        } else {
+            navigate("/obrigado");
         }
     };
 
 
+    const handleButtonClick = async () => {
+        if (validateForm()) {
+            setIsLoading(true);
+
+            try {
+                const apiKey = process.env.REACT_APP_API_KEY_RD_STATION;
+                const optionsRD = {
+                    method: "POST",
+                    url: `https://api.rd.services/platform/conversions?api_key=${apiKey}`,
+                    headers: {
+                        accept: "application/json",
+                        "Content-Type": "application/json",
+                    },
+                    data: {
+                        event_type: "CONVERSION",
+                        event_family: "CDP",
+                        payload: {
+                            conversion_identifier: "cotacao-vida-omint",
+                            email: formData.email,
+                            name: formData.name,
+                            mobile_phone: formData.phone,
+                            cf_ocupation: formData.ocupation?.value,
+                            cf_income_range: formData.incomeRange?.value,
+                            cf_gender: formData.gender?.value,
+                            cf_birth_date: formData.dataNascimento,
+                        },
+                    },
+                };
+
+                const responseRD = await axios.request(optionsRD);
+                console.log("RD Station Response:", responseRD);
+
+                const responseBackend = await axios.post(
+                    `${process.env.REACT_APP_API_ENDPOINT_PRODUCTION}/argus/lead-consorcio`,
+                    {
+                        ...formData,
+                        currentPath: window.location.pathname,
+                    },
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
+                console.log("Backend Response:", responseBackend);
+
+                sessionStorage.setItem("formData", JSON.stringify(formData));
+                navigateBasedOnPath();
+            } catch (error) {
+                console.error("Error in RD Station or Backend:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+    };
 
     return (
         <ConfigProvider locale={locale}>
             <form
                 className="bg-white p-3 rounded-lg shadow-md mx-auto w-full max-w-md"
-                onSubmit={handleSubmit}
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    handleButtonClick();
+                }}
             >
                 <h2 className="text-xl font-bold mb-2 text-grayPrime text-center">Faça Sua Cotação</h2>
                 <p className="text-sm mb-4 text-gray-600 text-center">
@@ -134,14 +186,13 @@ export default function FormVidaOmint() {
                             type="text"
                             value={formData.name}
                             onChange={inputHandler}
-                            className={`w-full mt-1 p-1.5 border rounded-md focus:outline-none focus:ring-2 text-sm ${errors.name ? 'border-red-500' : 'border-gray-300'
+                            className={`w-full mt-1 p-1.5 border rounded-md focus:outline-none focus:ring-2 text-sm ${errors.name ? "border-red-500" : "border-gray-300"
                                 }`}
                             placeholder="Seu nome"
                         />
                         {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
                     </div>
                 </div>
-
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-4">
                     {/* Data de Nascimento */}
                     <div className="col-span-1">
@@ -254,20 +305,8 @@ export default function FormVidaOmint() {
                     type="submit"
                     className="bg-bluePrime hover:bg-bluePrime2 text-white font-bold py-1.5 px-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 w-52 h-9 mt-6 text-sm"
                 >
-                    Cotar Agora
+                    {isLoading ? <Spin size="small" /> : "Cotar Agora"}
                 </button>
-
-                <div className="sm:w-4/4 flex mt-5 text-start">
-                    <Typography>
-                        Ao preencher aceito os
-                        <button
-                            onClick={handleNavigateToPrivacyPolicy}
-                            className="font-medium transition-colors hover:text-bluePrime2"
-                        >
-                            &nbsp;Termos & Condições
-                        </button>
-                    </Typography>
-                </div>
             </form>
         </ConfigProvider>
     );
