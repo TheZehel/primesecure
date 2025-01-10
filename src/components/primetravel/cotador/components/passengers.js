@@ -91,8 +91,8 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               value={data.firstName}
               onChange={(e) => onChange(e.target.name, e.target.value)}
               className={`rounded-md border p-2 w-full ${errors.firstName
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                 }`}
             />
             <input
@@ -102,8 +102,8 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               value={data.secondName}
               onChange={(e) => onChange(e.target.name, e.target.value)}
               className={`rounded-md border p-2 w-full ${errors.secondName
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                 }`}
             />
             <InputMask
@@ -113,8 +113,8 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               value={data.CPF}
               onChange={(e) => onChange(e.target.name, e.target.value)}
               className={`rounded-md border p-2 w-full ${errors.CPF
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                 }`}
             />
           </div>
@@ -125,8 +125,8 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               value={data.birthday}
               onChange={(e) => onChange(e.target.name, e.target.value)}
               className={`rounded-md border p-2 w-full ${errors.birthday
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                 }`}
             />
             <select
@@ -134,8 +134,8 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               value={data.gender}
               onChange={(e) => onChange(e.target.name, e.target.value)}
               className={`rounded-md border p-2 w-full ${errors.gender
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                 }`}
             >
               <option value="">Selecione o Gênero</option>
@@ -147,8 +147,8 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               value={data.politica}
               onChange={(e) => onChange(e.target.name, e.target.value)}
               className={`rounded-md border p-2 w-full ${errors.politica
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                 }`}
             >
               <option value="">Pessoa politicamente exposta?</option>
@@ -164,8 +164,8 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               value={data.email}
               onChange={(e) => onChange(e.target.name, e.target.value)}
               className={`rounded-md border p-2 w-full ${errors.email
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                 }`}
             />
             <InputMask
@@ -175,8 +175,8 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               value={data.tell}
               onChange={(e) => onChange(e.target.name, e.target.value)}
               className={`rounded-md border p-2 w-full ${errors.tell
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                 }`}
             />
             <input
@@ -186,8 +186,8 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               value={data.socialName}
               onChange={(e) => onChange(e.target.name, e.target.value)}
               className={`rounded-md border p-2 w-full ${errors.socialName
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                 }`}
             />
           </div>
@@ -202,8 +202,8 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               onChange={(e) => onChange(e.target.name, e.target.value)}
               onBlur={(e) => fetchAddressFromCEP(e.target.value, onChange)}
               className={`rounded-md border p-2 w-full ${errors.zipCode
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                 }`}
             />
             {/* ENDEREÇO */}
@@ -216,8 +216,8 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
                 errors.address ? 'Coloque seu endereço' : 'Seu endereço'
               }
               className={`rounded-md border p-2 w-full ${errors.address
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                 }`}
             />
             {/* NUMERO ENDEREÇO */}
@@ -228,8 +228,8 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               type="text"
               placeholder={errors.numberAddress ? 'Seu número' : 'Número'}
               className={`rounded-md border p-2 w-full ${errors.numberAddress
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                 }`}
             />
           </div>
@@ -243,8 +243,8 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               value={data.completeAddress}
               onChange={(e) => onChange(e.target.name, e.target.value)}
               className={`rounded-md border p-2 w-full ${errors.completeAddress
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                 }`}
             />
             {/* INPUT BAIRRO */}
@@ -257,8 +257,8 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               }
               name="district"
               className={`rounded-md border p-2 w-full ${errors.district
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                 }`}
             />
             {/* INPUT CIDADE*/}
@@ -271,8 +271,8 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               }
               name="city"
               className={`rounded-md border p-2 w-full ${errors.city
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                 }`}
             />
           </div>
@@ -343,8 +343,8 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors }) => {
               value={data.firstName}
               onChange={(e) => onChange(id, e.target.name, e.target.value)}
               className={`rounded-md border p-2 w-full ${errors.firstName
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                 }`}
             />
             <input
@@ -354,8 +354,8 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors }) => {
               value={data.secondName}
               onChange={(e) => onChange(id, e.target.name, e.target.value)}
               className={`rounded-md border p-2 w-full ${errors.secondName
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                 }`}
             />
             <InputMask
@@ -365,8 +365,8 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors }) => {
               value={data.CPF}
               onChange={(e) => onChange(id, e.target.name, e.target.value)}
               className={`rounded-md border p-2 w-full ${errors.CPF
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                 }`}
             />
           </div>
@@ -377,8 +377,8 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors }) => {
               value={data.birthday}
               onChange={(e) => onChange(id, e.target.name, e.target.value)}
               className={`rounded-md border p-2 w-full ${errors.birthday
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                 }`}
               placeholder="Data de Nascimento"
             />
@@ -387,8 +387,8 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors }) => {
               value={data.gender}
               onChange={(e) => onChange(id, e.target.name, e.target.value)}
               className={`rounded-md border p-2 w-full ${errors.gender
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                 }`}
             >
               <option value="">Selecione o Gênero</option>
@@ -400,8 +400,8 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors }) => {
               value={data.politica}
               onChange={(e) => onChange(id, e.target.name, e.target.value)}
               className={`rounded-md border p-2 w-full ${errors.politica
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                 }`}
             >
               <option value="">Pessoa politicamente exposta?</option>
@@ -469,16 +469,21 @@ const Passengers = ({
 
   // Carregar dados do sessionStorage ao montar o componente
   useEffect(() => {
-    const storedData =
-      JSON.parse(sessionStorage.getItem('formData-Travel')) || {};
-    if (storedData?.passengers) {
-      setPassengers(storedData.passengers);
-      setPassengerEditingStatus(storedData.passengerEditingStatus || []);
+    const storedData = sessionStorage.getItem('formData-Travel');
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+
+      if (parsedData.passengers) {
+        setPassengers(parsedData.passengers);
+      }
+      if (parsedData.responsibleData) {
+        setResponsibleData(parsedData.responsibleData);
+      }
     }
-    if (storedData?.responsibleData) {
-      setResponsibleData(storedData.responsibleData);
-    }
-  }, []); // Executa apenas uma vez
+  }, []);
+
+
+  // Executa apenas uma vez
 
   // Salvar dados dos passageiros no sessionStorage ao alterar
   useEffect(() => {
@@ -519,15 +524,31 @@ const Passengers = ({
   };
 
   const handleResponsibleChange = (field, value) => {
-    setResponsibleData((prev) => ({ ...prev, [field]: value }));
+    setResponsibleData((prev) => {
+      const updatedData = { ...prev, [field]: value };
+
+      // Atualiza o sessionStorage
+      const currentData = JSON.parse(sessionStorage.getItem('formData-Travel') || '{}');
+      currentData.responsibleData = updatedData;
+      sessionStorage.setItem('formData-Travel', JSON.stringify(currentData));
+
+      return updatedData;
+    });
   };
+
 
   const handlePassengerChange = (id, field, value) => {
     const updatedPassengers = passengers.map((p, index) =>
-      index === id ? { ...p, [field]: value } : p,
+      index === id ? { ...p, [field]: value } : p
     );
     setPassengers(updatedPassengers);
+
+    // Atualiza o sessionStorage
+    const currentData = JSON.parse(sessionStorage.getItem('formData-Travel') || '{}');
+    currentData.passengers = updatedPassengers;
+    sessionStorage.setItem('formData-Travel', JSON.stringify(currentData));
   };
+
 
   const handleRemovePassenger = (id) => {
     const updatedPassengers = passengers.filter((_, index) => index !== id);

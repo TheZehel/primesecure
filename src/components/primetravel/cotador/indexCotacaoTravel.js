@@ -34,18 +34,20 @@ const IndexCotacaoTravel = () => {
     city: '',
   });
 
+  // Carrega dados do sessionStorage ao montar o componente
   useEffect(() => {
     const storedData = sessionStorage.getItem('formData-Travel');
     if (storedData) {
-      const { activeStep, selectedPlan, passengers, responsibleData } =
-        JSON.parse(storedData);
+      const parsedData = JSON.parse(storedData);
 
-      if (activeStep !== undefined) setActiveStep(activeStep);
-      if (selectedPlan) setSelectedPlan(selectedPlan);
-      if (passengers) setPassengers(passengers);
-      if (responsibleData) setResponsibleData(responsibleData);
+      if (parsedData.activeStep !== undefined) setActiveStep(parsedData.activeStep);
+      if (parsedData.selectedPlan) setSelectedPlan(parsedData.selectedPlan);
+      if (parsedData.passengers) setPassengers(parsedData.passengers);
+      if (parsedData.responsibleData) setResponsibleData(parsedData.responsibleData);
+      if (parsedData.passengerErrors) setPassengerErrors(parsedData.passengerErrors);
     }
   }, []);
+
 
   const handleNext = () => {
     if (activeStep === 0 && !selectedPlan) {
@@ -53,14 +55,17 @@ const IndexCotacaoTravel = () => {
       return;
     }
 
+    // Salvar os dados no sessionStorage
     const currentData = {
       activeStep: activeStep + 1,
       selectedPlan,
       passengers,
       responsibleData,
+      passengerErrors,
     };
     sessionStorage.setItem('formData-Travel', JSON.stringify(currentData));
 
+    // Avança para a próxima etapa
     if (activeStep < steps.length - 1) {
       const nextStep = activeStep + 1;
       setActiveStep(nextStep);
@@ -86,9 +91,25 @@ const IndexCotacaoTravel = () => {
     }
   };
 
+
+
+
+
   const handleBack = () => {
     if (activeStep > 0) {
       const prevStep = activeStep - 1;
+
+      // Salva o estado atual completo antes de voltar
+      const currentData = {
+        activeStep: prevStep,
+        selectedPlan,
+        passengers,
+        responsibleData,
+        passengerErrors,
+        editingStates: {} // Mantém o estado de edição
+      };
+      sessionStorage.setItem('formData-Travel', JSON.stringify(currentData));
+
       setActiveStep(prevStep);
 
       switch (prevStep) {
@@ -139,19 +160,24 @@ const IndexCotacaoTravel = () => {
       responsibleData={responsibleData}
       setResponsibleData={setResponsibleData}
       errors={passengerErrors}
-      onChange={(updatedPassengers) => setPassengers(updatedPassengers)}
+      onChange={(updatedPassengers) => {
+        setPassengers(updatedPassengers);
+        // Salva os dados atualizados no sessionStorage
+        const currentData = JSON.parse(sessionStorage.getItem('formData-Travel') || '{}');
+        currentData.passengers = updatedPassengers;
+        sessionStorage.setItem('formData-Travel', JSON.stringify(currentData));
+      }}
     />,
     <Payment />,
     <Purchased />,
   ];
 
   return (
-    <div className="pb-24 md:pb-0"> {/* Added padding bottom for mobile */}
+    <div className="pb-24 md:pb-0">
       <section className="max-w-6xl mx-auto mt-10">
         <StepperControl activeStep={activeStep} />
         <div className="my-10">{steps[activeStep]}</div>
 
-        {/* Navigation buttons wrapper with fixed positioning and high z-index */}
         <div className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-t border-gray-200 p-4 shadow-lg md:shadow-none md:static md:bg-transparent md:border-none md:backdrop-blur-none md:p-0 md:mt-10">
           <div className="max-w-6xl mx-auto flex justify-between gap-4">
             <button
