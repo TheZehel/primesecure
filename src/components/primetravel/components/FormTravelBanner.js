@@ -375,7 +375,7 @@ export default function FormTravelBanner() {
         }
       });
 
-      alert('Erro na RD Station. Redirecionando para: ' + redirectUrl);
+      //alert('Erro na RD Station. Redirecionando para: ' + redirectUrl);
       //console.log('URL de redirecionamento após erro:', redirectUrl);
       window.location.href = redirectUrl;
     }
