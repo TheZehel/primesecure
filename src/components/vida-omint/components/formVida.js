@@ -6,6 +6,7 @@ import { ConfigProvider, Spin, Typography } from "antd";
 import locale from "antd/lib/date-picker/locale/pt_BR";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+import LoadingAnimation from "../../globalsubcomponentes/icons/loadingSvg";
 
 moment.locale("pt-br");
 
@@ -122,7 +123,7 @@ export default function FormVidaOmint() {
                         event_type: "CONVERSION",
                         event_family: "CDP",
                         payload: {
-                            conversion_identifier: "cotacao-vida-omint",
+                            conversion_identifier: "lead-vida-omint-api",
                             email: formData.email,
                             name: formData.name,
                             mobile_phone: formData.phone,
@@ -301,12 +302,14 @@ export default function FormVidaOmint() {
                     </div>
                 </div>
 
-                <button
-                    type="submit"
-                    className="bg-bluePrime hover:bg-bluePrime2 text-white font-bold py-1.5 px-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 w-52 h-9 mt-6 text-sm"
-                >
-                    {isLoading ? <Spin size="small" /> : "Cotar Agora"}
-                </button>
+                <div className="xl:mx-20">
+                    <button
+                        type="submit"
+                        className="bg-bluePrime hover:bg-bluePrime2 text-white font-bold py-2 px-4 rounded w-full flex mt-3 justify-center items-center max-h-10"
+                    >
+                        {isLoading ? <LoadingAnimation /> : "Cotar Agora"}
+                    </button>
+                </div>
             </form>
         </ConfigProvider>
     );
