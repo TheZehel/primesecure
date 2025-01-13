@@ -1,34 +1,46 @@
+/* eslint-disable no-lone-blocks */
 import React from "react";
+import GlobeImage from "../../../../../src/assets/img/world.jpg";
 
 import imageManagerPrimeTravel from "../../bancodeimagens/BancoDeImagensPrimeTravel";
 
 export default function AlbertEinstein() {
   return (
     <section className="my-20">
-      <div>
-        <img
-          src={imageManagerPrimeTravel.Telemedicina.logoAlbertEinstein}
-          alt="Logo Albert Einstein"
-          className="mx-auto  font-montserrat"
-        />
+      {/* Cabeçalho */}
+      <div className="text-center mb-10 px-5">
+        <h2 className="text-2xl font-bold text-bluePrime">
+          Plano EASY Multiviagens
+        </h2>
+        <h3 className="text-xl font-bold text-bluePrime2 mt-2 break-words">
+          Contrate uma única vez e use durante um ano
+        </h3>
       </div>
-      <div className="mx-5 sm:mx-20 p-5 sm:p-10">
-        <p className="text-2xl text-justify">
-          Todos os planos contam com o{" "}
-          <span className="text-bluePrime font-bold text-justify">
-            Pronto Atendimento Virtual | Seguro Viagem
-          </span>
-          , um serviço de orientação médica online para atendimento de sintomas
-          de baixa complexidade com profissionais da Telemedicina do Einstein. O
-          acesso a este benefício é rápido e fácil por meio do celular ou
-          computador, basta apenas ter conexão com internet e que fica
-          disponível 24h por dia 7 dias por semana.
-        </p>
-        <p className="mx-auto font-bold text-lg text-bluePrime mt-5">
-          Você poderá resolver casos com sintomas não urgentes, como:
-        </p>
+
+      {/* Conteúdo */}
+      <div className="flex flex-col md:flex-row items-center md:items-start mx-5 md:mx-32 p-5 gap-8">
+        {/* Texto à esquerda */}
+        <div className="w-full md:w-2/3 text-center md:text-left">
+          <p className="text-lg text-justify">
+            É ideal para quem precisa estar protegido em duas ou mais viagens ao exterior durante o período de um ano.
+            Você não precisa fazer um seguro toda vez que viaja, com o EASY Multiviagens, você tem uma apólice válida por um ano, que pode ser ativada todas as vezes que necessitar!
+          </p>
+        </div>
+
+        {/* Imagem à direita */}
+        <div className="w-full md:w-1/3 flex justify-center md:justify-end">
+          <img
+            src="https://storage.googleapis.com/primesecure/world%20(1).png"
+            className="w-1/2 sm:w-[50%] h-auto"
+            alt="Imagem representando o mundo"
+          />
+        </div>
       </div>
-      <div className="flex flex-wrap justify-center items-center space-x-4 sm:flex-row sm:flex-wrap">
+    </section>
+  );
+}
+
+{/* <div className="flex flex-wrap justify-center items-center space-x-4 sm:flex-row sm:flex-wrap">
         <div className="flex flex-col items-center w-16 h-auto sm:w-16 sm:h-16">
           <img
             src={imageManagerPrimeTravel.Telemedicina.iconSintomasCovid}
@@ -117,9 +129,10 @@ export default function AlbertEinstein() {
             auditivos
           </span>
         </div>
-      </div>
-      {/* Linha 2 */}
-      <div className="flex flex-wrap justify-center items-center space-x-4 sm:flex-row sm:flex-wrap sm:mt-16">
+      </div> */}
+{/* Linha 2 */ }
+// eslint-disable-next-line no-lone-blocks
+{/* <div className="flex flex-wrap justify-center items-center space-x-4 sm:flex-row sm:flex-wrap sm:mt-16">
         <div className="flex flex-col items-center w-16 h-auto sm:w-16 sm:h-16">
           <img
             src={imageManagerPrimeTravel.Telemedicina.iconSintomasRespiratorios}
@@ -175,8 +188,4 @@ export default function AlbertEinstein() {
             lombar
           </span>
         </div>
-        {/* Adicione outros ícones e títulos aqui */}
-      </div>
-    </section>
-  );
-}
+      </div> */}
