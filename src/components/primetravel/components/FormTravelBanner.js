@@ -232,11 +232,11 @@ export default function FormTravelBanner() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    console.log('Início do handleSubmit');
+    //console.log('Início do handleSubmit');
 
     // Recebe os parâmetros UTM da URL
     const utmParams = getUtmParams();
-    console.log('Parâmetros UTM:', utmParams);
+    //console.log('Parâmetros UTM:', utmParams);
 
     // Coleta e formata os dados do formulário
     const payload = {
@@ -259,12 +259,12 @@ export default function FormTravelBanner() {
       ...utmParams,
     };
 
-    console.log('Payload formatado:', payload);
+    //console.log('Payload formatado:', payload);
 
     // Valida os dados do formulário
     const errors = customValidation.validarTravelPayload(payload);
     if (errors.length > 0) {
-      console.error('Erros de validação:', errors);
+      //console.error('Erros de validação:', errors);
       setErrorList(errors);
       alert('Existem erros no formulário. Verifique e tente novamente.');
       return;
@@ -277,16 +277,16 @@ export default function FormTravelBanner() {
         ...payload,
         timestamp: new Date(), // Adiciona o timestamp atual
       });
-      console.log('Documento adicionado ao Firestore com ID: ', docRef.id);
+      //console.log('Documento adicionado ao Firestore com ID: ', docRef.id);
     } catch (error) {
-      console.error('Erro ao adicionar documento no Firestore: ', error);
-      alert('Erro ao salvar os dados no Firestore. Verifique o console.');
+      //console.error('Erro ao adicionar documento no Firestore: ', error);
+      //alert('Erro ao salvar os dados no Firestore. Verifique o console.');
       return; // Evita continuar o processo caso ocorra erro no Firestore
     }
 
     // Cria o objeto de dados para enviar para a RD Station e ManyChat
     const formRD = convertToForm(payload, 'lead-primetravel-api');
-    console.log('Payload para RD Station:', formRD);
+    //console.log('Payload para RD Station:', formRD);
 
     const postDataManyChat = {
       first_name: formData.name.split(' ')[0],
@@ -326,10 +326,10 @@ export default function FormTravelBanner() {
           },
         },
       );
-      console.log('Dados enviados para ManyChat com sucesso!');
+      //console.log('Dados enviados para ManyChat com sucesso!');
     } catch (error) {
       console.error('Erro ao enviar dados para ManyChat:', error);
-      alert('Erro ao enviar dados para ManyChat. Verifique o console.');
+      //alert('Erro ao enviar dados para ManyChat. Verifique o console.');
     }
 
     try {
@@ -345,7 +345,7 @@ export default function FormTravelBanner() {
           },
         },
       );
-      console.log('Dados enviados para RD Station com sucesso!');
+      //console.log('Dados enviados para RD Station com sucesso!');
 
       // Prepara o redirecionamento
       let redirectUrl =
@@ -358,11 +358,11 @@ export default function FormTravelBanner() {
         }
       });
 
-      alert('Redirecionando para: ' + redirectUrl); // Adiciona um alerta antes do redirecionamento
-      console.log('URL de redirecionamento:', redirectUrl);
+      //alert('Redirecionando para: ' + redirectUrl); // Adiciona um alerta antes do redirecionamento
+      //console.log('URL de redirecionamento:', redirectUrl);
       window.location.href = redirectUrl;
     } catch (error) {
-      console.error('Erro ao enviar dados para RD Station:', error);
+      //console.error('Erro ao enviar dados para RD Station:', error);
 
       // Trata os erros de RD Station aqui se necessário, mas continua o processo de redirecionamento
       let redirectUrl =
@@ -376,7 +376,7 @@ export default function FormTravelBanner() {
       });
 
       alert('Erro na RD Station. Redirecionando para: ' + redirectUrl);
-      console.log('URL de redirecionamento após erro:', redirectUrl);
+      //console.log('URL de redirecionamento após erro:', redirectUrl);
       window.location.href = redirectUrl;
     }
   };
