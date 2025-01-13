@@ -1,37 +1,37 @@
 //Configs
-import React, { useRef } from "react";
+import React, { useRef } from 'react';
 
 //Seo
-import { Helmet } from "react-helmet";
+import { Helmet } from 'react-helmet';
 
 //Componentes
-import FormTravelBanner from "./components/FormTravelBanner";
-import SliderPlanos from "./components/SliderPlanos";
-import SessaoInformativaProdutosLp from "../globalsubcomponentes/SessaoInformativaProdutosLp";
-import InformacoesProdutos from "../modules/ModuleInformacoesProdutos";
+import FormTravelBanner from './components/FormTravelBanner';
+import SliderPlanos from './components/SliderPlanos';
+import SessaoInformativaProdutosLp from '../globalsubcomponentes/SessaoInformativaProdutosLp';
+import InformacoesProdutos from '../modules/ModuleInformacoesProdutos';
 //import ConteudoSessaoInfo from "../globalsubcomponentes/ConteudoSessaoInfo";
 //import sessaoInfoLp from "../modules/SessaoInfoLp";
-import TelemedicinaTravel from "./components/subcomponents/TelemedicinaTravel";
-import BrindeTravel from "./components/subcomponents/BrindeTravel";
-import FaixaBanner from "./components/subcomponents/FaixaBanner";
-import ContainerContato from "./components/subcomponents/ContainerContato";
-import FaqTravel from "./components/subcomponents/FaqTravel";
+import TelemedicinaTravel from './components/subcomponents/TelemedicinaTravel';
+import BrindeTravel from './components/subcomponents/BrindeTravel';
+import FaixaBanner from './components/subcomponents/FaixaBanner';
+import ContainerContato from './components/subcomponents/ContainerContato';
+import FaqTravel from './components/subcomponents/FaqTravel';
 //import ContainerParceiros from "./components/subcomponents/ContainerParceiros";
-import ContainerCoberturas from "./components/subcomponents/ContainerCoberturas";
-import BannerPixAndCard from "./components/subcomponents/BannerPixAndCard";
+import ContainerCoberturas from './components/subcomponents/ContainerCoberturas';
+import BannerPixAndCard from './components/subcomponents/BannerPixAndCard';
 //import BannerPix from "./components/subcomponents/BannerPix";
 //import ContainerDepoimetos from "./components/subcomponents/ContainerDepoimentos";
-import CountDown from "./components/subcomponents/countdownPromo";
-import AlbertEinstein from "./components/subcomponents/AlbertEinstein";
-import SomeToppings from "./components/subcomponents/SomeToppings";
-import BannerPromos from "./components/subcomponents/BannerPromos";
-import StepsHiring from "./components/subcomponents/HiringSteps";
-import BannerPromo from "./components/subcomponents/BannerPromo";
-import FormTravelBanner2 from "./components/FormTravelBanner2";
-import NewPlans from "./components/subcomponents/newPlans";
-import Diferenciais from "./components/subcomponents/diferenciais";
-import ComoUtilizar from "./components/subcomponents/comoUtilizar";
-import UmaSolucao from "./components/subcomponents/umaSolucao";
+import CountDown from './components/subcomponents/countdownPromo';
+import AlbertEinstein from './components/subcomponents/AlbertEinstein';
+import SomeToppings from './components/subcomponents/SomeToppings';
+import BannerPromos from './components/subcomponents/BannerPromos';
+import StepsHiring from './components/subcomponents/HiringSteps';
+import BannerPromo from './components/subcomponents/BannerPromo';
+import FormTravelBanner2 from './components/FormTravelBanner2';
+import NewPlans from './components/subcomponents/newPlans';
+import Diferenciais from './components/subcomponents/diferenciais';
+import ComoUtilizar from './components/subcomponents/comoUtilizar';
+import UmaSolucao from './components/subcomponents/umaSolucao';
 
 function IndexTravel() {
   const FaqRef = useRef();
@@ -40,7 +40,7 @@ function IndexTravel() {
     window.scrollBy({
       top: faqPosition.top - 100,
       left: 0,
-      behavior: "smooth",
+      behavior: 'smooth',
     });
   };
   // time do countdown
@@ -82,7 +82,8 @@ function IndexTravel() {
       {/*<BannerPromos />*/}
       <BannerPromo />
       {/*<CountDown targetDate={targetDate} />*/}
-      <FormTravelBanner2 />
+      <FormTravelBanner />
+      {/* <FormTravelBanner2 /> */}
       <FaixaBanner />
       <StepsHiring />
       {/*<BrindeTravel />*/}
@@ -99,7 +100,7 @@ function IndexTravel() {
       {/*<div className="relative isolate flex items-center gap-x-6 overflow-hidden bg-gray-50 px-6 py-2.5 sm:px-3.5 sm:before:flex-1">
         Seguro garantido pela
         <img src={imageManagerPrimeTravel.ImagensLandPage.ImgEmParceriaCom} alt="Logo da empresa parceira Too Seguros"/>
-        uma empresa do grupo BTG PACTUAL                
+        uma empresa do grupo BTG PACTUAL
         </div>*/}
       <SessaoInformativaProdutosLp
         InformacoesProdutos={InformacoesProdutos}
@@ -108,7 +109,7 @@ function IndexTravel() {
       {/*<ConteudoSessaoInfo sessaoInfoLp={sessaoInfoLp} sessaoInfoId="2" />*/}
       {/*<ContainerParceiros />*/}
       <div ref={FaqRef}>
-        {" "}
+        {' '}
         <FaqTravel />
       </div>
     </div>
