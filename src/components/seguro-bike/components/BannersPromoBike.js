@@ -33,11 +33,11 @@ export default function BannerPromoBike() {
     {
       id: 1,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/novembro/lp/bike/srclarge-black-friday-2024-bike.png",
+        "https://storage.googleapis.com/primesecure/banners/Dezembro/banners-natal-2024/Bike/srclarge-natal-2024-bike.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/novembro/lp/bike/srcmedium-black-friday-2024-bike.png",
+        "https://storage.googleapis.com/primesecure/banners/Dezembro/banners-natal-2024/Bike/srcmedium-natal-2024-bike.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/novembro/lp/bike/srcmobile-black-friday-2024-bike.png",
+        "https://storage.googleapis.com/primesecure/banners/Dezembro/banners-natal-2024/Bike/srcmobile-natal-2024-bike.png",
       alt: "Banner de Natal para Telas Grandess",
       href: "",
     },

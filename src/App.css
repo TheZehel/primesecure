@@ -71,7 +71,11 @@ body {
   font-weight: 700;
   letter-spacing: 0.8px;
   padding: 8px 8px;
-  background: linear-gradient(90.21deg, rgba(40, 49, 118, 0.5) -5.91%, rgba(2, 134, 175, 0.5) 111.58%);
+  background: linear-gradient(
+    90.21deg,
+    rgba(40, 49, 118, 0.5) -5.91%,
+    rgba(2, 134, 175, 0.5) 111.58%
+  );
   border: 1px solid rgba(255, 255, 255, 0.5);
   font-size: 20px;
   margin-bottom: 16px;
