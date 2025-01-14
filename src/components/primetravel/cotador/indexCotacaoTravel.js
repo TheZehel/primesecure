@@ -173,7 +173,7 @@ const IndexCotacaoTravel = () => {
   ];
 
   return (
-    <div className="pb-24 md:pb-0">
+    <div className="">
       <section className="max-w-6xl mx-auto mt-10">
         <StepperControl activeStep={activeStep} />
         <div className="my-10">{steps[activeStep]}</div>

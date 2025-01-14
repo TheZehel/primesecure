@@ -8,17 +8,12 @@ const TabsNavigation = () => {
     const [activeTab, setActiveTab] = useState('creditCard');
 
     return (
-        <div className="w-full h-screen flex flex-col items-center justify-start p-4">
-            {/* Detalhes da Compra */}
-            <div className="w-full max-w-7xl px-2 sm:px-4">
-                <DetalhesCompra />
-            </div>
-
+        <div className="w-full h-auto flex flex-col items-center justify-between overflow-hidden p-4">
             {/* Navegação por Abas */}
-            <div className="flex flex-col sm:flex-row justify-center mt-2 gap-4 p-2 w-full max-w-7xl">
+            <div className="flex flex-row justify-center gap-2 sm:gap-4 w-full max-w-7xl">
                 <button
                     onClick={() => setActiveTab('creditCard')}
-                    className={`px-6 py-2 text-lg font-bold rounded-md ${activeTab === 'creditCard'
+                    className={`flex-1 px-4 py-2 text-sm sm:text-lg font-bold rounded-md text-center ${activeTab === 'creditCard'
                         ? 'text-bluePrime border-b-4 border-bluePrime'
                         : 'text-gray-600'
                         }`}
@@ -27,7 +22,7 @@ const TabsNavigation = () => {
                 </button>
                 <button
                     onClick={() => setActiveTab('paymentPix')}
-                    className={`px-6 py-2 text-lg font-bold rounded-md ${activeTab === 'paymentPix'
+                    className={`flex-1 px-4 py-2 text-sm sm:text-lg font-bold rounded-md text-center ${activeTab === 'paymentPix'
                         ? 'text-bluePrime border-b-4 border-bluePrime'
                         : 'text-gray-600'
                         }`}
@@ -37,7 +32,7 @@ const TabsNavigation = () => {
             </div>
 
             {/* Conteúdo das Abas */}
-            <div className="p-4 w-full max-w-4xl sm:p-6">
+            <div className="flex-grow flex justify-center items-center w-full max-w-4xl">
                 {activeTab === 'creditCard' && <CreditCard onSubmit={(data) => console.log('Cartão de Crédito:', data)} />}
                 {activeTab === 'paymentPix' && <PagamentoPix handleOpenPixModal={() => console.log('Pix Modal Opened')} />}
             </div>

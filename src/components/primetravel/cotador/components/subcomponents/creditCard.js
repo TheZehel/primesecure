@@ -132,21 +132,21 @@ const CreditCard = ({ onSubmit }) => {
             </div>
 
             {/* Cartão Virtual */}
-            <div className="bg-gradient-to-r from-bluePrime to-bluePrime2 text-white rounded-xl shadow-lg p-6 w-full sm:w-[340px] md:w-[360px] lg:w-[380px] h-[190px] sm:h-[210px] md:h-[220px] lg:h-[240px] mx-auto flex flex-col justify-between">
+            <div className="bg-gradient-to-r from-bluePrime to-bluePrime2 text-white rounded-xl shadow-lg p-4 sm:p-6 w-full max-w-[300px] sm:max-w-[340px] md:max-w-[400px] lg:max-w-[450px] h-auto sm:h-[210px] md:h-[220px] lg:h-[240px] mx-auto flex flex-col justify-between">
                 <div className="flex justify-between items-center">
                     <div style={{ transform: 'rotate(90deg)' }}>
                         <Wifi />
                     </div>
                 </div>
 
-                <div className="flex flex-col items-start mt-6">
-                    <h4 className="text-xl sm:text-2xl font-bold tracking-wide">
+                <div className="flex flex-col items-start mt-4 sm:mt-6">
+                    <h4 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight sm:tracking-wide whitespace-nowrap overflow-hidden">
                         {cardNumber ? formatCardNumber(cardNumber) : '0000 0000 0000 0000'}
                     </h4>
 
-                    <div className="mt-3 flex flex-col items-start">
-                        <div className="text-xs font-semibold">Nome do Titular</div>
-                        <div className="text-sm font-bold uppercase">
+                    <div className="mt-2 sm:mt-3 flex flex-col items-start">
+                        <div className="text-xs">Nome do Titular</div>
+                        <div className="text-xs font-bold uppercase">
                             {cardHolder || 'NOME COMPLETO'}
                         </div>
                     </div>
@@ -163,6 +163,9 @@ const CreditCard = ({ onSubmit }) => {
                     </div>
                 </div>
             </div>
+
+
+
         </div>
     );
 };
