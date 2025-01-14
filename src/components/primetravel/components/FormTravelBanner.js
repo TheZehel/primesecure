@@ -13,6 +13,7 @@ import { Checkbox, Typography } from '@material-tailwind/react';
 import { useNavigate } from 'react-router-dom';
 import { collection, addDoc } from 'firebase/firestore';
 import db from '../../../firebase';
+import LoadingAnimation from '../../globalsubcomponentes/icons/loadingSvg';
 
 import imageManagerPrimeTravel from '../bancodeimagens/BancoDeImagensPrimeTravel';
 import BannerPix from './subcomponents/BannerPix';
@@ -35,7 +36,7 @@ const getUtmParams = () => {
 export default function FormTravelBanner() {
   const [errorList, setErrorList] = useState([]);
   const customValidation = new DataValidation(); //Importa modulo de validação
-
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleNavigateToPrivacyPolicy = () => {
@@ -231,14 +232,9 @@ export default function FormTravelBanner() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
 
-    //console.log('Início do handleSubmit');
-
-    // Recebe os parâmetros UTM da URL
     const utmParams = getUtmParams();
-    //console.log('Parâmetros UTM:', utmParams);
-
-    // Coleta e formata os dados do formulário
     const payload = {
       destiny: formData.selectedOption || { value: '', label: '', regiao: 0 },
       destinyGroup: formData.selectedOption
@@ -247,8 +243,7 @@ export default function FormTravelBanner() {
       departure: formData.departure,
       arrival: formData.arrival,
       ages:
-        formData.olds.reduce((total, age) => total + age, 0).toString() +
-        ' Passageiro(s)',
+        formData.olds.reduce((total, age) => total + age, 0) + ' Passageiro(s)',
       old0: formData.olds[0],
       old1: formData.olds[1],
       old2: formData.olds[2],
@@ -259,82 +254,31 @@ export default function FormTravelBanner() {
       ...utmParams,
     };
 
-    //console.log('Payload formatado:', payload);
-
-    // Valida os dados do formulário
     const errors = customValidation.validarTravelPayload(payload);
     if (errors.length > 0) {
-      //console.error('Erros de validação:', errors);
       setErrorList(errors);
       alert('Existem erros no formulário. Verifique e tente novamente.');
+      setIsLoading(false);
       return;
     }
 
     try {
-      console.log('Tentando enviar os dados para o Firestore...');
-      // Envia os dados para o Firestore
+      console.log('Enviando dados para Firestore...');
       const docRef = await addDoc(collection(db, 'leadsPrimeTravel'), {
         ...payload,
-        timestamp: new Date(), // Adiciona o timestamp atual
+        timestamp: new Date(),
       });
-      //console.log('Documento adicionado ao Firestore com ID: ', docRef.id);
+      console.log('Documento adicionado com ID:', docRef.id);
     } catch (error) {
-      //console.error('Erro ao adicionar documento no Firestore: ', error);
-      //alert('Erro ao salvar os dados no Firestore. Verifique o console.');
-      return; // Evita continuar o processo caso ocorra erro no Firestore
+      console.error('Erro ao adicionar documento no Firestore:', error);
+      setIsLoading(false);
+      return;
     }
 
-    // Cria o objeto de dados para enviar para a RD Station e ManyChat
     const formRD = convertToForm(payload, 'lead-primetravel-api');
-    //console.log('Payload para RD Station:', formRD);
-
-    const postDataManyChat = {
-      first_name: formData.name.split(' ')[0],
-      last_name: formData.name.split(' ').slice(1).join(' '),
-      phone: formData.phone.replace(/\D/g, ''),
-      whatsapp_phone: formData.phone.replace(/\D/g, ''),
-      email: formData.email,
-      destiny: formData.selectedOption || { value: '', label: '', regiao: 0 },
-      destinyGroup: formData.selectedOption
-        ? formData.selectedOption.regiao
-        : '',
-      departure: formData.departure,
-      arrival: formData.arrival,
-      ages:
-        formData.olds.reduce((total, age) => total + age, 0).toString() +
-        ' Passageiro(s)',
-      old0: formData.olds[0],
-      old1: formData.olds[1],
-      old2: formData.olds[2],
-      old3: formData.olds[3],
-      gender: '',
-      has_opt_in_sms: true,
-      has_opt_in_email: true,
-      consent_phrase: 'Eu aceito os termos e condições.',
-      current_url: window.location.pathname,
-    };
-
-    // Tentativa de envio de dados para ManyChat
-    try {
-      console.log('Enviando dados para ManyChat...');
-      await axios.post(
-        `${process.env.REACT_APP_URL_CREATE_SUBSCRIBER_MANYCHAT}/manychat/subscriber/create`,
-        postDataManyChat,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      );
-      //console.log('Dados enviados para ManyChat com sucesso!');
-    } catch (error) {
-      console.error('Erro ao enviar dados para ManyChat:', error);
-      //alert('Erro ao enviar dados para ManyChat. Verifique o console.');
-    }
 
     try {
       console.log('Enviando dados para RD Station...');
-      // Envia os dados para a RD Station
       await axios.post(
         `https://api.rd.services/platform/conversions?api_key=${process.env.REACT_APP_API_KEY_RD_STATION}`,
         formRD,
@@ -345,9 +289,7 @@ export default function FormTravelBanner() {
           },
         },
       );
-      //console.log('Dados enviados para RD Station com sucesso!');
-
-      // Prepara o redirecionamento
+      console.log('Dados enviados para RD Station com sucesso!');
       let redirectUrl =
         'https://primetravel.primesecure.com.br/cotacao-rapida?';
       Object.entries(payload).forEach(([key, value], index, array) => {
@@ -357,14 +299,9 @@ export default function FormTravelBanner() {
           }`;
         }
       });
-
-      //alert('Redirecionando para: ' + redirectUrl); // Adiciona um alerta antes do redirecionamento
-      //console.log('URL de redirecionamento:', redirectUrl);
       window.location.href = redirectUrl;
     } catch (error) {
-      //console.error('Erro ao enviar dados para RD Station:', error);
-
-      // Trata os erros de RD Station aqui se necessário, mas continua o processo de redirecionamento
+      console.error('Erro ao enviar dados para RD Station:', error);
       let redirectUrl =
         'https://primetravel.primesecure.com.br/cotacao-rapida?';
       Object.entries(payload).forEach(([key, value], index, array) => {
@@ -374,10 +311,9 @@ export default function FormTravelBanner() {
           }`;
         }
       });
-
-      //alert('Erro na RD Station. Redirecionando para: ' + redirectUrl);
-      //console.log('URL de redirecionamento após erro:', redirectUrl);
       window.location.href = redirectUrl;
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -882,14 +818,25 @@ export default function FormTravelBanner() {
               </div>
             </form>
             <button
-              className="bg-bluePrime hover:bg-bluePrime2 text-white font-bold py-2 px-4 rounded w-full flex mt-3 justify-center items-center"
+              className={`bg-bluePrime hover:bg-bluePrime2 text-white font-bold py-2 px-4 rounded w-full flex mt-3 justify-center items-center ${
+                isLoading ? 'cursor-not-allowed' : ''
+              }`}
               onClick={(e) => {
-                handleSubmit(e);
-                window.dataLayer = window.dataLayer || [];
-                window.dataLayer.push({ event: 'lead-primetravel' });
+                if (!isLoading) {
+                  handleSubmit(e);
+                  window.dataLayer = window.dataLayer || [];
+                  window.dataLayer.push({ event: 'lead-primetravel' });
+                }
               }}
+              disabled={isLoading}
             >
-              Cotar Agora
+              {isLoading ? (
+                <div className="flex items-center justify-center h-6 w-full">
+                  <LoadingAnimation />
+                </div>
+              ) : (
+                'Cotar Agora'
+              )}
             </button>
             <div className="sm:w-4/4 flex mt-5 text-start">
               <Typography className="">
