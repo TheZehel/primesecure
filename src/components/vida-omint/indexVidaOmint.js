@@ -4,6 +4,7 @@ import PrimeFoco from "./components/foco";
 import PrimeVital from "./components/vital";
 import { Briefcase, DollarSign, Leaf, ShieldCheck } from "lucide-react";
 import NamuSection from "../seguro-de-vida/components/subcomponents/namu";
+import FaqOmint from "./components/faq";
 
 export default function IndexVidaOmint() {
     return (
@@ -19,21 +20,10 @@ export default function IndexVidaOmint() {
 
                 {/* Grid de cards */}
                 <h1 className="text-bluePrime text-xl sm:text-2xl text-center mb-6">Benefícios para você e sua família:</h1>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-4">
-                    {/* Card 1 */}
-                    <div className="min-w-[200px] sm:min-w-[180px] md:min-w-[160px] lg:max-w-[260px] bg-neutral-10 p-4 rounded-lg shadow-md mx-auto mb-4">
-                        <Leaf className="w-8 h-8 text-bluePrime mx-auto mb-3" />
-                        <h2 className="text-base font-semibold text-gray-800 text-center mb-1">
-                            App Namu
-                        </h2>
-                        <hr className="border-gray-300 my-2" />
-                        <p className="text-sm text-gray-600 text-justify">
-                            Sua mudança precisa ser completa, seu super app de bem-estar também. Acesso a um app de Saúde, bem-estar físico e mental.
-                        </p>
-                    </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-0 px-4 justify-items-center">
 
                     {/* Card 1 */}
-                    <div className="min-w-[200px] sm:min-w-[180px] md:min-w-[160px] lg:max-w-[260px] bg-neutral-10 p-4 rounded-lg shadow-md mx-auto mb-4">
+                    <div className="min-w-[200px] sm:min-w-[180px] md:min-w-[160px] lg:max-w-[260px] bg-neutral-10 p-4 rounded-lg shadow-md">
                         <ShieldCheck className="w-8 h-8 text-bluePrime mx-auto mb-3" />
                         <h2 className="text-base font-semibold text-gray-800 text-center mb-1">
                             Proteção do padrão de vida
@@ -45,7 +35,7 @@ export default function IndexVidaOmint() {
                     </div>
 
                     {/* Card 2 */}
-                    <div className="min-w-[200px] sm:min-w-[180px] md:min-w-[160px] lg:max-w-[260px] bg-neutral-10 p-4 rounded-lg shadow-md mx-auto mb-4">
+                    <div className="min-w-[200px] sm:min-w-[180px] md:min-w-[160px] lg:max-w-[260px] bg-neutral-10 p-4 rounded-lg shadow-md">
                         <DollarSign className="w-8 h-8 text-bluePrime mx-auto mb-3" />
                         <h2 className="text-base font-semibold text-gray-800 text-center mb-1">
                             Planejamento Financeiro
@@ -57,7 +47,7 @@ export default function IndexVidaOmint() {
                     </div>
 
                     {/* Card 3 */}
-                    <div className="min-w-[200px] sm:min-w-[180px] md:min-w-[160px] lg:max-w-[260px] bg-neutral-10 p-4 rounded-lg shadow-md mx-auto mb-4">
+                    <div className="min-w-[200px] sm:min-w-[180px] md:min-w-[160px] lg:max-w-[260px] bg-neutral-10 p-4 rounded-lg shadow-md">
                         <Briefcase className="w-8 h-8 text-bluePrime mx-auto mb-3" />
                         <h2 className="text-base font-semibold text-gray-800 text-center mb-1">
                             Sucessão Patrimonial
@@ -69,24 +59,13 @@ export default function IndexVidaOmint() {
                     </div>
                 </div>
 
-                {/* Título para a seção de produtos */}
-                <h1 className="text-grayPrime text-xl sm:text-4xl text-center mt-20 mb-20">Confira nossos produtos:</h1>
 
-                <NamuSection />
+                {/* Título para a seção de produtos */}
+                <h1 className="text-grayPrime text-xl sm:text-4xl text-center mt-20">Confira nossos produtos:</h1>
                 <PrimeIdeal />
 
-                {/* Responsivo */}
-                <div className="flex flex-col lg:flex-row gap-8 p-4 items-start justify-center lg:h-auto lg:items-stretch">
-                    <div className="flex-1 max-w-lg">
-                        <PrimeFoco />
-                    </div>
-                    <div className="flex-1 max-w-lg">
-                        <PrimeVital />
-                    </div>
-                </div>
 
-
-
+                <FaqOmint />
             </div>
         </div>
     );

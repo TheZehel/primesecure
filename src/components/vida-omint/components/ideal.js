@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
+import { useTransition, animated } from 'react-spring';
 import { Skull, Ambulance, Syringe, Church, House, Apple, Shield, Dog, Laptop, Brain } from 'lucide-react';
 
 const PrimeIdeal = () => {
-    const [activeTab, setActiveTab] = useState('coverages');
     const [openCoverage, setOpenCoverage] = useState(null);
+
+    const transitions = useTransition(openCoverage, {
+        from: { maxHeight: '0px', opacity: 0 },
+        enter: { maxHeight: '500', opacity: 1 },
+        leave: { maxHeight: '0px', opacity: 0 },
+        config: { duration: 300 },
+    });
 
     const coverages = [
         {
@@ -80,36 +87,42 @@ const PrimeIdeal = () => {
             title: 'Residencial',
             description: 'Serviços emergenciais como encanador, chaveiro e eletricista.',
             icon: <House className="w-8 h-8 text-bluePrime" />,
+            image: "https://storage.googleapis.com/primesecure/vida-omint/Residencial.png",
         },
         {
             id: 2,
             title: 'Nutricional',
             description: 'Orientações sobre alimentação e rotina saudável.',
             icon: <Apple className="w-8 h-8 text-bluePrime" />,
+            image: "https://storage.googleapis.com/primesecure/vida-omint/Nutricional.png",
         },
         {
             id: 3,
             title: 'Vítima de Crime',
             description: 'Serviços de remoção médica e assistência emergencial.',
             icon: <Shield className="w-8 h-8 text-bluePrime" />,
+            image: "https://storage.googleapis.com/primesecure/vida-omint/Criminal.png",
         },
         {
             id: 4,
             title: 'Pet',
             description: 'Serviços veterinários para cães e gatos.',
             icon: <Dog className="w-8 h-8 text-bluePrime" />,
+            image: "https://storage.googleapis.com/primesecure/vida-omint/Pet.png",
         },
         {
             id: 5,
             title: 'Suporte a informática',
             description: 'Suporte telefônico ao Segurado para auxílio na utilização de computadores.',
             icon: <Laptop className="w-8 h-8 text-bluePrime" />,
+            image: "https://storage.googleapis.com/primesecure/vida-omint/Informatica.png",
         },
         {
             id: 6,
             title: 'Aconselhamento psicológico',
             description: 'Serviço de atendimento telefônico receptivo, prestado ao Segurado por psicólogo.',
             icon: <Brain className="w-8 h-8 text-bluePrime" />,
+            image: "https://storage.googleapis.com/primesecure/vida-omint/psicologo.png",
         },
     ];
 
@@ -118,82 +131,61 @@ const PrimeIdeal = () => {
             {/* Hero Section */}
             <div className="max-w-6xl mx-auto px-4 pt-20 pb-24">
                 <h1 className="text-bluePrime text-xl sm:text-2xl text-center mb-6">Prime Ideal</h1>
-                <p className=" text-gray-500 text-lg text-center mb-8 sm:mb-0 ">
-                    Proteção financeira para você e sua família, com contratação simplificada
-                    e capitais segurados até R$ 5 milhões.
+                <p className="text-gray-500 text-lg text-center mb-8 sm:mb-0">
+                    Proteção financeira para você e sua família, com contratação simplificada e capitais segurados até R$ 5 milhões.
                 </p>
             </div>
 
-            {/* Navigation */}
-            <div className="border-t border-b border-gray-300">
-                <div className="max-w-6xl mx-auto px-4">
-                    <div className="flex space-x-8 text-center items-center justify-center">
-                        <button
-                            className={`py-6 px-2 relative ${activeTab === 'coverages' ? 'text-bluePrime' : 'text-grayPrime'}`}
-                            onClick={() => setActiveTab('coverages')}
-                        >
-                            Coberturas
-                            {activeTab === 'coverages' && (
-                                <div className="absolute bottom-0 left-0 w-full h-0.5 bg-bluePrime"></div>
+            {/* Coberturas Section */}
+            <div className="max-w-6xl mx-auto px-4 pb-16">
+                <h2 className="text-grayPrime text-2xl mb-8 text-center">Coberturas</h2>
+                <div className="grid gap-4 xl:grid-cols-1 sm:w-[830px] mx-auto">
+                    {coverages.map((coverage) => (
+                        <div key={coverage.id} className="border border-gray-300 rounded-md w-full">
+                            <button
+                                onClick={() => setOpenCoverage(openCoverage === coverage.id ? null : coverage.id)}
+                                className="w-full p-4 flex justify-between items-center"
+                            >
+                                <span className="flex items-center space-x-3">
+                                    {coverage.icon}
+                                    <span className="text-lg font-medium text-grayPrime">{coverage.title}</span>
+                                </span>
+                                <span className={`transform transition-transform ${openCoverage === coverage.id ? 'rotate-45' : ''}`}>+</span>
+                            </button>
+                            {transitions((style, item) =>
+                                item === coverage.id && (
+                                    <animated.div style={style} className="overflow-hidden p-4">
+                                        <p className="text-sm text-gray-600">{coverage.description}</p>
+                                    </animated.div>
+                                )
                             )}
-                        </button>
-                        <button
-                            className={`py-6 px-2 relative ${activeTab === 'assistances' ? 'text-bluePrime' : 'text-grayPrime'}`}
-                            onClick={() => setActiveTab('assistances')}
-                        >
-                            Assistências
-                            {activeTab === 'assistances' && (
-                                <div className="absolute bottom-0 left-0 w-full h-0.5 bg-bluePrime"></div>
-                            )}
-                        </button>
-                    </div>
+
+                        </div>
+                    ))}
                 </div>
             </div>
 
-            {/* Content Section */}
-            <div className="max-w-6xl mx-auto px-4 py-24">
-                {activeTab === 'coverages' && (
-                    <div className="grid gap-4 xl:grid-cols-1 sm:w-[830px] mx-auto">
-                        {coverages.map((coverage) => (
-                            <div key={coverage.id} className="border border-gray-300 rounded-md w-full">
-                                <button
-                                    onClick={() => setOpenCoverage(openCoverage === coverage.id ? null : coverage.id)}
-                                    className="w-full p-4 flex justify-between items-center"
-                                >
-                                    <span className="flex items-center space-x-3">
-                                        {coverage.icon}
-                                        <span className="text-lg font-medium text-grayPrime">{coverage.title}</span>
-                                    </span>
-                                    <span className={`transform transition-transform ${openCoverage === coverage.id ? 'rotate-45' : ''}`}>+</span>
-                                </button>
-                                {openCoverage === coverage.id && (
-                                    <div className="p-4">
-                                        <p className="text-sm text-gray-600">{coverage.description}</p>
-                                    </div>
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                )}
-
-                {activeTab === 'assistances' && (
-                    <div className="flex flex-wrap justify-center gap-4">
-                        {assistances.map((assistance) => (
-                            <div
-                                key={assistance.id}
-                                className="w-[300px] border border-gray-300 rounded-md p-4 bg-white shadow-sm"
-                            >
-                                <div className="flex flex-col items-center">
-                                    <div className="flex flex-col space-x-2 items-center mb-3">
-                                        {assistance.icon}
-                                        <h3 className="text-lg font-medium text-center mb-3">{assistance.title}</h3>
-                                    </div>
-                                    <p className="text-grayPrime text-center text-base">{assistance.description}</p>
+            {/* Assistências Section */}
+            <div className="max-w-6xl mx-auto px-4 pb-16">
+                <h2 className="text-grayPrime text-2xl mb-8 text-center">Assistências</h2>
+                <div className="flex flex-wrap justify-center gap-4">
+                    {assistances.map((assistance) => (
+                        <div
+                            key={assistance.id}
+                            className="w-[300px] rounded-md p-4 shadow-sm"
+                            style={{ backgroundImage: `url(${assistance.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                        >
+                            <div className="flex flex-col items-center">
+                                <div className="flex flex-col space-x-2 items-center mb-3">
+                                    {assistance.icon}
+                                    <h3 className="text-base text-white font-bold text-center mb-3">{assistance.title}</h3>
                                 </div>
+                                <p className="text-white text-center text-base">{assistance.description}</p>
                             </div>
-                        ))}
-                    </div>
-                )}
+
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );

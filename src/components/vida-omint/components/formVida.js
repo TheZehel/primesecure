@@ -33,8 +33,6 @@ const incomeRangeOptions = [
 const genderOptions = [
     { value: "masculino", label: "Masculino" },
     { value: "feminino", label: "Feminino" },
-    { value: "nao-binario", label: "Não Binário" },
-    { value: "prefiro-nao-dizer", label: "Prefiro não dizer" },
 ];
 
 export default function FormVidaOmint() {
