@@ -29,42 +29,34 @@ export const validateFields = (data, requiredFields) => {
 
 // Lógica de busca no ViaCEP
 const fetchAddressFromCEP = async (cep, onChange) => {
-  const cleanedCep = cep.replace(/\D/g, ''); // Remove tudo que não é número
+  const cleanedCep = cep.replace(/\D/g, '');
 
   if (cleanedCep.length !== 8) {
-    //alert("CEP inválido. O CEP deve ter 8 dígitos.");
     return;
   }
 
   try {
-    const response = await fetch(
-      `https://viacep.com.br/ws/${cleanedCep}/json/`,
-    );
+    const response = await fetch(`https://viacep.com.br/ws/${cleanedCep}/json/`);
     if (!response.ok) throw new Error('Erro ao buscar o CEP.');
     const data = await response.json();
-
-    //console.log(data);
-
     if (data.erro) {
-      //alert("CEP não encontrado. Verifique o CEP e tente novamente.");
       return;
     }
 
-    // Preenche os campos
+    // Atualiza apenas os campos de endereço (não altera o campo zipCode)
     onChange('address', data.logradouro || '');
     onChange('district', data.bairro || '');
     onChange('city', data.localidade || '');
     onChange('state', data.uf || '');
   } catch (error) {
     console.error('Erro ao buscar o CEP:', error);
-    //console.log("Erro ao buscar o CEP. Tente novamente.", error);
-    //alert("Erro ao buscar o CEP. Tente novamente.");
   }
 };
 
+
 // Componente para o Primeiro Passageiro
 const FirstPassenger = ({ onSave, data, onChange, errors }) => {
-  const [isEditing, setIsEditing] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
 
   const handleSave = () => {
     const hasErrors = onSave(); // Validação
@@ -199,6 +191,7 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
               type="text"
               placeholder={errors.zipCode ? 'Coloque um CEP' : 'Seu CEP'}
               name="zipCode"
+              value={data.zipCode}
               onChange={(e) => onChange(e.target.name, e.target.value)}
               onBlur={(e) => fetchAddressFromCEP(e.target.value, onChange)}
               className={`rounded-md border p-2 w-full ${errors.zipCode
@@ -472,28 +465,44 @@ const Passengers = ({
     const storedData = sessionStorage.getItem('formData-Travel');
     if (storedData) {
       const parsedData = JSON.parse(storedData);
-
       if (parsedData.passengers) {
         setPassengers(parsedData.passengers);
       }
       if (parsedData.responsibleData) {
         setResponsibleData(parsedData.responsibleData);
+        // Pode adicionar um log para ver o valor do zipCode
+        console.log('Responsável recuperado:', parsedData.responsibleData);
       }
     }
-  }, []);
+  }, [setResponsibleData]);
 
 
   // Executa apenas uma vez
 
   // Salvar dados dos passageiros no sessionStorage ao alterar
   useEffect(() => {
-    const currentData =
-      JSON.parse(sessionStorage.getItem('formData-Travel')) || {};
-    currentData.passengers = passengers;
-    currentData.passengerEditingStatus = passengerEditingStatus;
-    currentData.responsibleData = responsibleData;
-    sessionStorage.setItem('formData-Travel', JSON.stringify(currentData));
-  }, [passengers, passengerEditingStatus, responsibleData]);
+    const storedData = sessionStorage.getItem('formData-Travel');
+    const storedIsResponsible = sessionStorage.getItem('isResponsibleSaved');
+
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+
+      if (parsedData.passengers) {
+        setPassengers(parsedData.passengers);
+      }
+
+      if (parsedData.responsibleData) {
+        setResponsibleData(parsedData.responsibleData);
+      }
+    }
+
+    // Se existir 'isResponsibleSaved' salvo e for 'true', seta no estado
+    if (storedIsResponsible === 'true') {
+      setIsResponsibleSaved(true);
+    }
+  }, [setResponsibleData]);
+  ;
+
 
   // Valida e salva o passageiro responsável
   const handleSaveResponsible = (id) => {
@@ -513,28 +522,38 @@ const Passengers = ({
       'city',
     ];
 
+    // Faz a validação normalmente
     const errors = validateFields(responsibleData, requiredFields);
     setResponsibleErrors(errors);
 
     const hasErrors = Object.values(errors).some((err) => err);
+
+    // Se NÃO tiver erros, então desbloqueia o botão e salva a flag no sessionStorage
     if (!hasErrors) {
       setIsResponsibleSaved(true);
+      sessionStorage.setItem('isResponsibleSaved', 'true');
+      return false;
     }
-    return hasErrors; // Retorna se há erros
+
+    // Se tiver erros, mantém o bloqueio do botão
+    // e não salva no sessionStorage
+    return hasErrors;
   };
+
 
   const handleResponsibleChange = (field, value) => {
     setResponsibleData((prev) => {
       const updatedData = { ...prev, [field]: value };
-
-      // Atualiza o sessionStorage
+      if (field === 'zipCode') {
+        console.log('Novo zipCode:', updatedData.zipCode);
+      }
       const currentData = JSON.parse(sessionStorage.getItem('formData-Travel') || '{}');
       currentData.responsibleData = updatedData;
       sessionStorage.setItem('formData-Travel', JSON.stringify(currentData));
-
       return updatedData;
     });
   };
+
 
 
   const handlePassengerChange = (id, field, value) => {
@@ -610,6 +629,7 @@ const Passengers = ({
           <CirclePlus className="inline-block mr-2" />
           Adicionar Passageiro
         </button>
+
       </div>
     </div>
   );

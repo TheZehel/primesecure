@@ -38,39 +38,56 @@ const EditQuote = () => {
     CNPJ: '',
     olds: [0, 0, 0],
     selectedOption: null,
+    // Campos extras do sessionStorage
+    reason: {},
+    name: '',
+    email: '',
+    phone: '',
   });
   const [modalOpen, setModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
-  // Load and Save formData in sessionStorage
-  // useEffect(() => {
-  //   const storedFormData = sessionStorage.getItem('formData-Travel');
-  //   if (storedFormData) {
-  //     const parsedData = JSON.parse(storedFormData);
-  //     setFormData({
-  //       ...parsedData,
-  //       DataInicioViagem: parsedData.DataInicioViagem
-  //         ? moment(parsedData.DataInicioViagem, 'YYYY-MM-DD')
-  //         : null,
-  //       DataFinalViagem: parsedData.DataFinalViagem
-  //         ? moment(parsedData.DataFinalViagem, 'YYYY-MM-DD')
-  //         : null,
-  //     });
-  //   }
-  // }, []);
+  //  Load and Save formData in sessionStorage
+  useEffect(() => {
+    const storedFormData = sessionStorage.getItem('formData-travel');
+    if (storedFormData) {
+      const parsedData = JSON.parse(storedFormData);
 
-  // useEffect(() => {
-  //   const dataToStore = {
-  //     ...formData,
-  //     DataInicioViagem: formData.DataInicioViagem
-  //       ? formData.DataInicioViagem.format('YYYY-MM-DD')
-  //       : null,
-  //     DataFinalViagem: formData.DataFinalViagem
-  //       ? formData.DataFinalViagem.format('YYYY-MM-DD')
-  //       : null,
-  //   };
-  //   sessionStorage.setItem('formData-Travel', JSON.stringify(dataToStore));
-  // }, [formData]);
+      setFormData({
+        ...formData,
+        ...parsedData,
+        // Mapeando departure/arrival para DataInicioViagem/DataFinalViagem
+        DataInicioViagem: parsedData.departure
+          ? moment(parsedData.departure, 'YYYY-MM-DD')
+          : null,
+        DataFinalViagem: parsedData.arrival
+          ? moment(parsedData.arrival, 'YYYY-MM-DD')
+          : null,
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    const dataToStore = {
+      ...formData,
+      // Se quiser manter o mesmo padrão do que já estava salvo no storage, inclua reason, name, email, phone etc.
+      reason: formData.reason,
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+
+      // Mapeando DataInicioViagem/DataFinalViagem de volta para departure/arrival
+      departure: formData.DataInicioViagem
+        ? formData.DataInicioViagem.format('YYYY-MM-DD')
+        : null,
+      arrival: formData.DataFinalViagem
+        ? formData.DataFinalViagem.format('YYYY-MM-DD')
+        : null,
+    };
+
+    sessionStorage.setItem('formData-travel', JSON.stringify(dataToStore));
+  }, [formData]);
+
 
   const handleOld = (index, value) => {
     let formOlds = [...formData.olds];

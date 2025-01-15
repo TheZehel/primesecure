@@ -91,10 +91,6 @@ const IndexCotacaoTravel = () => {
     }
   };
 
-
-
-
-
   const handleBack = () => {
     if (activeStep > 0) {
       const prevStep = activeStep - 1;
