@@ -122,7 +122,7 @@ const PrimeIdeal = () => {
             title: 'Aconselhamento psicológico',
             description: 'Serviço de atendimento telefônico receptivo, prestado ao Segurado por psicólogo.',
             icon: <Brain className="w-8 h-8 text-bluePrime" />,
-            image: "https://storage.googleapis.com/primesecure/vida-omint/psicologo.png",
+            image: "https://storage.googleapis.com/primesecure/vida-omint/Psicologo.png",
         },
     ];
 

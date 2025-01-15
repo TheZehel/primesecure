@@ -20,10 +20,10 @@ export default function IndexVidaOmint() {
 
                 {/* Grid de cards */}
                 <h1 className="text-bluePrime text-xl sm:text-2xl text-center mb-6">Benefícios para você e sua família:</h1>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-0 px-4 justify-items-center">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 xl:gap-2 2xl:gap-1 px-4 justify-items-center">
 
                     {/* Card 1 */}
-                    <div className="min-w-[200px] sm:min-w-[180px] md:min-w-[160px] lg:max-w-[260px] bg-neutral-10 p-4 rounded-lg shadow-md">
+                    <div className="w-full p-12  mx-14 bg-neutral-10 rounded-lg shadow-md ">
                         <ShieldCheck className="w-8 h-8 text-bluePrime mx-auto mb-3" />
                         <h2 className="text-base font-semibold text-gray-800 text-center mb-1">
                             Proteção do padrão de vida
@@ -35,7 +35,7 @@ export default function IndexVidaOmint() {
                     </div>
 
                     {/* Card 2 */}
-                    <div className="min-w-[200px] sm:min-w-[180px] md:min-w-[160px] lg:max-w-[260px] bg-neutral-10 p-4 rounded-lg shadow-md">
+                    <div className="w-full p-12  bg-neutral-10 rounded-lg shadow-md">
                         <DollarSign className="w-8 h-8 text-bluePrime mx-auto mb-3" />
                         <h2 className="text-base font-semibold text-gray-800 text-center mb-1">
                             Planejamento Financeiro
@@ -47,7 +47,7 @@ export default function IndexVidaOmint() {
                     </div>
 
                     {/* Card 3 */}
-                    <div className="min-w-[200px] sm:min-w-[180px] md:min-w-[160px] lg:max-w-[260px] bg-neutral-10 p-4 rounded-lg shadow-md">
+                    <div className="w-full p-12 bg-neutral-10 rounded-lg shadow-md">
                         <Briefcase className="w-8 h-8 text-bluePrime mx-auto mb-3" />
                         <h2 className="text-base font-semibold text-gray-800 text-center mb-1">
                             Sucessão Patrimonial
@@ -58,6 +58,8 @@ export default function IndexVidaOmint() {
                         </p>
                     </div>
                 </div>
+
+
 
 
                 {/* Título para a seção de produtos */}
