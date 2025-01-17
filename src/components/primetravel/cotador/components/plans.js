@@ -38,7 +38,7 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
   const swiperRef = useRef(null);
 
   useEffect(() => {
-    const storedData = sessionStorage.getItem('formData-Travel');
+    const storedData = sessionStorage.getItem('formData-travel');
     if (storedData) {
       const parsedData = JSON.parse(storedData);
       if (parsedData.selectedPlan) {
@@ -51,10 +51,10 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
     const selectedPlan = cardData.find((card) => card.id === id);
     setSelectedPlanId(id);
 
-    const storedData = sessionStorage.getItem('formData-Travel');
+    const storedData = sessionStorage.getItem('formData-travel');
     const updatedData = storedData ? JSON.parse(storedData) : {};
     updatedData.selectedPlan = selectedPlan;
-    sessionStorage.setItem('formData-Travel', JSON.stringify(updatedData));
+    sessionStorage.setItem('formData-travel', JSON.stringify(updatedData));
 
     setSelectedPlan(selectedPlan);
 

@@ -3,6 +3,7 @@ import { DatePicker } from 'antd';
 import { Pen, Save } from 'lucide-react';
 import locale from 'antd/lib/date-picker/locale/pt_BR';
 import moment from 'moment';
+import { loadFromStorage, saveToStorage } from '../utils/storageUtils';
 
 const destinations = [
   { value: '1', label: 'África', code: 'AF' },
@@ -48,7 +49,7 @@ const defaultState = {
 const EditQuote = () => {
   // Lazy initialization: tenta carregar os dados do sessionStorage
   const [formData, setFormData] = useState(() => {
-    const stored = sessionStorage.getItem('formData-travel');
+    const stored = sessionStorage.getItem('editQuote');
     if (stored) {
       const parsed = JSON.parse(stored);
       // Converte as datas, se estiverem no formato "YYYY-MM-DD"
@@ -115,7 +116,7 @@ const EditQuote = () => {
         : null,
     };
 
-    sessionStorage.setItem('formData-travel', JSON.stringify(dataToStore));
+    sessionStorage.setItem('editQuote', JSON.stringify(dataToStore));
   };
 
 

@@ -239,7 +239,7 @@ export default function FormTravelBanner2() {
 
       // Aqui você salva os dados do formData no sessionStorage
       console.log('Salvando formData no sessionStorage:', formData);
-      sessionStorage.setItem('formData-travel', JSON.stringify(formData));
+      sessionStorage.setItem('editQuote', JSON.stringify(formData));
 
       // Redireciona para a página desejada
       navigate('/cotacao-primetravel');

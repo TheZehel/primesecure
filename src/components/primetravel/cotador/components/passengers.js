@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import InputMask from 'react-input-mask';
 import { CirclePlus, Save, Trash2, Edit, UsersRound, Star } from 'lucide-react';
 import GlobalFuntions from '../../../globalsubcomponentes/globalFunctions';
+import { saveToStorage, loadFromStorage } from '../utils/storageUtils';
 
 const globalFunctions = new GlobalFuntions();
 
@@ -272,7 +273,7 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
           {/* Outros campos permanecem inalterados */}
           <div className="mt-4 flex justify-end">
             <button
-              className="bg-green-500 px-4 py-2 text-white rounded-md flex items-center"
+              className="bg-green-500 px-4 py-2 text-white rounded-md"
               onClick={handleSave}
             >
               <Save className="inline-block mr-2" />
@@ -308,13 +309,11 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
 };
 
 // Componente para Passageiros Adicionais
-const Passenger = ({ id, data, onChange, onRemove, onSave, errors }) => {
-  const [isEditing, setIsEditing] = useState(false); // Começa com isEditing false para seguir o padrão de visualização, igual ao FirstPassenger
-
+const Passenger = ({ id, data, onChange, onRemove, onSave, errors, isEditing, setIsEditing }) => {
   const handleSave = () => {
     const hasErrors = onSave(id);
     if (!hasErrors) {
-      setIsEditing(false);
+      setIsEditing(false); // Fecha o modo de edição ao salvar sem erros
     }
   };
 
@@ -459,51 +458,61 @@ const Passengers = ({
   const [passengerErrors, setPassengerErrors] = useState([]);
   const [passengerEditingStatus, setPassengerEditingStatus] = useState([]);
 
-  // Carregar dados do sessionStorage ao montar o componente
+  // Carrega dados ao montar o componente
+  useEffect(() => {
+    const storedData = loadFromStorage('formData-travel', {
+      passengers: [],
+      responsibleData: {},
+    });
+    setPassengers(storedData.passengers);
+    setResponsibleData(storedData.responsibleData);
+  }, [setResponsibleData]);
+
+
   useEffect(() => {
     const storedData = sessionStorage.getItem('formData-travel');
     if (storedData) {
       const parsedData = JSON.parse(storedData);
       if (parsedData.passengers) {
         setPassengers(parsedData.passengers);
+        setPassengerEditingStatus(parsedData.passengers.map(() => false)); // Inicializa como false
       }
       if (parsedData.responsibleData) {
         setResponsibleData(parsedData.responsibleData);
-        console.log('Responsável recuperado:', parsedData.responsibleData);
       }
     }
   }, [setResponsibleData]);
+
+  // Salvar dados no sessionStorage sempre que os estados mudarem
+  useEffect(() => {
+    saveToStorage('formData-travel', { passengers, responsibleData });
+  }, [passengers, responsibleData]);
+
+
 
 
   // Executa apenas uma vez
 
   // Salvar dados dos passageiros no sessionStorage ao alterar
-  // Salvar dados dos passageiros no sessionStorage ao alterar
   useEffect(() => {
-    const storedData = sessionStorage.getItem('formData-travel');
-    const storedIsResponsible = sessionStorage.getItem('isResponsibleSaved');
+    const storedData = loadFromStorage('formData-travel', {
+      passengers: [],
+      responsibleData: {},
+    });
 
-    if (storedData) {
-      const parsedData = JSON.parse(storedData);
+    const storedIsResponsible = loadFromStorage('isResponsibleSaved', false);
 
-      if (parsedData.passengers) {
-        setPassengers(parsedData.passengers);
-      }
+    setPassengers(storedData.passengers);
+    setResponsibleData(storedData.responsibleData);
 
-      if (parsedData.responsibleData) {
-        setResponsibleData(parsedData.responsibleData);
-      }
-    }
-
-    if (storedIsResponsible === 'true') {
-      setIsResponsibleSaved(true);
-    }
+    setIsResponsibleSaved(!!storedIsResponsible); // Converte para boolean
   }, [setResponsibleData]);
 
 
 
+
   // Valida e salva o passageiro responsável
-  const handleSaveResponsible = (id) => {
+  const handleSaveResponsible = () => {
     const requiredFields = [
       'firstName',
       'secondName',
@@ -520,54 +529,51 @@ const Passengers = ({
       'city',
     ];
 
-    // Faz a validação normalmente
     const errors = validateFields(responsibleData, requiredFields);
     setResponsibleErrors(errors);
 
     const hasErrors = Object.values(errors).some((err) => err);
 
-    // Se NÃO tiver erros, então desbloqueia o botão e salva a flag no sessionStorage
     if (!hasErrors) {
       setIsResponsibleSaved(true);
-      sessionStorage.setItem('isResponsibleSaved', 'true');
+      const currentData = loadFromStorage('formData-travel', {});
+      currentData.responsibleData = responsibleData;
+      saveToStorage('formData-travel', currentData);
+      saveToStorage('isResponsibleSaved', true);
       return false;
     }
-
-    // Se tiver erros, mantém o bloqueio do botão
-    // e não salva no sessionStorage
     return hasErrors;
   };
 
 
+  // Função para alterar os dados do responsável
   const handleResponsibleChange = (field, value) => {
     setResponsibleData((prev) => {
       const updatedData = { ...prev, [field]: value };
-      if (field === 'zipCode') {
-        console.log('Novo zipCode:', updatedData.zipCode);
-      }
-      const currentData = JSON.parse(sessionStorage.getItem('formData-Travel') || '{}');
+      const currentData = loadFromStorage('formData-travel', {});
       currentData.responsibleData = updatedData;
-      sessionStorage.setItem('formData-Travel', JSON.stringify(currentData));
+      saveToStorage('formData-travel', currentData);
       return updatedData;
     });
   };
 
 
 
+  // Função para alterar os dados do passageiro
   const handlePassengerChange = (id, field, value) => {
     const updatedPassengers = passengers.map((p, index) =>
       index === id ? { ...p, [field]: value } : p
     );
     setPassengers(updatedPassengers);
 
-    // Atualiza o sessionStorage usando a mesma chave
-    const currentData = JSON.parse(sessionStorage.getItem('formData-travel') || '{}');
+    const currentData = loadFromStorage('formData-travel', {});
     currentData.passengers = updatedPassengers;
-    sessionStorage.setItem('formData-travel', JSON.stringify(currentData));
+    saveToStorage('formData-travel', currentData);
   };
 
 
 
+  // Função para remover um passageiro
   const handleRemovePassenger = (id) => {
     const updatedPassengers = passengers.filter((_, index) => index !== id);
     setPassengers(updatedPassengers);
@@ -591,13 +597,21 @@ const Passengers = ({
       return updatedErrors;
     });
 
-    return Object.values(errors).some((err) => err);
+    const hasErrors = Object.values(errors).some((err) => err);
+
+    if (!hasErrors) {
+      setPassengerEditingStatus((prevStatus) =>
+        prevStatus.map((status, index) => (index === id ? false : status))
+      );
+    }
+
+    return hasErrors;
   };
 
   // Função para adicionar um passageiro
   const addPassenger = () => {
     // Declara a variável dentro do escopo da função
-    const storedData = sessionStorage.getItem('formData-travel');
+    const storedData = sessionStorage.getItem('editQuote');
     let totalAllowed = 0;
     if (storedData) {
       const parsedData = JSON.parse(storedData);
@@ -616,7 +630,7 @@ const Passengers = ({
 
   // Em outro local, para calcular o total para renderização do botão:
   let totalAllowed = 0;
-  const storedDataForTotal = sessionStorage.getItem('formData-travel'); // Nova variável definida aqui
+  const storedDataForTotal = sessionStorage.getItem('editQuote'); // Nova variável definida aqui
   if (storedDataForTotal) {
     const parsedData = JSON.parse(storedDataForTotal);
     if (parsedData.olds) {
@@ -638,11 +652,18 @@ const Passengers = ({
             key={index}
             id={index}
             data={passenger}
+            isEditing={passengerEditingStatus[index]} // Passa o estado de edição
             onChange={handlePassengerChange}
             onRemove={handleRemovePassenger}
-            onSave={() => handleSavePassenger(index)} // Valida os dados
-            errors={passengerErrors[index] || {}} // Passa os erros do passageiro específico
+            onSave={() => handleSavePassenger(index)}
+            errors={passengerErrors[index] || {}}
+            setIsEditing={(editing) =>
+              setPassengerEditingStatus((prev) =>
+                prev.map((status, i) => (i === index ? editing : status))
+              )
+            }
           />
+
         ))}
         <button
           className={`px-4 py-2 mt-4 rounded-md text-white ${isResponsibleSaved ? 'bg-bluePrime' : 'bg-gray-400 opacity-50'
