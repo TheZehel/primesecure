@@ -27,6 +27,11 @@ import SomeToppings from "./components/subcomponents/SomeToppings";
 import BannerPromos from "./components/subcomponents/BannerPromos";
 import StepsHiring from "./components/subcomponents/HiringSteps";
 import BannerPromo from "./components/subcomponents/BannerPromo";
+import FormTravelBanner2 from "./components/FormTravelBanner2";
+import NewPlans from "./components/subcomponents/newPlans";
+import Diferenciais from "./components/subcomponents/diferenciais";
+import ComoUtilizar from "./components/subcomponents/comoUtilizar";
+import UmaSolucao from "./components/subcomponents/umaSolucao";
 
 function IndexTravel() {
   const FaqRef = useRef();
@@ -77,14 +82,17 @@ function IndexTravel() {
       {/*<BannerPromos />*/}
       <BannerPromo />
       {/*<CountDown targetDate={targetDate} />*/}
-      <FormTravelBanner />
+      <FormTravelBanner2 />
       <FaixaBanner />
       <StepsHiring />
       {/*<BrindeTravel />*/}
       <SomeToppings />
+      <Diferenciais />
+      <ComoUtilizar />
       <AlbertEinstein />
       <ContainerCoberturas />
-      {<SliderPlanos />}
+      <UmaSolucao />
+      {/* {<SliderPlanos />} */}
       {/*<TelemedicinaTravel />*/}
       <ContainerContato scroll={scrollToFaq} />
       {/*<ContainerDepoimetos />*/}

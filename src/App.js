@@ -74,6 +74,7 @@ import InvoicePaymentVida from "./components/seguro-de-vida/InvoicePaymentVida";
 import IndexConsorcioImovel from "./components/consorcio-imovel/index.js";
 import IndexConsorcioAuto from "./components/consorcio-auto/index.js";
 import IndexCotacaoTravel from "./components/primetravel/cotador/indexCotacaoTravel.js";
+import IndexVidaOmint from "./components/vida-omint/indexVidaOmint.js";
 
 /**
  *  Componente para fazer o scroll para o topo da página
@@ -248,6 +249,8 @@ function App() {
             path="/seguro-bike/cotacao/pagamento-confirmado"
             element={<IndexCotacaoSeguroBike />}
           />
+          {/* ROTAS SEGURO OMINT VIDA */}
+          <Route path="/seguro-vida-omint" element={<IndexVidaOmint />} />
           {/* ROTAS SEGURO CELULAR KAKAU */}
           <Route
             path="/seguro-celular-kakau"

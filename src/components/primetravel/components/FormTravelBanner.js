@@ -493,7 +493,7 @@ export default function FormTravelBanner() {
               Faça Sua Cotação Gratuita
             </h2>
             <p className="mt-2 text-[14px] leading-8 text-gray-600">
-              Inicie sua cotação online preenchendo o formulário abaixo.
+              Inicie sua cotação online a preenchendo o formulário abaixo.
             </p>
             <form
               action=""

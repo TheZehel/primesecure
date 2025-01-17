@@ -71,6 +71,13 @@ const products = [
     iconProps: { icon: faHouse },
   },
   {
+    name: "Seguro de Vida Omint",
+    description: "Planos de Proteção Para Sua Vida.",
+    href: `/seguro-vida-omint${utmParams ? "?" + utmParams : ""}`,
+    icon: FontAwesomeIcon,
+    iconProps: { icon: faHeart },
+  },
+  {
     name: "Seguro Pet",
     description: "Planos de Proteção Seu Pet.",
     href: `/seguro-pet-porto${utmParams ? "?" + utmParams : ""}`,
