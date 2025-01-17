@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { DatePicker } from 'antd';
 import { Pen, Save } from 'lucide-react';
 import locale from 'antd/lib/date-picker/locale/pt_BR';
@@ -22,72 +22,65 @@ const ageGroups = [
   { label: '86 a 99 anos', id: 2 },
 ];
 
+const defaultState = {
+  SessionID: '9728E25D9CAA49CA9CA06DF047F2280A',
+  CodigoDestino: '',
+  CodigoMotivoViagem: '',
+  IncluiEuropa: '0',
+  DataInicioViagem: null,
+  DataFinalViagem: null,
+  QtdePassSenior: '0',
+  QtdePassNaoSenior: '0',
+  CupomDesconto: '',
+  DiasMultiviagem: '0',
+  CodigoTipoProduto: '',
+  CNPJ: '',
+  olds: [0, 0, 0],
+  // Utilizaremos selectedOption para o destino, além de um campo destiny, se necessário
+  selectedOption: null,
+  destiny: null,
+  reason: {},
+  name: '',
+  email: '',
+  phone: '',
+};
+
 const EditQuote = () => {
-  const [formData, setFormData] = useState({
-    SessionID: '9728E25D9CAA49CA9CA06DF047F2280A',
-    CodigoDestino: '',
-    CodigoMotivoViagem: '',
-    IncluiEuropa: '0',
-    DataInicioViagem: null,
-    DataFinalViagem: null,
-    QtdePassSenior: '0',
-    QtdePassNaoSenior: '0',
-    CupomDesconto: '',
-    DiasMultiviagem: '0',
-    CodigoTipoProduto: '',
-    CNPJ: '',
-    olds: [0, 0, 0],
-    selectedOption: null,
-    // Campos extras do sessionStorage
-    reason: {},
-    name: '',
-    email: '',
-    phone: '',
+  // Lazy initialization: tenta carregar os dados do sessionStorage
+  const [formData, setFormData] = useState(() => {
+    const stored = sessionStorage.getItem('formData-travel');
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      // Converte as datas, se estiverem no formato "YYYY-MM-DD"
+      if (parsed.departure) {
+        parsed.DataInicioViagem = moment(parsed.departure, 'YYYY-MM-DD');
+      }
+      if (parsed.arrival) {
+        parsed.DataFinalViagem = moment(parsed.arrival, 'YYYY-MM-DD');
+      }
+      // Se selectedOption for uma string, converte para objeto usando o array destinations
+      if (typeof parsed.selectedOption === 'string') {
+        const found = destinations.find(
+          (dest) => dest.value === parsed.selectedOption
+        );
+        parsed.selectedOption = found ? found : null;
+      }
+      // Se não houver selectedOption e houver CodigoDestino, tenta encontrar pelo code
+      if (!parsed.selectedOption && parsed.CodigoDestino) {
+        const found = destinations.find((dest) => dest.code === parsed.CodigoDestino);
+        parsed.selectedOption = found || null;
+      }
+      // Se não houver a propriedade destiny, define-a igual a selectedOption
+      if (!parsed.destiny && parsed.selectedOption) {
+        parsed.destiny = parsed.selectedOption;
+      }
+      return { ...defaultState, ...parsed };
+    }
+    return defaultState;
   });
+
   const [modalOpen, setModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-
-  //  Load and Save formData in sessionStorage
-  useEffect(() => {
-    const storedFormData = sessionStorage.getItem('formData-travel');
-    if (storedFormData) {
-      const parsedData = JSON.parse(storedFormData);
-
-      setFormData({
-        ...formData,
-        ...parsedData,
-        // Mapeando departure/arrival para DataInicioViagem/DataFinalViagem
-        DataInicioViagem: parsedData.departure
-          ? moment(parsedData.departure, 'YYYY-MM-DD')
-          : null,
-        DataFinalViagem: parsedData.arrival
-          ? moment(parsedData.arrival, 'YYYY-MM-DD')
-          : null,
-      });
-    }
-  }, []);
-
-  useEffect(() => {
-    const dataToStore = {
-      ...formData,
-      // Se quiser manter o mesmo padrão do que já estava salvo no storage, inclua reason, name, email, phone etc.
-      reason: formData.reason,
-      name: formData.name,
-      email: formData.email,
-      phone: formData.phone,
-
-      // Mapeando DataInicioViagem/DataFinalViagem de volta para departure/arrival
-      departure: formData.DataInicioViagem
-        ? formData.DataInicioViagem.format('YYYY-MM-DD')
-        : null,
-      arrival: formData.DataFinalViagem
-        ? formData.DataFinalViagem.format('YYYY-MM-DD')
-        : null,
-    };
-
-    sessionStorage.setItem('formData-travel', JSON.stringify(dataToStore));
-  }, [formData]);
-
 
   const handleOld = (index, value) => {
     let formOlds = [...formData.olds];
@@ -96,10 +89,8 @@ const EditQuote = () => {
     } else if (value === -1 && formOlds[index] > 0) {
       formOlds[index] -= 1;
     }
-
     const seniorPassengers = formOlds[1] + formOlds[2];
     const nonSeniorPassengers = formOlds[0];
-
     setFormData({
       ...formData,
       olds: formOlds,
@@ -113,18 +104,31 @@ const EditQuote = () => {
   const handleSave = () => {
     setIsEditing(false);
     console.log('Dados salvos:', formData);
+
+    const dataToStore = {
+      ...formData,
+      departure: formData.DataInicioViagem
+        ? formData.DataInicioViagem.format('YYYY-MM-DD')
+        : null,
+      arrival: formData.DataFinalViagem
+        ? formData.DataFinalViagem.format('YYYY-MM-DD')
+        : null,
+    };
+
+    sessionStorage.setItem('formData-travel', JSON.stringify(dataToStore));
   };
+
 
   const selectHandler = (e) => {
     const selectedValue = e.target.value;
     const selectedDest = destinations.find(
-      (dest) => dest.value === selectedValue,
+      (dest) => dest.value === selectedValue
     );
     const isEurope = selectedValue === '4';
-
     setFormData({
       ...formData,
       selectedOption: selectedDest,
+      destiny: selectedDest, // Atualiza também o destino
       CodigoDestino: selectedDest ? selectedDest.code : '',
       IncluiEuropa: isEurope ? '1' : '0',
     });
@@ -151,18 +155,14 @@ const EditQuote = () => {
     }));
   };
 
-  const disabledDepartureDate = (current) => {
-    return current && current.isBefore(moment().startOf('day'));
-  };
+  const disabledDepartureDate = (current) =>
+    current && current.isBefore(moment().startOf('day'));
 
-  const disabledArrivalDate = (current) => {
-    return (
-      (formData.DataInicioViagem &&
-        current &&
-        current.isBefore(formData.DataInicioViagem)) ||
-      (current && current.isBefore(moment().startOf('day')))
-    );
-  };
+  const disabledArrivalDate = (current) =>
+    (formData.DataInicioViagem &&
+      current &&
+      current.isBefore(formData.DataInicioViagem)) ||
+    (current && current.isBefore(moment().startOf('day')));
 
   return (
     <div className="bg-white border rounded-lg shadow-md p-4 sm:p-2 mr-2 ml-2 max-w-[calc(100%-16px)]">
@@ -238,9 +238,7 @@ const EditQuote = () => {
           ) : (
             <p className="text-base sm:text-sm md:text-base text-center">
               {formData.DataInicioViagem && formData.DataFinalViagem
-                ? `De ${formData.DataInicioViagem.format(
-                  'DD/MM/YYYY',
-                )} até ${formData.DataFinalViagem.format('DD/MM/YYYY')}`
+                ? `De ${formData.DataInicioViagem.format('DD/MM/YYYY')} até ${formData.DataFinalViagem.format('DD/MM/YYYY')}`
                 : 'Período não selecionado'}
             </p>
           )}
@@ -268,7 +266,7 @@ const EditQuote = () => {
       </div>
 
       {/* Layout para telas menores */}
-      <div className=" lg:hidden text-xs flex flex-col space-y-2">
+      <div className="lg:hidden text-xs flex flex-col space-y-2">
         {isEditing ? (
           <>
             <div className="flex flex-col space-y-4">
@@ -360,11 +358,9 @@ const EditQuote = () => {
             </button>
           )}
         </div>
-
       </div>
 
-
-      {/* Modal permanece intacto */}
+      {/* Modal */}
       {modalOpen && (
         <>
           <div className="fixed inset-0 bg-black bg-opacity-50 z-[1000]" />
@@ -372,10 +368,7 @@ const EditQuote = () => {
             <div className="bg-white p-4 rounded-lg shadow-lg max-w-md w-full">
               <h2 className="text-xl font-bold mb-4">Idade dos Passageiros</h2>
               {ageGroups.map((group, index) => (
-                <div
-                  key={group.id}
-                  className="flex items-center justify-between mb-2"
-                >
+                <div key={group.id} className="flex items-center justify-between mb-2">
                   <h3 className="text-xl">{group.label}</h3>
                   <div className="flex items-center justify-around w-32">
                     <button

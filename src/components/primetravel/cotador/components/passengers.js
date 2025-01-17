@@ -309,9 +309,8 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
 
 // Componente para Passageiros Adicionais
 const Passenger = ({ id, data, onChange, onRemove, onSave, errors }) => {
-  // Adicione 'errors' aqui
+  const [isEditing, setIsEditing] = useState(false); // Começa com isEditing false para seguir o padrão de visualização, igual ao FirstPassenger
 
-  const [isEditing, setIsEditing] = useState(true);
   const handleSave = () => {
     const hasErrors = onSave(id);
     if (!hasErrors) {
@@ -420,28 +419,28 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors }) => {
           </div>
         </>
       ) : (
-        // Visualização como Card
-        <div className="flex justify-between items-center">
-          <div>
-            <h3 className="text-base sm:text-lg md:text-xl font-bold text-[#313131] flex items-center">
-              <UsersRound size={20} className="mr-2 text-bluePrime" />
-              Passageiro {id + 2}
-            </h3>
-
-            <p>
-              Nome: {data.firstName} {data.secondName}
-            </p>
-            <p>CPF: {data.CPF}</p>
+        // Modo de visualização (Card)
+        <div className="mb-4">
+          <div className="flex justify-between items-center">
+            <div>
+              <h2 className="text-base sm:text-lg md:text-xl font-bold text-[#313131] flex items-center">
+                <UsersRound size={20} className="mr-2 text-bluePrime" />
+                Passageiro {id + 2}
+              </h2>
+              <p>Nome: {data.firstName} {data.secondName}</p>
+              <p>CPF: {data.CPF}</p>
+            </div>
+            <button
+              className="bg-yellow-500 px-4 py-2 text-white rounded-md flex items-center"
+              onClick={() => setIsEditing(true)}
+            >
+              <Edit className="inline-block mr-2" />
+              Editar
+            </button>
           </div>
-          <button
-            className="bg-yellow-500 px-4 py-2 text-white rounded-md"
-            onClick={() => setIsEditing(true)} // Alterna para o modo de edição
-          >
-            <Edit className="inline-block mr-2" />
-            Editar
-          </button>
         </div>
       )}
+
     </div>
   );
 };
@@ -462,7 +461,7 @@ const Passengers = ({
 
   // Carregar dados do sessionStorage ao montar o componente
   useEffect(() => {
-    const storedData = sessionStorage.getItem('formData-Travel');
+    const storedData = sessionStorage.getItem('formData-travel');
     if (storedData) {
       const parsedData = JSON.parse(storedData);
       if (parsedData.passengers) {
@@ -470,7 +469,6 @@ const Passengers = ({
       }
       if (parsedData.responsibleData) {
         setResponsibleData(parsedData.responsibleData);
-        // Pode adicionar um log para ver o valor do zipCode
         console.log('Responsável recuperado:', parsedData.responsibleData);
       }
     }
@@ -480,8 +478,9 @@ const Passengers = ({
   // Executa apenas uma vez
 
   // Salvar dados dos passageiros no sessionStorage ao alterar
+  // Salvar dados dos passageiros no sessionStorage ao alterar
   useEffect(() => {
-    const storedData = sessionStorage.getItem('formData-Travel');
+    const storedData = sessionStorage.getItem('formData-travel');
     const storedIsResponsible = sessionStorage.getItem('isResponsibleSaved');
 
     if (storedData) {
@@ -496,12 +495,11 @@ const Passengers = ({
       }
     }
 
-    // Se existir 'isResponsibleSaved' salvo e for 'true', seta no estado
     if (storedIsResponsible === 'true') {
       setIsResponsibleSaved(true);
     }
   }, [setResponsibleData]);
-  ;
+
 
 
   // Valida e salva o passageiro responsável
@@ -562,11 +560,12 @@ const Passengers = ({
     );
     setPassengers(updatedPassengers);
 
-    // Atualiza o sessionStorage
-    const currentData = JSON.parse(sessionStorage.getItem('formData-Travel') || '{}');
+    // Atualiza o sessionStorage usando a mesma chave
+    const currentData = JSON.parse(sessionStorage.getItem('formData-travel') || '{}');
     currentData.passengers = updatedPassengers;
-    sessionStorage.setItem('formData-Travel', JSON.stringify(currentData));
+    sessionStorage.setItem('formData-travel', JSON.stringify(currentData));
   };
+
 
 
   const handleRemovePassenger = (id) => {
@@ -595,10 +594,35 @@ const Passengers = ({
     return Object.values(errors).some((err) => err);
   };
 
+  // Função para adicionar um passageiro
   const addPassenger = () => {
-    if (passengers.length >= 6) return;
+    // Declara a variável dentro do escopo da função
+    const storedData = sessionStorage.getItem('formData-travel');
+    let totalAllowed = 0;
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+      if (parsedData.olds) {
+        totalAllowed = parsedData.olds.reduce((sum, value) => sum + value, 0);
+      }
+    }
+
+    // Se o passageiro responsável já conta como um, limite os adicionais
+    const allowedAdditionalPassengers = totalAllowed - 1;
+
+    if (passengers.length >= allowedAdditionalPassengers) return;
+
     setPassengers([...passengers, { firstName: '', secondName: '', CPF: '' }]);
   };
+
+  // Em outro local, para calcular o total para renderização do botão:
+  let totalAllowed = 0;
+  const storedDataForTotal = sessionStorage.getItem('formData-travel'); // Nova variável definida aqui
+  if (storedDataForTotal) {
+    const parsedData = JSON.parse(storedDataForTotal);
+    if (parsedData.olds) {
+      totalAllowed = parsedData.olds.reduce((sum, value) => sum + value, 0);
+    }
+  }
 
   return (
     <div>
@@ -608,7 +632,7 @@ const Passengers = ({
         errors={responsibleErrors}
         onSave={handleSaveResponsible} // Chama a validação do responsável
       />
-      <div className="mt-4">
+      <div className="mt-4 space-y-4">
         {passengers.map((passenger, index) => (
           <Passenger
             key={index}
@@ -624,7 +648,7 @@ const Passengers = ({
           className={`px-4 py-2 mt-4 rounded-md text-white ${isResponsibleSaved ? 'bg-bluePrime' : 'bg-gray-400 opacity-50'
             }`}
           onClick={addPassenger}
-          disabled={!isResponsibleSaved}
+          disabled={passengers.length >= (totalAllowed - 1)}
         >
           <CirclePlus className="inline-block mr-2" />
           Adicionar Passageiro

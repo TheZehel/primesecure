@@ -94,16 +94,14 @@ export default function FormTravelBanner2() {
 
     const currentPath = window.location.pathname;
 
-    // Salvar formData no sessionStorage
-    sessionStorage.setItem('formData', JSON.stringify(formData));
+
 
     try {
       const [rdResponse] = await Promise.all([axios.request(rdOptions)]);
 
       console.log('Resposta da RD Station:', rdResponse.data);
 
-      // Salva na sessão antes do redirect
-      sessionStorage.setItem('formData-travel', JSON.stringify(payload));
+
 
       // Envia Log de Sucesso do envio para a RD Station
       let logPayload = {
@@ -230,22 +228,23 @@ export default function FormTravelBanner2() {
       ...utmParams,
     };
 
-    // Simula validação de dados
+    // Validação dos campos obrigatórios
     if (!payload.name || !payload.email || !payload.phone) {
       setErrorList(['Preencha todos os campos obrigatórios.']);
       return;
     }
 
     try {
-      // Simula envio de dados (use sua lógica real com axios ou fetch)
       console.log('Enviando dados...', payload);
 
-      // Redireciona para a página de cotação
+      // Aqui você salva os dados do formData no sessionStorage
+      console.log('Salvando formData no sessionStorage:', formData);
+      sessionStorage.setItem('formData-travel', JSON.stringify(formData));
+
+      // Redireciona para a página desejada
       navigate('/cotacao-primetravel');
     } catch (error) {
       console.error('Erro ao enviar dados:', error);
-
-      // Redireciona mesmo em caso de erro
       navigate('/cotacao-primetravel');
     }
   };
@@ -358,18 +357,14 @@ export default function FormTravelBanner2() {
     arrival: null,
   });
 
-  useEffect(() => {
-    // Carregar dados do sessionStorage quando o componente é montado
-    const storedFormData = sessionStorage.getItem('formData-travel');
-    if (storedFormData) {
-      setFormData(JSON.parse(storedFormData));
-    }
-  }, []);
+  // useEffect(() => {
+  //   // Carregar dados do sessionStorage quando o componente é montado
 
-  useEffect(() => {
-    // Salvar automaticamente o formData no sessionStorage
-    sessionStorage.setItem('formData-travel', JSON.stringify(formData));
-  }, [formData]);
+  //   const storedFormData = sessionStorage.getItem('formData-travel');
+  //   if (storedFormData) {
+  //     setFormData(JSON.parse(storedFormData));
+  //   }
+  // }, []);
 
   return (
     <ConfigProvider locale={locale}>
