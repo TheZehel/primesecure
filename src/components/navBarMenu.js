@@ -1,22 +1,22 @@
-import React, { Fragment } from "react";
-import { useState, useEffect } from "react";
-import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
-import { scroller, Link as LinkScroller } from "react-scroll";
-import imageManager from "./bancoDeImagens";
-import classNames from "classnames";
-import { useNavigate, Link } from "react-router-dom";
-import GlobalFuntions from "../components/globalsubcomponentes/globalFunctions";
+import React, { Fragment } from 'react';
+import { useState, useEffect } from 'react';
+import { Dialog, Disclosure, Popover, Transition } from '@headlessui/react';
+import { scroller, Link as LinkScroller } from 'react-scroll';
+import imageManager from './bancoDeImagens';
+import classNames from 'classnames';
+import { useNavigate, Link } from 'react-router-dom';
+import GlobalFuntions from '../components/globalsubcomponentes/globalFunctions';
 
 //Icones - HeroIcon
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import {
   ChevronDownIcon,
   PlayCircleIcon,
   PhoneIcon,
-} from "@heroicons/react/20/solid";
+} from '@heroicons/react/20/solid';
 
 //Icones - FontAwesome
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faPaw,
   faTooth,
@@ -35,152 +35,152 @@ import {
   faPhoneAlt,
   faMobilePhone,
   faUser,
-} from "@fortawesome/free-solid-svg-icons";
+} from '@fortawesome/free-solid-svg-icons';
 
 const globalFunctions = new GlobalFuntions();
 
-const utmParams = globalFunctions.getCampaignParams("string");
+const utmParams = globalFunctions.getCampaignParams('string');
 
 const products = [
   {
-    name: "Seguro Viagem",
-    description: "Contratação 100% Online",
-    href: `/primetravel${utmParams ? "?" + utmParams : ""}`,
+    name: 'Seguro Viagem',
+    description: 'Contratação 100% Online',
+    href: `/primetravel${utmParams ? '?' + utmParams : ''}`,
     icon: FontAwesomeIcon,
     iconProps: { icon: faPlane },
   },
   {
-    name: "Seguro Bike Kakau",
-    description: "Proteção para sua Bike",
-    href: `/seguro-bike${utmParams ? "?" + utmParams : ""}`,
+    name: 'Seguro Bike Kakau',
+    description: 'Proteção para sua Bike',
+    href: `/seguro-bike${utmParams ? '?' + utmParams : ''}`,
     icon: FontAwesomeIcon,
     iconProps: { icon: faBicycle },
   },
   {
-    name: "Seguro Celular Kakau",
-    description: "Proteção para o Seu Celular",
-    href: `/seguro-celular-kakau${utmParams ? "?" + utmParams : ""}`,
+    name: 'Seguro Celular Kakau',
+    description: 'Proteção para o Seu Celular',
+    href: `/seguro-celular-kakau${utmParams ? '?' + utmParams : ''}`,
     icon: FontAwesomeIcon,
     iconProps: { icon: faMobilePhone },
   },
   {
-    name: "Seguro Residencial",
-    description: "Planos de Proteção Para a Sua Residencia.",
-    href: `/seguro-residencial-porto-2${utmParams ? "?" + utmParams : ""}`,
+    name: 'Seguro Residencial',
+    description: 'Planos de Proteção Para a Sua Residencia.',
+    href: `/seguro-residencial-porto-2${utmParams ? '?' + utmParams : ''}`,
     icon: FontAwesomeIcon,
     iconProps: { icon: faHouse },
   },
   {
-    name: "Seguro de Vida Omint",
-    description: "Planos de Proteção Para Sua Vida.",
-    href: `/seguro-vida-omint${utmParams ? "?" + utmParams : ""}`,
+    name: 'Seguro de Vida Omint',
+    description: 'Planos de Proteção Para Sua Vida.',
+    href: `/seguro-vida-omint${utmParams ? '?' + utmParams : ''}`,
     icon: FontAwesomeIcon,
     iconProps: { icon: faHeart },
   },
   {
-    name: "Seguro Pet",
-    description: "Planos de Proteção Seu Pet.",
-    href: `/seguro-pet-porto${utmParams ? "?" + utmParams : ""}`,
+    name: 'Seguro Pet',
+    description: 'Planos de Proteção Seu Pet.',
+    href: `/seguro-pet-porto${utmParams ? '?' + utmParams : ''}`,
     icon: FontAwesomeIcon,
     iconProps: { icon: faPaw },
   },
   {
-    name: "Odonto",
-    description: "Planos de Proteção Odonto.",
-    href: "https://odontosulamerica.com.br/",
+    name: 'Odonto',
+    description: 'Planos de Proteção Odonto.',
+    href: 'https://odontosulamerica.com.br/',
     icon: FontAwesomeIcon,
     iconProps: { icon: faTooth },
   },
   {
-    name: "Vida",
-    description: "Planos de Proteção Para Sua Vida",
-    href: "/seguro-de-vida",
+    name: 'Vida',
+    description: 'Planos de Proteção Para Sua Vida',
+    href: '/seguro-de-vida',
     icon: FontAwesomeIcon,
     iconProps: { icon: faHeart },
   },
   {
-    name: "Celular",
-    description: "Planos de Proteção Para o Seu Celular",
-    href: "/equipamentos-portateis-3",
+    name: 'Celular',
+    description: 'Planos de Proteção Para o Seu Celular',
+    href: '/equipamentos-portateis-3',
     icon: FontAwesomeIcon,
     iconProps: { icon: faMobile },
   },
   {
-    name: "Consórcio Imóvel",
-    description: "Para quem busca realizar o sonho da casa própria",
-    href: "/consorcio-imovel",
+    name: 'Consórcio Imóvel',
+    description: 'Para quem busca realizar o sonho da casa própria',
+    href: '/consorcio-imovel',
     icon: FontAwesomeIcon,
     iconProps: { icon: faBuilding },
   },
   {
-    name: "Consórcio Auto",
-    description: "Para quem busca realizar o sonho do carro novo",
-    href: "/consorcio-auto",
+    name: 'Consórcio Auto',
+    description: 'Para quem busca realizar o sonho do carro novo',
+    href: '/consorcio-auto',
     icon: FontAwesomeIcon,
     iconProps: { icon: faCarOn },
   },
   {
-    name: "Saúde",
-    description: "Para quem busca cuidar de si próprio",
-    href: "https://primesecureprodutos.com.br/planos-de-saude/",
+    name: 'Saúde',
+    description: 'Para quem busca cuidar de si próprio',
+    href: 'https://primesecureprodutos.com.br/planos-de-saude/',
     icon: FontAwesomeIcon,
     iconProps: { icon: faMedkit },
   },
   {
-    name: "Seguro de Vida Azos",
-    description: "Para quem busca cuidar de si próprio",
-    href: "https://primesecureprodutos.com.br/seguro-de-vida-prime-azos/",
+    name: 'Seguro de Vida Azos',
+    description: 'Para quem busca cuidar de si próprio',
+    href: 'https://primesecureprodutos.com.br/seguro-de-vida-prime-azos/',
     icon: FontAwesomeIcon,
     iconProps: { icon: faHeartCircleCheck },
   },
   {
-    name: "Chip Internacional",
-    description: "Para quem quer comunicação sem fronteiras",
-    href: "https://primechip.com.br/",
+    name: 'Chip Internacional',
+    description: 'Para quem quer comunicação sem fronteiras',
+    href: 'https://primechip.com.br/',
     icon: FontAwesomeIcon,
     iconProps: { icon: faMicrochip },
   },
 ];
 
 const callsToAction = [
-  { name: "Conheça a Prime", href: "/sobre", icon: PlayCircleIcon },
-  { name: "Fale Conosco", href: "/contato", icon: PhoneIcon },
+  { name: 'Conheça a Prime', href: '/sobre', icon: PlayCircleIcon },
+  { name: 'Fale Conosco', href: '/contato', icon: PhoneIcon },
 ];
 
 const menu = [
   {
-    name: "Sobre a Prime",
-    href: "/sobre",
+    name: 'Sobre a Prime',
+    href: '/sobre',
   },
   {
-    name: "Contato",
-    href: "/contato",
+    name: 'Contato',
+    href: '/contato',
   },
   {
-    name: "Blog",
-    href: "https://blog.primesecure.com.br/",
+    name: 'Blog',
+    href: 'https://blog.primesecure.com.br/',
   },
 ];
 
 const pathToLogoMap = {
-  "/seguro-pet-porto": imageManager.brand.logoPrimeSecurePetLove,
-  "/seguro-pet-porto/": imageManager.brand.logoPrimeSecurePetLove,
-  "/sulamerica-odonto": imageManager.brand.logoPrimeSecureSulamerica,
-  "/sulamerica-odonto/": imageManager.brand.logoPrimeSecureSulamerica,
-  "/seguro-de-vida": imageManager.brand.logoPrimeSecureSulamerica,
-  "/seguro-de-vida/": imageManager.brand.logoPrimeSecureSulamerica,
-  "/seguro-residencial-porto-2": imageManager.brand.logoPrimeSecurePorto,
-  "/seguro-residencial-porto-2/": imageManager.brand.logoPrimeSecurePorto,
-  "/equipamentos-portateis-3": imageManager.brand.logoPrimeSecurePorto,
-  "/equipamentos-portateis-3/": imageManager.brand.logoPrimeSecurePorto,
-  "/seguro-bike": imageManager.brand.logoPrimeSecureKakau,
-  "/seguro-bike/": imageManager.brand.logoPrimeSecureKakau,
-  "/seguro-celular-kakau": imageManager.brand.logoPrimeSecureKakau,
-  "/seguro-celular-kakau/": imageManager.brand.logoPrimeSecureKakau,
-  "/consorcio-auto": imageManager.brand.logoPrimeSecurePorto,
-  "/consorcio-auto/": imageManager.brand.logoPrimeSecurePorto,
-  "/consorcio-imovel": imageManager.brand.logoPrimeSecurePorto,
-  "/consorcio-imovel/": imageManager.brand.logoPrimeSecurePorto,
+  '/seguro-pet-porto': imageManager.brand.logoPrimeSecurePetLove,
+  '/seguro-pet-porto/': imageManager.brand.logoPrimeSecurePetLove,
+  '/sulamerica-odonto': imageManager.brand.logoPrimeSecureSulamerica,
+  '/sulamerica-odonto/': imageManager.brand.logoPrimeSecureSulamerica,
+  '/seguro-de-vida': imageManager.brand.logoPrimeSecureSulamerica,
+  '/seguro-de-vida/': imageManager.brand.logoPrimeSecureSulamerica,
+  '/seguro-residencial-porto-2': imageManager.brand.logoPrimeSecurePorto,
+  '/seguro-residencial-porto-2/': imageManager.brand.logoPrimeSecurePorto,
+  '/equipamentos-portateis-3': imageManager.brand.logoPrimeSecurePorto,
+  '/equipamentos-portateis-3/': imageManager.brand.logoPrimeSecurePorto,
+  '/seguro-bike': imageManager.brand.logoPrimeSecureKakau,
+  '/seguro-bike/': imageManager.brand.logoPrimeSecureKakau,
+  '/seguro-celular-kakau': imageManager.brand.logoPrimeSecureKakau,
+  '/seguro-celular-kakau/': imageManager.brand.logoPrimeSecureKakau,
+  '/consorcio-auto': imageManager.brand.logoPrimeSecurePorto,
+  '/consorcio-auto/': imageManager.brand.logoPrimeSecurePorto,
+  '/consorcio-imovel': imageManager.brand.logoPrimeSecurePorto,
+  '/consorcio-imovel/': imageManager.brand.logoPrimeSecurePorto,
 };
 
 function NavBarMenu() {
@@ -198,13 +198,13 @@ function NavBarMenu() {
     scroller.scrollTo(sectionId, {
       duration: 800,
       delay: 0,
-      smooth: "easeInOutQuart",
+      smooth: 'easeInOutQuart',
     });
   };
 
   const navigateToPath = (paths) => {
     // split the path into pagePath and sectionId
-    const [pagePath, sectionId] = paths.split("#");
+    const [pagePath, sectionId] = paths.split('#');
 
     // if pagePath exists in the paths array, navigate to the page
     if (paths.includes(pagePath)) {
@@ -216,10 +216,10 @@ function NavBarMenu() {
           scrollToSection(sectionId);
         } else {
           // Scroll to the top of the new page
-          scroller.scrollTo("top", {
+          scroller.scrollTo('top', {
             duration: 800,
             delay: 0,
-            smooth: "easeInOutQuart",
+            smooth: 'easeInOutQuart',
           });
         }
       }, 500); // Delay
@@ -259,10 +259,10 @@ function NavBarMenu() {
       setLastScrollPosition(currentScrollPosition);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, [lastScrollPosition, hasScrolled]);
 
@@ -281,7 +281,7 @@ function NavBarMenu() {
     const productName = globalFunctions.getPageName(pageSlug);
 
     const productList = products.filter(
-      (product) => product.name !== productName
+      (product) => product.name !== productName,
     );
 
     //console.log(pageSlug);
@@ -294,19 +294,19 @@ function NavBarMenu() {
   const customStyles = {
     control: (provided) => ({
       ...provided,
-      cursor: "pointer",
+      cursor: 'pointer',
       // Adiciona estilos para o controle aqui, se necessário
     }),
     option: (provided, state) => ({
       ...provided,
-      cursor: "pointer",
-      border: "80px", // Corrigido para 'none' ou especifique uma largura válida e estilo de borda, por exemplo, '1px solid #ccc'
-      backgroundColor: state.isSelected ? "#03a8db" : "white",
-      color: state.isSelected ? "white" : "#313131",
-      "&:hover": {
-        backgroundColor: "lightblue",
+      cursor: 'pointer',
+      border: '80px', // Corrigido para 'none' ou especifique uma largura válida e estilo de borda, por exemplo, '1px solid #ccc'
+      backgroundColor: state.isSelected ? '#03a8db' : 'white',
+      color: state.isSelected ? 'white' : '#313131',
+      '&:hover': {
+        backgroundColor: 'lightblue',
       },
-      with: "80%",
+      with: '80%',
       // Adiciona outros estilos de opção aqui, se necessário
     }),
     menu: (provided) => ({
@@ -316,17 +316,17 @@ function NavBarMenu() {
     menuList: (provided) => ({
       ...provided,
       // Aqui vamos adicionar o estilo para a barra de rolagem
-      "::-webkit-scrollbar": {
-        width: "3px",
+      '::-webkit-scrollbar': {
+        width: '3px',
       },
-      "::-webkit-scrollbar-track": {
-        background: "#f1f1f1",
+      '::-webkit-scrollbar-track': {
+        background: '#f1f1f1',
       },
-      "::-webkit-scrollbar-thumb": {
-        background: "#03a8db",
+      '::-webkit-scrollbar-thumb': {
+        background: '#03a8db',
       },
-      "::-webkit-scrollbar-thumb:hover": {
-        background: "#555",
+      '::-webkit-scrollbar-thumb:hover': {
+        background: '#555',
       },
     }),
     menuPortal: (base) => ({ ...base, zIndex: 9999 }),
@@ -336,13 +336,13 @@ function NavBarMenu() {
   return (
     <header
       className={classNames(
-        "bg-white  font-montserrat z-[900] shadow transition-transform duration-2000 ease-in-out",
+        'bg-white  font-montserrat z-[900] shadow transition-transform duration-2000 ease-in-out',
         {
-          "fixed top-0 w-full z-[900] transform translate-y-0":
+          'fixed top-0 w-full z-[900] transform translate-y-0':
             isMenuFixed && isMenuVisible,
-          "transform -translate-y-full":
+          'transform -translate-y-full':
             hasScrolled && !(isMenuFixed && isMenuVisible),
-        }
+        },
       )}
     >
       <nav
@@ -393,7 +393,7 @@ function NavBarMenu() {
             >
               <Popover.Panel
                 className="custom-scrollbar absolute -left-8 top-full z-[900] mt-3 w-screen max-w-md rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5 overflow-auto"
-                style={{ maxHeight: "90vh" }}
+                style={{ maxHeight: '90vh' }}
                 styles={customStyles}
               >
                 <div className="p-4">
@@ -404,12 +404,12 @@ function NavBarMenu() {
                       onClick={() => {
                         setLinkClicked(!linkClicked);
                         setMobileMenuOpen(false);
-                        if (!item.href.startsWith("/")) {
+                        if (!item.href.startsWith('/')) {
                           window.scrollTo(0, 0); // Scroll to top
                         }
                         // Close the Popover
-                        if (document.getElementById("option-produtos")) {
-                          document.getElementById("option-produtos").click();
+                        if (document.getElementById('option-produtos')) {
+                          document.getElementById('option-produtos').click();
                         }
                       }}
                     >
@@ -418,7 +418,7 @@ function NavBarMenu() {
                         className="group relative flex items-start gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-blue-200 hover:text-white cursor-pointer"
                       >
                         <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                          {typeof item.icon === "string" ? (
+                          {typeof item.icon === 'string' ? (
                             <img
                               src={item.icon}
                               className="h-6 w-6 text-gray-600 group-hover:text-bluePrime"
@@ -454,12 +454,12 @@ function NavBarMenu() {
                       onClick={() => {
                         setLinkClicked(!linkClicked);
                         setMobileMenuOpen(false);
-                        if (!item.href.startsWith("/")) {
+                        if (!item.href.startsWith('/')) {
                           window.scrollTo(0, 0); // Scroll to top
                         }
                         // Close the Popover
-                        if (document.getElementById("option-produtos")) {
-                          document.getElementById("option-produtos").click();
+                        if (document.getElementById('option-produtos')) {
+                          document.getElementById('option-produtos').click();
                         }
                       }}
                     >
@@ -480,7 +480,7 @@ function NavBarMenu() {
               key={item.name}
               href={item.href}
               onClick={(e) => {
-                item.href.startsWith("/")
+                item.href.startsWith('/')
                   ? navigateToPath(item.href)
                   : scrollToSection(item.href);
                 window.scrollTo(0, 0); // Rola para o topo da página
@@ -498,7 +498,7 @@ function NavBarMenu() {
               to="/login"
               onClick={(event) => {
                 event.preventDefault();
-                navigate("/login");
+                navigate('/login');
                 setMobileMenuOpen(false);
               }}
               className="text-sm font-semibold leading-6 text-gray-900 hover:decoration-bluePrime hover:underline transition duration-75 ease-out"
@@ -515,7 +515,7 @@ function NavBarMenu() {
               to="/login"
               onClick={(event) => {
                 event.preventDefault();
-                navigate("/login");
+                navigate('/login');
                 setMobileMenuOpen(false);
               }}
               className="text-sm font-semibold leading-6 text-gray-900 hover:decoration-bluePrime hover:underline transition duration-75 ease-out"
@@ -561,15 +561,15 @@ function NavBarMenu() {
                         Seguros
                         <ChevronDownIcon
                           className={classNames(
-                            open ? "rotate-180" : "",
-                            "h-5 w-5 flex-none"
+                            open ? 'rotate-180' : '',
+                            'h-5 w-5 flex-none',
                           )}
                           aria-hidden="true"
                         />
                       </Disclosure.Button>
                       <Disclosure.Panel className="mt-2 space-y-2">
                         {[...productList, ...callsToAction].map((item) =>
-                          item.href.startsWith("/") ? (
+                          item.href.startsWith('/') ? (
                             <Link
                               to={item.href}
                               key={item.name}
@@ -594,7 +594,7 @@ function NavBarMenu() {
                             >
                               {item.name}
                             </LinkScroller>
-                          )
+                          ),
                         )}
                       </Disclosure.Panel>
                     </>
