@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import CardCotacao from './cardCotacao';
 import ModalCoberturas from './modalCoberturas';
 import EditQuote from './editQuote';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { ArrowRight, ArrowLeft } from 'lucide-react';
+import { saveToStorage } from '../utils/storageUtils'; // Importando o método saveToStorage
 
 const cardData = [
   {
@@ -34,31 +35,19 @@ const cardData = [
 ];
 
 const Plans = ({ onSelected, setSelectedPlan }) => {
-  const [selectedPlanId, setSelectedPlanId] = useState(null);
+  const [selectedPlanId, setSelectedPlanId] = useState(null); // Gerencia o ID do plano selecionado
   const swiperRef = useRef(null);
 
-  useEffect(() => {
-    const storedData = sessionStorage.getItem('formData-travel');
-    if (storedData) {
-      const parsedData = JSON.parse(storedData);
-      if (parsedData.selectedPlan) {
-        setSelectedPlanId(parsedData.selectedPlan.id);
-      }
-    }
-  }, []);
-
+  // Função chamada ao selecionar um plano
   const handleCardSelected = (id) => {
     const selectedPlan = cardData.find((card) => card.id === id);
-    setSelectedPlanId(id);
+    setSelectedPlanId(id); // Atualiza o estado local com o ID selecionado
+    setSelectedPlan(selectedPlan); // Atualiza o estado de planos do componente pai (se necessário)
 
-    const storedData = sessionStorage.getItem('formData-travel');
-    const updatedData = storedData ? JSON.parse(storedData) : {};
-    updatedData.selectedPlan = selectedPlan;
-    sessionStorage.setItem('formData-travel', JSON.stringify(updatedData));
+    // Salva o plano selecionado no sessionStorage
+    saveToStorage('plans', selectedPlan);
 
-    setSelectedPlan(selectedPlan);
-
-    if (onSelected) onSelected(id);
+    if (onSelected) onSelected(id); // Chama o callback, se fornecido
   };
 
   const handleNext = () => {
@@ -101,7 +90,8 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
           {cardData.map((card) => (
             <SwiperSlide key={card.id}>
               <div
-                className={`border rounded-lg shadow-lg p-2 sm:p-4 ${selectedPlanId === card.id ? 'border-bluePrime' : ''}`}
+                className={`border rounded-lg shadow-lg p-2 sm:p-4 ${selectedPlanId === card.id ? 'border-bluePrime' : ''
+                  }`}
               >
                 <h5 className="text-gray-500 uppercase text-center font-semibold text-xs sm:text-sm md:text-base">
                   {card.title}
@@ -132,9 +122,7 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
                 <div className="flex flex-col items-center mt-4 space-y-2">
                   <button
                     onClick={() => handleCardSelected(card.id)}
-                    className={`${selectedPlanId === card.id
-                      ? 'bg-bluePrime2'
-                      : 'bg-bluePrime'
+                    className={`${selectedPlanId === card.id ? 'bg-bluePrime2' : 'bg-bluePrime'
                       } cursor-pointer text-white uppercase text-xs sm:text-sm md:text-base py-1 px-3 rounded-md shadow-md w-full flex items-center justify-center`}
                   >
                     <input

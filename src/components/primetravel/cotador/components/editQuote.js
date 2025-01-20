@@ -24,7 +24,6 @@ const ageGroups = [
 ];
 
 const defaultState = {
-  SessionID: '9728E25D9CAA49CA9CA06DF047F2280A',
   CodigoDestino: '',
   CodigoMotivoViagem: '',
   IncluiEuropa: '0',
@@ -47,67 +46,37 @@ const defaultState = {
 };
 
 const EditQuote = () => {
-  // Lazy initialization: tenta carregar os dados do sessionStorage
+  // Carregar dados do sessionStorage
   const [formData, setFormData] = useState(() => {
     const stored = sessionStorage.getItem('editQuote');
     if (stored) {
       const parsed = JSON.parse(stored);
-      // Converte as datas, se estiverem no formato "YYYY-MM-DD"
-      if (parsed.departure) {
-        parsed.DataInicioViagem = moment(parsed.departure, 'YYYY-MM-DD');
-      }
-      if (parsed.arrival) {
-        parsed.DataFinalViagem = moment(parsed.arrival, 'YYYY-MM-DD');
-      }
-      // Se selectedOption for uma string, converte para objeto usando o array destinations
-      if (typeof parsed.selectedOption === 'string') {
-        const found = destinations.find(
-          (dest) => dest.value === parsed.selectedOption
-        );
-        parsed.selectedOption = found ? found : null;
-      }
-      // Se não houver selectedOption e houver CodigoDestino, tenta encontrar pelo code
-      if (!parsed.selectedOption && parsed.CodigoDestino) {
-        const found = destinations.find((dest) => dest.code === parsed.CodigoDestino);
-        parsed.selectedOption = found || null;
-      }
-      // Se não houver a propriedade destiny, define-a igual a selectedOption
-      if (!parsed.destiny && parsed.selectedOption) {
-        parsed.destiny = parsed.selectedOption;
-      }
-      return { ...defaultState, ...parsed };
+      return {
+        ...parsed,
+        selectedOption: destinations.find((dest) => dest.value === parsed.selectedOption) || null,
+        olds: Array.isArray(parsed.olds) ? parsed.olds : [0, 0, 0],
+        DataInicioViagem: parsed.departure ? moment(parsed.departure, 'YYYY-MM-DD') : null,
+        DataFinalViagem: parsed.arrival ? moment(parsed.arrival, 'YYYY-MM-DD') : null,
+      };
     }
-    return defaultState;
+    return {
+      selectedOption: null,
+      olds: [0, 0, 0],
+      DataInicioViagem: null,
+      DataFinalViagem: null,
+    };
   });
 
-  const [modalOpen, setModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-
-  const handleOld = (index, value) => {
-    let formOlds = [...formData.olds];
-    if (value === 1 && formOlds.reduce((sum, age) => sum + age, 0) < 8) {
-      formOlds[index] += 1;
-    } else if (value === -1 && formOlds[index] > 0) {
-      formOlds[index] -= 1;
-    }
-    const seniorPassengers = formOlds[1] + formOlds[2];
-    const nonSeniorPassengers = formOlds[0];
-    setFormData({
-      ...formData,
-      olds: formOlds,
-      QtdePassSenior: seniorPassengers.toString(),
-      QtdePassNaoSenior: nonSeniorPassengers.toString(),
-    });
-  };
+  const [modalOpen, setModalOpen] = useState(false);
 
   const handleEditToggle = () => setIsEditing(!isEditing);
 
   const handleSave = () => {
-    setIsEditing(false);
-    console.log('Dados salvos:', formData);
-
-    const dataToStore = {
+    const updatedData = {
       ...formData,
+      selectedOption: formData.selectedOption?.value || '',
+      passageiros: formData.olds,
       departure: formData.DataInicioViagem
         ? formData.DataInicioViagem.format('YYYY-MM-DD')
         : null,
@@ -116,27 +85,31 @@ const EditQuote = () => {
         : null,
     };
 
-    sessionStorage.setItem('editQuote', JSON.stringify(dataToStore));
+    // Salva todos os dados atualizados no sessionStorage
+    sessionStorage.setItem('editQuote', JSON.stringify(updatedData));
+    setIsEditing(false);
+    console.log('Dados atualizados no sessionStorage:', updatedData);
   };
 
+  const handleOld = (index, value) => {
+    const updatedOlds = [...formData.olds];
+    if (value === 1 && updatedOlds.reduce((total, num) => total + num, 0) < 8) {
+      updatedOlds[index] += 1;
+    } else if (value === -1 && updatedOlds[index] > 0) {
+      updatedOlds[index] -= 1;
+    }
+    setFormData((prev) => ({ ...prev, olds: updatedOlds }));
+  };
 
   const selectHandler = (e) => {
     const selectedValue = e.target.value;
-    const selectedDest = destinations.find(
-      (dest) => dest.value === selectedValue
-    );
-    const isEurope = selectedValue === '4';
-    setFormData({
-      ...formData,
-      selectedOption: selectedDest,
-      destiny: selectedDest, // Atualiza também o destino
-      CodigoDestino: selectedDest ? selectedDest.code : '',
-      IncluiEuropa: isEurope ? '1' : '0',
-    });
-  };
+    const selectedDest = destinations.find((dest) => dest.value === selectedValue);
 
-  const openModal = () => setModalOpen(true);
-  const closeModal = () => setModalOpen(false);
+    setFormData((prev) => ({
+      ...prev,
+      selectedOption: selectedDest || null,
+    }));
+  };
 
   const onChangeDeparture = (date) => {
     setFormData((prev) => ({
@@ -165,6 +138,8 @@ const EditQuote = () => {
       current.isBefore(formData.DataInicioViagem)) ||
     (current && current.isBefore(moment().startOf('day')));
 
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
   return (
     <div className="bg-white border rounded-lg shadow-md p-4 sm:p-2 mr-2 ml-2 max-w-[calc(100%-16px)]">
       {/* Layout para telas maiores */}
@@ -206,6 +181,7 @@ const EditQuote = () => {
             <p className="text-base sm:text-sm md:text-base">
               {formData.olds.reduce((total, age) => total + age, 0)} Passageiro(s)
             </p>
+
           )}
         </div>
 
@@ -242,6 +218,7 @@ const EditQuote = () => {
                 ? `De ${formData.DataInicioViagem.format('DD/MM/YYYY')} até ${formData.DataFinalViagem.format('DD/MM/YYYY')}`
                 : 'Período não selecionado'}
             </p>
+
           )}
         </div>
 

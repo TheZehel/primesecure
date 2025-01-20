@@ -13,13 +13,13 @@ export const saveToStorage = (key, data) => {
 };
 
 // Função genérica para carregar dados do sessionStorage
-export const loadFromStorage = (key, defaultValue = null) => {
+export const loadFromStorage = (key, defaultValue = {}) => {
     try {
         const jsonData = sessionStorage.getItem(key);
         return jsonData ? JSON.parse(jsonData) : defaultValue;
     } catch (error) {
         console.error(`Erro ao carregar do sessionStorage [${key}]:`, error);
-        return defaultValue;
+        return defaultValue; // Retorna o valor padrão (array vazio ou objeto) em caso de erro
     }
 };
 

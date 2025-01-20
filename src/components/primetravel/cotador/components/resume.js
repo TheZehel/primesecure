@@ -1,35 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { DollarSign, Plane, Users } from "lucide-react";
-
-const invoices = [
-  {
-    planName: "Plano Familiar",
-    passengers: "4",
-    total: "R$ 1200,00",
-  },
-  {
-    planName: "Plano Individual",
-    passengers: "1",
-    total: "R$ 300,00",
-  },
-  {
-    planName: "Plano Empresarial",
-    passengers: "6",
-    total: "R$ 8000,00",
-  },
-  {
-    planName: "Plano Viagem",
-    passengers: "2",
-    total: "R$ 600,00",
-  },
-  {
-    planName: "Plano Premium",
-    passengers: "3",
-    total: "R$ 1500,00",
-  },
-];
+import { loadFromStorage } from "../utils/storageUtils"; // Para carregar do sessionStorage
 
 export function InvoiceTable() {
+  const [plans, setPlans] = useState([]);
+  const [passengerCount, setPassengerCount] = useState(0);
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    // Carrega os dados do sessionStorage
+    const storedPlan = loadFromStorage("plans", {});
+    const storedQuote = loadFromStorage("editQuote", { olds: [0, 0, 0] });
+
+    // Processa os passageiros e total com base nos dados do sessionStorage
+    const totalPassengers = storedQuote.olds.reduce((sum, count) => sum + count, 0);
+    const planPrice = storedPlan?.price ? parseFloat(storedPlan.price.replace("R$", "").replace(",", ".")) : 0;
+
+    // Atualiza os estados
+    setPlans(storedPlan ? [storedPlan] : []);
+    setPassengerCount(totalPassengers);
+    setTotal(planPrice * totalPassengers);
+  }, []);
+
   return (
     <div className="overflow-x-auto">
       <table className="table-auto w-full border-collapse border border-gray-300 text-sm">
@@ -56,13 +48,29 @@ export function InvoiceTable() {
           </tr>
         </thead>
         <tbody>
-          {invoices.map((invoice, index) => (
-            <tr key={index} className="hover:bg-gray-50">
-              <td className="border border-gray-300 px-4 py-2">{invoice.planName}</td>
-              <td className="border border-gray-300 px-4 py-2 text-center">{invoice.passengers}</td>
-              <td className="border border-gray-300 px-4 py-2 text-right">{invoice.total}</td>
+          {plans.length > 0 ? (
+            plans.map((plan, index) => (
+              <tr key={index} className="hover:bg-gray-50">
+                <td className="border border-gray-300 px-4 py-2">{plan.title}</td>
+                <td className="border border-gray-300 px-4 py-2 text-center">{passengerCount}</td>
+                <td className="border border-gray-300 px-4 py-2 text-right">
+                  {(parseFloat(plan.price.replace("R$", "").replace(",", ".")) * passengerCount).toLocaleString(
+                    "pt-BR",
+                    {
+                      style: "currency",
+                      currency: "BRL",
+                    }
+                  )}
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="3" className="text-center py-4">
+                Nenhum plano selecionado.
+              </td>
             </tr>
-          ))}
+          )}
         </tbody>
         <tfoot>
           <tr className="font-semibold">
@@ -70,10 +78,7 @@ export function InvoiceTable() {
               Total Geral
             </td>
             <td className="border border-gray-300 px-4 py-2 text-right">
-              {invoices.reduce((sum, item) => {
-                const value = parseFloat(item.total.replace("R$", "").replace(",", "."));
-                return sum + value;
-              }, 0).toLocaleString("pt-BR", {
+              {total.toLocaleString("pt-BR", {
                 style: "currency",
                 currency: "BRL",
               })}

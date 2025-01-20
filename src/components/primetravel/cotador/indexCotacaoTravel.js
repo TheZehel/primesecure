@@ -1,13 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { validateFields } from './components/passengers';
 import StepperControl from './components/Stepper';
 import Plans from './components/plans';
 import Resume from './components/resume';
 import Passengers from './components/passengers';
 import Payment from './components/payment';
 import Purchased from './components/purchased';
-import { loadFromStorage, saveToStorage } from './utils/storageUtils';
 
 const IndexCotacaoTravel = () => {
   const navigate = useNavigate();
@@ -35,44 +33,7 @@ const IndexCotacaoTravel = () => {
     city: '',
   });
 
-  // Carrega dados do sessionStorage ao montar o componente
-  useEffect(() => {
-    const storedData = loadFromStorage('formData-travel', {
-      activeStep: 0,
-      selectedPlan: null,
-      passengers: [],
-      responsibleData: {},
-      passengerErrors: [],
-    });
-
-    setActiveStep(storedData.activeStep);
-    setSelectedPlan(storedData.selectedPlan);
-    setPassengers(storedData.passengers);
-    setResponsibleData(storedData.responsibleData);
-    setPassengerErrors(storedData.passengerErrors);
-  }, []);
-
-  useEffect(() => {
-    saveToStorage('formData-travel', {
-      activeStep,
-      selectedPlan,
-      passengers,
-      responsibleData,
-      passengerErrors,
-    });
-  }, [activeStep, selectedPlan, passengers, responsibleData, passengerErrors]);
-
-
   const handleNext = () => {
-    saveToStorage('formData-travel', {
-      activeStep: activeStep + 1,
-      selectedPlan,
-      passengers,
-      responsibleData,
-      passengerErrors,
-    });
-
-    // Avança para a próxima etapa
     if (activeStep < steps.length - 1) {
       const nextStep = activeStep + 1;
       setActiveStep(nextStep);
@@ -101,17 +62,6 @@ const IndexCotacaoTravel = () => {
   const handleBack = () => {
     if (activeStep > 0) {
       const prevStep = activeStep - 1;
-
-      // Salva o estado atual completo antes de voltar
-      saveToStorage('formData-travel', {
-        activeStep: prevStep,
-        selectedPlan,
-        passengers,
-        responsibleData,
-        passengerErrors,
-        editingStates: {}, // Mantém o estado de edição
-      });
-
       setActiveStep(prevStep);
 
       switch (prevStep) {
@@ -134,7 +84,6 @@ const IndexCotacaoTravel = () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
-
 
   const scrollTo = () => {
     if (avancarRef.current) {
@@ -163,13 +112,7 @@ const IndexCotacaoTravel = () => {
       responsibleData={responsibleData}
       setResponsibleData={setResponsibleData}
       errors={passengerErrors}
-      onChange={(updatedPassengers) => {
-        setPassengers(updatedPassengers);
-        // Salva os dados atualizados no sessionStorage
-        const currentData = JSON.parse(sessionStorage.getItem('formData-travel') || '{}');
-        currentData.passengers = updatedPassengers;
-        sessionStorage.setItem('formData-travel', JSON.stringify(currentData));
-      }}
+      onChange={setPassengers}
     />,
     <Payment />,
     <Purchased />,
