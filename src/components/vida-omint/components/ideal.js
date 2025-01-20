@@ -157,7 +157,7 @@ const PrimeIdeal = () => {
       {/* Hero Section */}
       <div className="max-w-6xl mx-auto px-4 pt-20 pb-24">
         <h1 className="text-bluePrime text-xl sm:text-2xl text-center mb-6">
-          Prime Ideal
+          Omint Ideal
         </h1>
         <p className="text-gray-500 text-lg text-center mb-8 sm:mb-0">
           Proteção financeira para você e sua família, com contratação

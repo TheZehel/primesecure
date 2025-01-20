@@ -15,32 +15,28 @@ export default function Superior() {
       </div>
 
       {/* Conteúdo principal */}
-      <div className="relative min-h-screen flex flex-col lg:flex-row lg:items-center lg:justify-between px-4 py-8 lg:py-12 gap-12 pl-8 lg:pl-16">
+      <div className="relative min-h-screen flex flex-col lg:flex-row lg:items-center lg:justify-between px-4 py-8 lg:py-6 gap-12 pl-8 lg:pl-16">
         {/* Conteúdo à esquerda */}
         <div className="flex-1 flex flex-col items-center lg:items-start text-white max-w-lg">
+          <div className="flex flex-col items-center lg:items-center mb-5">
+            <img
+              src="https://storage.googleapis.com/primesecure/logo-omint.png"
+              alt="Logo Omint"
+              className="w-20 sm:w-24 lg:w-48 h-auto"
+            />
+          </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-center lg:text-left">
-            Benefício da Prime
+            Benefícios Vida Omint Ideal
           </h1>
           <p className="bg-bluePrime font-sans font-bold uppercase py-1.5 px-4 rounded-lg text-base sm:text-lg mb-4">
             Seguro de vida
           </p>
-          <p className="text-sm sm:text-lg lg:text-xl mb-6 text-center lg:text-left leading-relaxed">
+          {/* <p className="text-sm sm:text-lg lg:text-xl mb-6 text-center lg:text-left leading-relaxed">
             O seguro que protege o que é importante <br />
             pra você, por você.
-          </p>
-          <div className="flex flex-col items-center lg:items-start">
-            <p className="text-xs sm:text-sm lg:text-base mb-2">
-              Em parceria com:
-            </p>
-            <img
-              src="https://storage.googleapis.com/primesecure/logo-omint.png"
-              alt="Logo Omint"
-              className="w-16 sm:w-20 lg:w-24 h-auto"
-            />
-          </div>
-          <div className="mt-10 w-80">
-            <BannerPix />
-          </div>
+          </p> */}
+
+          <div className="mt-10 w-80">{/* <BannerPix /> */}</div>
         </div>
 
         {/* Formulário alinhado mais à direita */}
