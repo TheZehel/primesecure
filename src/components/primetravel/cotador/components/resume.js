@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { DollarSign, Plane, Users } from "lucide-react";
-import { loadFromStorage } from "../utils/storageUtils"; // Para carregar do sessionStorage
+import { loadFromStorage, saveToStorage } from "../utils/storageUtils"; // Para carregar e salvar no sessionStorage
 
 export function InvoiceTable() {
   const [plans, setPlans] = useState([]);
@@ -14,12 +14,28 @@ export function InvoiceTable() {
 
     // Processa os passageiros e total com base nos dados do sessionStorage
     const totalPassengers = storedQuote.olds.reduce((sum, count) => sum + count, 0);
-    const planPrice = storedPlan?.price ? parseFloat(storedPlan.price.replace("R$", "").replace(",", ".")) : 0;
+    const planPrice = storedPlan?.price
+      ? parseFloat(storedPlan.price.replace("R$", "").replace(",", "."))
+      : 0;
+
+    // Calcula o total
+    const calculatedTotal = planPrice * totalPassengers;
 
     // Atualiza os estados
     setPlans(storedPlan ? [storedPlan] : []);
     setPassengerCount(totalPassengers);
-    setTotal(planPrice * totalPassengers);
+    setTotal(calculatedTotal);
+
+    // Salva no sessionStorage como "resume"
+    const resumeData = {
+      plan: storedPlan?.title || "Nenhum plano selecionado",
+      passengerCount: totalPassengers,
+      total: calculatedTotal.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      }),
+    };
+    saveToStorage("resume", resumeData);
   }, []);
 
   return (

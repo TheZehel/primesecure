@@ -1,11 +1,11 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import CardCotacao from './cardCotacao';
 import ModalCoberturas from './modalCoberturas';
 import EditQuote from './editQuote';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { ArrowRight, ArrowLeft } from 'lucide-react';
-import { saveToStorage } from '../utils/storageUtils'; // Importando o método saveToStorage
+import { saveToStorage, loadFromStorage } from '../utils/storageUtils'; // Importando o método saveToStorage
 
 const cardData = [
   {
@@ -38,6 +38,15 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
   const [selectedPlanId, setSelectedPlanId] = useState(null); // Gerencia o ID do plano selecionado
   const swiperRef = useRef(null);
 
+  // Carregar plano salvo no sessionStorage ao montar o componente
+  useEffect(() => {
+    const savedPlan = loadFromStorage('plans', null);
+    if (savedPlan) {
+      setSelectedPlanId(savedPlan.id); // Atualiza o estado local com o ID salvo
+      setSelectedPlan(savedPlan); // Atualiza o estado do componente pai
+    }
+  }, [setSelectedPlan]);
+
   // Função chamada ao selecionar um plano
   const handleCardSelected = (id) => {
     const selectedPlan = cardData.find((card) => card.id === id);
@@ -57,7 +66,6 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
   const handlePrev = () => {
     swiperRef.current?.swiper.slidePrev();
   };
-
   return (
     <div>
       <div>

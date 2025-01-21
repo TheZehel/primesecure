@@ -1,5 +1,7 @@
 import React, { useState, useRef } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import StepperControl from './components/Stepper';
 import Plans from './components/plans';
 import Resume from './components/resume';
@@ -32,6 +34,8 @@ const IndexCotacaoTravel = () => {
     district: '',
     city: '',
   });
+
+  const notifyError = () => toast.error('Selecione um plano para continuar.');
 
   const handleNext = () => {
     if (activeStep < steps.length - 1) {
@@ -119,7 +123,7 @@ const IndexCotacaoTravel = () => {
   ];
 
   return (
-    <div className="">
+    <div className="w-full">
       <section className="max-w-6xl mx-auto mt-10">
         <StepperControl activeStep={activeStep} />
         <div className="my-10">{steps[activeStep]}</div>
@@ -128,7 +132,7 @@ const IndexCotacaoTravel = () => {
           <div className="max-w-6xl mx-auto flex justify-between gap-4">
             <button
               onClick={handleBack}
-              disabled={activeStep === 0}
+              disabled={activeStep === 0 || !selectedPlan} // Desabilita o botão se não houver um plano selecionado
               className="w-full md:w-auto px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
             >
               Voltar
@@ -137,7 +141,7 @@ const IndexCotacaoTravel = () => {
               ref={avancarRef}
               onClick={() => {
                 if (activeStep === 0 && !selectedPlan) {
-                  alert('Você deve selecionar um plano para continuar.');
+                  notifyError(); // Exibe notificação de erro
                 } else {
                   handleNext();
                 }
@@ -155,6 +159,20 @@ const IndexCotacaoTravel = () => {
           </div>
         </div>
       </section>
+
+      {/* Toast container for notifications */}
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 };

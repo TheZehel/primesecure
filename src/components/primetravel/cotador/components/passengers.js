@@ -3,6 +3,8 @@ import InputMask from 'react-input-mask';
 import { CirclePlus, Save, Trash2, Edit, UsersRound, Star } from 'lucide-react';
 import GlobalFuntions from '../../../globalsubcomponentes/globalFunctions';
 import { saveToStorage, loadFromStorage } from '../utils/storageUtils';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Instância das funções globais
 const globalFunctions = new GlobalFuntions();
@@ -57,6 +59,7 @@ const FirstPassenger = ({ onSave, data, onChange, errors }) => {
     const hasErrors = onSave();
     if (!hasErrors) {
       saveToStorage('responsiblePassenger', data); // Salva no sessionStorage
+      toast.success('Dados salvos com sucesso!'); // Notificação de sucesso
       setIsEditing(false);
     }
   };
@@ -309,6 +312,7 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors, isEditing, se
     const hasErrors = onSave(id);
     if (!hasErrors) {
       setIsEditing(false); // Fecha o modo de edição ao salvar sem erros
+      toast.success('Dados salvos com sucesso!'); // Notificação de sucesso
     }
   };
 
@@ -451,15 +455,53 @@ const Passengers = ({
   const [passengers, setPassengers] = useState([]);
   const [passengerErrors, setPassengerErrors] = useState([]);
   const [passengerEditingStatus, setPassengerEditingStatus] = useState([]);
+  const [olds, setOlds] = useState([]); // Armazena o limite de passageiros do sessionStorage
 
-  // Carrega os dados do responsável do sessionStorage ao montar o componente
+  // Carrega os dados do sessionStorage ao montar o componente
   useEffect(() => {
+    // Carrega os dados de 'responsiblePassenger' do sessionStorage
     const storedResponsibleData = loadFromStorage('responsiblePassenger', {});
     if (Object.keys(storedResponsibleData).length > 0) {
-      setResponsibleData(storedResponsibleData);
-      setIsResponsibleSaved(true);
+      setResponsibleData((prev) => ({ ...prev, ...storedResponsibleData }));
+      setIsResponsibleSaved(true); // Marca como salvo se houver dados no sessionStorage
     }
-  }, [setResponsibleData]);
+
+    // Carrega os dados de 'olds' de 'editQuote' do sessionStorage
+    const storedEditQuote = loadFromStorage('editQuote', {});
+    if (storedEditQuote && Array.isArray(storedEditQuote.olds)) {
+      setOlds(storedEditQuote.olds);
+    } else {
+      setOlds([0, 0, 0]); // Valor padrão caso não existam olds
+    }
+
+    // Carrega os passageiros adicionais do sessionStorage
+    const storedPassengers = loadFromStorage('passengers', []);
+    if (Array.isArray(storedPassengers)) {
+      setPassengers(storedPassengers);
+      setPassengerEditingStatus(storedPassengers.map(() => false)); // Define estado de edição como 'false' para todos
+    }
+  }, []);
+
+
+  // Calcula o limite máximo de passageiros com base em 'olds'
+  const maxPassengers = olds.reduce((sum, num) => sum + num, 0) - 1;
+
+
+  const addPassenger = () => {
+    if (passengers.length < maxPassengers) {
+      const newPassenger = { firstName: '', secondName: '', CPF: '' };
+      const updatedPassengers = [...passengers, newPassenger];
+      setPassengers(updatedPassengers);
+      setPassengerEditingStatus([...passengerEditingStatus, true]);
+
+      // Salva no sessionStorage
+      saveToStorage('passengers', updatedPassengers);
+    } else {
+      alert('Você atingiu o limite máximo de passageiros.');
+    }
+  };
+
+
 
   // Valida e salva o passageiro responsável
   const handleSaveResponsible = () => {
@@ -496,14 +538,23 @@ const Passengers = ({
 
   // Função para alterar os dados do passageiro
   const handlePassengerChange = (id, field, value) => {
-    setPassengers((prev) =>
-      prev.map((p, index) => (index === id ? { ...p, [field]: value } : p))
+    const updatedPassengers = passengers.map((p, index) =>
+      index === id ? { ...p, [field]: value } : p
     );
+    setPassengers(updatedPassengers);
+
+    // Salva no sessionStorage
+    saveToStorage('passengers', updatedPassengers);
   };
 
   // Função para remover um passageiro
   const handleRemovePassenger = (id) => {
-    setPassengers((prev) => prev.filter((_, index) => index !== id));
+    const updatedPassengers = passengers.filter((_, index) => index !== id);
+    setPassengers(updatedPassengers);
+    setPassengerEditingStatus(updatedPassengers.map(() => false)); // Atualiza estado de edição
+
+    // Salva no sessionStorage
+    saveToStorage('passengers', updatedPassengers);
   };
 
   // Função para salvar um passageiro
@@ -525,24 +576,42 @@ const Passengers = ({
     });
     const hasErrors = Object.values(errors).some((err) => err);
     if (!hasErrors) {
-      setPassengerEditingStatus((prev) =>
-        prev.map((status, index) => (index === id ? false : status))
+      const updatedEditingStatus = passengerEditingStatus.map((status, index) =>
+        index === id ? false : status
       );
+      setPassengerEditingStatus(updatedEditingStatus);
+
+      // Salva no sessionStorage
+      saveToStorage('passengers', passengers);
     }
     return hasErrors;
   };
 
-  // Função para adicionar um passageiro
-  const addPassenger = () => {
-    setPassengers([...passengers, { firstName: '', secondName: '', CPF: '' }]);
-  };
   return (
     <div>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover={false}
+        draggable
+        theme="light"
+      />
       <FirstPassenger
         data={responsibleData}
         onChange={handleResponsibleChange}
         errors={responsibleErrors}
         onSave={handleSaveResponsible} // Chama a validação e salva no sessionStorage
+      />
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover={false}
+        draggable
+        theme="light"
       />
       <div className="mt-4 space-y-4">
         {passengers.map((passenger, index) => (
@@ -561,17 +630,20 @@ const Passengers = ({
               )
             }
           />
-
         ))}
         <button
           className={`px-4 py-2 mt-4 rounded-md text-white ${isResponsibleSaved ? 'bg-bluePrime' : 'bg-gray-400 opacity-50'
             }`}
-          onClick={addPassenger}
+          onClick={() => {
+            console.log('Botão clicado');
+            addPassenger();
+          }}
           disabled={!isResponsibleSaved}
         >
           <CirclePlus className="inline-block mr-2" />
           Adicionar Passageiro
         </button>
+
 
       </div>
     </div>

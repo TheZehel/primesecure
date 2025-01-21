@@ -1,6 +1,7 @@
 import { Wifi } from 'lucide-react';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import InputMask from 'react-input-mask';
+import { saveToStorage } from '../../utils/storageUtils';
 
 const CreditCard = ({ onSubmit }) => {
     const [cardNumber, setCardNumber] = useState('');
@@ -18,6 +19,11 @@ const CreditCard = ({ onSubmit }) => {
     const cardHolderRef = useRef(null);
     const expirationDateRef = useRef(null);
     const cvcRef = useRef(null);
+
+    // Reseta a sessionStorage "cartao" ao recarregar a página
+    useEffect(() => {
+        sessionStorage.removeItem('cartao'); // Remove a chave "cartao" do sessionStorage
+    }, []);
 
     const handleInputChange = (name, value) => {
         if (name === 'cardNumber') {
@@ -47,7 +53,18 @@ const CreditCard = ({ onSubmit }) => {
 
         if (Object.values(newErrors).some((error) => error)) return;
 
-        onSubmit({ cardNumber, cardHolder, expirationDate, cvc });
+        const cardData = {
+            cardNumber,
+            cardHolder,
+            expirationDate,
+            cvc,
+        };
+
+        // Salva os dados no sessionStorage
+        saveToStorage('cartao', cardData);
+
+        // Callback para ações adicionais
+        if (onSubmit) onSubmit(cardData);
     };
 
     const formatCardNumber = (number) => {
@@ -70,7 +87,8 @@ const CreditCard = ({ onSubmit }) => {
                         value={cardNumber}
                         placeholder="0000 0000 0000 0000"
                         onChange={(e) => handleInputChange('cardNumber', e.target.value)}
-                        className={`border rounded-md h-10 px-4 w-full focus:outline-none ${errors.cardNumber ? 'border-red-500' : 'border-bluePrime'}`}
+                        className={`border rounded-md h-10 px-4 w-full focus:outline-none ${errors.cardNumber ? 'border-red-500' : 'border-bluePrime'
+                            }`}
                     />
                 </div>
 
@@ -85,7 +103,8 @@ const CreditCard = ({ onSubmit }) => {
                         value={cardHolder}
                         placeholder="NOME COMPLETO"
                         onChange={(e) => handleInputChange('cardHolder', e.target.value)}
-                        className={`border rounded-md h-10 px-4 w-full focus:outline-none ${errors.cardHolder ? 'border-red-500' : 'border-bluePrime'}`}
+                        className={`border rounded-md h-10 px-4 w-full focus:outline-none ${errors.cardHolder ? 'border-red-500' : 'border-bluePrime'
+                            }`}
                     />
                 </div>
 
@@ -102,7 +121,8 @@ const CreditCard = ({ onSubmit }) => {
                             value={expirationDate}
                             placeholder="MM/AA"
                             onChange={(e) => handleInputChange('expirationDate', e.target.value)}
-                            className={`border rounded-md h-10 px-4 w-full focus:outline-none ${errors.expirationDate ? 'border-red-500' : 'border-bluePrime'}`}
+                            className={`border rounded-md h-10 px-4 w-full focus:outline-none ${errors.expirationDate ? 'border-red-500' : 'border-bluePrime'
+                                }`}
                         />
                     </div>
 
@@ -118,7 +138,8 @@ const CreditCard = ({ onSubmit }) => {
                             value={cvc}
                             placeholder="000"
                             onChange={(e) => handleInputChange('cvc', e.target.value)}
-                            className={`border rounded-md h-10 px-4 w-full focus:outline-none ${errors.cvc ? 'border-red-500' : 'border-bluePrime'}`}
+                            className={`border rounded-md h-10 px-4 w-full focus:outline-none ${errors.cvc ? 'border-red-500' : 'border-bluePrime'
+                                }`}
                         />
                     </div>
                 </div>
@@ -163,9 +184,6 @@ const CreditCard = ({ onSubmit }) => {
                     </div>
                 </div>
             </div>
-
-
-
         </div>
     );
 };
