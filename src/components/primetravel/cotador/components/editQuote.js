@@ -4,6 +4,7 @@ import { Pen, Save } from 'lucide-react';
 import locale from 'antd/lib/date-picker/locale/pt_BR';
 import moment from 'moment';
 import { loadFromStorage, saveToStorage } from '../utils/storageUtils';
+import { toast, ToastContainer } from 'react-toastify';
 
 const destinations = [
   { value: '1', label: 'África', code: 'AF' },
@@ -88,6 +89,16 @@ const EditQuote = () => {
     // Salva todos os dados atualizados no sessionStorage
     sessionStorage.setItem('editQuote', JSON.stringify(updatedData));
     setIsEditing(false);
+    toast.success('Dados atualizados com sucesso!', {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: 'light',
+    });
+
     console.log('Dados atualizados no sessionStorage:', updatedData);
   };
 
@@ -142,6 +153,7 @@ const EditQuote = () => {
   const closeModal = () => setModalOpen(false);
   return (
     <div className="bg-white border rounded-lg shadow-md p-4 sm:p-2 mr-2 ml-2 max-w-[calc(100%-16px)]">
+      <ToastContainer />
       {/* Layout para telas maiores */}
       <div className="hidden lg:grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 items-center">
         <div>

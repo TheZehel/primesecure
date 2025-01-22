@@ -38,6 +38,25 @@ const IndexCotacaoTravel = () => {
   const notifyError = () => toast.error('Selecione um plano para continuar.');
 
   const handleNext = () => {
+    if (activeStep === 0 && !selectedPlan) {
+      // Exibe notificação de erro se o plano não for selecionado
+      notifyError();
+      return;
+    }
+
+    // Verifica se todos os passageiros estão preenchidos
+    if (activeStep === 2) { // Etapa 2: Passageiros
+      const allPassengersFilled = passengers.every((p) =>
+        ['firstName', 'secondName', 'CPF'].every((field) => p[field] && p[field].trim() !== '')
+      );
+
+      if (!allPassengersFilled) {
+        toast.error('É preciso cadastrar todos os passageiros');
+        return;
+      }
+    }
+
+    // Se a etapa não tem erros, avança normalmente
     if (activeStep < steps.length - 1) {
       const nextStep = activeStep + 1;
       setActiveStep(nextStep);
@@ -62,6 +81,7 @@ const IndexCotacaoTravel = () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
+
 
   const handleBack = () => {
     if (activeStep > 0) {
