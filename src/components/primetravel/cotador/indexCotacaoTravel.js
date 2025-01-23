@@ -12,6 +12,7 @@ import Purchased from './components/purchased';
 const IndexCotacaoTravel = () => {
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(0);
+  const [areAllPassengersComplete, setAreAllPassengersComplete] = useState(false);
   const avancarRef = useRef(null);
   const [shouldBounce, setShouldBounce] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
@@ -38,6 +39,20 @@ const IndexCotacaoTravel = () => {
   const notifyError = () => toast.error('Selecione um plano para continuar.');
 
   const handleNext = () => {
+    const storedEditQuote = sessionStorage.getItem('editQuote');
+
+    // Se NÃO existir, exibe o toast de erro e interrompe
+    if (!storedEditQuote) {
+      toast.error('Você precisa salvar os dados antes de continuar.');
+      return;
+    }
+
+    // Se estiver no step 2 (Passageiros) e ainda estiver ícone vermelho, bloquemos a ação
+    if (activeStep === 2 && !areAllPassengersComplete) {
+      toast.error('Todos os passageiros devem ser adicionados antes de prosseguir.');
+      return;
+    }
+
     if (activeStep === 0 && !selectedPlan) {
       // Exibe notificação de erro se o plano não for selecionado
       notifyError();
@@ -137,6 +152,8 @@ const IndexCotacaoTravel = () => {
       setResponsibleData={setResponsibleData}
       errors={passengerErrors}
       onChange={setPassengers}
+      // Passamos a função que receberá se está completo ou não
+      onPassengersStatusChange={setAreAllPassengersComplete}
     />,
     <Payment />,
     <Purchased />,
@@ -148,34 +165,72 @@ const IndexCotacaoTravel = () => {
         <StepperControl activeStep={activeStep} />
         <div className="my-10">{steps[activeStep]}</div>
 
-        <div className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-t border-gray-200 p-4 shadow-lg md:shadow-none md:static md:bg-transparent md:border-none md:backdrop-blur-none md:p-0 md:mt-10">
+        <div className="fixed
+    bottom-0
+    left-0
+    right-0
+    z-50
+    bg-white/95
+    backdrop-blur-sm
+    border-t
+    border-gray-200
+    p-2            /* MENOR PADDING NO MOBILE */
+    shadow-lg
+    md:shadow-none
+    md:static
+    md:bg-transparent
+    md:border-none
+    md:backdrop-blur-none
+    md:p-0         /* NO DESKTOP, ZERA PADDING */
+    md:mt-10">
           <div className="max-w-6xl mx-auto flex justify-between gap-4">
             <button
               onClick={handleBack}
               disabled={activeStep === 0 || !selectedPlan} // Desabilita o botão se não houver um plano selecionado
-              className="w-full md:w-auto px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
+              className="w-full
+        md:w-auto
+        px-2 py-1   /* BOTÕES MENORES */
+        bg-gray-300
+        rounded
+        disabled:opacity-50
+        text-sm"
             >
               Voltar
             </button>
             <button
               ref={avancarRef}
               onClick={() => {
+                // 1. Se estiver no step 0 e não tiver plano selecionado
                 if (activeStep === 0 && !selectedPlan) {
-                  notifyError(); // Exibe notificação de erro
-                } else {
+                  notifyError();
+                }
+                // 2. Se estiver no step 2 (passageiros) e NÃO estiver completo (ícone vermelho)
+                else if (activeStep === 2 && !areAllPassengersComplete) {
+                  toast.error('Ainda faltam passageiros para serem preenchidos.');
+                }
+                // 3. Senão, avança
+                else {
                   handleNext();
                 }
               }}
-              className={`w-full md:w-auto px-4 py-2 rounded transition-all ${shouldBounce ? 'animate-bounce' : ''
-                } ${activeStep === steps.length - 1
+              className={`w-full
+        md:w-auto
+        px-2 py-1
+        rounded
+        transition-all
+        text-sm
+    ${activeStep === steps.length - 1
                   ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
                   : !selectedPlan && activeStep === 0
                     ? 'bg-gray-300 text-gray-600'
                     : 'bg-bluePrime text-white'
+                }
+    ${shouldBounce ? 'animate-bounce' : ''}
                 }`}
             >
               Avançar
             </button>
+
           </div>
         </div>
       </section>

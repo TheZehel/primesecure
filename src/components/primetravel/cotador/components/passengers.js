@@ -52,29 +52,30 @@ const fetchAddressFromCEP = async (cep, onChange) => {
   }
 };
 
-// Componente para o Primeiro Passageiro
-const FirstPassenger = ({ onSave, data, onChange, errors, passengers = [], maxPassengers }) => {
+// Primeiro Passageiro (Responsável)
+const FirstPassenger = ({ onSave, data, onChange, errors, passengersCount, maxPassengers }) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const handleSave = () => {
     const hasErrors = onSave();
     if (!hasErrors) {
       saveToStorage('responsiblePassenger', data); // Salva no sessionStorage
-      toast.success('Dados salvos com sucesso!'); // Notificação de sucesso
+      toast.success('Dados salvos com sucesso!');
       setIsEditing(false);
     }
   };
 
-
   return (
     <div>
-      <PassengerVisualizer className="mb-4 flex items-center justify-center h-screen"
-        currentPassengers={passengers.length}
+      {/* VISUALIZADOR DO CONTADOR */}
+      <PassengerVisualizer
+        currentPassengers={passengersCount}
         maxPassengers={maxPassengers}
       />
+
       <div className="bg-gray-50 p-4 rounded-md mb-4 shadow-sm sm:m-0 mx-2 shadow-indigo-500/40">
         {isEditing ? (
-          // Modo de edição
+          // Formulário de edição
           <>
             <h2 className="text-base sm:text-lg md:text-xl font-bold text-[#313131] flex items-center">
               <Star size={20} className="mr-2 text-bluePrime" />
@@ -189,9 +190,8 @@ const FirstPassenger = ({ onSave, data, onChange, errors, passengers = [], maxPa
                   }`}
               />
             </div>
-            {/* COLUNA 4 */}
+            {/* CEP / Endereço */}
             <div className="sm:flex sm:space-x-4 space-y-2 sm:space-y-0 mt-2">
-              {/* INPUT CEP */}
               <InputMask
                 mask={'99999-999'}
                 type="text"
@@ -205,21 +205,17 @@ const FirstPassenger = ({ onSave, data, onChange, errors, passengers = [], maxPa
                   : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                   }`}
               />
-              {/* ENDEREÇO */}
               <input
                 type="text"
                 name="address"
                 value={data.address}
                 onChange={(e) => onChange(e.target.name, e.target.value)}
-                placeholder={
-                  errors.address ? 'Coloque seu endereço' : 'Seu endereço'
-                }
+                placeholder={errors.address ? 'Coloque seu endereço' : 'Seu endereço'}
                 className={`rounded-md border p-2 w-full ${errors.address
                   ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
                   : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                   }`}
               />
-              {/* NUMERO ENDEREÇO */}
               <input
                 name="numberAddress"
                 onChange={(e) => onChange(e.target.name, e.target.value)}
@@ -232,9 +228,8 @@ const FirstPassenger = ({ onSave, data, onChange, errors, passengers = [], maxPa
                   }`}
               />
             </div>
-            {/* COLUNA 5 */}
+            {/* Complemento, Bairro, Cidade */}
             <div className="sm:flex sm:space-x-4 space-y-2 sm:space-y-0 mt-2">
-              {/* INPUT COMPLEMENTO */}
               <input
                 name="completeAddress"
                 type="text"
@@ -246,7 +241,6 @@ const FirstPassenger = ({ onSave, data, onChange, errors, passengers = [], maxPa
                   : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                   }`}
               />
-              {/* INPUT BAIRRO */}
               <input
                 onChange={(e) => onChange(e.target.name, e.target.value)}
                 value={data.district}
@@ -260,13 +254,12 @@ const FirstPassenger = ({ onSave, data, onChange, errors, passengers = [], maxPa
                   : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                   }`}
               />
-              {/* INPUT CIDADE*/}
               <input
                 onChange={(e) => onChange(e.target.name, e.target.value)}
                 value={data.city}
                 type="text"
                 placeholder={
-                  errors.city ? 'Coloque um cidade válida' : 'Sua cidade'
+                  errors.city ? 'Coloque uma cidade válida' : 'Sua cidade'
                 }
                 name="city"
                 className={`rounded-md border p-2 w-full ${errors.city
@@ -275,7 +268,8 @@ const FirstPassenger = ({ onSave, data, onChange, errors, passengers = [], maxPa
                   }`}
               />
             </div>
-            {/* Outros campos permanecem inalterados */}
+
+            {/* Botão salvar */}
             <div className="mt-4 flex justify-end">
               <button
                 className="bg-green-500 px-4 py-2 text-white rounded-md"
@@ -287,7 +281,7 @@ const FirstPassenger = ({ onSave, data, onChange, errors, passengers = [], maxPa
             </div>
           </>
         ) : (
-          // Modo de visualização (Card)
+          // Visualização do responsável
           <div className="flex justify-between items-center">
             <div>
               <h2 className="text-base sm:text-lg md:text-xl font-bold text-[#313131] flex items-center">
@@ -314,13 +308,13 @@ const FirstPassenger = ({ onSave, data, onChange, errors, passengers = [], maxPa
   );
 };
 
-// Componente para Passageiros Adicionais
+// Passageiros adicionais
 const Passenger = ({ id, data, onChange, onRemove, onSave, errors, isEditing, setIsEditing }) => {
   const handleSave = () => {
     const hasErrors = onSave(id);
     if (!hasErrors) {
-      setIsEditing(false); // Fecha o modo de edição ao salvar sem erros
-      toast.success('Dados salvos com sucesso!'); // Notificação de sucesso
+      setIsEditing(false);
+      toast.success('Dados salvos com sucesso!');
     }
   };
 
@@ -425,7 +419,7 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors, isEditing, se
           </div>
         </>
       ) : (
-        // Modo de visualização (Card)
+        // Card de visualização
         <div className="mb-4">
           <div className="flex justify-between items-center">
             <div>
@@ -446,90 +440,75 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors, isEditing, se
           </div>
         </div>
       )}
-
     </div>
   );
 };
 
 const Passengers = ({
-  data, onChange, responsibleData, setResponsibleData,
+  data,
+  responsibleData,
+  setResponsibleData,
+  onChange,
+  onPassengersStatusChange,
 }) => {
+  // Responsável
   const [responsibleErrors, setResponsibleErrors] = useState({});
   const [isResponsibleSaved, setIsResponsibleSaved] = useState(false);
+
+  // Passageiros adicionais
   const [passengers, setPassengers] = useState([]);
   const [passengerErrors, setPassengerErrors] = useState([]);
   const [passengerEditingStatus, setPassengerEditingStatus] = useState([]);
-  const [olds, setOlds] = useState([]); // Armazena o limite de passageiros do sessionStorage
-  const [currentPassengers, setCurrentPassengers] = useState(0); // Contagem atual
 
+  // Limite e contagem
+  const [maxPassengers, setMaxPassengers] = useState(0);
+  const [currentPassengers, setCurrentPassengers] = useState(0);
+
+  // Carregamos do storage no início
   useEffect(() => {
-    // Carregar passageiros e limite máximo do sessionStorage ao montar
-    const storedPassengers = loadFromStorage("passengers", []);
-    const storedEditQuote = loadFromStorage("editQuote", {});
-
-    setPassengers(storedPassengers);
-    setCurrentPassengers(storedPassengers.length + (Object.keys(responsibleData).length > 0 ? 1 : 0));
-    setMaxPassengers(storedEditQuote.olds?.reduce((sum, num) => sum + num, 0) || 0);
-  }, [responsibleData]);
-
-
-
-  // Carrega os dados do sessionStorage ao montar o componente
-  useEffect(() => {
-    // Carrega os dados de 'responsiblePassenger' do sessionStorage
-    const storedResponsibleData = loadFromStorage('responsiblePassenger', {});
-    if (Object.keys(storedResponsibleData).length > 0) {
-      setResponsibleData((prev) => ({ ...prev, ...storedResponsibleData }));
-      setIsResponsibleSaved(true); // Marca como salvo se houver dados no sessionStorage
+    // 1. Carrega responsável
+    const storedResponsible = loadFromStorage('responsiblePassenger', {});
+    if (Object.keys(storedResponsible).length > 0) {
+      setResponsibleData(storedResponsible);
+      setIsResponsibleSaved(true);
     }
 
-    // Carrega os dados de 'olds' de 'editQuote' do sessionStorage
-    const storedEditQuote = loadFromStorage('editQuote', {});
-    if (storedEditQuote && Array.isArray(storedEditQuote.olds)) {
-      setOlds(storedEditQuote.olds);
-    } else {
-      setOlds([0, 0, 0]); // Valor padrão caso não existam olds
-    }
-
-    // Carrega os passageiros adicionais do sessionStorage
+    // 2. Carrega passageiros adicionais
     const storedPassengers = loadFromStorage('passengers', []);
     if (Array.isArray(storedPassengers)) {
       setPassengers(storedPassengers);
-      setPassengerEditingStatus(storedPassengers.map(() => false)); // Define estado de edição como 'false' para todos
+      setPassengerEditingStatus(storedPassengers.map(() => false));
     }
+
+    // 3. Carrega editQuote para pegar o limite
+    const storedEditQuote = loadFromStorage('editQuote', {});
+    // Exemplo: se storedEditQuote tiver a forma: { olds: [2, 1, 1] }, somamos todos
+    const sumOfOlds = storedEditQuote.olds?.reduce((sum, num) => sum + num, 0) || 0;
+
+    // Se esse "sumOfOlds" já for o total *incluindo* o responsável, então maxPassengers = sumOfOlds.
+    // Se você quiser que sumOfOlds seja o total *sem* contar o responsável, faça sumOfOlds + 1, etc.
+    // Ajuste conforme a necessidade:
+    setMaxPassengers(sumOfOlds);
+
   }, []);
 
-
-  // Calcula o limite máximo de passageiros com base em 'olds'
-  const maxPassengers = olds.reduce((sum, num) => sum + num, 0) - 1;
-
-  const updatePassengerCount = () => {
-    const responsible = loadFromStorage("responsiblePassenger", {});
-    const storedPassengers = loadFromStorage("passengers", []);
-    const totalPassengers = (Object.keys(responsible).length > 0 ? 1 : 0) + storedPassengers.length;
-    saveToStorage("currentPassengers", totalPassengers);
-
-    const responsibleCount = Object.keys(responsibleData).length > 0 ? 1 : 0;
-    setCurrentPassengers(totalPassengers);
-  };
-
-
-  const addPassenger = () => {
-    if (passengers.length < maxPassengers) {
-      const newPassenger = { firstName: '', secondName: '', CPF: '' };
-      const updatedPassengers = [...passengers, newPassenger];
-      setPassengers(updatedPassengers);
-      setPassengerEditingStatus([...passengerEditingStatus, true]);
-
-      // Salva no sessionStorage
-      saveToStorage('passengers', updatedPassengers);
-      updatePassengerCount();
+  // Sempre que currentPassengers ou maxPassengers mudarem, avisamos o pai.
+  useEffect(() => {
+    const isAllComplete = currentPassengers === maxPassengers && maxPassengers > 0;
+    if (onPassengersStatusChange) {
+      onPassengersStatusChange(isAllComplete);
     }
-  };
+  }, [currentPassengers, maxPassengers, onPassengersStatusChange]);
 
+  // Atualiza a contagem atual
+  // Sempre que mudarem "responsibleData" ou "passengers", recalculamos
+  useEffect(() => {
+    // Se tiver dados de responsável, conta 1, senão 0
+    const responsibleCount = Object.keys(responsibleData).length > 0 ? 1 : 0;
+    setCurrentPassengers(responsibleCount + passengers.length);
+  }, [responsibleData, passengers]);
 
-
-  // Valida e salva o passageiro responsável
+  // Valida e salva responsável
   const handleSaveResponsible = () => {
     const requiredFields = [
       'firstName',
@@ -548,44 +527,39 @@ const Passengers = ({
     ];
     const errors = validateFields(responsibleData, requiredFields);
     setResponsibleErrors(errors);
+
     const hasErrors = Object.values(errors).some((err) => err);
     if (!hasErrors) {
+      // Salva
+      saveToStorage('responsiblePassenger', responsibleData);
       setIsResponsibleSaved(true);
-      saveToStorage('responsiblePassenger', responsibleData); // Salva os dados no sessionStorage
-      return false;
     }
     return hasErrors;
   };
 
-  // Função para alterar os dados do responsável
+  // Altera dados do responsável
   const handleResponsibleChange = (field, value) => {
     setResponsibleData((prev) => ({ ...prev, [field]: value }));
   };
 
-  // Função para alterar os dados do passageiro
+  // Altera dados de passageiro
   const handlePassengerChange = (id, field, value) => {
-    const updatedPassengers = passengers.map((p, index) =>
+    const updated = passengers.map((p, index) =>
       index === id ? { ...p, [field]: value } : p
     );
-    setPassengers(updatedPassengers);
-
-    // Salva no sessionStorage
-    saveToStorage('passengers', updatedPassengers);
+    setPassengers(updated);
+    saveToStorage('passengers', updated);
   };
 
-  // Função para remover um passageiro
+  // Remove passageiro
   const handleRemovePassenger = (id) => {
-    const updatedPassengers = passengers.filter((_, index) => index !== id);
-    setPassengers(updatedPassengers);
-    setPassengerEditingStatus(updatedPassengers.map(() => false)); // Atualiza estado de edição
-
-    // Salva no sessionStorage
-    saveToStorage('passengers', updatedPassengers);
-    updatePassengerCount(); // Atualiza a contagem de passageiros
-
+    const updated = passengers.filter((_, index) => index !== id);
+    setPassengers(updated);
+    setPassengerEditingStatus(updated.map(() => false));
+    saveToStorage('passengers', updated);
   };
 
-  // Função para salvar um passageiro
+  // Salva um passageiro adicional
   const handleSavePassenger = (id) => {
     const requiredFields = [
       'firstName',
@@ -597,11 +571,14 @@ const Passengers = ({
     ];
     const passengerData = passengers[id];
     const errors = validateFields(passengerData, requiredFields);
+
+    // Ajusta no array de erros (um objeto de erros por passageiro)
     setPassengerErrors((prev) => {
       const updatedErrors = [...prev];
       updatedErrors[id] = errors;
       return updatedErrors;
     });
+
     const hasErrors = Object.values(errors).some((err) => err);
     if (!hasErrors) {
       const updatedEditingStatus = passengerEditingStatus.map((status, index) =>
@@ -609,22 +586,22 @@ const Passengers = ({
       );
       setPassengerEditingStatus(updatedEditingStatus);
 
-      // Salva no sessionStorage
       saveToStorage('passengers', passengers);
-      updatePassengerCount(); // Atualiza a contagem de passageiros
-
-      // Verifica se todos os passageiros foram salvos
-      const allSaved = passengers.every((p) => !Object.values(validateFields(p, requiredFields)).some((e) => e));
-      if (allSaved && passengers.length === maxPassengers) {
-        setAllPassengersSaved(true); // Atualiza o estado para exibir a mensagem
-      }
     }
     return hasErrors;
   };
 
-  useEffect(() => {
-    updatePassengerCount(); // Atualiza a contagem inicial ao montar o componente
-  }, []);
+  // Adiciona novo passageiro
+  const addPassenger = () => {
+    // Verifica se ainda não chegamos ao limite
+    if (currentPassengers < maxPassengers) {
+      const newPassenger = { firstName: '', secondName: '', CPF: '' };
+      const updated = [...passengers, newPassenger];
+      setPassengers(updated);
+      setPassengerEditingStatus([...passengerEditingStatus, true]);
+      saveToStorage('passengers', updated);
+    }
+  };
 
   return (
     <div>
@@ -637,22 +614,28 @@ const Passengers = ({
         draggable
         theme="light"
       />
+
+      {/* PASSAGEIRO RESPONSÁVEL */}
       <FirstPassenger
         data={responsibleData}
         onChange={handleResponsibleChange}
         errors={responsibleErrors}
-        onSave={handleSaveResponsible} // Chama a validação e salva no sessionStorage
+        onSave={handleSaveResponsible}
+        passengersCount={currentPassengers}
+        maxPassengers={maxPassengers}
       />
+
+      {/* PASSAGEIROS ADICIONAIS */}
       <div className="mt-4 space-y-4">
         {passengers.map((passenger, index) => (
           <Passenger
             key={index}
             id={index}
             data={passenger}
-            isEditing={passengerEditingStatus[index]} // Passa o estado de edição
+            isEditing={passengerEditingStatus[index]}
             onChange={handlePassengerChange}
             onRemove={handleRemovePassenger}
-            onSave={() => handleSavePassenger(index)}
+            onSave={handleSavePassenger}
             errors={passengerErrors[index] || {}}
             setIsEditing={(editing) =>
               setPassengerEditingStatus((prev) =>
@@ -661,7 +644,9 @@ const Passengers = ({
             }
           />
         ))}
-        {passengers.length < maxPassengers ? (
+
+        {/* Botão de adicionar passageiro */}
+        {currentPassengers < maxPassengers ? (
           <button
             className={`px-4 py-2 mt-4 rounded-md text-white ${isResponsibleSaved ? 'bg-bluePrime' : 'bg-gray-400 opacity-50'
               }`}
