@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import InputMask from 'react-input-mask';
-import { CirclePlus, Save, Trash2, Edit, UsersRound, Star, Users, User } from 'lucide-react';
+import { CirclePlus, Save, Trash2, Edit, Users, User, Star } from 'lucide-react';
 import GlobalFuntions from '../../../globalsubcomponentes/globalFunctions';
 import { saveToStorage, loadFromStorage } from '../utils/storageUtils';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PassengerVisualizer from './subcomponents/passengerVisualizer';
+import moment from 'moment'; // ADIÇÃO IMPORTANTE: para lidar com datas
 
 // Instância das funções globais
 const globalFunctions = new GlobalFuntions();
@@ -53,7 +54,15 @@ const fetchAddressFromCEP = async (cep, onChange) => {
 };
 
 // Primeiro Passageiro (Responsável)
-const FirstPassenger = ({ onSave, data, onChange, errors, passengersCount, maxPassengers }) => {
+const FirstPassenger = ({
+  onSave,
+  data,
+  onChange,
+  errors,
+  passengersCount,
+  maxPassengers,
+  responsibleTravelDate // ADIÇÃO IMPORTANTE
+}) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const handleSave = () => {
@@ -65,9 +74,15 @@ const FirstPassenger = ({ onSave, data, onChange, errors, passengersCount, maxPa
     }
   };
 
+  // ADIÇÃO IMPORTANTE: Calcula a data-limite (departure - 18 anos)
+  // Se não tiver departure (data de viagem), caímos num fallback "hoje - 18 anos"
+  const departureMoment = responsibleTravelDate
+    ? moment(responsibleTravelDate)
+    : moment();
+  const minBirthdate = departureMoment.subtract(18, 'years').format('YYYY-MM-DD');
+
   return (
     <div>
-      {/* VISUALIZADOR DO CONTADOR */}
       <PassengerVisualizer
         currentPassengers={passengersCount}
         maxPassengers={maxPassengers}
@@ -75,7 +90,6 @@ const FirstPassenger = ({ onSave, data, onChange, errors, passengersCount, maxPa
 
       <div className="bg-gray-50 p-4 rounded-md mb-4 shadow-sm sm:m-0 mx-2 shadow-indigo-500/40">
         {isEditing ? (
-          // Formulário de edição
           <>
             <h2 className="text-base sm:text-lg md:text-xl font-bold text-[#313131] flex items-center">
               <Star size={20} className="mr-2 text-bluePrime" />
@@ -90,8 +104,8 @@ const FirstPassenger = ({ onSave, data, onChange, errors, passengersCount, maxPa
                 value={data.firstName}
                 onChange={(e) => onChange(e.target.name, e.target.value)}
                 className={`rounded-md border p-2 w-full ${errors.firstName
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                    ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                    : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                   }`}
               />
               <input
@@ -101,8 +115,8 @@ const FirstPassenger = ({ onSave, data, onChange, errors, passengersCount, maxPa
                 value={data.secondName}
                 onChange={(e) => onChange(e.target.name, e.target.value)}
                 className={`rounded-md border p-2 w-full ${errors.secondName
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                    ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                    : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                   }`}
               />
               <InputMask
@@ -112,20 +126,22 @@ const FirstPassenger = ({ onSave, data, onChange, errors, passengersCount, maxPa
                 value={data.CPF}
                 onChange={(e) => onChange(e.target.name, e.target.value)}
                 className={`rounded-md border p-2 w-full ${errors.CPF
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                    ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                    : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                   }`}
               />
             </div>
             <div className="sm:flex sm:space-x-4 space-y-2 sm:space-y-0 mt-2">
+              {/* ADIÇÃO IMPORTANTE: max = minBirthdate */}
               <input
                 name="birthday"
                 type="date"
                 value={data.birthday}
                 onChange={(e) => onChange(e.target.name, e.target.value)}
+                max={minBirthdate}
                 className={`rounded-md border p-2 w-full ${errors.birthday
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                    ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                    : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                   }`}
               />
               <select
@@ -133,8 +149,8 @@ const FirstPassenger = ({ onSave, data, onChange, errors, passengersCount, maxPa
                 value={data.gender}
                 onChange={(e) => onChange(e.target.name, e.target.value)}
                 className={`rounded-md border p-2 w-full ${errors.gender
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                    ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                    : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                   }`}
               >
                 <option value="">Selecione o Gênero</option>
@@ -146,8 +162,8 @@ const FirstPassenger = ({ onSave, data, onChange, errors, passengersCount, maxPa
                 value={data.politica}
                 onChange={(e) => onChange(e.target.name, e.target.value)}
                 className={`rounded-md border p-2 w-full ${errors.politica
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                    ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                    : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                   }`}
               >
                 <option value="">Pessoa politicamente exposta?</option>
@@ -163,8 +179,8 @@ const FirstPassenger = ({ onSave, data, onChange, errors, passengersCount, maxPa
                 value={data.email}
                 onChange={(e) => onChange(e.target.name, e.target.value)}
                 className={`rounded-md border p-2 w-full ${errors.email
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                    ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                    : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                   }`}
               />
               <InputMask
@@ -174,8 +190,8 @@ const FirstPassenger = ({ onSave, data, onChange, errors, passengersCount, maxPa
                 value={data.tell}
                 onChange={(e) => onChange(e.target.name, e.target.value)}
                 className={`rounded-md border p-2 w-full ${errors.tell
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                    ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                    : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                   }`}
               />
               <input
@@ -185,8 +201,8 @@ const FirstPassenger = ({ onSave, data, onChange, errors, passengersCount, maxPa
                 value={data.socialName}
                 onChange={(e) => onChange(e.target.name, e.target.value)}
                 className={`rounded-md border p-2 w-full ${errors.socialName
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                    ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                    : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                   }`}
               />
             </div>
@@ -201,8 +217,8 @@ const FirstPassenger = ({ onSave, data, onChange, errors, passengersCount, maxPa
                 onChange={(e) => onChange(e.target.name, e.target.value)}
                 onBlur={(e) => fetchAddressFromCEP(e.target.value, onChange)}
                 className={`rounded-md border p-2 w-full ${errors.zipCode
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                    ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                    : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                   }`}
               />
               <input
@@ -210,10 +226,12 @@ const FirstPassenger = ({ onSave, data, onChange, errors, passengersCount, maxPa
                 name="address"
                 value={data.address}
                 onChange={(e) => onChange(e.target.name, e.target.value)}
-                placeholder={errors.address ? 'Coloque seu endereço' : 'Seu endereço'}
+                placeholder={
+                  errors.address ? 'Coloque seu endereço' : 'Seu endereço'
+                }
                 className={`rounded-md border p-2 w-full ${errors.address
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                    ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                    : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                   }`}
               />
               <input
@@ -223,8 +241,8 @@ const FirstPassenger = ({ onSave, data, onChange, errors, passengersCount, maxPa
                 type="text"
                 placeholder={errors.numberAddress ? 'Seu número' : 'Número'}
                 className={`rounded-md border p-2 w-full ${errors.numberAddress
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                    ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                    : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                   }`}
               />
             </div>
@@ -237,8 +255,8 @@ const FirstPassenger = ({ onSave, data, onChange, errors, passengersCount, maxPa
                 value={data.completeAddress}
                 onChange={(e) => onChange(e.target.name, e.target.value)}
                 className={`rounded-md border p-2 w-full ${errors.completeAddress
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                    ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                    : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                   }`}
               />
               <input
@@ -250,8 +268,8 @@ const FirstPassenger = ({ onSave, data, onChange, errors, passengersCount, maxPa
                 }
                 name="district"
                 className={`rounded-md border p-2 w-full ${errors.district
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                    ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                    : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                   }`}
               />
               <input
@@ -263,8 +281,8 @@ const FirstPassenger = ({ onSave, data, onChange, errors, passengersCount, maxPa
                 }
                 name="city"
                 className={`rounded-md border p-2 w-full ${errors.city
-                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                    ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                    : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                   }`}
               />
             </div>
@@ -281,7 +299,6 @@ const FirstPassenger = ({ onSave, data, onChange, errors, passengersCount, maxPa
             </div>
           </>
         ) : (
-          // Visualização do responsável
           <div className="flex justify-between items-center">
             <div>
               <h2 className="text-base sm:text-lg md:text-xl font-bold text-[#313131] flex items-center">
@@ -309,7 +326,16 @@ const FirstPassenger = ({ onSave, data, onChange, errors, passengersCount, maxPa
 };
 
 // Passageiros adicionais
-const Passenger = ({ id, data, onChange, onRemove, onSave, errors, isEditing, setIsEditing }) => {
+const Passenger = ({
+  id,
+  data,
+  onChange,
+  onRemove,
+  onSave,
+  errors,
+  isEditing,
+  setIsEditing
+}) => {
   const handleSave = () => {
     const hasErrors = onSave(id);
     if (!hasErrors) {
@@ -317,6 +343,11 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors, isEditing, se
       toast.success('Dados salvos com sucesso!');
     }
   };
+
+  // ADIÇÃO IMPORTANTE: Limitar data de nascimento ao ano atual
+  // (Não deixa escolher nascimento no futuro).
+  const currentYear = new Date().getFullYear();
+  const maxPassengerDate = `${currentYear}-12-31`;
 
   return (
     <div className="bg-gray-50 p-4 rounded-md mb-4 shadow-sm sm:m-0 mx-2 shadow-indigo-500/40">
@@ -335,8 +366,8 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors, isEditing, se
               value={data.firstName}
               onChange={(e) => onChange(id, e.target.name, e.target.value)}
               className={`rounded-md border p-2 w-full ${errors.firstName
-                ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                 }`}
             />
             <input
@@ -346,8 +377,8 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors, isEditing, se
               value={data.secondName}
               onChange={(e) => onChange(id, e.target.name, e.target.value)}
               className={`rounded-md border p-2 w-full ${errors.secondName
-                ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                 }`}
             />
             <InputMask
@@ -357,20 +388,22 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors, isEditing, se
               value={data.CPF}
               onChange={(e) => onChange(id, e.target.name, e.target.value)}
               className={`rounded-md border p-2 w-full ${errors.CPF
-                ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                 }`}
             />
           </div>
           <div className="sm:flex sm:space-x-4 space-y-2 sm:space-y-0 mt-2">
+            {/* ADIÇÃO IMPORTANTE: max = ano atual */}
             <input
               name="birthday"
               type="date"
               value={data.birthday}
               onChange={(e) => onChange(id, e.target.name, e.target.value)}
+              max={maxPassengerDate}
               className={`rounded-md border p-2 w-full ${errors.birthday
-                ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                 }`}
               placeholder="Data de Nascimento"
             />
@@ -379,8 +412,8 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors, isEditing, se
               value={data.gender}
               onChange={(e) => onChange(id, e.target.name, e.target.value)}
               className={`rounded-md border p-2 w-full ${errors.gender
-                ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                 }`}
             >
               <option value="">Selecione o Gênero</option>
@@ -392,8 +425,8 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors, isEditing, se
               value={data.politica}
               onChange={(e) => onChange(id, e.target.name, e.target.value)}
               className={`rounded-md border p-2 w-full ${errors.politica
-                ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
-                : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
+                  ? 'border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500'
+                  : 'border-bluePrime focus:ring-bluePrime ring-bluePrime'
                 }`}
             >
               <option value="">Pessoa politicamente exposta?</option>
@@ -419,7 +452,6 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors, isEditing, se
           </div>
         </>
       ) : (
-        // Card de visualização
         <div className="mb-4">
           <div className="flex justify-between items-center">
             <div>
@@ -427,7 +459,9 @@ const Passenger = ({ id, data, onChange, onRemove, onSave, errors, isEditing, se
                 <User size={20} className="mr-2 text-bluePrime" />
                 Passageiro {id + 2}
               </h2>
-              <p>Nome: {data.firstName} {data.secondName}</p>
+              <p>
+                Nome: {data.firstName} {data.secondName}
+              </p>
               <p>CPF: {data.CPF}</p>
             </div>
             <button
@@ -451,20 +485,19 @@ const Passengers = ({
   onChange,
   onPassengersStatusChange,
 }) => {
-  // Responsável
   const [responsibleErrors, setResponsibleErrors] = useState({});
   const [isResponsibleSaved, setIsResponsibleSaved] = useState(false);
 
-  // Passageiros adicionais
   const [passengers, setPassengers] = useState([]);
   const [passengerErrors, setPassengerErrors] = useState([]);
   const [passengerEditingStatus, setPassengerEditingStatus] = useState([]);
 
-  // Limite e contagem
   const [maxPassengers, setMaxPassengers] = useState(0);
   const [currentPassengers, setCurrentPassengers] = useState(0);
 
-  // Carregamos do storage no início
+  // ADIÇÃO IMPORTANTE: Precisamos da data de viagem (departure) para checar +18
+  const [travelDate, setTravelDate] = useState(null);
+
   useEffect(() => {
     // 1. Carrega responsável
     const storedResponsible = loadFromStorage('responsiblePassenger', {});
@@ -480,19 +513,18 @@ const Passengers = ({
       setPassengerEditingStatus(storedPassengers.map(() => false));
     }
 
-    // 3. Carrega editQuote para pegar o limite
+    // 3. Carrega editQuote para pegar o limite e data de viagem
     const storedEditQuote = loadFromStorage('editQuote', {});
-    // Exemplo: se storedEditQuote tiver a forma: { olds: [2, 1, 1] }, somamos todos
     const sumOfOlds = storedEditQuote.olds?.reduce((sum, num) => sum + num, 0) || 0;
-
-    // Se esse "sumOfOlds" já for o total *incluindo* o responsável, então maxPassengers = sumOfOlds.
-    // Se você quiser que sumOfOlds seja o total *sem* contar o responsável, faça sumOfOlds + 1, etc.
-    // Ajuste conforme a necessidade:
     setMaxPassengers(sumOfOlds);
 
-  }, []);
+    // ADIÇÃO IMPORTANTE: Pegamos a departure
+    if (storedEditQuote.departure) {
+      setTravelDate(storedEditQuote.departure);
+    }
+  }, [setResponsibleData]);
 
-  // Sempre que currentPassengers ou maxPassengers mudarem, avisamos o pai.
+  // Sempre que mudar a contagem, avisamos o pai
   useEffect(() => {
     const isAllComplete = currentPassengers === maxPassengers && maxPassengers > 0;
     if (onPassengersStatusChange) {
@@ -500,10 +532,8 @@ const Passengers = ({
     }
   }, [currentPassengers, maxPassengers, onPassengersStatusChange]);
 
-  // Atualiza a contagem atual
-  // Sempre que mudarem "responsibleData" ou "passengers", recalculamos
+  // Recalcula a contagem atual
   useEffect(() => {
-    // Se tiver dados de responsável, conta 1, senão 0
     const responsibleCount = Object.keys(responsibleData).length > 0 ? 1 : 0;
     setCurrentPassengers(responsibleCount + passengers.length);
   }, [responsibleData, passengers]);
@@ -529,8 +559,19 @@ const Passengers = ({
     setResponsibleErrors(errors);
 
     const hasErrors = Object.values(errors).some((err) => err);
+
+    // ADIÇÃO IMPORTANTE: verificar se é maior de 18
+    if (!hasErrors && travelDate && responsibleData.birthday) {
+      const departureMoment = moment(travelDate);
+      const birthMoment = moment(responsibleData.birthday);
+      const ageAtTravel = departureMoment.diff(birthMoment, 'years');
+      if (ageAtTravel < 18) {
+        toast.error('O responsável deve ter pelo menos 18 anos na data da viagem.');
+        return true; // sinaliza erro
+      }
+    }
+
     if (!hasErrors) {
-      // Salva
       saveToStorage('responsiblePassenger', responsibleData);
       setIsResponsibleSaved(true);
     }
@@ -572,7 +613,6 @@ const Passengers = ({
     const passengerData = passengers[id];
     const errors = validateFields(passengerData, requiredFields);
 
-    // Ajusta no array de erros (um objeto de erros por passageiro)
     setPassengerErrors((prev) => {
       const updatedErrors = [...prev];
       updatedErrors[id] = errors;
@@ -585,7 +625,6 @@ const Passengers = ({
         index === id ? false : status
       );
       setPassengerEditingStatus(updatedEditingStatus);
-
       saveToStorage('passengers', passengers);
     }
     return hasErrors;
@@ -593,9 +632,13 @@ const Passengers = ({
 
   // Adiciona novo passageiro
   const addPassenger = () => {
-    // Verifica se ainda não chegamos ao limite
     if (currentPassengers < maxPassengers) {
-      const newPassenger = { firstName: '', secondName: '', CPF: '' };
+      const newPassenger = {
+        firstName: '',
+        secondName: '',
+        CPF: '',
+        birthday: ''
+      };
       const updated = [...passengers, newPassenger];
       setPassengers(updated);
       setPassengerEditingStatus([...passengerEditingStatus, true]);
@@ -623,6 +666,7 @@ const Passengers = ({
         onSave={handleSaveResponsible}
         passengersCount={currentPassengers}
         maxPassengers={maxPassengers}
+        responsibleTravelDate={travelDate} // ADIÇÃO IMPORTANTE
       />
 
       {/* PASSAGEIROS ADICIONAIS */}

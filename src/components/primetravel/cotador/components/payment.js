@@ -1,6 +1,7 @@
 import React from 'react';
 import TabsNavigation from './subcomponents/navigation';
 import DetalhesCompra from './subcomponents/detalhesCompra';
+import Purchased from './purchased';
 
 const Payment = () => {
   return (
@@ -29,6 +30,7 @@ const Payment = () => {
           <DetalhesCompra />
         </div>
       </div>
+      <Purchased />
     </div>
   );
 };

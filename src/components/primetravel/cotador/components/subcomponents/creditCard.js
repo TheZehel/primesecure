@@ -5,8 +5,12 @@ import { saveToStorage } from '../../utils/storageUtils';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LoadingAnimation from '../../../../globalsubcomponentes/icons/loadingSvg'; // Atualizado para importar LoadingAnimation
+import { useNavigate } from 'react-router-dom';
+import Purchased from '../purchased';
 
 const CreditCard = ({ onSubmit }) => {
+    const [isPaid, setIsPaid] = useState(false);
+
     const [cardNumber, setCardNumber] = useState('');
     const [cardHolder, setCardHolder] = useState('');
     const [expirationDate, setExpirationDate] = useState('');
@@ -87,6 +91,9 @@ const CreditCard = ({ onSubmit }) => {
 
             // Callback para ações adicionais
             if (onSubmit) onSubmit(cardData);
+
+            // 3. Ao final, dizemos que está pago, trocando para "página de obrigado" local
+            setIsPaid(true);
         } catch (error) {
             toast.error('Erro ao processar o pagamento. Tente novamente.', {
                 position: 'top-right',
@@ -102,6 +109,17 @@ const CreditCard = ({ onSubmit }) => {
     const formatCardNumber = (number) => {
         return number.replace(/(\d{4})/g, '$1 ').trim();
     };
+
+    // 4. Renderização condicional:
+    // Se o pagamento já foi feito, mostra o componente de "Obrigado"
+    if (isPaid) {
+        return (
+            <div>
+                <Purchased />
+                <ToastContainer />
+            </div>
+        );
+    }
 
     return (
         <div>
