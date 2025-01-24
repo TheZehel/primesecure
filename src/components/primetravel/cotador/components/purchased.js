@@ -116,7 +116,7 @@ const Purchased = () => {
       {/* MENSAGEM DE AGRADECIMENTO */}
       <h2 className="text-3xl font-bold text-[#313131] mb-4">Obrigado!</h2>
       <p className="mb-6 text-gray-700">
-        Aqui você pode listar os planos disponíveis...
+        Aqui você pode ver o seu pedido...
       </p>
 
       {/* RESUMO */}
