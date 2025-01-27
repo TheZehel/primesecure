@@ -8,27 +8,32 @@ export function InvoiceTable() {
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    // Carrega os dados do sessionStorage
-    const storedPlan = loadFromStorage("plans", {});
+    // Carregar os dados do sessionStorage
+    const storedPlan = loadFromStorage("plans", null);
     const storedQuote = loadFromStorage("editQuote", { olds: [0, 0, 0] });
 
-    // Processa os passageiros e total com base nos dados do sessionStorage
-    const totalPassengers = storedQuote.olds.reduce((sum, count) => sum + count, 0);
-    const planPrice = storedPlan?.price
-      ? parseFloat(storedPlan.price.replace("R$", "").replace(",", "."))
-      : 0;
+    if (!storedPlan || !storedQuote) {
+      console.error("Nenhum plano ou informações de passageiros encontrados.");
+      return;
+    }
 
-    // Calcula o total
+    // Calcular o número total de passageiros
+    const totalPassengers = storedQuote.olds.reduce((sum, count) => sum + count, 0);
+
+    // Verificar e calcular o preço do plano
+    const planPrice = parseFloat(storedPlan.ValorProduto || 0);
+
+    // Calcular o total geral
     const calculatedTotal = planPrice * totalPassengers;
 
-    // Atualiza os estados
-    setPlans(storedPlan ? [storedPlan] : []);
+    // Atualizar estados
+    setPlans([storedPlan]);
     setPassengerCount(totalPassengers);
     setTotal(calculatedTotal);
 
-    // Salva no sessionStorage como "resume"
+    // Salvar no sessionStorage como "resume"
     const resumeData = {
-      plan: storedPlan?.title || "Nenhum plano selecionado",
+      plan: storedPlan.DescricaoProduto || "Nenhum plano selecionado",
       passengerCount: totalPassengers,
       total: calculatedTotal.toLocaleString("pt-BR", {
         style: "currency",
@@ -67,16 +72,15 @@ export function InvoiceTable() {
           {plans.length > 0 ? (
             plans.map((plan, index) => (
               <tr key={index} className="hover:bg-gray-50">
-                <td className="border border-gray-300 px-4 py-2">{plan.title}</td>
+                <td className="border border-gray-300 px-4 py-2">{plan.DescricaoProduto || "Plano não especificado"}</td>
                 <td className="border border-gray-300 px-4 py-2 text-center">{passengerCount}</td>
                 <td className="border border-gray-300 px-4 py-2 text-right">
-                  {(parseFloat(plan.price.replace("R$", "").replace(",", ".")) * passengerCount).toLocaleString(
-                    "pt-BR",
-                    {
-                      style: "currency",
-                      currency: "BRL",
-                    }
-                  )}
+                  {(
+                    (parseFloat(plan.ValorProduto || 0) * passengerCount) || 0
+                  ).toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  })}
                 </td>
               </tr>
             ))

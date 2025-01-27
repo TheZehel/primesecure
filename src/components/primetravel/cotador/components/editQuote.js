@@ -5,6 +5,7 @@ import locale from 'antd/lib/date-picker/locale/pt_BR';
 import moment from 'moment';
 import { loadFromStorage, saveToStorage } from '../utils/storageUtils';
 import { toast, ToastContainer } from 'react-toastify';
+import ListaPaises from '../../components/ListaPaises';
 
 const destinations = [
   { value: '1', label: 'África', code: 'AF' },
@@ -54,19 +55,19 @@ const EditQuote = () => {
       const parsed = JSON.parse(stored);
       return {
         ...parsed,
-        selectedOption: destinations.find((dest) => dest.value === parsed.selectedOption) || null,
+        selectedOption: ListaPaises.find((pais) => pais.code === parsed.CodigoDestino) || null,
         olds: Array.isArray(parsed.olds) ? parsed.olds : [0, 0, 0],
         DataInicioViagem: parsed.departure ? moment(parsed.departure, 'YYYY-MM-DD') : null,
         DataFinalViagem: parsed.arrival ? moment(parsed.arrival, 'YYYY-MM-DD') : null,
+        departure: parsed.departure ? moment(parsed.departure, 'YYYY-MM-DD') : null,
+        arrival: parsed.arrival ? moment(parsed.arrival, 'YYYY-MM-DD') : null,
       };
     }
-    return {
-      selectedOption: null,
-      olds: [0, 0, 0],
-      DataInicioViagem: null,
-      DataFinalViagem: null,
-    };
+    return defaultState;
   });
+
+
+
 
   const [isEditing, setIsEditing] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -77,18 +78,19 @@ const EditQuote = () => {
     const updatedData = {
       ...formData,
       selectedOption: formData.selectedOption?.value || '',
-      passageiros: formData.olds,
-      departure: formData.DataInicioViagem
-        ? formData.DataInicioViagem.format('YYYY-MM-DD')
+      CodigoDestino: formData.selectedOption?.regiao || '', // Garante que a região seja salva
+      departure: moment.isMoment(formData.departure)
+        ? formData.departure.format('YYYY-MM-DD')
         : null,
-      arrival: formData.DataFinalViagem
-        ? formData.DataFinalViagem.format('YYYY-MM-DD')
+      arrival: moment.isMoment(formData.arrival)
+        ? formData.arrival.format('YYYY-MM-DD')
         : null,
     };
 
-    // Salva todos os dados atualizados no sessionStorage
+    // Salva os dados atualizados no sessionStorage
     sessionStorage.setItem('editQuote', JSON.stringify(updatedData));
     setIsEditing(false);
+
     toast.success('Dados atualizados com sucesso!', {
       position: 'top-right',
       autoClose: 3000,
@@ -112,22 +114,34 @@ const EditQuote = () => {
     setFormData((prev) => ({ ...prev, olds: updatedOlds }));
   };
 
-  const selectHandler = (e) => {
-    const selectedValue = e.target.value;
-    const selectedDest = destinations.find((dest) => dest.value === selectedValue);
+  const selectHandler = (event) => {
+    const selectedValue = event.target.value; // Valor selecionado no dropdown
+    const selectedOption = ListaPaises.find((pais) => pais.value === selectedValue); // Encontra o país na lista
 
     setFormData((prev) => ({
       ...prev,
-      selectedOption: selectedDest || null,
+      selectedOption, // Atualiza o país selecionado
+      CodigoDestino: selectedOption?.code || '', // Define o código do país
     }));
+
+    // Atualiza o sessionStorage com os novos dados
+    const updatedFormData = {
+      ...formData,
+      selectedOption,
+      CodigoDestino: selectedOption?.code || '',
+    };
+    sessionStorage.setItem('editQuote', JSON.stringify(updatedFormData));
   };
+
+
 
   const onChangeDeparture = (date) => {
     setFormData((prev) => ({
       ...prev,
-      DataInicioViagem: date,
+      departure: moment.isMoment(date) ? date : null,
+      DataInicioViagem: moment.isMoment(date) ? date : null,
       DataFinalViagem:
-        prev.DataFinalViagem && date && date.isAfter(prev.DataFinalViagem)
+        prev.DataFinalViagem && moment.isMoment(date) && date.isAfter(prev.DataFinalViagem)
           ? null
           : prev.DataFinalViagem,
     }));
@@ -136,9 +150,11 @@ const EditQuote = () => {
   const onChangeArrival = (date) => {
     setFormData((prev) => ({
       ...prev,
-      DataFinalViagem: date,
+      arrival: moment.isMoment(date) ? date : null,
+      DataFinalViagem: moment.isMoment(date) ? date : null,
     }));
   };
+
 
   const disabledDepartureDate = (current) =>
     current && current.isBefore(moment().startOf('day'));
@@ -167,12 +183,13 @@ const EditQuote = () => {
               <option value="" disabled>
                 Selecione o Destino...
               </option>
-              {destinations.map((dest) => (
+              {ListaPaises.map((dest) => (
                 <option key={dest.value} value={dest.value}>
                   {dest.label}
                 </option>
               ))}
             </select>
+
           ) : (
             <p className="text-base sm:text-sm md:text-base text-center">
               {formData.selectedOption?.label || 'Destino não selecionado'}

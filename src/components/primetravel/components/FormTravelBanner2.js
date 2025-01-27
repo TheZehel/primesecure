@@ -64,12 +64,22 @@ export default function FormTravelBanner2() {
   }
 
   const handleReasonChange = (selectedReason) => {
-    setFormData({ ...formData, reason: selectedReason });
-    if (errorList.includes('reason')) {
-      const errors = errorList.filter((item) => item !== 'reason');
-      setErrorList(errors);
-    }
+    // Determina o valor de CodigoMotivoViagem com base no motivo selecionado
+    const CodigoMotivoViagem = selectedReason.value === 'lazer/negocios' ? 'L' : 'E';
+
+    // Atualiza o estado do formulário
+    const updatedFormData = {
+      ...formData,
+      reason: selectedReason,
+      CodigoMotivoViagem,
+    };
+
+    setFormData(updatedFormData);
+
+    // Atualiza o sessionStorage com o novo motivo
+    sessionStorage.setItem('editQuote', JSON.stringify(updatedFormData));
   };
+
 
 
   async function submitFormToRD(payload, redirect, attempts = 0) {
@@ -282,15 +292,40 @@ export default function FormTravelBanner2() {
   };
 
   const selectHandler = (event) => {
-    const selectedValue = event.target.value; // Obtém o valor selecionado
-    setFormData({ ...formData, selectedOption: selectedValue }); // Atualiza o estado
+    const selectedValue = event.target.value;
+    const selectedOption = ListaPaises.find((pais) => pais.value === selectedValue);
+
+    setFormData((prevFormData) => {
+      // Copia os dados anteriores
+      const updatedData = {
+        ...prevFormData,
+        selectedOption, // Atualiza o destino selecionado
+      };
+
+      // Define o CodigoTipoProduto com base no destino
+      if (selectedOption?.value === "Brasil") {
+        updatedData.CodigoTipoProduto = "VN"; // Dentro do Brasil
+      } else {
+        updatedData.CodigoTipoProduto = "VI"; // Fora do Brasil
+      }
+
+      // Atualiza o sessionStorage com o novo CodigoTipoProduto
+      const sessionData = JSON.parse(sessionStorage.getItem('editQuote')) || {};
+      sessionData.CodigoTipoProduto = updatedData.CodigoTipoProduto;
+      sessionData.selectedOption = selectedOption; // Atualiza o destino selecionado no sessionStorage
+      sessionStorage.setItem('editQuote', JSON.stringify(sessionData));
+
+      return updatedData;
+    });
 
     if (errorList.includes('destinyGroup')) {
-      // Remove 'destinyGroup' da lista de erros, se necessário
-      let errors = errorList.filter((item) => item !== 'destinyGroup');
+      // Remove erros relacionados ao destino, se houver
+      const errors = errorList.filter((item) => item !== 'destinyGroup');
       setErrorList(errors);
     }
   };
+
+
 
 
   const [modalOpen, setModalIsOpen] = useState(false);
@@ -301,17 +336,30 @@ export default function FormTravelBanner2() {
   const handleOld = (index, value) => {
     let formOlds = [...formData.olds];
 
-    // Garante que o valor mínimo seja 0 e incrementa/decrementa de 1 em 1
-    if (value === 1 || value === -1) {
-      if (value === 1 && formOlds.reduce((sum, age) => sum + age, 0) < 8) {
-        formOlds[index] += 1;
-      } else if (value === -1 && formOlds[index] > 0) {
-        formOlds[index] -= 1;
-      }
+    // Atualiza o valor do grupo etário selecionado
+    if (value === 1 && formOlds.reduce((sum, age) => sum + age, 0) < 8) {
+      formOlds[index] += 1; // Incrementa
+    } else if (value === -1 && formOlds[index] > 0) {
+      formOlds[index] -= 1; // Decrementa
     }
 
-    setFormData({ ...formData, olds: formOlds });
+    // Calcula os valores para armazenar no sessionStorage
+    const QtdePassNaoSenior = formOlds[0]; // Idades de 0 a 75 anos
+    const QtdePassSenior = formOlds[1] + formOlds[2]; // Idades acima de 75 anos
+
+    // Atualiza o estado e o sessionStorage
+    const updatedFormData = {
+      ...formData,
+      olds: formOlds,
+      QtdePassNaoSenior,
+      QtdePassSenior,
+    };
+
+    setFormData(updatedFormData);
+
+    sessionStorage.setItem('editQuote', JSON.stringify(updatedFormData));
   };
+
 
   const inputHandler = (event) => {
     // Manipula o valor das inputs simples de texto
@@ -434,41 +482,58 @@ export default function FormTravelBanner2() {
                       </Select> */}
                       <select
                         id="destinyGroup"
-                        value={formData.selectedOption}
-                        onChange={selectHandler}
-                        className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime text-lg leading-6 text-center" // Adicionado text-center
+                        value={formData.selectedOption?.value || ''} // Mostra o valor selecionado ou vazio
+                        onChange={(e) => {
+                          const selectedOption = ListaPaises.find(
+                            (pais) => pais.value === e.target.value
+                          ); // Encontra o país selecionado na lista
+
+                          // Define se o destino inclui a Europa
+                          const paisesEuropa = [
+                            'França', 'Espanha', 'Itália', 'Reino Unido', 'Alemanha', 'Grécia',
+                            'Portugal', 'Áustria', 'Bélgica', 'Holanda', 'Suíça', 'Suécia',
+                            'Noruega', 'Dinamarca', 'Albânia', 'Andorra', 'Armênia', 'Bielorrússia',
+                            'Bósnia e Herzegovina', 'Bulgária', 'Chipre', 'Croácia', 'Eslováquia',
+                            'Eslovênia', 'Estônia', 'Finlândia', 'Geórgia', 'Hungria', 'Irlanda',
+                            'Islândia', 'Letônia', 'Liechtenstein', 'Lituânia', 'Luxemburgo',
+                            'Macedônia do Norte', 'Malta', 'Moldávia', 'Mônaco', 'Montenegro',
+                            'Polônia', 'República Tcheca', 'Romênia', 'Rússia', 'San Marino',
+                            'Sérvia', 'Ucrânia', 'Vaticano'
+                          ];
+                          const IncluiEuropa = paisesEuropa.includes(selectedOption?.value) ? '1' : '0';
+
+                          const updatedFormData = {
+                            ...formData,
+                            selectedOption, // Atualiza o país selecionado
+                            CodigoDestino: selectedOption?.regiao || '', // Define o código da região como CodigoDestino
+                            CodigoTipoProduto: selectedOption?.value === 'Brasil' ? 'VN' : 'VI', // Define o tipo de produto
+                            IncluiEuropa, // Define se inclui a Europa
+                          };
+
+                          setFormData(updatedFormData); // Atualiza o estado
+
+                          // Atualiza o sessionStorage
+                          const sessionData = JSON.parse(sessionStorage.getItem('editQuote')) || {};
+                          sessionData.CodigoDestino = selectedOption?.regiao || '';
+                          sessionData.CodigoTipoProduto = updatedFormData.CodigoTipoProduto;
+                          sessionData.IncluiEuropa = IncluiEuropa;
+                          sessionStorage.setItem('editQuote', JSON.stringify(sessionData));
+                        }}
+                        className="block w-full placeholder:text-grayPrime rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime text-lg leading-6 text-center"
                       >
-                        <option value="" disabled selected className="text-center">
-                          Destino
+                        <option value="" disabled>
+                          Selecione o Destino...
                         </option>
-                        <option value="1" className="text-center">
-                          África
-                        </option>
-                        <option value="2" className="text-center">
-                          América Central
-                        </option>
-                        <option value="3" className="text-center">
-                          Ásia
-                        </option>
-                        <option value="4" className="text-center">
-                          Europa
-                        </option>
-                        <option value="5" className="text-center">
-                          América do Norte
-                        </option>
-                        <option value="6" className="text-center">
-                          Oceania
-                        </option>
-                        <option value="7" className="text-center">
-                          América do Sul
-                        </option>
-                        <option value="8" className="text-center">
-                          Brasil
-                        </option>
-                        <option value="9" className="text-center">
-                          Múltiplos destinos
-                        </option>
+                        {ListaPaises.map((pais) => (
+                          <option key={pais.value} value={pais.value}>
+                            {pais.label}
+                          </option>
+                        ))}
                       </select>
+
+
+
+
 
                     </div>
                   </div>
@@ -478,12 +543,13 @@ export default function FormTravelBanner2() {
                       <Select
                         id="reason"
                         value={formData.reason}
-                        onChange={handleReasonChange}
+                        onChange={handleReasonChange} // Aqui é onde a função é utilizada
                         options={reasonOptions}
                         isSearchable
                         placeholder="Selecione o motivo da viagem..."
                         className="cursor-pointer text-lg w-full text-[#313131] placeholder:text-[#313131]"
                       />
+
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
@@ -581,7 +647,7 @@ export default function FormTravelBanner2() {
                         </div>
                         <hr className="mb-4" />
                         {/* Repetir para cada grupo de idade */}
-                        {['0 a 75 anos', '76 a 85 anos', '86 a 99 anos'].map(
+                        {['0 a 71 anos', '72 a 85 anos', '86 a 99 anos'].map(
                           (group, index) => (
                             <div
                               className="flex items-center justify-between mb-2"
