@@ -47,7 +47,7 @@ const defaultState = {
   phone: '',
 };
 
-const EditQuote = () => {
+const EditQuote = ({ onUpdatePlans }) => {
   // Carregar dados do sessionStorage
   const [formData, setFormData] = useState(() => {
     const stored = sessionStorage.getItem('editQuote');
@@ -55,7 +55,7 @@ const EditQuote = () => {
       const parsed = JSON.parse(stored);
       return {
         ...parsed,
-        selectedOption: ListaPaises.find((pais) => pais.code === parsed.CodigoDestino) || null,
+        selectedOption: ListaPaises.find((pais) => pais.regiao === parsed.CodigoDestino) || null,
         olds: Array.isArray(parsed.olds) ? parsed.olds : [0, 0, 0],
         DataInicioViagem: parsed.departure ? moment(parsed.departure, 'YYYY-MM-DD') : null,
         DataFinalViagem: parsed.arrival ? moment(parsed.arrival, 'YYYY-MM-DD') : null,
@@ -63,12 +63,10 @@ const EditQuote = () => {
         arrival: parsed.arrival ? moment(parsed.arrival, 'YYYY-MM-DD') : null,
       };
     }
-    return defaultState;
+    return defaultState; // Use o estado padrão se não houver dados no storage
   });
-
-
-
-
+  const [plansData, setPlansData] = useState([]); // Para armazenar os planos
+  const [isLoading, setIsLoading] = useState(false); // Para exibir o carregamento
   const [isEditing, setIsEditing] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -77,18 +75,24 @@ const EditQuote = () => {
   const handleSave = () => {
     const updatedData = {
       ...formData,
-      selectedOption: formData.selectedOption?.value || '',
-      CodigoDestino: formData.selectedOption?.regiao || '', // Garante que a região seja salva
+      CodigoDestino: formData.CodigoDestino || '', // Define o código do país
       departure: moment.isMoment(formData.departure)
         ? formData.departure.format('YYYY-MM-DD')
         : null,
       arrival: moment.isMoment(formData.arrival)
         ? formData.arrival.format('YYYY-MM-DD')
         : null,
+      // selectedOption não precisa ser salvo, será reconstruído na inicialização
+      selectedOption: undefined,
     };
 
+    // Remove selectedOption do objeto salvo
+    const { selectedOption, ...dataToSave } = updatedData;
+
     // Salva os dados atualizados no sessionStorage
-    sessionStorage.setItem('editQuote', JSON.stringify(updatedData));
+    sessionStorage.setItem('editQuote', JSON.stringify(dataToSave));
+    onUpdatePlans(); // Chamar a atualização dos planos
+
     setIsEditing(false);
 
     toast.success('Dados atualizados com sucesso!', {
@@ -101,7 +105,11 @@ const EditQuote = () => {
       theme: 'light',
     });
 
-    console.log('Dados atualizados no sessionStorage:', updatedData);
+    console.log('Dados atualizados no sessionStorage:', dataToSave);
+
+    //fetchPlans(setPlansData, setIsLoading)
+    //.then(() => toast.success('Planos atualizados com sucesso!'))
+    //.catch(() => toast.error('Erro ao atualizar os planos.'));
   };
 
   const handleOld = (index, value) => {
@@ -115,23 +123,25 @@ const EditQuote = () => {
   };
 
   const selectHandler = (event) => {
-    const selectedValue = event.target.value; // Valor selecionado no dropdown
-    const selectedOption = ListaPaises.find((pais) => pais.value === selectedValue); // Encontra o país na lista
+    const selectedRegiao = event.target.value;
 
     setFormData((prev) => ({
       ...prev,
-      selectedOption, // Atualiza o país selecionado
-      CodigoDestino: selectedOption?.code || '', // Define o código do país
+      CodigoDestino: selectedRegiao,
+      selectedOption: ListaPaises.find((pais) => pais.regiao === selectedRegiao) || null,
     }));
 
-    // Atualiza o sessionStorage com os novos dados
-    const updatedFormData = {
+    const updatedData = {
       ...formData,
-      selectedOption,
-      CodigoDestino: selectedOption?.code || '',
+      CodigoDestino: selectedRegiao,
+      departure: formData.departure ? formData.departure.format('YYYY-MM-DD') : null,
+      arrival: formData.arrival ? formData.arrival.format('YYYY-MM-DD') : null,
     };
-    sessionStorage.setItem('editQuote', JSON.stringify(updatedFormData));
+
+    sessionStorage.setItem('editQuote', JSON.stringify(updatedData));
+    console.log('Destino atualizado no sessionStorage:', updatedData);
   };
+
 
 
 
@@ -176,26 +186,36 @@ const EditQuote = () => {
           <h4 className="text-sm font-bold sm:text-xs md:text-sm">Destino</h4>
           {isEditing ? (
             <select
-              value={formData.selectedOption?.value || ''}
-              onChange={selectHandler}
+              value={formData.CodigoDestino || ''}
+              onChange={(event) => {
+                selectHandler(event);
+                //fetchPlans(setPlansData, setIsLoading);
+              }}
               className="mt-2 sm:mt-1 md:mt-2 cursor-pointer w-3/4 rounded-md border px-2 py-1 text-sm shadow-sm text-center ring-offset-whitePrime"
             >
               <option value="" disabled>
                 Selecione o Destino...
               </option>
-              {ListaPaises.map((dest) => (
-                <option key={dest.value} value={dest.value}>
-                  {dest.label}
+              {ListaPaises.map((pais) => (
+                <option key={pais.regiao} value={pais.regiao}>
+                  {pais.label}
                 </option>
               ))}
             </select>
-
           ) : (
             <p className="text-base sm:text-sm md:text-base text-center">
               {formData.selectedOption?.label || 'Destino não selecionado'}
             </p>
           )}
+
+          {/* Exibir status de carregamento ou quantidade de planos */}
+          {isLoading ? (
+            <p>Carregando...</p>
+          ) : (
+            <p>{plansData.length} planos carregados.</p>
+          )}
         </div>
+
 
         <div>
           <h4 className="text-sm font-bold sm:text-xs md:text-sm">Passageiros</h4>

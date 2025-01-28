@@ -10,118 +10,107 @@ import {
   Phone,
 } from "lucide-react";
 import moment from "moment";
-
-// Tabela de destinos: value -> label
-const destinations = [
-  { value: "1", label: "África", code: "AF" },
-  { value: "2", label: "América Central", code: "AC" },
-  { value: "3", label: "Ásia", code: "AS" },
-  { value: "4", label: "Europa", code: "EU" },
-  { value: "5", label: "América do Norte", code: "AN" },
-  { value: "6", label: "Oceania", code: "OC" },
-  { value: "7", label: "América do Sul", code: "AS" },
-  { value: "8", label: "Brasil", code: "BR" },
-  { value: "9", label: "Múltiplos destinos", code: "MD" },
-];
+import ListaPaises from "../../components/ListaPaises";
 
 const Purchased = () => {
   const [detalhes, setDetalhes] = useState(null);
 
   useEffect(() => {
     const updateDetalhes = () => {
-      // Carrega várias chaves do sessionStorage
       const resume = loadFromStorage("resume", {});
       const plans = loadFromStorage("plans", {});
       const editQuote = loadFromStorage("editQuote", {});
       const responsiblePassenger = loadFromStorage("responsiblePassenger", {});
       const passengers = loadFromStorage("passengers", []);
 
-      // Exemplo: se 'passengers' for um objeto, use:
-      // const passengersObj = loadFromStorage('passengers', {});
-      // const passengers = Object.values(passengersObj);
+      // Busca o nome do destino pelo código no ListaPaises
+      const destinoNome = ListaPaises.find(
+        (pais) => pais.regiao === editQuote?.CodigoDestino
+      )?.label;
 
-      // Monta um objeto único
+      // Formata as datas
+      const dataViagem = {
+        inicio: editQuote?.DataInicioViagem
+          ? moment(editQuote.DataInicioViagem).format("DD/MM/YYYY")
+          : "Não especificado",
+        fim: editQuote?.DataFinalViagem
+          ? moment(editQuote.DataFinalViagem).format("DD/MM/YYYY")
+          : "Não especificado",
+      };
+
+      // Adiciona o nome do plano e preço unitário a partir de `plans`
+      const planoNome = plans?.DescricaoProduto || "Nenhum plano";
+      const precoUnitario = plans?.ValorProduto
+        ? `R$ ${plans.ValorProduto.toFixed(2)}`
+        : "R$ 0,00";
+
       const pagamento = {
         resume,
-        plans,
-        editQuote,
+        plans: {
+          ...plans,
+          planoNome,
+          precoUnitario,
+        },
+        editQuote: {
+          ...editQuote,
+          destinoNome,
+          dataViagem,
+        },
         responsiblePassenger,
         passengers,
       };
 
-      // Salva se quiser unificar (opcional)
       saveToStorage("pagamento", pagamento);
       setDetalhes(pagamento);
     };
 
     updateDetalhes();
 
-    // Se quiser que reaja ao evento storage (mudanças em outra aba, etc.)
     window.addEventListener("storage", updateDetalhes);
     return () => window.removeEventListener("storage", updateDetalhes);
   }, []);
 
-  // 1) DADOS DO RESPONSÁVEL
+  // Responsável
   const r = detalhes?.responsiblePassenger || {};
-  // Calcula idade a partir de "birthday" (formato YYYY-MM-DD, por exemplo)
   let idade = "";
   if (r.birthday) {
-    // Tenta calcular diferença em anos
     const diffYears = moment().diff(r.birthday, "years");
     idade = diffYears >= 0 ? diffYears : "";
   }
 
-  // Endereço completo
   const enderecoCompleto = [
     r.address,
     r.numberAddress,
     r.city,
     r.district,
-    r.completeAddress
+    r.completeAddress,
   ]
-    .filter(Boolean) // remove strings vazias/undefined
+    .filter(Boolean)
     .join(", ");
 
-  // 2) DEMAIS PASSAGEIROS
-  // Se 'passengers' é array
+  // Passageiros
   const passengerList = Array.isArray(detalhes?.passengers)
     ? detalhes.passengers
     : [];
 
-  // 3) DESTINO E DATAS
-  const foundDestination = destinations.find(
-    (dest) => dest.value === detalhes?.editQuote?.selectedOption
-  );
-  const destinoSelecionado = foundDestination
-    ? foundDestination.label
-    : "Não selecionado";
+  // Destino e datas
+  const destinoSelecionado = detalhes?.editQuote?.destinoNome || "Não especificado";
+  const dataIda = detalhes?.editQuote?.dataViagem?.inicio || "Não especificado";
+  const dataVolta = detalhes?.editQuote?.dataViagem?.fim || "Não especificado";
 
-  const dataIda =
-    detalhes?.editQuote?.departure &&
-    moment(detalhes.editQuote.departure).format("DD/MM/YYYY");
-  const dataVolta =
-    detalhes?.editQuote?.arrival &&
-    moment(detalhes.editQuote.arrival).format("DD/MM/YYYY");
+  // Plano escolhido
+  const planoNome = detalhes?.plans?.planoNome || "Nenhum plano";
+  const precoUnitario = detalhes?.plans?.precoUnitario || "R$ 0,00";
 
-  // 4) PLANO ESCOLHIDO (nome, preço unitário)
-  const plan = detalhes?.plans || {};
-  const precoUnitario = plan.price || "R$ 0,00";
-  const planoNome = plan.title || "Nenhum plano";
-
-  // 5) TOTAL GERAL
+  // Total geral
   const total = detalhes?.resume?.total || "R$ 0,00";
 
   return (
     <div className="w-full max-w-4xl mx-auto p-4 sm:p-6 lg:p-8 bg-white rounded-md shadow">
-      {/* MENSAGEM DE AGRADECIMENTO */}
       <h2 className="text-3xl font-bold text-[#313131] mb-4">Obrigado!</h2>
-      <p className="mb-6 text-gray-700">
-        Aqui você pode ver o seu pedido...
-      </p>
+      <p className="mb-6 text-gray-700">Aqui você pode ver o seu pedido...</p>
 
-      {/* RESUMO */}
       <div className="space-y-6">
-        {/* PASSAGEIRO RESPONSÁVEL */}
         <h3 className="text-xl font-semibold mb-2">Passageiro Responsável</h3>
         <div className="border border-gray-200 rounded p-3 text-sm grid gap-2">
           <InfoLine label="Nome Completo" value={`${r.firstName || ""} ${r.secondName || ""}`} />
@@ -131,12 +120,10 @@ const Purchased = () => {
           <InfoLine label="Endereço Completo" value={enderecoCompleto || "Não informado"} />
         </div>
 
-        {/* DEMAIS PASSAGEIROS */}
         <h3 className="text-xl font-semibold mb-2">Demais Passageiros</h3>
         {passengerList.length > 0 ? (
           <div className="border border-gray-200 rounded p-3 text-sm space-y-3">
             {passengerList.map((p, idx) => {
-              // Se quiser calcular idade deles também, repita a lógica
               let idadePass = "";
               if (p.birthday) {
                 const diff = moment().diff(p.birthday, "years");
@@ -159,38 +146,26 @@ const Purchased = () => {
           <p className="text-sm text-gray-600">Nenhum passageiro adicional cadastrado.</p>
         )}
 
-        {/* DESTINO E DATAS */}
         <h3 className="text-xl font-semibold mb-2">Destino e Datas</h3>
         <div className="border border-gray-200 rounded p-3 text-sm grid gap-2">
           <InfoLine label="Destino" value={destinoSelecionado} />
-          <InfoLine
-            label="Data de Ida e Volta"
-            value={
-              dataIda && dataVolta
-                ? `${dataIda} - ${dataVolta}`
-                : "Não especificado"
-            }
-          />
+          <InfoLine label="Data de Ida" value={dataIda} />
+          <InfoLine label="Data de Volta" value={dataVolta} />
         </div>
 
-        {/* PLANO ESCOLHIDO + PREÇO UNITÁRIO */}
         <h3 className="text-xl font-semibold mb-2">Plano Escolhido</h3>
         <div className="border border-gray-200 rounded p-3 text-sm grid gap-2">
           <InfoLine label="Nome do Plano" value={planoNome} />
           <InfoLine label="Preço Unitário" value={precoUnitario} />
         </div>
 
-        {/* TOTAL GERAL */}
         <h3 className="text-xl font-semibold mb-2">Total</h3>
-        <div className="border border-gray-200 rounded p-3 text-sm">
-          {total}
-        </div>
+        <div className="border border-gray-200 rounded p-3 text-sm">{total}</div>
       </div>
     </div>
   );
 };
 
-// Componente auxiliar para exibir uma linha de informação
 function InfoLine({ label, value }) {
   return (
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">

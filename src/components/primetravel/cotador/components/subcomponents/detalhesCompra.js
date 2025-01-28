@@ -2,18 +2,7 @@ import { CircleDollarSign, MapPin, MapPinHouse, Pencil, Plane, User } from "luci
 import React, { useEffect, useState } from "react";
 import { loadFromStorage, saveToStorage } from "../../utils/storageUtils";
 import moment from "moment";
-
-const destinations = [
-    { value: "1", label: "África", code: "AF" },
-    { value: "2", label: "América Central", code: "AC" },
-    { value: "3", label: "Ásia", code: "AS" },
-    { value: "4", label: "Europa", code: "EU" },
-    { value: "5", label: "América do Norte", code: "AN" },
-    { value: "6", label: "Oceania", code: "OC" },
-    { value: "7", label: "América do Sul", code: "AS" },
-    { value: "8", label: "Brasil", code: "BR" },
-    { value: "9", label: "Múltiplos destinos", code: "MD" },
-];
+import ListaPaises from "../../../components/ListaPaises";
 
 export default function DetalhesCompra() {
     const [detalhes, setDetalhes] = useState(null);
@@ -25,12 +14,31 @@ export default function DetalhesCompra() {
             const editQuote = loadFromStorage("editQuote", {});
             const responsiblePassenger = loadFromStorage("responsiblePassenger", {});
             const passengers = loadFromStorage("passengers", {});
-            const cartao = loadFromStorage("cartao", {}); // Verifica os dados do cartão
+            const cartao = loadFromStorage("cartao", {});
+
+            // Buscar nome do destino a partir da sigla em ListaPaises
+            const destinoNome = ListaPaises.find(
+                (pais) => pais.regiao === editQuote?.CodigoDestino
+            )?.label;
+
+            // Formatar datas
+            const dataViagem = {
+                inicio: editQuote?.DataInicioViagem
+                    ? moment(editQuote.DataInicioViagem).format("DD/MM/YYYY")
+                    : null,
+                fim: editQuote?.DataFinalViagem
+                    ? moment(editQuote.DataFinalViagem).format("DD/MM/YYYY")
+                    : null,
+            };
 
             const pagamento = {
                 resume,
                 plans,
-                editQuote,
+                editQuote: {
+                    ...editQuote,
+                    destinoNome, // Nome do destino adicionado
+                    dataViagem, // Datas formatadas adicionadas
+                },
                 responsiblePassenger,
                 passengers,
                 cartao,
@@ -48,20 +56,6 @@ export default function DetalhesCompra() {
         // Remove o listener ao desmontar
         return () => window.removeEventListener("storage", updateDetalhes);
     }, []);
-
-    const formatarData = (data) =>
-        moment(data).format("DD/MM/YYYY");
-
-    const destinoSelecionado = destinations.find(
-        (dest) => dest.value === detalhes?.editQuote?.selectedOption
-    )?.label;
-
-    const dataIda =
-        detalhes?.editQuote?.departure &&
-        formatarData(detalhes.editQuote.departure);
-    const dataVolta =
-        detalhes?.editQuote?.arrival &&
-        formatarData(detalhes.editQuote.arrival);
 
     return (
         <div className="mx-auto max-w-7xl">
@@ -99,21 +93,22 @@ export default function DetalhesCompra() {
                     <InfoItem
                         icon={<CircleDollarSign className="w-4 h-4 mr-2 flex-shrink-0" />}
                         label="Preço:"
-                        value={detalhes?.plans?.price || "R$ 0,00"}
+                        value={detalhes?.resume?.total || "R$ 0,00"} // Preço total do sessionStorage resume
                     />
                     <InfoItem
                         icon={<MapPin className="w-4 h-4 mr-2 flex-shrink-0" />}
                         label="Destino:"
-                        value={destinoSelecionado || "Não selecionado"}
+                        value={detalhes?.editQuote?.destinoNome || "Não especificado"} // Nome do destino
                     />
                     <InfoItem
                         icon={<Plane className="w-4 h-4 mr-2 flex-shrink-0" />}
                         label="Data da viagem:"
                         value={
-                            dataIda && dataVolta
-                                ? `${dataIda} - ${dataVolta}`
+                            detalhes?.editQuote?.dataViagem?.inicio &&
+                                detalhes?.editQuote?.dataViagem?.fim
+                                ? `${detalhes.editQuote.dataViagem.inicio} - ${detalhes.editQuote.dataViagem.fim}`
                                 : "Não especificado"
-                        }
+                        } // Data formatada
                     />
                 </div>
 
