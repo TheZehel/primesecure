@@ -17,12 +17,42 @@ import ListaPaises from '../../components/ListaPaises';
 // import 'antd/dist/antd.css'; // Importação do CSS do Ant Design
 
 const europeanCountries = [
-  "Alemanha", "Áustria", "Bélgica", "Bulgária", "Chipre", "Croácia", "Dinamarca",
-  "Eslováquia", "Eslovênia", "Espanha", "Estônia", "Finlândia", "França",
-  "Grécia", "Hungria", "Irlanda", "Itália", "Letônia", "Lituânia", "Luxemburgo",
-  "Malta", "Países Baixos", "Polônia", "Portugal", "República Tcheca",
-  "Romênia", "Suécia", "Noruega", "Suíça", "Reino Unido", "Islândia",
-  "Liechtenstein", "Andorra", "Mônaco", "São Marino", "Vaticano"
+  'Alemanha',
+  'Áustria',
+  'Bélgica',
+  'Bulgária',
+  'Chipre',
+  'Croácia',
+  'Dinamarca',
+  'Eslováquia',
+  'Eslovênia',
+  'Espanha',
+  'Estônia',
+  'Finlândia',
+  'França',
+  'Grécia',
+  'Hungria',
+  'Irlanda',
+  'Itália',
+  'Letônia',
+  'Lituânia',
+  'Luxemburgo',
+  'Malta',
+  'Países Baixos',
+  'Polônia',
+  'Portugal',
+  'República Tcheca',
+  'Romênia',
+  'Suécia',
+  'Noruega',
+  'Suíça',
+  'Reino Unido',
+  'Islândia',
+  'Liechtenstein',
+  'Andorra',
+  'Mônaco',
+  'São Marino',
+  'Vaticano',
 ];
 
 const destinations = [
@@ -43,13 +73,10 @@ const ageGroups = [
   { label: '86 a 99 anos', id: 2 },
 ];
 
-
 const API_BASE_URL =
   process.env.REACT_APP_ENVIRONMENT === 'PRODUCAO'
     ? process.env.REACT_APP_API_ENDPOINT_PRODUCTION
     : process.env.REACT_APP_API_ENDPOINT_SANDBOX;
-
-
 
 const Plans = ({ onSelected, setSelectedPlan }) => {
   const [selectedPlanId, setSelectedPlanId] = useState(null);
@@ -86,11 +113,15 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
 
       console.log('Enviando payload para a API:', payload);
 
-      const response = await axios.post(`${API_BASE_URL}/omint-viagem/process/comissoes`, payload, {
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await axios.post(
+        `${API_BASE_URL}/omint-viagem/process/comissoes`,
+        payload,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
         },
-      });
+      );
 
       const products = response.data.data[0];
 
@@ -102,7 +133,10 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
         setPlansData([]);
       }
     } catch (error) {
-      console.error('Erro ao buscar os planos:', error.response?.data || error.message);
+      console.error(
+        'Erro ao buscar os planos:',
+        error.response?.data || error.message,
+      );
     } finally {
       setIsLoading(false);
     }
@@ -177,10 +211,16 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
     };
 
     try {
-      const response = await axios.post(`${API_BASE_URL}/omint-viagem/submit`, payload);
+      const response = await axios.post(
+        `${API_BASE_URL}/omint-viagem/submit`,
+        payload,
+      );
       console.log('Informações enviadas com sucesso:', response.data);
     } catch (error) {
-      console.error('Erro ao enviar as informações para a API:', error.response || error);
+      console.error(
+        'Erro ao enviar as informações para a API:',
+        error.response || error,
+      );
     }
   };
 
@@ -217,10 +257,16 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
       const parsed = JSON.parse(stored);
       return {
         ...parsed,
-        selectedOption: ListaPaises.find((pais) => pais.regiao === parsed.CodigoDestino) || null,
+        selectedOption:
+          ListaPaises.find((pais) => pais.regiao === parsed.CodigoDestino) ||
+          null,
         olds: Array.isArray(parsed.olds) ? parsed.olds : [0, 0, 0],
-        DataInicioViagem: parsed.DataInicioViagem ? moment(parsed.DataInicioViagem) : null,
-        DataFinalViagem: parsed.DataFinalViagem ? moment(parsed.DataFinalViagem) : null,
+        DataInicioViagem: parsed.DataInicioViagem
+          ? moment(parsed.DataInicioViagem)
+          : null,
+        DataFinalViagem: parsed.DataFinalViagem
+          ? moment(parsed.DataFinalViagem)
+          : null,
       };
     }
     return {
@@ -241,13 +287,15 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
     const updatedData = {
       ...formData,
       CodigoDestino: formData.CodigoDestino || '', // Define o código do país
-      departure: moment.isMoment(formData.departure)
-        ? formData.departure.format('YYYY-MM-DD')
+      DataInicioViagem: formData.DataInicioViagem
+        ? formData.DataInicioViagem.format('YYYY-MM-DD')
         : null,
-      arrival: moment.isMoment(formData.arrival)
-        ? formData.arrival.format('YYYY-MM-DD')
+      DataFinalViagem: formData.DataFinalViagem
+        ? formData.DataFinalViagem.format('YYYY-MM-DD')
         : null,
       selectedOption: undefined, // Não precisa ser salvo
+      // departure: formData.departure ? formData.departure.format('YYYY-MM-DD') : null, // Removido
+      // arrival: formData.arrival ? formData.arrival.format('YYYY-MM-DD') : null, // Removido
     };
 
     sessionStorage.setItem('editQuote', JSON.stringify(updatedData));
@@ -270,8 +318,6 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
     await fetchPlans();
   };
 
-
-
   const handleOld = (index, value) => {
     const updatedOlds = [...formData.olds];
     if (value === 1 && updatedOlds.reduce((total, num) => total + num, 0) < 8) {
@@ -287,15 +333,18 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
 
     // Verifica se o destino selecionado está na Europa
     const isInEurope = europeanCountries.some((country) =>
-      ListaPaises.some((pais) => pais.label === country && pais.regiao === selectedRegiao)
+      ListaPaises.some(
+        (pais) => pais.label === country && pais.regiao === selectedRegiao,
+      ),
     );
 
     // Atualiza o estado e o sessionStorage
     setFormData((prev) => ({
       ...prev,
       CodigoDestino: selectedRegiao,
-      IncluiEuropa: isInEurope ? "1" : "0",
-      selectedOption: ListaPaises.find((pais) => pais.regiao === selectedRegiao) || null,
+      IncluiEuropa: isInEurope ? '1' : '0',
+      selectedOption:
+        ListaPaises.find((pais) => pais.regiao === selectedRegiao) || null,
     }));
 
     // Atualiza o sessionStorage editQuote
@@ -303,14 +352,16 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
     const updatedData = {
       ...sessionData,
       CodigoDestino: selectedRegiao,
-      IncluiEuropa: isInEurope ? "1" : "0",
+      IncluiEuropa: isInEurope ? '1' : '0',
     };
 
     sessionStorage.setItem('editQuote', JSON.stringify(updatedData));
 
-    console.log('Destino e IncluiEuropa atualizados no sessionStorage:', updatedData);
+    console.log(
+      'Destino e IncluiEuropa atualizados no sessionStorage:',
+      updatedData,
+    );
   };
-
 
   const onChangeDeparture = (date) => {
     setFormData((prev) => ({
@@ -331,8 +382,6 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
       arrival: date ? date.format('YYYY-MM-DD') : null, // Adiciona formato string para o storage
     }));
   };
-
-
 
   const disabledDepartureDate = (current) =>
     current && current.isBefore(moment().startOf('day'));
@@ -359,7 +408,9 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
           {/* Layout para telas maiores */}
           <div className="hidden lg:grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 items-center">
             <div>
-              <h4 className="text-sm font-bold sm:text-xs md:text-sm">Destino</h4>
+              <h4 className="text-sm font-bold sm:text-xs md:text-sm">
+                Destino
+              </h4>
               {isEditing ? (
                 <select
                   value={formData.CodigoDestino || ''}
@@ -377,7 +428,6 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
                     </option>
                   ))}
                 </select>
-
               ) : (
                 <p className="text-base sm:text-sm md:text-base text-center">
                   {formData.selectedOption?.label || 'Destino não selecionado'}
@@ -392,9 +442,10 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
               )}
             </div>
 
-
             <div>
-              <h4 className="text-sm font-bold sm:text-xs md:text-sm">Passageiros</h4>
+              <h4 className="text-sm font-bold sm:text-xs md:text-sm">
+                Passageiros
+              </h4>
               {isEditing ? (
                 <button
                   onClick={openModal}
@@ -404,14 +455,16 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
                 </button>
               ) : (
                 <p className="text-base sm:text-sm md:text-base">
-                  {formData.olds.reduce((total, age) => total + age, 0)} Passageiro(s)
+                  {formData.olds.reduce((total, age) => total + age, 0)}{' '}
+                  Passageiro(s)
                 </p>
-
               )}
             </div>
 
             <div>
-              <h4 className="text-sm font-bold sm:text-xs md:text-sm">Período</h4>
+              <h4 className="text-sm font-bold sm:text-xs md:text-sm">
+                Período
+              </h4>
               {isEditing ? (
                 <div className="grid grid-cols-2 gap-4">
                   <div className="w-full">
@@ -421,7 +474,9 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
                       onChange={onChangeDeparture} // Atualiza o estado ao alterar
                       placeholder="Data de ida"
                       disabledDate={(current) =>
-                        current && (current.isBefore(moment().startOf('day')) || current.isAfter(moment('2025-12-31')))
+                        current &&
+                        (current.isBefore(moment().startOf('day')) ||
+                          current.isAfter(moment('2025-12-31')))
                       }
                       format="DD/MM/YYYY"
                       className="block w-full rounded-md border-0 px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-bluePrime lg:text-lg lg:leading-6 text-[#313131] placeholder:text-[#313131]"
@@ -435,7 +490,8 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
                       placeholder="Volta"
                       disabledDate={(current) =>
                         current &&
-                        (current.isBefore(formData.DataInicioViagem) || current.isAfter(moment('2025-12-31')))
+                        (current.isBefore(formData.DataInicioViagem) ||
+                          current.isAfter(moment('2025-12-31')))
                       }
                       format="DD/MM/YYYY"
                       className="block w-full rounded-md border-0 px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-bluePrime lg:text-lg lg:leading-6 text-[#313131] placeholder:text-[#313131]"
@@ -445,10 +501,11 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
               ) : (
                 <p className="text-base sm:text-sm md:text-base text-center">
                   {formData.DataInicioViagem && formData.DataFinalViagem
-                    ? `De ${formData.DataInicioViagem.format('DD/MM/YYYY')} até ${formData.DataFinalViagem.format('DD/MM/YYYY')}`
+                    ? `De ${formData.DataInicioViagem.format(
+                        'DD/MM/YYYY',
+                      )} até ${formData.DataFinalViagem.format('DD/MM/YYYY')}`
                     : 'Período não selecionado'}
                 </p>
-
               )}
             </div>
 
@@ -537,11 +594,18 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
               </>
             ) : (
               <div className="flex justify-between items-center">
-                <span>{formData.selectedOption?.label || 'Destino não selecionado'}</span>
-                <span>{formData.olds.reduce((total, age) => total + age, 0)} Passageiro(s)</span>
+                <span>
+                  {formData.selectedOption?.label || 'Destino não selecionado'}
+                </span>
+                <span>
+                  {formData.olds.reduce((total, age) => total + age, 0)}{' '}
+                  Passageiro(s)
+                </span>
                 <span>
                   {formData.DataInicioViagem && formData.DataFinalViagem
-                    ? `De ${formData.DataInicioViagem.format('DD/MM/YYYY')} até ${formData.DataFinalViagem.format('DD/MM/YYYY')}`
+                    ? `De ${formData.DataInicioViagem.format(
+                        'DD/MM/YYYY',
+                      )} até ${formData.DataFinalViagem.format('DD/MM/YYYY')}`
                     : 'Período não selecionado'}
                 </span>
               </div>
@@ -574,9 +638,14 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
               <div className="fixed inset-0 bg-black bg-opacity-50 z-[1000]" />
               <div className="fixed inset-0 flex items-center justify-center z-[1001]">
                 <div className="bg-white p-4 rounded-lg shadow-lg max-w-md w-full">
-                  <h2 className="text-xl font-bold mb-4">Idade dos Passageiros</h2>
+                  <h2 className="text-xl font-bold mb-4">
+                    Idade dos Passageiros
+                  </h2>
                   {ageGroups.map((group, index) => (
-                    <div key={group.id} className="flex items-center justify-between mb-2">
+                    <div
+                      key={group.id}
+                      className="flex items-center justify-between mb-2"
+                    >
                       <h3 className="text-xl">{group.label}</h3>
                       <div className="flex items-center justify-around w-32">
                         <button
@@ -636,8 +705,11 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
             {plansData.map((plan) => (
               <SwiperSlide key={plan.CodigoProduto}>
                 <div
-                  className={`border rounded-lg shadow-lg p-2 sm:p-4 ${selectedPlanId === plan.CodigoProduto ? 'border-bluePrime' : ''
-                    }`}
+                  className={`border rounded-lg shadow-lg p-2 sm:p-4 ${
+                    selectedPlanId === plan.CodigoProduto
+                      ? 'border-bluePrime'
+                      : ''
+                  }`}
                 >
                   <h5 className="text-gray-500 uppercase text-center font-semibold text-xs sm:text-sm md:text-base">
                     {plan.DescricaoProduto}
@@ -645,7 +717,9 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
                   <div className="text-center mt-2">
                     <div className="flex flex-col items-center">
                       <h6 className="text-xs sm:text-sm md:text-base font-medium">
-                        <span className="text-gray-600">{plan.QuantidadeParcelas}x</span>{' '}
+                        <span className="text-gray-600">
+                          {plan.QuantidadeParcelas}x
+                        </span>{' '}
                         <span className="text-[#313131] text-sm sm:text-lg md:text-xl font-bold">
                           R$ {plan.ValorParcelado.toFixed(2)}
                         </span>{' '}
@@ -655,20 +729,29 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
                         {plan.CodigoProduto}
                       </p>
                       <p className="text-gray-600 mt-2 text-xs sm:text-sm md:text-base">
-                        <span className="font-bold">R$ {plan.ValorProduto}</span>{' '}
+                        <span className="font-bold">
+                          R$ {plan.ValorProduto}
+                        </span>{' '}
                         <span className="font-normal">à vista</span>
                       </p>
                       <div className="border-t border-gray-300 my-2 w-3/4 mx-auto"></div>
                       <div className="flex justify-between items-center text-xs sm:text-sm md:text-base px-4">
-                        <h6 className="text-gray-700 font-medium">Cobertura Total:</h6>
-                        <h6 className="text-bluePrime font-bold">{plan.coverage}</h6>
+                        <h6 className="text-gray-700 font-medium">
+                          Cobertura Total:
+                        </h6>
+                        <h6 className="text-bluePrime font-bold">
+                          {plan.coverage}
+                        </h6>
                       </div>
                     </div>
                     <div className="flex flex-col items-center mt-4 space-y-2">
                       <button
                         onClick={() => handleCardSelected(plan.CodigoProduto)}
-                        className={`${selectedPlanId === plan.CodigoProduto ? 'bg-bluePrime2' : 'bg-bluePrime'
-                          } cursor-pointer text-white uppercase text-xs sm:text-sm md:text-base py-1 px-3 rounded-md shadow-md w-full flex items-center justify-center`}
+                        className={`${
+                          selectedPlanId === plan.CodigoProduto
+                            ? 'bg-bluePrime2'
+                            : 'bg-bluePrime'
+                        } cursor-pointer text-white uppercase text-xs sm:text-sm md:text-base py-1 px-3 rounded-md shadow-md w-full flex items-center justify-center`}
                       >
                         <input
                           className="accent-bluePrime rounded-full mr-2 cursor-pointer"
@@ -679,7 +762,9 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
                             handleCardSelected(plan.CodigoProduto);
                           }}
                         />
-                        {selectedPlanId === plan.CodigoProduto ? 'Selecionado' : 'Contratar'}
+                        {selectedPlanId === plan.CodigoProduto
+                          ? 'Selecionado'
+                          : 'Contratar'}
                       </button>
                     </div>
                     <div>
@@ -710,8 +795,8 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
                           Cancelamento ou Atraso de voo (superior a 8h)
                         </li>
                         <li className="flex items-center">
-                          <span className="text-green-500 mr-1">✔</span>
-                          E muito mais...
+                          <span className="text-green-500 mr-1">✔</span>E muito
+                          mais...
                         </li>
                       </ul>
                     </div>
