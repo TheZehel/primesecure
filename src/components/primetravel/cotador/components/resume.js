@@ -20,28 +20,27 @@ export function InvoiceTable() {
     // Calcular o número total de passageiros
     const totalPassengers = storedQuote.olds.reduce((sum, count) => sum + count, 0);
 
-    // Verificar e calcular o preço do plano
+    // Pega o valor do plano SEM multiplicar pelos passageiros
     const planPrice = parseFloat(storedPlan.ValorProduto || 0);
-
-    // Calcular o total geral
-    const calculatedTotal = planPrice * totalPassengers;
 
     // Atualizar estados
     setPlans([storedPlan]);
     setPassengerCount(totalPassengers);
-    setTotal(calculatedTotal);
+    setTotal(planPrice); // Total agora é apenas o valor do plano
 
     // Salvar no sessionStorage como "resume"
     const resumeData = {
       plan: storedPlan.DescricaoProduto || "Nenhum plano selecionado",
       passengerCount: totalPassengers,
-      total: calculatedTotal.toLocaleString("pt-BR", {
+      total: planPrice.toLocaleString("pt-BR", {
         style: "currency",
         currency: "BRL",
       }),
     };
     saveToStorage("resume", resumeData);
   }, []);
+
+
 
   return (
     <div className="overflow-x-auto">
@@ -73,11 +72,9 @@ export function InvoiceTable() {
             plans.map((plan, index) => (
               <tr key={index} className="hover:bg-gray-50">
                 <td className="border border-gray-300 px-4 py-2">{plan.DescricaoProduto || "Plano não especificado"}</td>
-                <td className="border border-gray-300 px-4 py-2 text-center">{passengerCount}</td>
+                <td className="border border-gray-300 px-4 py-2 text-center">{passengerCount}</td> {/* Mantemos os passageiros */}
                 <td className="border border-gray-300 px-4 py-2 text-right">
-                  {(
-                    (parseFloat(plan.ValorProduto || 0) * passengerCount) || 0
-                  ).toLocaleString("pt-BR", {
+                  {total.toLocaleString("pt-BR", {
                     style: "currency",
                     currency: "BRL",
                   })}
@@ -92,6 +89,9 @@ export function InvoiceTable() {
             </tr>
           )}
         </tbody>
+
+
+
         <tfoot>
           <tr className="font-semibold">
             <td className="border border-gray-300 px-4 py-2 text-right" colSpan={2}>

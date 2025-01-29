@@ -69,11 +69,7 @@ const Payment = () => {
 
         // 🔹 ATUALIZAÇÃO DA FORMA DE PAGAMENTO 🔹
         FormaPagamento: formaPagamento, // Atualiza de acordo com a escolha do usuário
-        NumeroParcelas: "1",
-        CartaoDataExpiracao: "12/25",
-        CartaoTitular: "Nome Titular",
-        CartaoNumero: "0000000000000001",
-        CartaoCodigoSeguranca: "123",
+
       };
 
       console.log("JSON de pagamento gerado:", JSON.stringify(paymentJSON, null, 2));
@@ -81,7 +77,15 @@ const Payment = () => {
     };
 
     setPaymentData(buildPaymentJSON());
+    // Armazena paymentJON no sessionStorage
+    sessionStorage.setItem("paymentData", JSON.stringify(buildPaymentJSON()));
   }, [formaPagamento]); // Atualiza sempre que a forma de pagamento mudar
+
+  async function paymentHandler(paymentJSON) {
+    console.log("Dados de pagamento:", paymentJSON);
+  };
+
+
 
   return (
     <div className="w-full h-auto flex flex-col items-center overflow-x-hidden">
