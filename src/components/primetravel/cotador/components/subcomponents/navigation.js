@@ -4,15 +4,19 @@ import ModalPix from './pixModal';
 import PagamentoPix from './pagamentoPix';
 import DetalhesCompra from './detalhesCompra';
 
-const TabsNavigation = () => {
+const TabsNavigation = ({ setFormaPagamento }) => {
     const [activeTab, setActiveTab] = useState('creditCard');
+
+    const handleTabChange = (method) => {
+        setActiveTab(method);
+        setFormaPagamento(method === 'creditCard' ? 'TMA' : 'PIX'); // Atualiza a forma de pagamento
+    };
 
     return (
         <div className="w-full h-auto flex flex-col items-center justify-between overflow-hidden p-4">
-            {/* Navegação por Abas */}
             <div className="flex flex-row justify-center gap-2 sm:gap-4 w-full max-w-7xl">
                 <button
-                    onClick={() => setActiveTab('creditCard')}
+                    onClick={() => handleTabChange('creditCard')}
                     className={`flex-1 px-4 py-2 text-sm sm:text-lg font-bold rounded-md text-center ${activeTab === 'creditCard'
                         ? 'text-bluePrime border-b-4 border-bluePrime'
                         : 'text-gray-600'
@@ -21,7 +25,7 @@ const TabsNavigation = () => {
                     Cartão de Crédito
                 </button>
                 <button
-                    onClick={() => setActiveTab('paymentPix')}
+                    onClick={() => handleTabChange('paymentPix')}
                     className={`flex-1 px-4 py-2 text-sm sm:text-lg font-bold rounded-md text-center ${activeTab === 'paymentPix'
                         ? 'text-bluePrime border-b-4 border-bluePrime'
                         : 'text-gray-600'
