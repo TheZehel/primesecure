@@ -279,21 +279,34 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
   const handleEditToggle = () => setIsEditing(!isEditing);
 
   const handleSave = async () => {
+    // Calcula a quantidade de passageiros com base no estado `olds`
+    const updatedQtdePassNaoSenior = formData.olds[0]; // Faixa etária 0-75 anos
+    const updatedQtdePassSenior = formData.olds[1] + formData.olds[2]; // Somando faixas 76-85 e 86-99
+
+    // Atualiza os dados do formulário
     const updatedData = {
       ...formData,
-      CodigoDestino: formData.CodigoDestino || '', // Define o código do país
+      CodigoDestino: formData.CodigoDestino || '',
       DataInicioViagem: formData.DataInicioViagem
         ? formData.DataInicioViagem.format('YYYY-MM-DD')
         : null,
       DataFinalViagem: formData.DataFinalViagem
         ? formData.DataFinalViagem.format('YYYY-MM-DD')
         : null,
+      QtdePassNaoSenior: updatedQtdePassNaoSenior,
+      QtdePassSenior: updatedQtdePassSenior,
       selectedOption: undefined, // Não precisa ser salvo
-      // departure: formData.departure ? formData.departure.format('YYYY-MM-DD') : null, // Removido
-      // arrival: formData.arrival ? formData.arrival.format('YYYY-MM-DD') : null, // Removido
     };
 
-    sessionStorage.setItem('editQuote', JSON.stringify(updatedData));
+    // Atualiza a sessionStorage editQuote com os novos valores
+    const sessionData = JSON.parse(sessionStorage.getItem('editQuote')) || {};
+    sessionData.QtdePassNaoSenior = updatedQtdePassNaoSenior;
+    sessionData.QtdePassSenior = updatedQtdePassSenior;
+    sessionData.olds = formData.olds;
+    sessionData.DataInicioViagem = updatedData.DataInicioViagem;
+    sessionData.DataFinalViagem = updatedData.DataFinalViagem;
+
+    sessionStorage.setItem('editQuote', JSON.stringify(sessionData));
 
     setIsEditing(false);
 
@@ -307,11 +320,12 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
       theme: 'light',
     });
 
-    console.log('Dados atualizados no sessionStorage:', updatedData);
+    console.log('Passageiros atualizados na sessionStorage:', sessionData);
 
     // Recarrega os planos após salvar
     await fetchPlans();
   };
+
 
   const handleOld = (index, value) => {
     const updatedOlds = [...formData.olds];
@@ -703,8 +717,8 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
               <SwiperSlide key={plan.CodigoProduto}>
                 <div
                   className={`border rounded-lg shadow-lg p-2 sm:p-4 ${selectedPlanId === plan.CodigoProduto
-                      ? 'border-bluePrime'
-                      : ''
+                    ? 'border-bluePrime'
+                    : ''
                     }`}
                 >
                   <h5 className="text-gray-500 uppercase text-center font-semibold text-xs sm:text-sm md:text-base">
@@ -744,8 +758,8 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
                       <button
                         onClick={() => handleCardSelected(plan.CodigoProduto)}
                         className={`${selectedPlanId === plan.CodigoProduto
-                            ? 'bg-bluePrime2'
-                            : 'bg-bluePrime'
+                          ? 'bg-bluePrime2'
+                          : 'bg-bluePrime'
                           } cursor-pointer text-white uppercase text-xs sm:text-sm md:text-base py-1 px-3 rounded-md shadow-md w-full flex items-center justify-center`}
                       >
                         <input

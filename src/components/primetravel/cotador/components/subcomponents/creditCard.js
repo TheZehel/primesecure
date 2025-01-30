@@ -27,9 +27,79 @@ const CreditCard = ({ onSubmit }) => {
     const cardHolderRef = useRef(null);
     const expirationDateRef = useRef(null);
     const cvcRef = useRef(null);
+    const [plansData, setPlansData] = useState(null);
+    const [selectedParcelas, setSelectedParcelas] = useState(1);
+    const [valorTotal, setValorTotal] = useState(0);
+
+    const [totalPago, setTotalPago] = useState(valorTotal); // Estado para armazenar o valor exibido no "Total a pagar"
+
+
+    // Puxa "pagamento" do sessionStorage
+    const pagamento = JSON.parse(sessionStorage.getItem('pagamento'));
+
+    console.log("DADO PAGAMENTO creditCard.js: ", pagamento);
+
+    const paymentJSON = {
+        CodigoMotivoViagem: pagamento.editQuote.CodigoMotivoViagem || "",
+        CodigoTipoProduto: pagamento.editQuote.CodigoTipoProduto || "",
+        CodigoProduto: pagamento.plans.CodigoProduto || "",
+        CodigoOrigem: "SP",
+        CodigoDestino: pagamento.editQuote.CodigoDestino || "",
+        DataInicioViagem: pagamento.editQuote.departure || "",
+        DataFinalViagem: pagamento.editQuote.arrival || "",
+        DiasMultiviagem: pagamento.editQuote.DiasMultiviagem || "0",
+        CupomDesconto: pagamento.editQuote.CupomDesconto || "",
+        CNPJ: pagamento.editQuote.CNPJ || "",
+        TipoDocumento: "CPF",
+        NumeroCPF: responsiblePassenger.CPF || "872.614.621-52",
+        DataNascimento: responsiblePassenger.birthday || "1990-09-01",
+        Nome: responsiblePassenger.firstName || "CENARIO4",
+        Sobrenome: responsiblePassenger.secondName || "CENARIO4",
+        NomeSocial: responsiblePassenger.socialName || "NomeSocial CENARIO4",
+        Sexo: responsiblePassenger.gender || "M",
+        Email: responsiblePassenger.email || "test@test.com",
+        CEP: responsiblePassenger.zipCode || "13846555",
+        Rua: responsiblePassenger.address || "TESTE",
+        Bairro: responsiblePassenger.district || "TESTE",
+        CodigoEstado: responsiblePassenger.state || "SP",
+        Cidade: responsiblePassenger.city || "TESTE",
+        Numero: responsiblePassenger.numberAddress || "123",
+        DDD: responsiblePassenger.DDD || "",
+        NumeroTelefone: responsiblePassenger.tell || "11111111",
+        TipoTelefone: responsiblePassenger.TipoTelefone || "",
+        EmailEmergencia: responsiblePassenger.EmailEmergencia || "",
+        DDDEmergencia: responsiblePassenger.DDDEmergencia || "",
+        TelefoneEmergencia: responsiblePassenger.TelefoneEmergencia || "",
+        TipoTelefoneEmergencia: responsiblePassenger.TipoTelefoneEmergencia || "",
+        NomeEmergencia: responsiblePassenger.NomeEmergencia || "",
+        SobrenomeEmergencia: responsiblePassenger.SobrenomeEmergencia || "",
+        NomeSocialEmergencia: responsiblePassenger.NomeSocialEmergencia || "",
+        QuantidadeViajantes: String(passengers.length || 1),
+        Viajantes: passengers.map((passenger, index) => ({
+            parametername: `Viajante${index + 1}`,
+            parameterlist: [
+                { parametername: "DataNascimentoViajante", parametervalue: passenger.birthday || "1999-01-01" },
+                { parametername: "NomeViajante", parametervalue: passenger.firstName || `NomeV${index + 1}` },
+                { parametername: "SobrenomeViajante", parametervalue: passenger.secondName || `SobrenomeV${index + 1}` },
+                { parametername: "NomeSocialViajante", parametervalue: passenger.NomeSocial || `NomeSocialV${index + 1}` },
+                { parametername: "SexoViajante", parametervalue: passenger.gender || "M" },
+                { parametername: "CPFViajante", parametervalue: passenger.CPF || "778.261.566-61" },
+                { parametername: "PPEViajante", parametervalue: "0" },
+                { parametername: "PPERelacionamentoViajante", parametervalue: "" },
+            ],
+        }))
+
+    };
 
     useEffect(() => {
         sessionStorage.removeItem('cartao');
+
+        // Carregar os dados do `resume` da sessionStorage
+        const storedResume = JSON.parse(sessionStorage.getItem('resume'));
+        if (storedResume && storedResume.total) {
+            const totalNumerico = parseFloat(storedResume.total.replace('R$', '').replace('.', '').replace(',', '.'));
+            setValorTotal(totalNumerico);
+        }
     }, []);
 
     const handleInputChange = (name, value) => {
@@ -46,6 +116,11 @@ const CreditCard = ({ onSubmit }) => {
             setCvc(value);
             if (value) setErrors((prev) => ({ ...prev, cvc: false }));
         }
+    };
+
+    const handleParcelamentoChange = (event) => {
+        const parcelas = parseInt(event.target.value, 10);
+        setSelectedParcelas(parcelas);
     };
 
     const handleAddCard = async () => {
@@ -78,6 +153,8 @@ const CreditCard = ({ onSubmit }) => {
                 cardHolder,
                 expirationDate,
                 cvc,
+                numeroParcelas: selectedParcelas,
+                valorTotal,
             };
 
             // Salva os dados no sessionStorage
@@ -193,6 +270,32 @@ const CreditCard = ({ onSubmit }) => {
                                     }`}
                             />
                         </div>
+                    </div>
+
+                    <div className="grid gap-1.5">
+                        <label htmlFor="parcelas" className="font-semibold">Escolha o Parcelamento</label>
+                        <select
+                            id="parcelas"
+                            value={selectedParcelas}
+                            onChange={handleParcelamentoChange}
+                            className="border rounded-md h-10 px-4 w-full focus:outline-none border-bluePrime"
+                        >
+                            <option value={1}>À vista R$ {valorTotal.toFixed(2)}</option>
+                            {[...Array(11)].map((_, index) => {
+                                const parcelas = index + 2; // Começa de 2 para evitar repetir o "À vista"
+                                return (
+                                    <option key={parcelas} value={parcelas}>
+                                        {parcelas}x de R$ {(valorTotal / parcelas).toFixed(2)}
+                                    </option>
+                                );
+                            })}
+                        </select>
+                        <p className="mt-2 text-md font-semibold text-gray-600">
+                            Total a pagar:
+                        </p>
+                        <p className="text-lg text-bluePrime2 font-bold">
+                            {selectedParcelas}x de R$ {(valorTotal / selectedParcelas).toFixed(2)}
+                        </p>
                     </div>
 
                     <button

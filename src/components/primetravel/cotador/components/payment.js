@@ -109,6 +109,10 @@ const Payment = () => {
     sessionStorage.setItem('pagamento', JSON.stringify(buildPaymentJSON()));
   }, [formaPagamento]); // Atualiza sempre que a forma de pagamento mudar
 
+  async function paymentHandler(paymentJSON) {
+    console.log('Dados de pagamento:', paymentJSON);
+  }
+
   return (
     <div className="w-full h-auto flex flex-col items-center overflow-x-hidden">
       {/* 🔹 Resumo da Compra (Desktop) - No topo */}
