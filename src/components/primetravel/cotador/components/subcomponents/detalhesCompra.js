@@ -6,63 +6,27 @@ import {
   Plane,
   User,
 } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
-import { loadFromStorage, saveToStorage } from '../../utils/storageUtils';
-import moment from 'moment';
-import ListaPaises from '../../../components/ListaPaises';
+import React from 'react';
 
-export default function DetalhesCompra() {
-  const [detalhes, setDetalhes] = useState(null);
+/**
+ * Exibe resumo do pedido, recebendo "pagamento" (paymentJSON) como prop.
+ * Se preferir, pode também buscar do sessionStorage (apenas leitura), mas sem sobrescrever.
+ */
+export default function DetalhesCompra({ pagamento }) {
+  if (!pagamento) {
+    return <div className="m-4">Carregando detalhes...</div>;
+  }
 
-  useEffect(() => {
-    const updateDetalhes = () => {
-      const resume = loadFromStorage('resume', {});
-      const plans = loadFromStorage('plans', {});
-      const editQuote = loadFromStorage('editQuote', {});
-      const responsiblePassenger = loadFromStorage('responsiblePassenger', {});
-      const passengers = loadFromStorage('passengers', {});
-      const cartao = loadFromStorage('cartao', {});
-
-      // Buscar nome do destino a partir da sigla em ListaPaises
-      const destinoNome = ListaPaises.find(
-        (pais) => pais.regiao === editQuote?.CodigoDestino,
-      )?.label;
-
-      // Formatar datas
-      const dataViagem = {
-        inicio: editQuote?.DataInicioViagem
-          ? moment(editQuote.DataInicioViagem).format('DD/MM/YYYY')
-          : null,
-        fim: editQuote?.DataFinalViagem
-          ? moment(editQuote.DataFinalViagem).format('DD/MM/YYYY')
-          : null,
-      };
-
-      const pagamento = {
-        resume,
-        plans,
-        editQuote: {
-          ...editQuote,
-          destinoNome, // Nome do destino adicionado
-          dataViagem, // Datas formatadas adicionadas
-        },
-        responsiblePassenger,
-        passengers,
-        cartao,
-      };
-
-      saveToStorage('pagamento', pagamento); // Atualiza o pagamento na sessionStorage
-      setDetalhes(pagamento); // Atualiza o estado do componente
-    };
-
-    updateDetalhes();
-
-    // Adiciona um listener para garantir que mudanças no sessionStorage atualizem o estado
-    window.addEventListener('storage', updateDetalhes);
-
-    // Remove o listener ao desmontar
-    return () => window.removeEventListener('storage', updateDetalhes);
-  }, []);
+  // Exemplo de desestruturação
+  const {
+    Nome,
+    Sobrenome,
+    NumeroCPF,
+    PrecoTotal,
+    CodigoDestino,
+    DataInicioViagem,
+    DataFinalViagem,
+  } = pagamento;
 
   return (
     <div className="mx-auto max-w-7xl">
@@ -76,48 +40,31 @@ export default function DetalhesCompra() {
           <InfoItem
             icon={<Pencil className="w-4 h-4 mr-2 flex-shrink-0" />}
             label="Nome inteiro:"
-            value={`${detalhes?.responsiblePassenger?.firstName || ''} ${
-              detalhes?.responsiblePassenger?.secondName || ''
-            }`}
-          />
-          <InfoItem
-            icon={<User className="w-4 h-4 mr-2 flex-shrink-0" />}
-            label="Passageiros adicionais:"
-            value={Object.values(detalhes?.passengers || {})
-              .map((p) => `${p.firstName} ${p.secondName}`)
-              .join(', ')}
-          />
-          <InfoItem
-            icon={<MapPinHouse className="w-4 h-4 mr-2 flex-shrink-0" />}
-            label="Endereço com número:"
-            value={`${detalhes?.responsiblePassenger?.address || ''}, ${
-              detalhes?.responsiblePassenger?.numberAddress || ''
-            }`}
+            value={`${Nome || ''} ${Sobrenome || ''}`}
           />
           <InfoItem
             icon={<User className="w-4 h-4 mr-2 flex-shrink-0" />}
             label="CPF:"
-            value={detalhes?.responsiblePassenger?.CPF || ''}
+            value={NumeroCPF || ''}
           />
           <InfoItem
             icon={<CircleDollarSign className="w-4 h-4 mr-2 flex-shrink-0" />}
             label="Preço:"
-            value={detalhes?.resume?.total || 'R$ 0,00'} // Preço total do sessionStorage resume
+            value={PrecoTotal || 'R$ 0,00'}
           />
           <InfoItem
-            icon={<MapPin className="w-4 h-4 mr-2 flex-shrink-0" />}
-            label="Destino:"
-            value={detalhes?.editQuote?.destinoNome || 'Não especificado'} // Nome do destino
+            icon={<MapPinHouse className="w-4 h-4 mr-2 flex-shrink-0" />}
+            label="Destino (sigla):"
+            value={CodigoDestino || 'Não especificado'}
           />
           <InfoItem
             icon={<Plane className="w-4 h-4 mr-2 flex-shrink-0" />}
             label="Data da viagem:"
             value={
-              detalhes?.editQuote?.dataViagem?.inicio &&
-              detalhes?.editQuote?.dataViagem?.fim
-                ? `${detalhes.editQuote.dataViagem.inicio} - ${detalhes.editQuote.dataViagem.fim}`
+              DataInicioViagem && DataFinalViagem
+                ? `${DataInicioViagem} - ${DataFinalViagem}`
                 : 'Não especificado'
-            } // Data formatada
+            }
           />
         </div>
 
@@ -125,7 +72,7 @@ export default function DetalhesCompra() {
         <div className="text-grayPrime font-semibold text-start text-base">
           Total:
           <span className="ml-2 text-bluePrime font-semibold break-words">
-            {detalhes?.resume?.total || 'R$ 0,00'}
+            {PrecoTotal || 'R$ 0,00'}
           </span>
         </div>
       </div>
