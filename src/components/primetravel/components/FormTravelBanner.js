@@ -323,9 +323,8 @@ export default function FormTravelBanner() {
         "https://primetravel.primesecure.com.br/cotacao-rapida?";
       Object.entries(payload).forEach(([key, value], index, array) => {
         if (value && !["cf_source", "cf_medium", "cf_campaign"].includes(key)) {
-          redirectUrl += `${key}=${encodeURIComponent(value)}${
-            index < array.length - 1 ? "&" : ""
-          }`;
+          redirectUrl += `${key}=${encodeURIComponent(value)}${index < array.length - 1 ? "&" : ""
+            }`;
         }
       });
 
@@ -337,9 +336,8 @@ export default function FormTravelBanner() {
         "https://primetravel.primesecure.com.br/cotacao-rapida?";
       Object.entries(payload).forEach(([key, value], index, array) => {
         if (value && !["cf_source", "cf_medium", "cf_campaign"].includes(key)) {
-          redirectUrl += `${key}=${encodeURIComponent(value)}${
-            index < array.length - 1 ? "&" : ""
-          }`;
+          redirectUrl += `${key}=${encodeURIComponent(value)}${index < array.length - 1 ? "&" : ""
+            }`;
         }
       });
 
@@ -622,14 +620,13 @@ export default function FormTravelBanner() {
                     name="ages"
                     value={
                       formData.olds.reduce((total, age) => total + age, 0) > 0
-                        ? `${
-                            Array.isArray(formData.olds)
-                              ? formData.olds.reduce(
-                                  (total, age) => total + age,
-                                  0
-                                )
-                              : 0
-                          } Passageiros`
+                        ? `${Array.isArray(formData.olds)
+                          ? formData.olds.reduce(
+                            (total, age) => total + age,
+                            0
+                          )
+                          : 0
+                        } Passageiros`
                         : "Selecionar Passageiros"
                     }
                     onClick={openModal}

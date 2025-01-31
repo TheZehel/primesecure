@@ -9,10 +9,10 @@ export default function AlbertEinstein() {
     <section className="my-20">
       {/* Cabeçalho */}
       <div className="text-center mb-10 px-5">
-        <h2 className="text-2xl font-bold text-bluePrime">
+        <h2 className="text-2xl font-semibold text-grayPrime">
           Plano EASY Multiviagens
         </h2>
-        <h3 className="text-xl font-bold text-bluePrime2 mt-2 break-words">
+        <h3 className="text-xl font-bold text-bluePrime mt-2 break-words">
           Contrate uma única vez e use durante um ano
         </h3>
       </div>
