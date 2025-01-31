@@ -13,9 +13,17 @@ import { saveToStorage, loadFromStorage } from './utils/storageUtils';
 const stepsConfig = [
   { component: Plans, path: '/cotacao-primetravel', label: 'Plano' },
   { component: Resume, path: '/cotacao-primetravel/resumo', label: 'Resumo' },
-  { component: Passengers, path: '/cotacao-primetravel/passageiros', label: 'Passageiros' },
-  { component: Payment, path: '/cotacao-primetravel/pagamento', label: 'Pagamento' },
-  { component: Purchased, path: '/cotacao-primetravel/obrigado', label: 'Obrigado' },
+  {
+    component: Passengers,
+    path: '/cotacao-primetravel/passageiros',
+    label: 'Passageiros',
+  },
+  {
+    component: Payment,
+    path: '/cotacao-primetravel/pagamento',
+    label: 'Pagamento',
+  },
+  // { component: Purchased, path: '/cotacao-primetravel/obrigado', label: 'Obrigado' },
 ];
 
 const IndexCotacaoTravel = () => {
@@ -26,12 +34,15 @@ const IndexCotacaoTravel = () => {
   // Recupera o `activeStep` inicial do `sessionStorage` ou da URL
   const getInitialStep = () => {
     const storedStep = loadFromStorage('stepIndex', 0);
-    const urlStep = stepsConfig.findIndex((step) => step.path === location.pathname);
+    const urlStep = stepsConfig.findIndex(
+      (step) => step.path === location.pathname,
+    );
     return urlStep !== -1 ? urlStep : parseInt(storedStep, 10) || 0;
   };
 
   const [activeStep, setActiveStep] = useState(getInitialStep());
-  const [areAllPassengersComplete, setAreAllPassengersComplete] = useState(false);
+  const [areAllPassengersComplete, setAreAllPassengersComplete] =
+    useState(false);
   const [shouldBounce, setShouldBounce] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [passengerErrors, setPassengerErrors] = useState([]);
@@ -71,7 +82,9 @@ const IndexCotacaoTravel = () => {
     }
 
     if (activeStep === 2 && !areAllPassengersComplete) {
-      toast.error('Todos os passageiros devem ser adicionados antes de prosseguir.');
+      toast.error(
+        'Todos os passageiros devem ser adicionados antes de prosseguir.',
+      );
       return;
     }
 
@@ -82,7 +95,9 @@ const IndexCotacaoTravel = () => {
 
     if (activeStep === 2) {
       const allPassengersFilled = passengers.every((p) =>
-        ['firstName', 'secondName', 'CPF'].every((field) => p[field] && p[field].trim() !== '')
+        ['firstName', 'secondName', 'CPF'].every(
+          (field) => p[field] && p[field].trim() !== '',
+        ),
       );
 
       if (!allPassengersFilled) {
@@ -142,9 +157,7 @@ const IndexCotacaoTravel = () => {
           />
         </div>
 
-        <div
-          className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-t border-gray-200 p-2 shadow-lg md:shadow-none md:static md:bg-transparent md:border-none md:backdrop-blur-none md:p-0 md:mt-10"
-        >
+        <div className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-t border-gray-200 p-2 shadow-lg md:shadow-none md:static md:bg-transparent md:border-none md:backdrop-blur-none md:p-0 md:mt-10">
           <div className="m-auto max-w-4xl mt-3 rounded-xl flex gap-2">
             <button
               onClick={handleBack}
@@ -160,17 +173,20 @@ const IndexCotacaoTravel = () => {
                 if (activeStep === 0 && !selectedPlan) {
                   notifyError();
                 } else if (activeStep === 2 && !areAllPassengersComplete) {
-                  toast.error('Ainda faltam passageiros para serem preenchidos.');
+                  toast.error(
+                    'Ainda faltam passageiros para serem preenchidos.',
+                  );
                 } else {
                   handleNext();
                 }
               }}
-              className={`w-1/2 px-2 py-1 rounded transition-all text-sm ${activeStep === stepsConfig.length - 1
+              className={`w-1/2 px-2 py-1 rounded transition-all text-sm ${
+                activeStep === stepsConfig.length - 1
                   ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
                   : !selectedPlan && activeStep === 0
-                    ? 'bg-gray-300 text-gray-600'
-                    : 'bg-bluePrime text-white'
-                } ${shouldBounce ? 'animate-bounce' : ''}`}
+                  ? 'bg-gray-300 text-gray-600'
+                  : 'bg-bluePrime text-white'
+              } ${shouldBounce ? 'animate-bounce' : ''}`}
             >
               Avançar
             </button>

@@ -2,14 +2,10 @@ import { Wifi } from 'lucide-react';
 import React, { useState, useRef, useEffect } from 'react';
 import InputMask from 'react-input-mask';
 import { saveToStorage, loadFromStorage } from '../../utils/storageUtils';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 import LoadingAnimation from '../../../../globalsubcomponentes/icons/loadingSvg';
-import Purchased from '../purchased';
 
 const CreditCard = ({ onSubmit }) => {
-  const [isPaid, setIsPaid] = useState(false);
-
   const [cardNumber, setCardNumber] = useState('');
   const [cardHolder, setCardHolder] = useState('');
   const [expirationDate, setExpirationDate] = useState('');
@@ -45,18 +41,23 @@ const CreditCard = ({ onSubmit }) => {
   }, []);
 
   const handleInputChange = (name, value) => {
-    if (name === 'cardNumber') {
-      setCardNumber(value);
-      if (value) setErrors((prev) => ({ ...prev, cardNumber: false }));
-    } else if (name === 'cardHolder') {
-      setCardHolder(value);
-      if (value) setErrors((prev) => ({ ...prev, cardHolder: false }));
-    } else if (name === 'expirationDate') {
-      setExpirationDate(value);
-      if (value) setErrors((prev) => ({ ...prev, expirationDate: false }));
-    } else if (name === 'cvc') {
-      setCvc(value);
-      if (value) setErrors((prev) => ({ ...prev, cvc: false }));
+    setErrors((prev) => ({ ...prev, [name]: false }));
+
+    switch (name) {
+      case 'cardNumber':
+        setCardNumber(value);
+        break;
+      case 'cardHolder':
+        setCardHolder(value);
+        break;
+      case 'expirationDate':
+        setExpirationDate(value);
+        break;
+      case 'cvc':
+        setCvc(value);
+        break;
+      default:
+        break;
     }
   };
 
@@ -66,7 +67,7 @@ const CreditCard = ({ onSubmit }) => {
   };
 
   const handleAddCard = async () => {
-    // Validação
+    // Validação local
     const newErrors = {
       cardNumber: !cardNumber,
       cardHolder: !cardHolder,
@@ -87,8 +88,8 @@ const CreditCard = ({ onSubmit }) => {
     setLoading(true);
 
     try {
-      // Simulação de processamento (2s)
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      // (Opcional) Simulação de processamento local:
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       const cardData = {
         cardNumber,
@@ -102,20 +103,14 @@ const CreditCard = ({ onSubmit }) => {
       // Salva "cartao" no sessionStorage (se quiser)
       saveToStorage('cartao', cardData);
 
-      // Retorna dados ao componente pai (Payment)
+      // Retorna dados ao componente pai (Payment), que chamará a API de fato
       if (onSubmit) {
         onSubmit(cardData);
       }
-
-      toast.success('Pagamento realizado com sucesso!', {
-        position: 'top-right',
-        autoClose: 3000,
-        theme: 'light',
-      });
-
-      setIsPaid(true);
+      // Remover qualquer toast de sucesso aqui, pois o "sucesso real"
+      // depende da resposta da API no componente Payment.
     } catch (error) {
-      toast.error('Erro ao processar o pagamento. Tente novamente.', {
+      toast.error('Erro interno ao processar dados do cartão.', {
         position: 'top-right',
         autoClose: 3000,
         theme: 'light',
@@ -129,16 +124,6 @@ const CreditCard = ({ onSubmit }) => {
   const formatCardNumber = (number) => {
     return number.replace(/(\d{4})/g, '$1 ').trim();
   };
-
-  // Se "isPaid" estiver true, exibimos a tela de "obrigado" local (ou algo).
-  if (isPaid) {
-    return (
-      <div>
-        <Purchased />
-        <ToastContainer />
-      </div>
-    );
-  }
 
   return (
     <div>
@@ -299,7 +284,7 @@ const CreditCard = ({ onSubmit }) => {
           </div>
         </div>
       </div>
-      <ToastContainer />
+      {/* Não renderiza <Purchased/> aqui, nem toast de sucesso final */}
     </div>
   );
 };
