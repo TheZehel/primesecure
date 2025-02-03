@@ -53,13 +53,13 @@ export default function FormTravelBanner2() {
   const customValidation = new DataValidation();
   const navigate = useNavigate();
 
-
   const handleNavigateToPrivacyPolicy = () => {
     navigate('/politicas-de-privacidade');
   };
 
   const handleReasonChange = (selectedReason) => {
-    const CodigoMotivoViagem = selectedReason.value === 'lazer/negocios' ? 'L' : 'E';
+    const CodigoMotivoViagem =
+      selectedReason.value === 'lazer/negocios' ? 'L' : 'E';
     const updatedFormData = {
       ...formData,
       reason: selectedReason,
@@ -70,25 +70,20 @@ export default function FormTravelBanner2() {
   };
 
   const onChangeDeparture = (date, dateString) => {
-    // Convert to Brazilian format explicitly
-    const formattedDate = moment(date).format('DD-MM-YYYY');
-    setFormData({ ...formData, departure: formattedDate });
+    // Armazena o objeto moment diretamente no estado
+    setFormData({ ...formData, departure: date });
 
-    // Store in ISO format for sessionStorage
-    const isoDate = moment(date).format('YYYY-MM-DD');
+    // Se precisar salvar em sessionStorage em formato ISO, faça a conversão aqui
+    const isoDate = date ? date.format('YYYY-MM-DD') : null;
     const sessionData = JSON.parse(sessionStorage.getItem('editQuote')) || {};
     sessionData.departure = isoDate;
     sessionStorage.setItem('editQuote', JSON.stringify(sessionData));
   };
 
-
   const onChangeArrival = (date, dateString) => {
-    // Convert to Brazilian format explicitly
-    const formattedDate = moment(date).format('DD-MM-YYYY');
-    setFormData({ ...formData, arrival: formattedDate });
+    setFormData({ ...formData, arrival: date });
 
-    // Store in ISO format for sessionStorage
-    const isoDate = moment(date).format('YYYY-MM-DD');
+    const isoDate = date ? date.format('YYYY-MM-DD') : null;
     const sessionData = JSON.parse(sessionStorage.getItem('editQuote')) || {};
     sessionData.arrival = isoDate;
     sessionStorage.setItem('editQuote', JSON.stringify(sessionData));
@@ -117,7 +112,9 @@ export default function FormTravelBanner2() {
 
   const selectHandler = (event) => {
     const selectedValue = event.target.value;
-    const selectedOption = ListaPaises.find((pais) => pais.value === selectedValue);
+    const selectedOption = ListaPaises.find(
+      (pais) => pais.value === selectedValue,
+    );
 
     setFormData((prevFormData) => {
       const updatedData = {
@@ -125,10 +122,10 @@ export default function FormTravelBanner2() {
         selectedOption,
       };
 
-      if (selectedOption?.value === "Brasil") {
-        updatedData.CodigoTipoProduto = "VN";
+      if (selectedOption?.value === 'Brasil') {
+        updatedData.CodigoTipoProduto = 'VN';
       } else {
-        updatedData.CodigoTipoProduto = "VI";
+        updatedData.CodigoTipoProduto = 'VI';
       }
 
       const sessionData = JSON.parse(sessionStorage.getItem('editQuote')) || {};
@@ -234,9 +231,17 @@ export default function FormTravelBanner2() {
       ...utmParams,
     };
 
-    if (!payload.name || !payload.email || !payload.phone || !payload.departure || !payload.arrival || !payload.destiny.value || !payload.reason) {
+    if (
+      !payload.name ||
+      !payload.email ||
+      !payload.phone ||
+      !payload.departure ||
+      !payload.arrival ||
+      !payload.destiny.value ||
+      !payload.reason
+    ) {
       toast.error('Por favor, preencha todos os campos obrigatórios.', {
-        position: "top-right",
+        position: 'top-right',
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -303,22 +308,21 @@ export default function FormTravelBanner2() {
                 Inicie sua cotação online preenchendo o formulário abaixo.
               </p>
 
-              <form className="grid grid-cols-2 gap-4 mt-6" onSubmit={handleSubmit}>
+              <form
+                className="grid grid-cols-2 gap-4 mt-6"
+                onSubmit={handleSubmit}
+              >
                 <div className="col-span-2 grid grid-cols-2 gap-4">
                   <div className="w-full">
                     <div className="mt-2.5">
                       <DatePicker
                         locale={locale}
                         id="departure"
-                        selected={
-                          formData.departure
-                            ? moment(formData.departure, 'DD-MM-YYYY')
-                            : null
-                        }
+                        value={formData.departure} // Agora é um objeto moment ou null
                         onChange={onChangeDeparture}
-                        placeholderText="Data de ida"
+                        placeholder="Data de ida"
                         disabledDate={disabledDepartureDate}
-                        dateFormat="dd-MM-yyyy"
+                        format="DD-MM-YYYY"
                         className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime text-lg leading-6 text-center"
                       />
                     </div>
@@ -326,17 +330,13 @@ export default function FormTravelBanner2() {
                   <div className="w-full">
                     <div className="mt-2.5">
                       <DatePicker
-                        id="arrival"
                         locale={locale}
-                        selected={
-                          formData.arrival
-                            ? moment(formData.arrival, 'DD-MM-YYYY')
-                            : null
-                        }
+                        id="arrival"
+                        value={formData.arrival}
                         onChange={onChangeArrival}
-                        placeholderText="Volta"
+                        placeholder="Volta"
                         disabledDate={disabledArrivalDate}
-                        dateFormat="dd-MM-yyyy"
+                        format="DD-MM-YYYY"
                         className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime text-lg leading-6 text-center"
                       />
                     </div>
@@ -350,37 +350,86 @@ export default function FormTravelBanner2() {
                       value={formData.selectedOption?.value || ''}
                       onChange={(e) => {
                         const selectedOption = ListaPaises.find(
-                          (pais) => pais.value === e.target.value
+                          (pais) => pais.value === e.target.value,
                         );
 
                         const paisesEuropa = [
-                          'França', 'Espanha', 'Itália', 'Reino Unido', 'Alemanha', 'Grécia',
-                          'Portugal', 'Áustria', 'Bélgica', 'Holanda', 'Suíça', 'Suécia',
-                          'Noruega', 'Dinamarca', 'Albânia', 'Andorra', 'Armênia', 'Bielorrússia',
-                          'Bósnia e Herzegovina', 'Bulgária', 'Chipre', 'Croácia', 'Eslováquia',
-                          'Eslovênia', 'Estônia', 'Finlândia', 'Geórgia', 'Hungria', 'Irlanda',
-                          'Islândia', 'Letônia', 'Liechtenstein', 'Lituânia', 'Luxemburgo',
-                          'Macedônia do Norte', 'Malta', 'Moldávia', 'Mônaco', 'Montenegro',
-                          'Polônia', 'República Tcheca', 'Romênia', 'Rússia', 'San Marino',
-                          'Sérvia', 'Ucrânia', 'Vaticano'
+                          'França',
+                          'Espanha',
+                          'Itália',
+                          'Reino Unido',
+                          'Alemanha',
+                          'Grécia',
+                          'Portugal',
+                          'Áustria',
+                          'Bélgica',
+                          'Holanda',
+                          'Suíça',
+                          'Suécia',
+                          'Noruega',
+                          'Dinamarca',
+                          'Albânia',
+                          'Andorra',
+                          'Armênia',
+                          'Bielorrússia',
+                          'Bósnia e Herzegovina',
+                          'Bulgária',
+                          'Chipre',
+                          'Croácia',
+                          'Eslováquia',
+                          'Eslovênia',
+                          'Estônia',
+                          'Finlândia',
+                          'Geórgia',
+                          'Hungria',
+                          'Irlanda',
+                          'Islândia',
+                          'Letônia',
+                          'Liechtenstein',
+                          'Lituânia',
+                          'Luxemburgo',
+                          'Macedônia do Norte',
+                          'Malta',
+                          'Moldávia',
+                          'Mônaco',
+                          'Montenegro',
+                          'Polônia',
+                          'República Tcheca',
+                          'Romênia',
+                          'Rússia',
+                          'San Marino',
+                          'Sérvia',
+                          'Ucrânia',
+                          'Vaticano',
                         ];
-                        const IncluiEuropa = paisesEuropa.includes(selectedOption?.value) ? '1' : '0';
+                        const IncluiEuropa = paisesEuropa.includes(
+                          selectedOption?.value,
+                        )
+                          ? '1'
+                          : '0';
 
                         const updatedFormData = {
                           ...formData,
                           selectedOption,
                           CodigoDestino: selectedOption?.regiao || '',
-                          CodigoTipoProduto: selectedOption?.value === 'Brasil' ? 'VN' : 'VI',
+                          CodigoTipoProduto:
+                            selectedOption?.value === 'Brasil' ? 'VN' : 'VI',
                           IncluiEuropa,
                         };
 
                         setFormData(updatedFormData);
 
-                        const sessionData = JSON.parse(sessionStorage.getItem('editQuote')) || {};
-                        sessionData.CodigoDestino = selectedOption?.regiao || '';
-                        sessionData.CodigoTipoProduto = updatedFormData.CodigoTipoProduto;
+                        const sessionData =
+                          JSON.parse(sessionStorage.getItem('editQuote')) || {};
+                        sessionData.CodigoDestino =
+                          selectedOption?.regiao || '';
+                        sessionData.CodigoTipoProduto =
+                          updatedFormData.CodigoTipoProduto;
                         sessionData.IncluiEuropa = IncluiEuropa;
-                        sessionStorage.setItem('editQuote', JSON.stringify(sessionData));
+                        sessionStorage.setItem(
+                          'editQuote',
+                          JSON.stringify(sessionData),
+                        );
                       }}
                       className="block w-full placeholder:text-grayPrime rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime text-lg leading-6 text-center"
                     >
@@ -402,7 +451,7 @@ export default function FormTravelBanner2() {
                       value={formData.reason?.value || ''}
                       onChange={(e) => {
                         const selectedReason = reasonOptions.find(
-                          (reason) => reason.value === e.target.value
+                          (reason) => reason.value === e.target.value,
                         );
                         handleReasonChange(selectedReason);
                       }}
@@ -429,9 +478,9 @@ export default function FormTravelBanner2() {
                     value={
                       formData.olds.reduce((total, age) => total + age, 0) > 0
                         ? `${formData.olds.reduce(
-                          (total, age) => total + age,
-                          0,
-                        )} Passageiros`
+                            (total, age) => total + age,
+                            0,
+                          )} Passageiros`
                         : 'Selecione os Passageiros'
                     }
                     onClick={openModal}
@@ -447,13 +496,8 @@ export default function FormTravelBanner2() {
                   >
                     <div className="animate__animated animate__fadeIn bg-white rounded-lg shadow px-5 py-4 mx-auto w-96 h-96 border border-gray-300">
                       <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-2xl">
-                          Idade do(s) passageiro(s)
-                        </h2>
-                        <button
-                          onClick={closeModal}
-                          className="bg-transparent"
-                        >
+                        <h2 className="text-2xl">Idade do(s) passageiro(s)</h2>
+                        <button onClick={closeModal} className="bg-transparent">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
