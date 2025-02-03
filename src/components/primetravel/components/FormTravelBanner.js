@@ -1,30 +1,28 @@
-import axios from 'axios';
-import React, { useState, useEffect } from 'react';
-import Select from 'react-select';
-import { DatePicker, Space } from 'antd';
-import InputMask from 'react-input-mask';
-import Modal from 'react-modal';
-import imageManager from '../../bancoDeImagens';
-import { Chip } from '@material-tailwind/react';
-import ListaPaises from './ListaPaises';
-import DataValidation from '../../modules/dataValidation';
-import moment from 'moment';
-import { Checkbox, Typography } from '@material-tailwind/react';
-import { useNavigate } from 'react-router-dom';
-import { collection, addDoc } from 'firebase/firestore';
-import db from '../../../firebase';
+import axios from "axios";
+import React, { useState, useEffect } from "react";
+import Select from "react-select";
+import { DatePicker, Space } from "antd";
+import InputMask from "react-input-mask";
+import Modal from "react-modal";
+import imageManager from "../../bancoDeImagens";
+import { Chip } from "@material-tailwind/react";
+import ListaPaises from "./ListaPaises";
+import DataValidation from "../../modules/dataValidation";
+import moment from "moment";
+import { Checkbox, Typography } from "@material-tailwind/react";
+import { useNavigate } from "react-router-dom";
 
-import imageManagerPrimeTravel from '../bancodeimagens/BancoDeImagensPrimeTravel';
-import BannerPix from './subcomponents/BannerPix';
-import BannerParcelamento from './subcomponents/BannerParcelamento';
+import imageManagerPrimeTravel from "../bancodeimagens/BancoDeImagensPrimeTravel";
+import BannerPix from "./subcomponents/BannerPix";
+import BannerParcelamento from "./subcomponents/BannerParcelamento";
 
 const getUtmParams = () => {
   let params = {};
   let search = window.location.search.substring(1);
 
   if (search) {
-    search.split('&').forEach((item) => {
-      let data = item.split('=');
+    search.split("&").forEach((item) => {
+      let data = item.split("=");
       params[data[0]] = decodeURIComponent(data[1]);
     });
   }
@@ -39,7 +37,7 @@ export default function FormTravelBanner() {
   const navigate = useNavigate();
 
   const handleNavigateToPrivacyPolicy = () => {
-    navigate('/politicas-de-privacidade');
+    navigate("/politicas-de-privacidade");
   };
 
   function formatStringDate(dateString) {
@@ -62,15 +60,15 @@ export default function FormTravelBanner() {
     const apiKey = process.env.REACT_APP_API_KEY_RD_STATION;
 
     const rdOptions = {
-      method: 'POST',
+      method: "POST",
       url: `https://api.rd.services/platform/conversions?api_key=${apiKey}`,
       headers: {
-        accept: 'application/json',
-        'Content-Type': 'application/json',
+        accept: "application/json",
+        "Content-Type": "application/json",
       },
       data: {
-        event_type: 'CONVERSION',
-        event_family: 'CDP',
+        event_type: "CONVERSION",
+        event_family: "CDP",
         payload: payload,
       },
     };
@@ -79,32 +77,32 @@ export default function FormTravelBanner() {
 
     // Preparar dados para ManyChat
     const postDataManyChat = {
-      first_name: formData.name.split(' ')[0],
-      last_name: formData.name.split(' ').slice(1).join(' '),
-      phone: formData.phone.replace(/\D/g, ''), // Remove non-numeric characters
-      whatsapp_phone: formData.phone.replace(/\D/g, ''), // Assumes same as phone
+      first_name: formData.name.split(" ")[0],
+      last_name: formData.name.split(" ").slice(1).join(" "),
+      phone: formData.phone.replace(/\D/g, ""), // Remove non-numeric characters
+      whatsapp_phone: formData.phone.replace(/\D/g, ""), // Assumes same as phone
       email: formData.email,
-      gender: '', // Assumindo a necessidade de incluir o campo gênero
+      gender: "", // Assumindo a necessidade de incluir o campo gênero
       has_opt_in_sms: true,
       has_opt_in_email: true,
-      consent_phrase: 'Eu aceito os termos e condições.', // Exemplo de frase de consentimento
+      consent_phrase: "Eu aceito os termos e condições.", // Exemplo de frase de consentimento
       current_url: currentPath,
     };
 
     // Salvar formData no sessionStorage
-    sessionStorage.setItem('formData', JSON.stringify(formData));
+    sessionStorage.setItem("formData", JSON.stringify(formData));
 
     try {
       const [rdResponse] = await Promise.all([axios.request(rdOptions)]);
 
-      console.log('Resposta da RD Station:', rdResponse.data);
+      console.log("Resposta da RD Station:", rdResponse.data);
 
       // Salva na sessão antes do redirect
-      sessionStorage.setItem('formData-travel', JSON.stringify(payload));
+      sessionStorage.setItem("formData-travel", JSON.stringify(payload));
 
       //Envia Log de Sucesso do envio para a RD Station
       let logPayload = {
-        tipo: 'info',
+        tipo: "info",
         mensagem: {
           rdResponse: rdResponse.data,
           mensagem: payload,
@@ -112,36 +110,36 @@ export default function FormTravelBanner() {
       };
       await axios
         .post(
-          'https://primetravel.primesecure.com.br/logs/webapp',
+          "https://primetravel.primesecure.com.br/logs/webapp",
           logPayload,
-          { headers: { 'Content-Type': 'application/json' } },
+          { headers: { "Content-Type": "application/json" } }
         )
         .then((response) => {
-          console.log('Log - OK');
+          console.log("Log - OK");
         })
         .catch((e) => {
-          console.error('Log - Error', e.response.data);
+          console.error("Log - Error", e.response.data);
         });
 
       // Envio para ManyChat
       await axios
         .post(
-          'https://api.manychat.com/fb/subscriber/create', // Verifique a URL da API ManyChat
+          "https://api.manychat.com/fb/subscriber/create", // Verifique a URL da API ManyChat
           postDataManyChat,
           {
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
               Authorization: `Bearer ${process.env.REACT_APP_API_MANYCHAT}`, // Se a ManyChat API Key for necessária
             },
-          },
+          }
         )
         .then((response) => {
-          console.log('ManyChat - OK:', response.data);
+          console.log("ManyChat - OK:", response.data);
         })
         .catch((error) => {
           console.error(
-            'ManyChat - Error:',
-            error.response ? error.response.data : error.message,
+            "ManyChat - Error:",
+            error.response ? error.response.data : error.message
           );
         });
 
@@ -156,25 +154,25 @@ export default function FormTravelBanner() {
         const logMessage = {
           timestamp: new Date(),
           error:
-            'Erro 400 ao enviar o lead para a RD Station. Tentando novamente...',
+            "Erro 400 ao enviar o lead para a RD Station. Tentando novamente...",
           rdStationError: error.response.data,
           data: payload,
         };
         console.error(logMessage);
 
         //Envia o erro para aplicação
-        let errorPayload = { tipo: 'error', mensagem: logMessage };
+        let errorPayload = { tipo: "error", mensagem: logMessage };
         await axios
           .post(
-            'https://primetravel.primesecure.com.br/logs/webapp',
+            "https://primetravel.primesecure.com.br/logs/webapp",
             errorPayload,
-            { headers: { 'Content-Type': 'application/json' } },
+            { headers: { "Content-Type": "application/json" } }
           )
           .then((response) => {
-            console.log('Log - OK');
+            console.log("Log - OK");
           })
           .catch((e) => {
-            console.error('Log - Error', e.response.data);
+            console.error("Log - Error", e.response.data);
           });
 
         // Espera um tempo antes de tentar novamente
@@ -196,19 +194,19 @@ export default function FormTravelBanner() {
       cf_destinationregion:
         customValidation.retornarDestino(payload.destiny.regiao) ||
         payload.destiny.value, //
-      cf_departuredate: (payload.departure || '').toString(),
-      cf_arrivaldate: (payload.arrival || '').toString(),
-      cf_passengers_0_to_40: (payload.old0 || '0').toString(),
-      cf_passengers_41_to_64: (payload.old1 || '0').toString(),
-      cf_passengers_65_to_75: (payload.old2 || '0').toString(),
-      cf_passengers_76_to_99: (payload.old3 || '0').toString(),
+      cf_departuredate: (payload.departure || "").toString(),
+      cf_arrivaldate: (payload.arrival || "").toString(),
+      cf_passengers_0_to_40: (payload.old0 || "0").toString(),
+      cf_passengers_41_to_64: (payload.old1 || "0").toString(),
+      cf_passengers_65_to_75: (payload.old2 || "0").toString(),
+      cf_passengers_76_to_99: (payload.old3 || "0").toString(),
       cf_url_de_origem: window.location.href,
       cf_source: payload.utm_source,
       cf_medium: payload.utm_medium,
       cf_campaign: payload.utm_campaign,
-      name: (payload.name || '').toString(),
-      email: (payload.email || '').toString(),
-      mobile_phone: (payload.phone || '').toString(),
+      name: (payload.name || "").toString(),
+      email: (payload.email || "").toString(),
+      mobile_phone: (payload.phone || "").toString(),
     };
 
     //Deleta campos de idade que não tem passageiro
@@ -232,160 +230,126 @@ export default function FormTravelBanner() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    console.log('Início do handleSubmit');
-
     // Recebe os parâmetros UTM da URL
     const utmParams = getUtmParams();
-    console.log('Parâmetros UTM:', utmParams);
 
     // Coleta e formata os dados do formulário
     const payload = {
-      destiny: formData.selectedOption || { value: '', label: '', regiao: 0 },
+      destiny: formData.selectedOption || { value: "", label: "", regiao: 0 },
       destinyGroup: formData.selectedOption
         ? formData.selectedOption.regiao
-        : '',
+        : "",
       departure: formData.departure,
       arrival: formData.arrival,
       ages:
         formData.olds.reduce((total, age) => total + age, 0).toString() +
-        ' Passageiro(s)',
+        " Passageiro(s)",
       old0: formData.olds[0],
       old1: formData.olds[1],
       old2: formData.olds[2],
       old3: formData.olds[3],
       name: formData.name,
       email: formData.email,
-      phone: formData.phone.replace(/\D/g, ''),
+      phone: formData.phone.replace(/\D/g, ""),
       ...utmParams,
     };
-
-    console.log('Payload formatado:', payload);
 
     // Valida os dados do formulário
     const errors = customValidation.validarTravelPayload(payload);
     if (errors.length > 0) {
-      console.error('Erros de validação:', errors);
       setErrorList(errors);
-      alert('Existem erros no formulário. Verifique e tente novamente.');
       return;
     }
 
-    try {
-      console.log('Tentando enviar os dados para o Firestore...');
-      // Envia os dados para o Firestore
-      const docRef = await addDoc(collection(db, 'leadsPrimeTravel'), {
-        ...payload,
-        timestamp: new Date(), // Adiciona o timestamp atual
-      });
-      console.log('Documento adicionado ao Firestore com ID: ', docRef.id);
-    } catch (error) {
-      console.error('Erro ao adicionar documento no Firestore: ', error);
-      alert('Erro ao salvar os dados no Firestore. Verifique o console.');
-      return; // Evita continuar o processo caso ocorra erro no Firestore
-    }
-
     // Cria o objeto de dados para enviar para a RD Station e ManyChat
-    const formRD = convertToForm(payload, 'lead-primetravel-api');
-    console.log('Payload para RD Station:', formRD);
+    const formRD = convertToForm(payload, "lead-primetravel-api");
 
     const postDataManyChat = {
-      first_name: formData.name.split(' ')[0],
-      last_name: formData.name.split(' ').slice(1).join(' '),
-      phone: formData.phone.replace(/\D/g, ''),
-      whatsapp_phone: formData.phone.replace(/\D/g, ''),
+      first_name: formData.name.split(" ")[0],
+      last_name: formData.name.split(" ").slice(1).join(" "),
+      phone: formData.phone.replace(/\D/g, ""),
+      whatsapp_phone: formData.phone.replace(/\D/g, ""),
       email: formData.email,
-      destiny: formData.selectedOption || { value: '', label: '', regiao: 0 },
+      destiny: formData.selectedOption || { value: "", label: "", regiao: 0 },
       destinyGroup: formData.selectedOption
         ? formData.selectedOption.regiao
-        : '',
+        : "",
       departure: formData.departure,
       arrival: formData.arrival,
       ages:
         formData.olds.reduce((total, age) => total + age, 0).toString() +
-        ' Passageiro(s)',
+        " Passageiro(s)",
       old0: formData.olds[0],
       old1: formData.olds[1],
       old2: formData.olds[2],
       old3: formData.olds[3],
-      gender: '',
+      gender: "",
       has_opt_in_sms: true,
       has_opt_in_email: true,
-      consent_phrase: 'Eu aceito os termos e condições.',
+      consent_phrase: "Eu aceito os termos e condições.",
       current_url: window.location.pathname,
     };
 
     // Tentativa de envio de dados para ManyChat
-    try {
-      console.log('Enviando dados para ManyChat...');
-      await axios.post(
+    axios
+      .post(
         `${process.env.REACT_APP_URL_CREATE_SUBSCRIBER_MANYCHAT}/manychat/subscriber/create`,
         postDataManyChat,
         {
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
-        },
-      );
-      console.log('Dados enviados para ManyChat com sucesso!');
-    } catch (error) {
-      console.error('Erro ao enviar dados para ManyChat:', error);
-      alert('Erro ao enviar dados para ManyChat. Verifique o console.');
-    }
+        }
+      )
+      .catch((error) => {
+        console.error("Erro ao enviar dados para ManyChat:", error);
+      });
 
     try {
-      console.log('Enviando dados para RD Station...');
       // Envia os dados para a RD Station
       await axios.post(
         `https://api.rd.services/platform/conversions?api_key=${process.env.REACT_APP_API_KEY_RD_STATION}`,
         formRD,
         {
           headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
+            "Content-Type": "application/json",
+            Accept: "application/json",
           },
-        },
+        }
       );
-      console.log('Dados enviados para RD Station com sucesso!');
 
       // Prepara o redirecionamento
       let redirectUrl =
-        'https://primetravel.primesecure.com.br/cotacao-rapida?';
+        "https://primetravel.primesecure.com.br/cotacao-rapida?";
       Object.entries(payload).forEach(([key, value], index, array) => {
-        if (value && !['cf_source', 'cf_medium', 'cf_campaign'].includes(key)) {
-          redirectUrl += `${key}=${encodeURIComponent(value)}${
-            index < array.length - 1 ? '&' : ''
-          }`;
+        if (value && !["cf_source", "cf_medium", "cf_campaign"].includes(key)) {
+          redirectUrl += `${key}=${encodeURIComponent(value)}${index < array.length - 1 ? "&" : ""
+            }`;
         }
       });
 
-      alert('Redirecionando para: ' + redirectUrl); // Adiciona um alerta antes do redirecionamento
-      console.log('URL de redirecionamento:', redirectUrl);
       window.location.href = redirectUrl;
     } catch (error) {
-      console.error('Erro ao enviar dados para RD Station:', error);
-
+      console.error("Erro ao enviar dados para RD Station:", error);
       // Trata os erros de RD Station aqui se necessário, mas continua o processo de redirecionamento
       let redirectUrl =
-        'https://primetravel.primesecure.com.br/cotacao-rapida?';
+        "https://primetravel.primesecure.com.br/cotacao-rapida?";
       Object.entries(payload).forEach(([key, value], index, array) => {
-        if (value && !['cf_source', 'cf_medium', 'cf_campaign'].includes(key)) {
-          redirectUrl += `${key}=${encodeURIComponent(value)}${
-            index < array.length - 1 ? '&' : ''
-          }`;
+        if (value && !["cf_source", "cf_medium", "cf_campaign"].includes(key)) {
+          redirectUrl += `${key}=${encodeURIComponent(value)}${index < array.length - 1 ? "&" : ""
+            }`;
         }
       });
 
-      alert('Erro na RD Station. Redirecionando para: ' + redirectUrl);
-      console.log('URL de redirecionamento após erro:', redirectUrl);
       window.location.href = redirectUrl;
     }
   };
 
   const onChangeDeparture = (date, dateString) => {
     //Manipula a input de "Data de Ida"
-    if (errorList.includes('departure')) {
+    if (errorList.includes("departure")) {
       //Retorna e atualiza array de erros no formulário
-      let errors = errorList.filter((item) => item != 'departure');
+      let errors = errorList.filter((item) => item != "departure");
       setErrorList(errors);
     }
     setFormData({ ...formData, departure: dateString });
@@ -393,9 +357,9 @@ export default function FormTravelBanner() {
 
   const onChangeArrival = (date, dateString) => {
     //Manipula a input de "Data de Volta"
-    if (errorList.includes('arrival')) {
+    if (errorList.includes("arrival")) {
       //Retorna e atualiza array de erros no formulário
-      let errors = errorList.filter((item) => item != 'arrival');
+      let errors = errorList.filter((item) => item != "arrival");
       setErrorList(errors);
     }
     setFormData({ ...formData, arrival: dateString });
@@ -404,24 +368,24 @@ export default function FormTravelBanner() {
   const disabledDepartureDate = (current) => {
     let limitAfter = formData.arrival;
     //Gera TimeStamp da "Data de Volta" para interagir com DatePicker
-    limitAfter = moment(limitAfter, 'DD/MM/YYYY');
+    limitAfter = moment(limitAfter, "DD/MM/YYYY");
     return (
       //Bloqueia datas após a data da input "Data de Volda"
-      (current && current.isAfter(limitAfter, 'day')) ||
+      (current && current.isAfter(limitAfter, "day")) ||
       //Bloqueia datas anterios a hoje na input "Data de Ida"
-      current < moment().startOf('day')
+      current < moment().startOf("day")
     );
   };
 
   const disabledArrivalDate = (current) => {
     let limitBefore = formData.departure;
     //Gera TimeStamp da "Data de Ida" para interagir com DatePicker
-    limitBefore = moment(limitBefore, 'DD/MM/YYYY');
+    limitBefore = moment(limitBefore, "DD/MM/YYYY");
     return (
       //Bloqueia datas anteriores a "Data de Ida"
-      (current && current < moment().startOf('day')) ||
+      (current && current < moment().startOf("day")) ||
       //Bloqueia datas anterios a hoje na input "Data de Volta"
-      current < limitBefore.startOf('day')
+      current < limitBefore.startOf("day")
     );
   };
 
@@ -429,9 +393,9 @@ export default function FormTravelBanner() {
     //Administra o select de Destino
     formData.selectedOption = selectedOption;
     setFormData({ ...formData });
-    if (errorList.includes('destinyGroup')) {
+    if (errorList.includes("destinyGroup")) {
       //Retorna e atualiza array de erros no formulário
-      let errors = errorList.filter((item) => item != 'destinyGroup');
+      let errors = errorList.filter((item) => item != "destinyGroup");
       setErrorList(errors);
     }
   };
@@ -443,8 +407,8 @@ export default function FormTravelBanner() {
 
   const handleOld = (index, value) => {
     //Administra o número de passageiros por idade
-    if (errorList.includes('ages')) {
-      let errors = errorList.filter((item) => item !== 'ages');
+    if (errorList.includes("ages")) {
+      let errors = errorList.filter((item) => item !== "ages");
       setErrorList(errors);
     }
 
@@ -471,13 +435,13 @@ export default function FormTravelBanner() {
       setErrorList(errors);
     }
 
-    if (id == 'name') {
+    if (id == "name") {
       setFormData({ ...formData, name: value });
     }
-    if (id == 'email') {
+    if (id == "email") {
       setFormData({ ...formData, email: value });
     }
-    if (id == 'phone') {
+    if (id == "phone") {
       setFormData({ ...formData, phone: value });
     }
   };
@@ -490,15 +454,15 @@ export default function FormTravelBanner() {
     arrivalDate: null,
     olds: [0, 0, 0, 0],
     ages: 0,
-    name: '',
-    email: '',
-    phone: '',
+    name: "",
+    email: "",
+    phone: "",
   });
 
   //console.log('formData:', formData);
 
   useEffect(() => {
-    const storedFormData = sessionStorage.getItem('formData-travel');
+    const storedFormData = sessionStorage.getItem("formData-travel");
     if (storedFormData) {
       let storageData = JSON.parse(storedFormData);
       if (!Array.isArray(storageData.olds)) {
@@ -514,7 +478,7 @@ export default function FormTravelBanner() {
       });
     }
     //Deleta selessionStorage ao carregar pro form;
-    sessionStorage.removeItem('formData-travel');
+    sessionStorage.removeItem("formData-travel");
   }, []);
 
   return (
@@ -523,9 +487,9 @@ export default function FormTravelBanner() {
       id="banner-travel"
       style={{
         backgroundImage: `url(${imageManager.banners.bannerPrimeTravel})`,
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
       }}
     >
       <div className="container mx-auto pt-10">
@@ -537,7 +501,7 @@ export default function FormTravelBanner() {
               className="bg-bluePrime text-lg"
             />
             <h1 className="text-4xl font-bold mb-4 text-white">
-              Prime Travel{' '}
+              Prime Travel{" "}
             </h1>
             <p className="text-white text-2xl font-semibold">
               Não importa como e para onde você viaja, nós te protegemos. Ainda
@@ -569,9 +533,9 @@ export default function FormTravelBanner() {
                     id="label-destinyGroup"
                     htmlFor=""
                     className={
-                      errorList.includes('destinyGroup')
-                        ? 'block text-sm font-semibold leading-6 text-alertRed'
-                        : 'block text-sm font-semibold leading-6 text-gray-900'
+                      errorList.includes("destinyGroup")
+                        ? "block text-sm font-semibold leading-6 text-alertRed"
+                        : "block text-sm font-semibold leading-6 text-gray-900"
                     }
                   >
                     Destino
@@ -593,9 +557,9 @@ export default function FormTravelBanner() {
                       id="label-departure"
                       htmlFor=""
                       className={
-                        errorList.includes('departure')
-                          ? 'block text-sm font-semibold leading-6 text-alertRed'
-                          : 'block text-sm font-semibold leading-6 text-gray-900'
+                        errorList.includes("departure")
+                          ? "block text-sm font-semibold leading-6 text-alertRed"
+                          : "block text-sm font-semibold leading-6 text-gray-900"
                       }
                     >
                       Data de Ida
@@ -617,9 +581,9 @@ export default function FormTravelBanner() {
                       id="label-arrival"
                       htmlFor=""
                       className={
-                        errorList.includes('arrival')
-                          ? 'block text-sm font-semibold leading-6 text-alertRed'
-                          : 'block text-sm font-semibold leading-6 text-gray-900'
+                        errorList.includes("arrival")
+                          ? "block text-sm font-semibold leading-6 text-alertRed"
+                          : "block text-sm font-semibold leading-6 text-gray-900"
                       }
                     >
                       Data de Volta
@@ -641,9 +605,9 @@ export default function FormTravelBanner() {
                   <label
                     htmlFor="passengers"
                     className={
-                      errorList.includes('ages')
-                        ? 'form-label block text-sm font-semibold leading-6 text-alertRed'
-                        : 'form-label block text-sm font-semibold leading-6 text-gray-900'
+                      errorList.includes("ages")
+                        ? "form-label block text-sm font-semibold leading-6 text-alertRed"
+                        : "form-label block text-sm font-semibold leading-6 text-gray-900"
                     }
                     id="label-ages"
                   >
@@ -656,15 +620,14 @@ export default function FormTravelBanner() {
                     name="ages"
                     value={
                       formData.olds.reduce((total, age) => total + age, 0) > 0
-                        ? `${
-                            Array.isArray(formData.olds)
-                              ? formData.olds.reduce(
-                                  (total, age) => total + age,
-                                  0,
-                                )
-                              : 0
-                          } Passageiros`
-                        : 'Selecionar Passageiros'
+                        ? `${Array.isArray(formData.olds)
+                          ? formData.olds.reduce(
+                            (total, age) => total + age,
+                            0
+                          )
+                          : 0
+                        } Passageiros`
+                        : "Selecionar Passageiros"
                     }
                     onClick={openModal}
                     readOnly
@@ -805,9 +768,9 @@ export default function FormTravelBanner() {
                     id="label-name"
                     htmlFor=""
                     className={
-                      errorList.includes('name')
-                        ? 'block text-sm font-semibold leading-6 text-alertRed'
-                        : 'block text-sm font-semibold leading-6 text-gray-900'
+                      errorList.includes("name")
+                        ? "block text-sm font-semibold leading-6 text-alertRed"
+                        : "block text-sm font-semibold leading-6 text-gray-900"
                     }
                   >
                     Nome Completo
@@ -831,9 +794,9 @@ export default function FormTravelBanner() {
                     id="label-email"
                     htmlFor=""
                     className={
-                      errorList.includes('email')
-                        ? 'block text-sm font-semibold leading-6 text-alertRed'
-                        : 'block text-sm font-semibold leading-6 text-gray-900'
+                      errorList.includes("email")
+                        ? "block text-sm font-semibold leading-6 text-alertRed"
+                        : "block text-sm font-semibold leading-6 text-gray-900"
                     }
                   >
                     E-mail
@@ -856,9 +819,9 @@ export default function FormTravelBanner() {
                   <label
                     htmlFor="label-phone"
                     className={
-                      errorList.includes('phone')
-                        ? 'block text-sm font-semibold leading-6 text-alertRed'
-                        : 'block text-sm font-semibold leading-6 text-gray-900'
+                      errorList.includes("phone")
+                        ? "block text-sm font-semibold leading-6 text-alertRed"
+                        : "block text-sm font-semibold leading-6 text-gray-900"
                     }
                   >
                     Telefone
@@ -886,7 +849,7 @@ export default function FormTravelBanner() {
               onClick={(e) => {
                 handleSubmit(e);
                 window.dataLayer = window.dataLayer || [];
-                window.dataLayer.push({ event: 'lead-primetravel' });
+                window.dataLayer.push({ event: "lead-primetravel" });
               }}
             >
               Cotar Agora

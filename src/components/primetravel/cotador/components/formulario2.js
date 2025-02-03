@@ -30,11 +30,10 @@ const Formulario2 = ({
           }
           value={passengerFirstName}
           onChange={handleInputChange}
-          className={`rounded-md border p-2 w-full ${
-            errors.firstName
+          className={`rounded-md border p-2 w-full ${errors.firstName
               ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
               : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
-          }`}
+            }`}
         />
         <input
           ref={secondNameRef}
@@ -47,11 +46,10 @@ const Formulario2 = ({
           }
           value={passengerSecondName}
           onChange={handleInputChange}
-          className={`rounded-md border p-2 w-full ${
-            errors.secondName
+          className={`rounded-md border p-2 w-full ${errors.secondName
               ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
               : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
-          }`}
+            }`}
         />
         <InputMask
           ref={CPFRef}
@@ -63,11 +61,10 @@ const Formulario2 = ({
           }
           value={passengerCPF}
           onChange={handleInputChange}
-          className={`rounded-md border p-2 w-full ${
-            errors.CPF
+          className={`rounded-md border p-2 w-full ${errors.CPF
               ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
               : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
-          }`}
+            }`}
         />
       </div>
 
@@ -83,21 +80,19 @@ const Formulario2 = ({
               : "Data de nascimento"
           }
           onChange={handleInputChange}
-          className={`rounded-md border p-2 w-full ${
-            errors.birthday
+          className={`rounded-md border p-2 w-full ${errors.birthday
               ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
               : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
-          }`}
+            }`}
         />
         <select
           ref={genderRef}
           name="gender"
           onChange={handleInputChange}
-          className={`rounded-md border p-2 w-full ${
-            errors.gender
+          className={`rounded-md border p-2 w-full ${errors.gender
               ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
               : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
-          }`}
+            }`}
         >
           <option value="">Gênero</option>
           <option value="Masculino">Masculino</option>
@@ -107,11 +102,10 @@ const Formulario2 = ({
           ref={exposedPersonRef}
           name="exposedPerson"
           onChange={handleInputChange}
-          className={`rounded-md border p-2 w-full ${
-            errors.exposedPerson
+          className={`rounded-md border p-2 w-full ${errors.exposedPerson
               ? "border-red-500 placeholder:font-bold placeholder:text-red-500 focus:ring-red-500 ring-red-500"
               : "border-bluePrime focus:ring-bluePrime ring-bluePrime"
-          }`}
+            }`}
         >
           <option value="">Pessoa politicamente exposta?</option>
           <option value="Sim">Sim</option>
