@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useRef } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { useNavigate } from 'react-router-dom';
 // Import Swiper styles
-import "swiper/css/pagination";
-import "swiper/css/navigation";
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 
 export default function BannerPromo() {
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
@@ -13,7 +13,7 @@ export default function BannerPromo() {
   const progressCircle = useRef(null);
   const progressContent = useRef(null);
   const onAutoplayTimeLeft = (s, time, progress) => {
-    progressCircle.current.style.setProperty("--progress", 1 - progress);
+    progressCircle.current.style.setProperty('--progress', 1 - progress);
     progressContent.current.textContent = `${Math.ceil(time / 1000)}s`;
   };
 
@@ -22,10 +22,10 @@ export default function BannerPromo() {
       setViewportWidth(window.innerWidth);
     };
 
-    window.addEventListener("resize", updateScreenWidth);
+    window.addEventListener('resize', updateScreenWidth);
 
     return () => {
-      window.removeEventListener("resize", updateScreenWidth);
+      window.removeEventListener('resize', updateScreenWidth);
     };
   }, []);
 
@@ -33,13 +33,13 @@ export default function BannerPromo() {
     {
       id: 1,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/novembro/lp/primetravel/srclarge-black-friday-2024-viagem.png",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-lp/primetravel/srclarge-ver%C3%A3o-2025-seguro-viagem.png',
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/novembro/lp/primetravel/srcmedium-black-friday-2024-viagem.png",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-lp/primetravel/srcmedium-ver%C3%A3o-2025-seguro-viagem.png',
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/novembro/lp/primetravel/srcmobile-black-friday-2024-viagem.png",
-      alt: "Banner de Natal para Telas Grandes",
-      href: "",
+        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-lp/primetravel/srcmobile-ver%C3%A3o-2025-seguro-viagem.png',
+      alt: 'Banner de Natal para Telas Grandes',
+      href: '',
     },
     // Adicione mais banners aqui conforme necessário
   ];

@@ -33,11 +33,11 @@ export default function BannerPromoBike() {
     {
       id: 1,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/novembro/lp/bike/srclarge-black-friday-2024-bike.png",
+        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-lp/bike/srclarge-ver%C3%A3o-2025-seguro-bike-kakau.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/novembro/lp/bike/srcmedium-black-friday-2024-bike.png",
+        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-lp/bike/srcmedium-ver%C3%A3o-2025-seguro-bike-kakau.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/novembro/lp/bike/srcmobile-black-friday-2024-bike.png",
+        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-lp/bike/srcmobile-ver%C3%A3o-2025-seguro-bike-kakau.png",
       alt: "Banner de Natal para Telas Grandess",
       href: "",
     },
@@ -66,8 +66,8 @@ export default function BannerPromoBike() {
                 viewportWidth >= 1500
                   ? banner.srcLarge
                   : viewportWidth >= 1024
-                  ? banner.srcMedium
-                  : banner.srcMobile
+                    ? banner.srcMedium
+                    : banner.srcMobile
               }
               alt={banner.alt}
               className="h-full w-full cursor-pointer mb-[33px] rounded-xl"

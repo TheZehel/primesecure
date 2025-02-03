@@ -33,11 +33,11 @@ export default function BannerPromo() {
     {
       id: 1,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/novembro/lp/consorcio-imovel/srclarge-black-friday-2024-imovel.png",
+        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-lp/imovel/srclarge-ver%C3%A3o-2025-cons%C3%B3rcio-im%C3%B3vel.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/novembro/lp/consorcio-imovel/srcmedium-black-friday-2024-cons%C3%B3rcio-im%C3%B3vel.png",
+        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-lp/imovel/srcmedium-ver%C3%A3o-2025-cons%C3%B3rcio-im%C3%B3vel.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/novembro/lp/consorcio-imovel/srcmobile-black-friday-2024-cons%C3%B3rcio-im%C3%B3vel.png",
+        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-lp/imovel/srcmobile-ver%C3%A3o-2025-cons%C3%B3rcio-im%C3%B3vel.png",
       alt: "Banner de Natal para Telas Grandes",
       href: "",
     },
@@ -66,8 +66,8 @@ export default function BannerPromo() {
                 viewportWidth >= 1500
                   ? banner.srcLarge
                   : viewportWidth >= 1024
-                  ? banner.srcMedium
-                  : banner.srcMobile
+                    ? banner.srcMedium
+                    : banner.srcMobile
               }
               alt={banner.alt}
               className="h-full w-full cursor-pointer mb-[33px] rounded-xl"

@@ -33,11 +33,11 @@ export default function BannerPromo() {
     {
       id: 1,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/novembro/lp/celular/srclarge-black-friday-2024-celular-porto.png",
+        "https://storage.googleapis.com/primesecure/banners/Dezembro/banners-natal-2024/Celular%20Kakau/srclarge-natal-2024-celular.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/novembro/lp/celular/srcmedium-black-friday-2024-celular-1.png",
+        "https://storage.googleapis.com/primesecure/banners/Dezembro/banners-natal-2024/Celular%20Kakau/srcmedium-natal-2024-celular.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/novembro/lp/celular/srcmobile-black-friday-2024-celular.png",
+        "https://storage.googleapis.com/primesecure/banners/Dezembro/banners-natal-2024/Celular%20Kakau/srcmobile-natal-2024-celular.png",
       alt: "Banner de Natal para Telas Grandes",
       href: "",
     },
@@ -66,8 +66,8 @@ export default function BannerPromo() {
                 viewportWidth >= 1500
                   ? banner.srcLarge
                   : viewportWidth >= 1024
-                  ? banner.srcMedium
-                  : banner.srcMobile
+                    ? banner.srcMedium
+                    : banner.srcMobile
               }
               alt={banner.alt}
               className="h-full w-full cursor-pointer mb-[33px] rounded-xl"

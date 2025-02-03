@@ -33,12 +33,12 @@ export default function BannerPromo() {
     {
       id: 1,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/banners/novembro/lp/consorcio-auto/srclarge-black-friday-2024-consorcio-auto.png",
+        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-lp/auto/srclarge-ver%C3%A3o-2025-cons%C3%B3rcio-auto.png",
       srcMedium:
-        "https://storage.googleapis.com/primesecure/banners/novembro/lp/consorcio-auto/srcmedium-black-friday-2024-cons%C3%B3rcio-auto.png",
+        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-lp/auto/srcmedium-ver%C3%A3o-2025-cons%C3%B3rcio-auto.png",
       srcMobile:
-        "https://storage.googleapis.com/primesecure/banners/novembro/lp/consorcio-auto/srcmobile-black-friday-2024-cons%C3%B3rcio-auto.png",
-      alt: "Banner de Natal para Telas Grandes",
+        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-lp/auto/srcmobile-ver%C3%A3o-2025-cons%C3%B3rcio-auto.png",
+      alt: "Banner para Telas Grandes",
       href: "",
     },
     // Adicione mais banners aqui conforme necessário
@@ -66,8 +66,8 @@ export default function BannerPromo() {
                 viewportWidth >= 1500
                   ? banner.srcLarge
                   : viewportWidth >= 1024
-                  ? banner.srcMedium
-                  : banner.srcMobile
+                    ? banner.srcMedium
+                    : banner.srcMobile
               }
               alt={banner.alt}
               className="h-full w-full cursor-pointer mb-[33px] rounded-xl"

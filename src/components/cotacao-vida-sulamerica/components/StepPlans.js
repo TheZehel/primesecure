@@ -7,11 +7,12 @@ import { faMoneyBill } from "@fortawesome/free-solid-svg-icons";
 
 // Subcomponents
 import TitlePage from "./subcomponents/TitlePage";
+import ModalDetails from "./subcomponents/ModalDetails";
 
 export default function PlanSlider({
   selectedPlanId,
   setSelectedPlanId,
-  updateFormData
+  updateFormData,
 }) {
   const PlanCard = ({
     headTitle,
@@ -27,13 +28,13 @@ export default function PlanSlider({
     award,
     href,
     onSelectPlan,
+    openModal,
   }) => {
     // Determina se o plano atual é o selecionado
     const isSelected = planId === selectedPlanId;
 
-    const link = "https://www.sulamerica.com.br/manuais/CondicoesEspeciaisDaAssistenciaPessoal.pdf";
-
-    
+    const link =
+      "https://www.sulamerica.com.br/manuais/CondicoesEspeciaisDaAssistenciaPessoal.pdf";
 
     //console.log(planId, selectedPlan)
 
@@ -43,7 +44,7 @@ export default function PlanSlider({
           setSelectedPlanId(planId);
           updateFormData({ selectedPlanId: planId });
         }}
-        className={`sm:w-82 w-90 h-[500px] my-4 mx-2 rounded-2xl shadow border flex flex-col justify-between ${
+        className={`sm:w-82 w-90 h-[600px] my-4 mx-2 rounded-2xl shadow border flex flex-col justify-between ${
           isSelected ? "blue" : "red"
         }`}
       >
@@ -56,7 +57,7 @@ export default function PlanSlider({
             {headTitle}
           </span>
         </div>
-        <div className="py-4 px-4 flex flex-col  flex-grow">
+        <div className="py-4 px-4 flex flex-col h-[250px] flex-grow">
           <div className="flex justify-between gap-x-4 mb-3">
             <div
               className={`text-grayPrime text-opacity-80 text-xl font-extrabold`}
@@ -65,7 +66,7 @@ export default function PlanSlider({
             </div>
           </div>
           <div
-            className={`text-left text-gray-500 text-opacity-80 text-sm font-normal mb-2 leading-4`}
+            className={`text-left text-bluePrime font-bold text-opacity-80 text-sm mb-2 leading-4`}
           >
             {resumeDesc}
             <br />
@@ -116,15 +117,15 @@ export default function PlanSlider({
               var value = feature.split(" - ")[1] || "";
 
               if (value) {
-                value = '- ' + value;
-              }              
-
-              if (text.includes("Morte")){
-                text = '(MA) ' + text;
+                value = "- " + value;
               }
 
-              if (text.includes("Invalidez")){
-                text = '(IPTA) ' + text;
+              if (text.includes("Morte")) {
+                text = "(MA) " + text;
+              }
+
+              if (text.includes("Invalidez")) {
+                text = "(IPTA) " + text;
               }
 
               return (
@@ -138,8 +139,31 @@ export default function PlanSlider({
                   <div className="max-w-[170px] w-fit mr-[5px]">{text}</div>
                   <div>{value}</div>
                 </div>
-              )
-              })}
+              );
+            })}
+          </div>
+          {/* Div Namu */}
+          <div>
+            <div className="text-sm">
+              <p>Ganhe acesso ao app:</p>
+            </div>
+            <div>
+              <img
+                src="https://storage.googleapis.com/primesecure/34bebeae-logo-namu.svg"
+                className="w-[100px] mx-auto"
+              />
+            </div>
+          </div>
+          <div className="text-left">
+            <a
+              onClick={(e) => {
+                e.stopPropagation();
+                openModal();
+              }}
+              className="text-sm text-bluePrime hover:text-bluePrime2 font-semibold underline underline-offset-2 cursor-pointer"
+            >
+              Ver detalhes...
+            </a>
           </div>
           <div className="text-left">
             <div>
@@ -149,7 +173,7 @@ export default function PlanSlider({
                 rel="noopener noreferrer"
                 className="text-sm text-bluePrime hover:text-bluePrime2 font-semibold underline underline-offset-2"
               >
-                Ver detalhes...
+                Condições...
               </a>
             </div>
           </div>
@@ -160,6 +184,8 @@ export default function PlanSlider({
 
   const swiperRef = useRef(null);
   const [hasBounced, setHasBounced] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState(null);
 
   const handleSlideBounce = () => {
     if (!hasBounced) {
@@ -180,11 +206,11 @@ export default function PlanSlider({
       award: "Sorteio de R$20.000,00",
       resume: "Detalhes:",
       resumeDesc:
-        "Assistência pessoal + residencial + dezenas de serviços Desconto em farmácia + funeral familiar + Médico na Tela Familiar.",
+        "Assistência Pessoal + App Namu + Faz tudo (Assistência Residencial) + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar + Rede Saúde Familiar.",
       features: [
-        "Morte Acidental - 100 mil", 
+        "Morte Acidental - 100 mil",
         "Invalidez Permanente Total por Acidente - 100 mil",
-        "Funeral Familiar Até 10 mil"
+        "Funeral Familiar Até 10 mil",
       ],
       bgColor: "bluePrime",
       textColor: "white",
@@ -214,11 +240,11 @@ export default function PlanSlider({
       award: "Sorteio de R$20.000,00",
       resume: "Detalhes:",
       resumeDesc:
-        "Assistência pessoal + residencial + dezenas de serviços Desconto em farmácia + funeral familiar + Médico na Tela Familiar.",
+        "Assistência Pessoal + App Namu + Faz tudo (Assistência Residencial) + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar + Rede Saúde Familiar.",
       features: [
-        "Morte Acidental - 200 mil", 
+        "Morte Acidental - 200 mil",
         "Invalidez Permanente Total por Acidente - 200 mil",
-        "Funeral Familiar Até 10 mil"
+        "Funeral Familiar Até 10 mil",
       ],
       bgColor: "bluePrime",
       textColor: "white",
@@ -227,15 +253,15 @@ export default function PlanSlider({
     {
       headTitle: "PRIME GOLD",
       title: "Pacote 3",
-      price: "96,15",//"65,31",
+      price: "96,15", //"65,31",
       award: "Sorteio de R$20.000,00",
       resume: "Detalhes:",
       resumeDesc:
-        "Assistência pessoal + residencial + dezenas de serviços Desconto em farmácia + funeral familiar + Médico na Tela Familiar.",
+        "Assistência Pessoal + App Namu + Faz tudo (Assistência Residencial) + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar + Rede Saúde Familiar.",
       features: [
-        "Morte Acidental - 300 mil", 
+        "Morte Acidental - 300 mil",
         "Invalidez Permanente Total por Acidente - 300 mil",
-        "Funeral Familiar Até 10 mil"
+        "Funeral Familiar Até 10 mil",
       ],
       bgColor: "bluePrime",
       textColor: "white",
@@ -244,15 +270,15 @@ export default function PlanSlider({
     {
       headTitle: "PRIME PLATINUM",
       title: "Pacote 4",
-      price: "128,20",//"65,31",
+      price: "128,20", //"65,31",
       award: "Sorteio de R$20.000,00",
       resume: "Detalhes:",
       resumeDesc:
-        "Assistência pessoal + residencial + dezenas de serviços Desconto em farmácia + funeral familiar + Médico na Tela Familiar.",
+        "Assistência Pessoal + App Namu + Faz tudo (Assistência Residencial) + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar + Rede Saúde Familiar.",
       features: [
-        "Morte Acidental - 400 mil", 
+        "Morte Acidental - 400 mil",
         "Invalidez Permanente Total por Acidente - 400 mil",
-        "Funeral Familiar Até 10 mil"
+        "Funeral Familiar Até 10 mil",
       ],
       bgColor: "bluePrime",
       textColor: "white",
@@ -262,15 +288,15 @@ export default function PlanSlider({
     {
       headTitle: "PRIME DIAMOND",
       title: "Pacote 5",
-      price: "160,20",//"65,31",
+      price: "160,20", //"65,31",
       award: "Sorteio de R$20.000,00",
       resume: "Detalhes:",
       resumeDesc:
-        "Assistência pessoal + residencial + dezenas de serviços Desconto em farmácia + funeral familiar + Médico na Tela Familiar.",
+        "Assistência Pessoal + App Namu + Faz tudo (Assistência Residencial) + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar + Rede Saúde Familiar.",
       features: [
-        "Morte Acidental - 500 mil", 
+        "Morte Acidental - 500 mil",
         "Invalidez Permanente Total por Acidente - 500 mil",
-        "Funeral Familiar Até 10 mil"
+        "Funeral Familiar Até 10 mil",
       ],
       bgColor: "bluePrime",
       textColor: "white",
@@ -307,11 +333,20 @@ export default function PlanSlider({
                 {...plan}
                 selectedPlanId={selectedPlanId}
                 setSelectedPlanId={setSelectedPlanId}
+                openModal={() => {
+                  setSelectedPlan(plan);
+                  setShowModal(true);
+                }}
               />
             </SwiperSlide>
           ))}
         </Swiper>
       </div>
+      {/* ModalDetails integrado */}
+      <ModalDetails
+        display={showModal}
+        closeModal={() => setShowModal(false)}
+      />
     </div>
   );
 }
