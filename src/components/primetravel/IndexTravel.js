@@ -82,7 +82,7 @@ function IndexTravel() {
       {/*<BannerPromos />*/}
       <BannerPromo />
       {/*<CountDown targetDate={targetDate} />*/}
-      <FormTravelBanner />
+      <FormTravelBanner2 />
       {/* <FormTravelBanner2 /> */}
       <FaixaBanner />
       <StepsHiring />
