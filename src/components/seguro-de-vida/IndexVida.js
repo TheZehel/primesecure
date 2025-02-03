@@ -17,6 +17,8 @@ import CountDown from "./components/subcomponents/CountDownBannerVida";
 import BannerPromo from "./components/subcomponents/BannerPromosVida";
 import NamuSection from "./components/subcomponents/namu";
 import PlansSliderLp from "./components/subcomponents/PlansSliderLp";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function IndexVida() {
   const targetDate = new Date("December 31, 2023 00:00:00");
@@ -32,7 +34,6 @@ function IndexVida() {
           name="keywords"
           content="Prime Secure, Seguros, Insurance, Insurtech, Corretora de Seguros, MarketPlace de Seguros, Seguro de Vida, SulAmérica, Cobertura de Vida, Plano de Seguro de Vida, Seguro de Vida Individual, Seguro de Vida Familiar, Seguro de Vida para Empresas, Seguro de Vida Online, Seguro de Vida Confiável, Seguro de Vida Personalizado, Seguro de Vida Completo, Proteção Financeira, Segurança Financeira, Benefícios de Seguro de Vida, Seguro de Vida a Termo, Seguro de Vida Integral, Cobertura por Morte Acidental"
         />
-
         <meta
           property="og:title"
           content="Seguro de Vida SulAmérica - Prime Secure"
@@ -67,8 +68,10 @@ function IndexVida() {
       <BeneficiosSlider />
       {/*<PlanoSlider infoPlanos={infoPlanos} planId="4" />*/}
       <ConteudoSessaoInfo sessaoInfoLp={sessaoInfoLp} sessaoInfoId="4" />
-
       <FaqVida />
+
+      {/* ToastContainer para renderizar os toasts */}
+      <ToastContainer />
     </div>
   );
 }

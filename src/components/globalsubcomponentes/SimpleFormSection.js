@@ -4,6 +4,7 @@ import InputMask from "react-input-mask";
 import { useNavigate } from "react-router-dom";
 import { Checkbox, Typography } from "@material-tailwind/react";
 import LoadingAnimation from "./icons/loadingSvg";
+import { toast } from "react-toastify";
 
 const getUtmParams = () => {
   let params = {};
@@ -30,6 +31,7 @@ export default function SimpleFormSection({
   price,
   image,
   submit,
+  showToast = false,
 }) {
   const [formData, setFormData] = useState({
     name: "",
@@ -177,124 +179,129 @@ export default function SimpleFormSection({
   const handleButtonClick = async () => {
     handleBlur();
 
-    if (validateForm()) {
-      setIsLoading(true);
-      const apiKey = process.env.REACT_APP_API_KEY_RD_STATION;
-      const optionsRD = {
-        method: "POST",
-        url: `https://api.rd.services/platform/conversions?api_key=${apiKey}`,
-        headers: {
-          accept: "application/json",
-          "Content-Type": "application/json",
+    // Validação: se o formulário não estiver completo, exibe o toast e interrompe a execução
+    if (!validateForm()) {
+      toast.error("Preencha todos os dados para continuar");
+      return;
+    }
+
+    setIsLoading(true);
+
+    const apiKey = process.env.REACT_APP_API_KEY_RD_STATION;
+    const optionsRD = {
+      method: "POST",
+      url: `https://api.rd.services/platform/conversions?api_key=${apiKey}`,
+      headers: {
+        accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      data: {
+        event_type: "CONVERSION",
+        event_family: "CDP",
+        payload: {
+          conversion_identifier: getConversionIdentifier(),
+          email: formData.email,
+          name: formData.name,
+          mobile_phone: formData.phone,
+          cf_marcacelular: formData.marcaCelular,
+          cf_credito: formData.credito,
+          cf_profissao_sulamerica_vida: formData.profissao,
+          cf_renda_vida: formData.renda,
+          cf_sexo: formData.sexo,
+          cf_data_de_nascimento: formData.dataNascimento,
+          cf_source: formData.utm_source,
+          cf_medium: formData.utm_medium,
+          cf_campaign: formData.utm_campaign,
         },
-        data: {
-          event_type: "CONVERSION",
-          event_family: "CDP",
-          payload: {
-            conversion_identifier: getConversionIdentifier(),
-            email: formData.email,
-            name: formData.name,
-            mobile_phone: formData.phone,
-            cf_marcacelular: formData.marcaCelular,
-            cf_credito: formData.credito,
-            cf_profissao_sulamerica_vida: formData.profissao,
-            cf_renda_vida: formData.renda,
-            cf_sexo: formData.sexo,
-            cf_data_de_nascimento: formData.dataNascimento,
-            cf_source: formData.utm_source,
-            cf_medium: formData.utm_medium,
-            cf_campaign: formData.utm_campaign,
-          },
-        },
-      };
+      },
+    };
 
-      const currentPath = window.location.pathname;
+    const currentPath = window.location.pathname;
+    console.log("caminho atual: ", currentPath);
 
-      console.log("caminho atual: ", currentPath);
+    const postDataManyChat = {
+      first_name: formData.name.split(" ")[0],
+      last_name: formData.name.split(" ").slice(1).join(" "),
+      phone: formData.phone.replace(/\D/g, ""),
+      whatsapp_phone: formData.phone.replace(/\D/g, ""),
+      email: formData.email,
+      gender: "",
+      has_opt_in_sms: true,
+      has_opt_in_email: true,
+      consent_phrase: "Eu aceito os termos e condições.",
+      current_url: currentPath,
+    };
 
-      const postDataManyChat = {
-        first_name: formData.name.split(" ")[0],
-        last_name: formData.name.split(" ").slice(1).join(" "),
-        phone: formData.phone.replace(/\D/g, ""),
-        whatsapp_phone: formData.phone.replace(/\D/g, ""),
-        email: formData.email,
-        gender: "",
-        has_opt_in_sms: true,
-        has_opt_in_email: true,
-        consent_phrase: "Eu aceito os termos e condições.",
-        current_url: currentPath,
-      };
+    sessionStorage.setItem("formData", JSON.stringify(formData));
 
-      sessionStorage.setItem("formData", JSON.stringify(formData));
+    try {
+      // Envio para o RD Station
+      const responseRD = await axios.request(optionsRD);
+      console.log("RD Station Response:", responseRD);
 
-      try {
-        // Envio para o RD Station
-        const responseRD = await axios.request(optionsRD);
-        console.log("RD Station Response:", responseRD);
+      await emitDataLayerEvent();
 
-        await emitDataLayerEvent();
+      const urlsManyChat = [
+        "/seguro-bike",
+        "/seguro-bike/",
+        "/primetravel",
+        "/primetravel/",
+      ];
 
-        const urlsManyChat = [
-          "/seguro-bike",
-          "/seguro-bike/",
-          "/primetravel",
-          "/primetravel/",
-        ];
-
-        if (urlsManyChat.includes(currentPath)) {
-          try {
-            const responseManyChat = await axios.post(
-              `${process.env.REACT_APP_URL_CREATE_SUBSCRIBER_MANYCHAT}/manychat/subscriber/create`,
-              postDataManyChat,
-              {
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              }
-            );
-            console.log("ManyChat Response:", responseManyChat);
-          } catch (manyChatError) {
-            console.error(
-              "ManyChat Error:",
-              manyChatError.response
-                ? manyChatError.response.data
-                : manyChatError.message
-            );
-          }
-        }
-
+      if (urlsManyChat.includes(currentPath)) {
         try {
-          const responseBackend = await axios.post(
-            `${process.env.REACT_APP_API_ENDPOINT_PRODUCTION}/argus/lead-consorcio`,
-            {
-              ...formData, // Enviando os dados do formData
-              currentPath, // Inclui o currentPath para o backend
-            },
+          const responseManyChat = await axios.post(
+            `${process.env.REACT_APP_URL_CREATE_SUBSCRIBER_MANYCHAT}/manychat/subscriber/create`,
+            postDataManyChat,
             {
               headers: {
                 "Content-Type": "application/json",
               },
             }
           );
-          console.log("Backend Response:", responseBackend);
-        } catch (backendError) {
+          console.log("ManyChat Response:", responseManyChat);
+        } catch (manyChatError) {
           console.error(
-            "Backend Error:",
-            backendError.response
-              ? backendError.response.data
-              : backendError.message
+            "ManyChat Error:",
+            manyChatError.response
+              ? manyChatError.response.data
+              : manyChatError.message
           );
         }
-
-        navigateBasedOnPath();
-      } catch (error) {
-        console.error("Error in RD Station or Data Layer event:", error);
-        navigateBasedOnPath();
-      } finally {
-        setIsLoading(false);
       }
+
+      try {
+        const responseBackend = await axios.post(
+          `${process.env.REACT_APP_API_ENDPOINT_PRODUCTION}/argus/lead-consorcio`,
+          {
+            ...formData, // Enviando os dados do formData
+            currentPath, // Inclui o currentPath para o backend
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log("Backend Response:", responseBackend);
+      } catch (backendError) {
+        console.error(
+          "Backend Error:",
+          backendError.response
+            ? backendError.response.data
+            : backendError.message
+        );
+      }
+
+      navigateBasedOnPath();
+    } catch (error) {
+      console.error("Error in RD Station or Data Layer event:", error);
+      navigateBasedOnPath();
+    } finally {
+      setIsLoading(false);
     }
   };
+
 
   const navigateBasedOnPath = () => {
     if (window.location.pathname.includes("/seguro-residencial-porto-2")) {
@@ -392,226 +399,226 @@ export default function SimpleFormSection({
           <div>
             {(window.location.pathname === "/equipamentos-portateis-3" ||
               window.location.pathname === "/equipamentos-portateis-3/") && (
-              <div>
-                <label
-                  htmlFor="phone"
-                  className="block text-sm font-semibold leading-6 text-gray-900"
-                >
-                  Qual a Marca do Aparelho?
-                </label>
-                {clicado && !formData.marcaCelular ? (
-                  <div className="text-red-500">Campo Obrigatório</div>
-                ) : null}
-                <select
-                  required
-                  name="marcaCelular"
-                  id="marcaCelular"
-                  value={formData.marcaCelular}
-                  onChange={handleInputChange}
-                  onBlur={handleBlur}
-                  className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
-                >
-                  <option value="">Escolha uma Opção:</option>
-                  <option value="Apple">Apple</option>
-                  <option value="Samsung">Samsung</option>
-                  <option value="Motorola">Motorola</option>
-                  <option value="Xiaomi">Xiaomi</option>
-                  <option value="Outras Marcas">Outras Marcas</option>
-                </select>
-              </div>
-            )}
+                <div>
+                  <label
+                    htmlFor="phone"
+                    className="block text-sm font-semibold leading-6 text-gray-900"
+                  >
+                    Qual a Marca do Aparelho?
+                  </label>
+                  {clicado && !formData.marcaCelular ? (
+                    <div className="text-red-500">Campo Obrigatório</div>
+                  ) : null}
+                  <select
+                    required
+                    name="marcaCelular"
+                    id="marcaCelular"
+                    value={formData.marcaCelular}
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
+                    className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
+                  >
+                    <option value="">Escolha uma Opção:</option>
+                    <option value="Apple">Apple</option>
+                    <option value="Samsung">Samsung</option>
+                    <option value="Motorola">Motorola</option>
+                    <option value="Xiaomi">Xiaomi</option>
+                    <option value="Outras Marcas">Outras Marcas</option>
+                  </select>
+                </div>
+              )}
           </div>
           <div>
             {(window.location.pathname === "/consorcio-imovel" ||
               window.location.pathname === "/consorcio-imovel/") && (
-              <div>
-                <label
-                  htmlFor="phone"
-                  className="block text-sm font-semibold leading-6 text-gray-900"
-                >
-                  Quanto de Crédito você deseja?
-                </label>
-                {clicado && !formData.credito ? (
-                  <div className="text-red-500">Campo Obrigatório</div>
-                ) : null}
-                <select
-                  required
-                  name="credito"
-                  id="credito"
-                  value={formData.credito}
-                  onChange={handleInputChange}
-                  onBlur={handleBlur}
-                  className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
-                >
-                  <option value="">Escolha uma Opção:</option>
-                  <option value="R$200mil">R$200mil</option>
-                  <option value="R$300mil">R$300mil</option>
-                  <option value="R$400mil">R$400mil</option>
-                  <option value="R$500mil">R$500mil</option>
-                  <option value="Outro Valor">Outro Valor</option>
-                </select>
-              </div>
-            )}
+                <div>
+                  <label
+                    htmlFor="phone"
+                    className="block text-sm font-semibold leading-6 text-gray-900"
+                  >
+                    Quanto de Crédito você deseja?
+                  </label>
+                  {clicado && !formData.credito ? (
+                    <div className="text-red-500">Campo Obrigatório</div>
+                  ) : null}
+                  <select
+                    required
+                    name="credito"
+                    id="credito"
+                    value={formData.credito}
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
+                    className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
+                  >
+                    <option value="">Escolha uma Opção:</option>
+                    <option value="R$200mil">R$200mil</option>
+                    <option value="R$300mil">R$300mil</option>
+                    <option value="R$400mil">R$400mil</option>
+                    <option value="R$500mil">R$500mil</option>
+                    <option value="Outro Valor">Outro Valor</option>
+                  </select>
+                </div>
+              )}
           </div>
           <div>
             {(window.location.pathname === "/consorcio-auto" ||
               window.location.pathname === "/consorcio-auto/") && (
-              <div>
-                <label
-                  htmlFor="phone"
-                  className="block text-sm font-semibold leading-6 text-gray-900"
-                >
-                  Quanto de Crédito você deseja?
-                </label>
-                {clicado && !formData.credito ? (
-                  <div className="text-red-500">Campo Obrigatório</div>
-                ) : null}
-                <select
-                  required
-                  name="credito"
-                  id="credito"
-                  value={formData.credito}
-                  onChange={handleInputChange}
-                  onBlur={handleBlur}
-                  className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
-                >
-                  <option value="">Escolha uma Opção:</option>
-                  <option value="R$60mil<">R$60mil</option>
-                  <option value="R$80mil">R$80mil</option>
-                  <option value="R$100mil">R$100mil</option>
-                  <option value="R$120mil">R120mil</option>
-                  <option value="Outro Valor">Outro Valor</option>
-                </select>
-              </div>
-            )}
+                <div>
+                  <label
+                    htmlFor="phone"
+                    className="block text-sm font-semibold leading-6 text-gray-900"
+                  >
+                    Quanto de Crédito você deseja?
+                  </label>
+                  {clicado && !formData.credito ? (
+                    <div className="text-red-500">Campo Obrigatório</div>
+                  ) : null}
+                  <select
+                    required
+                    name="credito"
+                    id="credito"
+                    value={formData.credito}
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
+                    className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
+                  >
+                    <option value="">Escolha uma Opção:</option>
+                    <option value="R$60mil<">R$60mil</option>
+                    <option value="R$80mil">R$80mil</option>
+                    <option value="R$100mil">R$100mil</option>
+                    <option value="R$120mil">R120mil</option>
+                    <option value="Outro Valor">Outro Valor</option>
+                  </select>
+                </div>
+              )}
           </div>
           {/*Inputs Seguro de vida */}
           <div>
             {(window.location.pathname === "/seguro-de-vida" ||
               window.location.pathname === "/seguro-de-vida/") && (
-              <div>
-                <label className="block text-sm font-semibold gap-y-2 leading-6 text-gray-900">
-                  Ocupação Atual?
-                </label>
-                {clicado && !formData.profissao ? (
-                  <div className="text-red-500">Campo Obrigatório</div>
-                ) : null}
-                <select
-                  required
-                  name="profissao"
-                  id="profissao"
-                  value={formData.profissao}
-                  onChange={handleInputChange}
-                  onBlur={handleBlur}
-                  className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
-                >
-                  <option value="">Escolha uma Opção:</option>
-                  <option value="Aposentado<">Aposentado</option>
-                  <option value="Administrador de Empresal">
-                    Administrador de Empresa
-                  </option>
-                  <option value="Estudante Univesitáriol">
-                    Estudante Univesitário
-                  </option>
-                  <option value="Do Lar, Dona de Casa">
-                    Do Lar, Dona de Casa
-                  </option>
-                  <option value="Empresario e Produt.Espetaculo">
-                    Empresario e Produt.Espetaculo
-                  </option>
-                  <option value="Corretores de Seguros">
-                    Corretores de Seguros
-                  </option>
-                  <option value="Comerciante/Comerciario">
-                    Comerciante/Comerciario
-                  </option>
-                  <option value="Médico">Médico</option>
-                  <option value="Outro">Outro</option>
-                </select>
-              </div>
-            )}
+                <div>
+                  <label className="block text-sm font-semibold gap-y-2 leading-6 text-gray-900">
+                    Ocupação Atual?
+                  </label>
+                  {clicado && !formData.profissao ? (
+                    <div className="text-red-500">Campo Obrigatório</div>
+                  ) : null}
+                  <select
+                    required
+                    name="profissao"
+                    id="profissao"
+                    value={formData.profissao}
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
+                    className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
+                  >
+                    <option value="">Escolha uma Opção:</option>
+                    <option value="Aposentado<">Aposentado</option>
+                    <option value="Administrador de Empresal">
+                      Administrador de Empresa
+                    </option>
+                    <option value="Estudante Univesitáriol">
+                      Estudante Univesitário
+                    </option>
+                    <option value="Do Lar, Dona de Casa">
+                      Do Lar, Dona de Casa
+                    </option>
+                    <option value="Empresario e Produt.Espetaculo">
+                      Empresario e Produt.Espetaculo
+                    </option>
+                    <option value="Corretores de Seguros">
+                      Corretores de Seguros
+                    </option>
+                    <option value="Comerciante/Comerciario">
+                      Comerciante/Comerciario
+                    </option>
+                    <option value="Médico">Médico</option>
+                    <option value="Outro">Outro</option>
+                  </select>
+                </div>
+              )}
           </div>
           <div>
             {(window.location.pathname === "/seguro-de-vida" ||
               window.location.pathname === "/seguro-de-vida/") && (
-              <div>
-                <label className="block text-sm font-semibold leading-6 text-gray-900">
-                  Faixa de Renda?
-                </label>
-                {clicado && !formData.renda ? (
-                  <div className="text-red-500">Campo Obrigatório</div>
-                ) : null}
-                <select
-                  required
-                  name="renda"
-                  id="renda"
-                  value={formData.renda}
-                  onChange={handleInputChange}
-                  onBlur={handleBlur}
-                  className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
-                >
-                  <option value="">Escolha uma Opção:</option>
-                  <option value="Até R$2.500,00<">Até R$2.500,00</option>
-                  <option value="de R$2.500,01 até R$5.000,00">
-                    de R$2.500,01 até R$5.000,00
-                  </option>
-                  <option value="de R$5.000,01 até R$7.500,00">
-                    de R$5.000,01 até R$7.500,00
-                  </option>
-                  <option value="de R$7.500,01 até R$10.000,00">
-                    de R$7.500,01 até R$10.000,00
-                  </option>
-                  <option value="Acima de R$10.000,00">
-                    Acima de R$10.000,00
-                  </option>
-                </select>
-              </div>
-            )}
+                <div>
+                  <label className="block text-sm font-semibold leading-6 text-gray-900">
+                    Faixa de Renda?
+                  </label>
+                  {clicado && !formData.renda ? (
+                    <div className="text-red-500">Campo Obrigatório</div>
+                  ) : null}
+                  <select
+                    required
+                    name="renda"
+                    id="renda"
+                    value={formData.renda}
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
+                    className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
+                  >
+                    <option value="">Escolha uma Opção:</option>
+                    <option value="Até R$2.500,00<">Até R$2.500,00</option>
+                    <option value="de R$2.500,01 até R$5.000,00">
+                      de R$2.500,01 até R$5.000,00
+                    </option>
+                    <option value="de R$5.000,01 até R$7.500,00">
+                      de R$5.000,01 até R$7.500,00
+                    </option>
+                    <option value="de R$7.500,01 até R$10.000,00">
+                      de R$7.500,01 até R$10.000,00
+                    </option>
+                    <option value="Acima de R$10.000,00">
+                      Acima de R$10.000,00
+                    </option>
+                  </select>
+                </div>
+              )}
           </div>
           {/*  Input data de nascimento */}
           <div>
             {(window.location.pathname === "/seguro-de-vida" ||
               window.location.pathname === "/seguro-de-vida/") && (
-              <div>
-                <label className="block text-sm font-semibold leading-6 text-gray-900">
-                  Data de Nascimento
-                </label>
-                <div className="mt-2.5">
-                  <input
-                    type="date"
-                    name="dataNascimento"
-                    id="dataNascimento"
-                    className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
-                    value={formData.dataNascimento}
-                    onChange={handleInputChange}
-                  />
+                <div>
+                  <label className="block text-sm font-semibold leading-6 text-gray-900">
+                    Data de Nascimento
+                  </label>
+                  <div className="mt-2.5">
+                    <input
+                      type="date"
+                      name="dataNascimento"
+                      id="dataNascimento"
+                      className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
+                      value={formData.dataNascimento}
+                      onChange={handleInputChange}
+                    />
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
           </div>
           {/*  Inputsexo */}
           <div>
             {(window.location.pathname === "/seguro-de-vida" ||
               window.location.pathname === "/seguro-de-vida/") && (
-              <div>
-                <label className="block text-sm font-semibold leading-6 text-gray-900">
-                  Sexo
-                </label>
-                <div className="mt-2.5">
-                  <select
-                    name="sexo"
-                    id="sexo"
-                    value={formData.sexo}
-                    onChange={handleInputChange}
-                    className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
-                  >
-                    <option value="">Escolha uma Opção:</option>
-                    <option value="Masculino">Masculino</option>
-                    <option value="Feminino">Feminino</option>
-                  </select>
+                <div>
+                  <label className="block text-sm font-semibold leading-6 text-gray-900">
+                    Sexo
+                  </label>
+                  <div className="mt-2.5">
+                    <select
+                      name="sexo"
+                      id="sexo"
+                      value={formData.sexo}
+                      onChange={handleInputChange}
+                      className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
+                    >
+                      <option value="">Escolha uma Opção:</option>
+                      <option value="Masculino">Masculino</option>
+                      <option value="Feminino">Feminino</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
           </div>
         </div>
       </form>

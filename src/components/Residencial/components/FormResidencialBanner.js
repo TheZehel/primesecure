@@ -3,6 +3,8 @@ import BannerSection from "../../globalsubcomponentes/BannerSection";
 import SimpleFormSection from "../../globalsubcomponentes/SimpleFormSection";
 import imageManagerSeguroResidencial from "../bancodeimagens/BancoDeImagensResidencial";
 //import Form from "./Form";
+import { ToastContainer, toast } from "react-toastify"; // importe o ToastContainer e o toast
+import "react-toastify/dist/ReactToastify.css"; // importe os estilos do toast
 
 export default function FormSeguroResidencialBanner() {
   const [formData, setFormData] = useState({
@@ -29,6 +31,7 @@ export default function FormSeguroResidencialBanner() {
       />
       {/*<Form />*/}
       <SimpleFormSection formData={formData} setFormData={setFormData} />
+      <ToastContainer />
     </section>
   );
 }

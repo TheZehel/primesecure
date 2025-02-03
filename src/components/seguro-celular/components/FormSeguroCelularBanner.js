@@ -10,6 +10,14 @@ export default function FormSeguroCelularBanner() {
     phone: "",
     marcaCelular: "",
   });
+
+  // Se necessário, defina a função submit. Exemplo:
+  const handleSubmit = (form) => {
+    // Aqui você pode tratar os dados ou redirecionar para outra página
+    console.log("Dados enviados:", form);
+    window.location.href = "/cotacao-celular";
+  };
+
   return (
     <section
       className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center justify-center p-2"
@@ -26,7 +34,12 @@ export default function FormSeguroCelularBanner() {
         descriptionText="Obtenha Agora Mesmo 20% de Desconto e proteja seu aparelho portátil com nosso Seguro de Celular."
         imageUrl={imageManagerSeguroCelular.logos.LogoPorto}
       />
-      <SimpleFormSection formData={formData} setFormData={setFormData} />
+      <SimpleFormSection
+        formData={formData}
+        setFormData={setFormData}
+        submit={handleSubmit}
+        showToast={true}  // Ativa a exibição do toast em caso de validação falha
+      />
     </section>
   );
 }
