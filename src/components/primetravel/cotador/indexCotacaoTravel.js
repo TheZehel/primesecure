@@ -23,7 +23,11 @@ const stepsConfig = [
     path: '/cotacao-primetravel/pagamento',
     label: 'Pagamento',
   },
-  // { component: Purchased, path: '/cotacao-primetravel/obrigado', label: 'Obrigado' },
+  {
+    component: Purchased,
+    path: '/cotacao-primetravel/obrigado',
+    label: 'Obrigado',
+  },
 ];
 
 const IndexCotacaoTravel = () => {
@@ -33,11 +37,12 @@ const IndexCotacaoTravel = () => {
 
   // Recupera o `activeStep` inicial do `sessionStorage` ou da URL
   const getInitialStep = () => {
-    const storedStep = loadFromStorage('stepIndex', 0);
+    const storedStep = parseInt(loadFromStorage('stepIndex', 0), 10) || 0;
     const urlStep = stepsConfig.findIndex(
       (step) => step.path === location.pathname,
     );
-    return urlStep !== -1 ? urlStep : parseInt(storedStep, 10) || 0;
+
+    return storedStep > urlStep ? storedStep : urlStep !== -1 ? urlStep : 0;
   };
 
   const [activeStep, setActiveStep] = useState(getInitialStep());
@@ -68,10 +73,14 @@ const IndexCotacaoTravel = () => {
   const notifyError = () => toast.error('Selecione um plano para continuar.');
 
   useEffect(() => {
-    // Sincroniza `activeStep` com `sessionStorage` e URL
-    saveToStorage('stepIndex', activeStep);
-    navigate(stepsConfig[activeStep].path);
-  }, [activeStep, navigate]);
+    const updatedStep = getInitialStep();
+    setActiveStep(updatedStep);
+
+    // Se stepIndex já for 4, força o redirecionamento para a página final
+    if (updatedStep === 4) {
+      navigate('/cotacao-primetravel/obrigado');
+    }
+  }, [navigate]);
 
   const handleNext = () => {
     const storedEditQuote = sessionStorage.getItem('editQuote');

@@ -170,10 +170,10 @@ const Payment = () => {
           theme: 'light',
         });
 
-        // Navegar para a página de sucesso
-        setTimeout(() => {
-          navigate('/cotacao-primetravel/obrigado');
-        }, 2000);
+        // // Navegar para a página de sucesso
+        // setTimeout(() => {
+        //   navigate('/cotacao-primetravel/obrigado');
+        // }, 2000);
       } else {
         // Exibir toast de erro
         const errorMsg =
@@ -209,8 +209,14 @@ const Payment = () => {
   };
 
   // Chamado ao finalizar no cartão ou PIX
-  const handleConfirmPayment = () => {
-    handleEnviarParaAPI();
+  const handleConfirmPayment = async () => {
+    await handleEnviarParaAPI();
+
+    // Atualiza o stepIndex para 4 e força a navegação
+    saveToStorage('stepIndex', 4);
+    setTimeout(() => {
+      navigate('/cotacao-primetravel/obrigado'); // Garante que ele vá para a última etapa
+    }, 500); // Pequeno delay para garantir a atualização
   };
 
   return (

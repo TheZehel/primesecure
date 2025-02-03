@@ -55,11 +55,19 @@ const EditQuote = ({ onUpdatePlans }) => {
       const parsed = JSON.parse(stored);
       return {
         ...parsed,
-        selectedOption: ListaPaises.find((pais) => pais.regiao === parsed.CodigoDestino) || null,
+        selectedOption:
+          ListaPaises.find((pais) => pais.regiao === parsed.CodigoDestino) ||
+          null,
         olds: Array.isArray(parsed.olds) ? parsed.olds : [0, 0, 0],
-        DataInicioViagem: parsed.departure ? moment(parsed.departure, 'YYYY-MM-DD') : null,
-        DataFinalViagem: parsed.arrival ? moment(parsed.arrival, 'YYYY-MM-DD') : null,
-        departure: parsed.departure ? moment(parsed.departure, 'YYYY-MM-DD') : null,
+        DataInicioViagem: parsed.departure
+          ? moment(parsed.departure, 'YYYY-MM-DD')
+          : null,
+        DataFinalViagem: parsed.arrival
+          ? moment(parsed.arrival, 'YYYY-MM-DD')
+          : null,
+        departure: parsed.departure
+          ? moment(parsed.departure, 'YYYY-MM-DD')
+          : null,
         arrival: parsed.arrival ? moment(parsed.arrival, 'YYYY-MM-DD') : null,
       };
     }
@@ -125,25 +133,24 @@ const EditQuote = ({ onUpdatePlans }) => {
   const selectHandler = (event) => {
     const selectedRegiao = event.target.value;
 
-    setFormData((prev) => ({
-      ...prev,
-      CodigoDestino: selectedRegiao,
-      selectedOption: ListaPaises.find((pais) => pais.regiao === selectedRegiao) || null,
-    }));
+    // Confirma se o destino é internacional (diferente de BR)
+    const isInternational = selectedRegiao !== 'BR';
 
-    const updatedData = {
-      ...formData,
-      CodigoDestino: selectedRegiao,
-      departure: formData.departure ? formData.departure.format('YYYY-MM-DD') : null,
-      arrival: formData.arrival ? formData.arrival.format('YYYY-MM-DD') : null,
-    };
+    setFormData((prev) => {
+      const updatedData = {
+        ...prev,
+        CodigoDestino: selectedRegiao,
+        CodigoTipoProduto: isInternational ? 'VI' : 'VN', // Ajusta corretamente
+        selectedOption:
+          ListaPaises.find((pais) => pais.regiao === selectedRegiao) || null,
+      };
 
-    sessionStorage.setItem('editQuote', JSON.stringify(updatedData));
-    console.log('Destino atualizado no sessionStorage:', updatedData);
+      sessionStorage.setItem('editQuote', JSON.stringify(updatedData));
+      console.log('Destino atualizado no sessionStorage:', updatedData);
+
+      return updatedData;
+    });
   };
-
-
-
 
   const onChangeDeparture = (date) => {
     setFormData((prev) => ({
@@ -151,7 +158,9 @@ const EditQuote = ({ onUpdatePlans }) => {
       departure: moment.isMoment(date) ? date : null,
       DataInicioViagem: moment.isMoment(date) ? date : null,
       DataFinalViagem:
-        prev.DataFinalViagem && moment.isMoment(date) && date.isAfter(prev.DataFinalViagem)
+        prev.DataFinalViagem &&
+        moment.isMoment(date) &&
+        date.isAfter(prev.DataFinalViagem)
           ? null
           : prev.DataFinalViagem,
     }));
@@ -165,15 +174,18 @@ const EditQuote = ({ onUpdatePlans }) => {
     }));
   };
 
+  const disabledDepartureDate = (current) => {
+    return current && current.isBefore(moment().startOf('day')); // Bloqueia datas anteriores ao dia atual
+  };
 
-  const disabledDepartureDate = (current) =>
-    current && current.isBefore(moment().startOf('day'));
-
-  const disabledArrivalDate = (current) =>
-    (formData.DataInicioViagem &&
-      current &&
-      current.isBefore(formData.DataInicioViagem)) ||
-    (current && current.isBefore(moment().startOf('day')));
+  const disabledArrivalDate = (current) => {
+    return (
+      (formData.DataInicioViagem &&
+        current &&
+        current.isBefore(formData.DataInicioViagem.clone().add(1, 'days'))) || // Bloqueia datas antes de 1 dia após a partida
+      (current && current.isBefore(moment().startOf('day'))) // Bloqueia datas anteriores ao dia atual
+    );
+  };
 
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
@@ -216,9 +228,10 @@ const EditQuote = ({ onUpdatePlans }) => {
           )}
         </div>
 
-
         <div>
-          <h4 className="text-sm font-bold sm:text-xs md:text-sm">Passageiros</h4>
+          <h4 className="text-sm font-bold sm:text-xs md:text-sm">
+            Passageiros
+          </h4>
           {isEditing ? (
             <button
               onClick={openModal}
@@ -228,9 +241,9 @@ const EditQuote = ({ onUpdatePlans }) => {
             </button>
           ) : (
             <p className="text-base sm:text-sm md:text-base">
-              {formData.olds.reduce((total, age) => total + age, 0)} Passageiro(s)
+              {formData.olds.reduce((total, age) => total + age, 0)}{' '}
+              Passageiro(s)
             </p>
-
           )}
         </div>
 
@@ -264,10 +277,11 @@ const EditQuote = ({ onUpdatePlans }) => {
           ) : (
             <p className="text-base sm:text-sm md:text-base text-center">
               {formData.DataInicioViagem && formData.DataFinalViagem
-                ? `De ${formData.DataInicioViagem.format('DD/MM/YYYY')} até ${formData.DataFinalViagem.format('DD/MM/YYYY')}`
+                ? `De ${formData.DataInicioViagem.format(
+                    'DD/MM/YYYY',
+                  )} até ${formData.DataFinalViagem.format('DD/MM/YYYY')}`
                 : 'Período não selecionado'}
             </p>
-
           )}
         </div>
 
@@ -356,11 +370,18 @@ const EditQuote = ({ onUpdatePlans }) => {
           </>
         ) : (
           <div className="flex justify-between items-center">
-            <span>{formData.selectedOption?.label || 'Destino não selecionado'}</span>
-            <span>{formData.olds.reduce((total, age) => total + age, 0)} Passageiro(s)</span>
+            <span>
+              {formData.selectedOption?.label || 'Destino não selecionado'}
+            </span>
+            <span>
+              {formData.olds.reduce((total, age) => total + age, 0)}{' '}
+              Passageiro(s)
+            </span>
             <span>
               {formData.DataInicioViagem && formData.DataFinalViagem
-                ? `De ${formData.DataInicioViagem.format('DD/MM/YYYY')} até ${formData.DataFinalViagem.format('DD/MM/YYYY')}`
+                ? `De ${formData.DataInicioViagem.format(
+                    'DD/MM/YYYY',
+                  )} até ${formData.DataFinalViagem.format('DD/MM/YYYY')}`
                 : 'Período não selecionado'}
             </span>
           </div>
@@ -395,7 +416,10 @@ const EditQuote = ({ onUpdatePlans }) => {
             <div className="bg-white p-4 rounded-lg shadow-lg max-w-md w-full">
               <h2 className="text-xl font-bold mb-4">Idade dos Passageiros</h2>
               {ageGroups.map((group, index) => (
-                <div key={group.id} className="flex items-center justify-between mb-2">
+                <div
+                  key={group.id}
+                  className="flex items-center justify-between mb-2"
+                >
                   <h3 className="text-xl">{group.label}</h3>
                   <div className="flex items-center justify-around w-32">
                     <button

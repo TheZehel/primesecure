@@ -94,6 +94,13 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
       return;
     }
 
+    // Garante que o codigoTipoProduto esteja definido
+    const isInternational = sessionData.CodigoDestino !== 'BR';
+    sessionData.CodigoTipoProduto = isInternational ? 'VI' : 'VN';
+
+    // Atualiza o sessionStorage antes de enviar payload
+    sessionStorage.setItem('editQuote', JSON.stringify(sessionData));
+
     setIsLoading(true);
 
     try {
@@ -257,10 +264,16 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
       const parsed = JSON.parse(stored);
       return {
         ...parsed,
-        selectedOption: ListaPaises.find((pais) => pais.regiao === parsed.CodigoDestino) || null,
+        selectedOption:
+          ListaPaises.find((pais) => pais.regiao === parsed.CodigoDestino) ||
+          null,
         olds: Array.isArray(parsed.olds) ? parsed.olds : [0, 0, 0],
-        DataInicioViagem: parsed.departure ? moment(parsed.departure, "YYYY-MM-DD") : null,
-        DataFinalViagem: parsed.arrival ? moment(parsed.arrival, "YYYY-MM-DD") : null,
+        DataInicioViagem: parsed.departure
+          ? moment(parsed.departure, 'YYYY-MM-DD')
+          : null,
+        DataFinalViagem: parsed.arrival
+          ? moment(parsed.arrival, 'YYYY-MM-DD')
+          : null,
       };
     }
     return {
@@ -271,7 +284,6 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
       DataFinalViagem: null,
     };
   });
-
 
   const [isEditing, setIsEditing] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -325,7 +337,6 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
     // Recarrega os planos após salvar
     await fetchPlans();
   };
-
 
   const handleOld = (index, value) => {
     const updatedOlds = [...formData.olds];
@@ -395,7 +406,6 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
     sessionData.arrival = date ? date.format('YYYY-MM-DD') : null;
     sessionStorage.setItem('editQuote', JSON.stringify(sessionData));
   };
-
 
   const disabledDepartureDate = (current) =>
     current && current.isBefore(moment().startOf('day'));
@@ -488,7 +498,9 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
                       onChange={onChangeDeparture}
                       placeholder="Data de ida"
                       disabledDate={(current) =>
-                        current && (current.isBefore(moment().startOf('day')) || current.isAfter(moment('2025-12-31')))
+                        current &&
+                        (current.isBefore(moment().startOf('day')) ||
+                          current.isAfter(moment('2025-12-31')))
                       }
                       format="DD/MM/YYYY"
                       className="block w-full rounded-md border-0 px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-bluePrime lg:text-lg lg:leading-6 text-[#313131] placeholder:text-[#313131]"
@@ -502,7 +514,8 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
                       placeholder="Volta"
                       disabledDate={(current) =>
                         current &&
-                        (current.isBefore(formData.DataInicioViagem) || current.isAfter(moment('2025-12-31')))
+                        (current.isBefore(formData.DataInicioViagem) ||
+                          current.isAfter(moment('2025-12-31')))
                       }
                       format="DD/MM/YYYY"
                       className="block w-full rounded-md border-0 px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-bluePrime lg:text-lg lg:leading-6 text-[#313131] placeholder:text-[#313131]"
@@ -513,8 +526,8 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
                 <p className="text-base sm:text-sm md:text-base text-center">
                   {formData.DataInicioViagem && formData.DataFinalViagem
                     ? `De ${formData.DataInicioViagem.format(
-                      'DD/MM/YYYY',
-                    )} até ${formData.DataFinalViagem.format('DD/MM/YYYY')}`
+                        'DD/MM/YYYY',
+                      )} até ${formData.DataFinalViagem.format('DD/MM/YYYY')}`
                     : 'Período não selecionado'}
                 </p>
               )}
@@ -615,8 +628,8 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
                 <span>
                   {formData.DataInicioViagem && formData.DataFinalViagem
                     ? `De ${formData.DataInicioViagem.format(
-                      'DD/MM/YYYY',
-                    )} até ${formData.DataFinalViagem.format('DD/MM/YYYY')}`
+                        'DD/MM/YYYY',
+                      )} até ${formData.DataFinalViagem.format('DD/MM/YYYY')}`
                     : 'Período não selecionado'}
                 </span>
               </div>
@@ -716,10 +729,11 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
             {plansData.map((plan) => (
               <SwiperSlide key={plan.CodigoProduto}>
                 <div
-                  className={`border rounded-lg shadow-lg p-2 sm:p-4 ${selectedPlanId === plan.CodigoProduto
-                    ? 'border-bluePrime'
-                    : ''
-                    }`}
+                  className={`border rounded-lg shadow-lg p-2 sm:p-4 ${
+                    selectedPlanId === plan.CodigoProduto
+                      ? 'border-bluePrime'
+                      : ''
+                  }`}
                 >
                   <h5 className="text-gray-500 uppercase text-center font-semibold text-xs sm:text-sm md:text-base">
                     {plan.DescricaoProduto}
@@ -757,10 +771,11 @@ const Plans = ({ onSelected, setSelectedPlan }) => {
                     <div className="flex flex-col items-center mt-4 space-y-2">
                       <button
                         onClick={() => handleCardSelected(plan.CodigoProduto)}
-                        className={`${selectedPlanId === plan.CodigoProduto
-                          ? 'bg-bluePrime2'
-                          : 'bg-bluePrime'
-                          } cursor-pointer text-white uppercase text-xs sm:text-sm md:text-base py-1 px-3 rounded-md shadow-md w-full flex items-center justify-center`}
+                        className={`${
+                          selectedPlanId === plan.CodigoProduto
+                            ? 'bg-bluePrime2'
+                            : 'bg-bluePrime'
+                        } cursor-pointer text-white uppercase text-xs sm:text-sm md:text-base py-1 px-3 rounded-md shadow-md w-full flex items-center justify-center`}
                       >
                         <input
                           className="accent-bluePrime rounded-full mr-2 cursor-pointer"
