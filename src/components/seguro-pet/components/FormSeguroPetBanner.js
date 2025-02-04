@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import BannerSection from "../../globalsubcomponentes/BannerSection";
 import SimpleFormSection from "../../globalsubcomponentes/SimpleFormSection";
 import imageManagerSeguroPet from "../bancodeimagens/BancoDeImagensSeguroPet";
+import { ToastContainer, toast } from "react-toastify"; // importe o ToastContainer e o toast
+import "react-toastify/dist/ReactToastify.css"; // importe os estilos do toast
 
 export default function FormSeguroPetBanner({ callback }) {
   const [formData, setFormData] = useState({
@@ -45,6 +47,7 @@ export default function FormSeguroPetBanner({ callback }) {
         callback={getFormData}
         submit={getFormData}
       />
+      <ToastContainer />
     </section>
   );
 }

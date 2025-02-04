@@ -3,6 +3,8 @@ import imageManagerSeguroCelularKakau from "../banco-de-imagens/BancoDeImagensSe
 import BannerSection from "../../globalsubcomponentes/BannerSection";
 import SimpleFormSection from "../../globalsubcomponentes/SimpleFormSection";
 import { useNavigate } from "react-router";
+import { ToastContainer, toast } from "react-toastify"; // importe o ToastContainer e o toast
+import "react-toastify/dist/ReactToastify.css"; // importe os estilos do toast
 
 export default function FormSeguroCelularKakau({ callback }) {
   const navigate = useNavigate();
@@ -57,6 +59,7 @@ export default function FormSeguroCelularKakau({ callback }) {
         callback={handleSubmit}
         submit={handleSubmit}
       />
+      <ToastContainer />
     </section>
   );
 }

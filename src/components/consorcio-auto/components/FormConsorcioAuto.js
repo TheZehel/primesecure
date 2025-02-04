@@ -11,6 +11,13 @@ export default function FormConsorcioAuto() {
     credito: "",
   });
 
+  // Função submit: trate os dados ou redirecione conforme sua necessidade.
+  const handleSubmit = (form) => {
+    console.log("Dados enviados:", form);
+    // Exemplo de redirecionamento:
+    window.location.href = "/cotacao-auto";
+  };
+
   return (
     <section
       className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center justify-center p-2"
@@ -27,7 +34,12 @@ export default function FormConsorcioAuto() {
         descriptionText="Diversas Opções de Crédito Para Você!"
         imageUrl={ImageManagerConsorcioAuto.Logos.logoPorto}
       />
-      <SimpleFormSection formData={formData} setFormData={setFormData} />
+      <SimpleFormSection
+        formData={formData}
+        setFormData={setFormData}
+        submit={handleSubmit}
+        showToast={true}  // Ativa a exibição do toast se a validação falhar
+      />
     </section>
   );
 }
