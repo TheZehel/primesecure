@@ -12,7 +12,10 @@ import FaqCelular from "./components/subcomponents/FaqCelular";
 import { Helmet } from "react-helmet";
 import CountDown from "./components/subcomponents/CountDown";
 import BannerPromo from "./components/subcomponents/BannerPromosCelular";
-//import CountDown from "./components/subcomponents/CountDownBanner";
+
+// Importa o ToastContainer e os estilos
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function IndexSeguroCelular() {
   const targetDate = new Date("December 31, 2023 00:00:00");
@@ -63,6 +66,9 @@ function IndexSeguroCelular() {
       {/*<PlanoSlider infoPlanos={infoPlanos} planId="6" />*/}
       <ConteudoSessaoInfo sessaoInfoLp={sessaoInfoLp} sessaoInfoId="6" />
       <FaqCelular />
+
+      {/* ToastContainer para renderizar os toasts */}
+      <ToastContainer />
     </div>
   );
 }
