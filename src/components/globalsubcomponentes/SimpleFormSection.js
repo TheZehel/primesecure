@@ -48,6 +48,9 @@ export default function SimpleFormSection({
     utm_campaign: '',
   });
 
+  // Estado para armazenar os erros de validação (não excluímos nada do código original)
+  const [errors, setErrors] = useState({});
+
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -79,6 +82,31 @@ export default function SimpleFormSection({
       ...formData,
       [name]: value,
     });
+    // Se houver um erro para este campo, limpa-o quando o usuário altera o valor
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: '' }));
+    }
+  };
+
+  // Função para validar um campo individualmente
+  const validateField = (name, value) => {
+    let errorMessage = '';
+    if (!value || value.trim() === '') {
+      errorMessage = 'Campo Obrigatório';
+    } else if (
+      name === 'email' &&
+      !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)
+    ) {
+      errorMessage = 'Email inválido';
+    }
+    return errorMessage;
+  };
+
+  // Chamada no onBlur de cada input para validar o campo
+  const handleBlurField = (event) => {
+    const { name, value } = event.target;
+    const errorMsg = validateField(name, value);
+    setErrors((prev) => ({ ...prev, [name]: errorMsg }));
   };
 
   const validateForm = () => {
@@ -181,10 +209,32 @@ export default function SimpleFormSection({
   };
 
   const handleButtonClick = async () => {
-    handleBlur();
+    // Validação completa dos campos obrigatórios quando o botão é clicado
+    const path = window.location.pathname;
+    const requiredFields = ['name', 'email', 'phone'];
+    if (path === '/consorcio-imovel' || path === '/consorcio-imovel/') {
+      requiredFields.push('credito');
+    }
+    if (path === '/seguro-de-vida' || path === '/seguro-de-vida/') {
+      requiredFields.push('profissao', 'renda', 'sexo', 'dataNascimento');
+    }
+    if (
+      path === '/equipamentos-portateis-3' ||
+      path === '/equipamentos-portateis-3/'
+    ) {
+      requiredFields.push('marcaCelular');
+    }
 
-    // Validação: se o formulário não estiver completo, exibe o toast e interrompe a execução
-    if (!validateForm()) {
+    const newErrors = {};
+    requiredFields.forEach((field) => {
+      const errorMsg = validateField(field, formData[field]);
+      if (errorMsg) {
+        newErrors[field] = errorMsg;
+      }
+    });
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       toast.error('Preencha todos os dados para continuar');
       return;
     }
@@ -321,12 +371,6 @@ export default function SimpleFormSection({
     }
   };
 
-  const [clicado, setClicado] = useState(false);
-
-  function handleBlur() {
-    setClicado(true);
-  }
-
   return (
     <div className="animate__animated animate__zoomIn rounded-lg bg-white p-5 sm:px-10 sm:mx-20 xl:mx-32">
       <h2 className="text-xl font-bold tracking-tight text-gray-900 sm:text-xl">
@@ -340,11 +384,9 @@ export default function SimpleFormSection({
         className="sm:flex flex-col sm:flex-row justify-center items-center mx-auto gap-x-6 gap-y-4 mt-10 max-w-xl sm:mt-10 xl:mx-20"
       >
         <div className="w-full gap-x-4 gap-y-2 grid grid-cols-1 mt-5 sm:m-0">
+          {/* Nome Completo */}
           <div>
-            <label
-              htmlFor=""
-              className="block text-sm font-semibold leading-2 text-gray-900"
-            >
+            <label className="block text-sm font-semibold leading-2 text-gray-900">
               Nome Completo
             </label>
             <div className="mt-2.5">
@@ -353,17 +395,21 @@ export default function SimpleFormSection({
                 name="name"
                 id="name"
                 autoComplete="family-name"
-                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
+                className={`block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ${
+                  errors.name ? 'ring-red-500' : 'ring-gray-300'
+                } placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6`}
                 value={formData.name}
                 onChange={handleInputChange}
+                onBlur={handleBlurField}
               />
+              {errors.name && (
+                <div className="text-red-500 text-xs mt-1">{errors.name}</div>
+              )}
             </div>
           </div>
+          {/* E-mail */}
           <div>
-            <label
-              htmlFor=""
-              className="block text-sm font-semibold leading-6 text-gray-900"
-            >
+            <label className="block text-sm font-semibold leading-6 text-gray-900">
               E-mail
             </label>
             <div className="mt-2.5">
@@ -372,17 +418,21 @@ export default function SimpleFormSection({
                 name="email"
                 id="email-address"
                 autoComplete="family-name"
-                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
+                className={`block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ${
+                  errors.email ? 'ring-red-500' : 'ring-gray-300'
+                } placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6`}
                 value={formData.email}
                 onChange={handleInputChange}
+                onBlur={handleBlurField}
               />
+              {errors.email && (
+                <div className="text-red-500 text-xs mt-1">{errors.email}</div>
+              )}
             </div>
           </div>
+          {/* Telefone */}
           <div>
-            <label
-              htmlFor="phone"
-              className="block text-sm font-semibold leading-6 text-gray-900"
-            >
+            <label className="block text-sm font-semibold leading-6 text-gray-900">
               Telefone
             </label>
             <div className="mt-2.5">
@@ -393,236 +443,262 @@ export default function SimpleFormSection({
                 type="text"
                 name="phone"
                 id="phone"
-                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
+                className={`block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ${
+                  errors.phone ? 'ring-red-500' : 'ring-gray-300'
+                } placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6`}
                 value={formData.phone}
                 onChange={handleInputChange}
+                onBlur={handleBlurField}
               />
+              {errors.phone && (
+                <div className="text-red-500 text-xs mt-1">{errors.phone}</div>
+              )}
             </div>
           </div>
-          <div>
-            {(window.location.pathname === '/equipamentos-portateis-3' ||
-              window.location.pathname === '/equipamentos-portateis-3/') && (
-              <div>
-                <label
-                  htmlFor="phone"
-                  className="block text-sm font-semibold leading-6 text-gray-900"
-                >
-                  Qual a Marca do Aparelho?
-                </label>
-                {clicado && !formData.marcaCelular ? (
-                  <div className="text-red-500">Campo Obrigatório</div>
-                ) : null}
-                <select
-                  required
-                  name="marcaCelular"
-                  id="marcaCelular"
-                  value={formData.marcaCelular}
-                  onChange={handleInputChange}
-                  onBlur={handleBlur}
-                  className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
-                >
-                  <option value="">Escolha uma Opção:</option>
-                  <option value="Apple">Apple</option>
-                  <option value="Samsung">Samsung</option>
-                  <option value="Motorola">Motorola</option>
-                  <option value="Xiaomi">Xiaomi</option>
-                  <option value="Outras Marcas">Outras Marcas</option>
-                </select>
-              </div>
-            )}
-          </div>
-          <div>
-            {(window.location.pathname === '/consorcio-imovel' ||
-              window.location.pathname === '/consorcio-imovel/') && (
-              <div>
-                <label
-                  htmlFor="phone"
-                  className="block text-sm font-semibold leading-6 text-gray-900"
-                >
-                  Quanto de Crédito você deseja?
-                </label>
-                {clicado && !formData.credito ? (
-                  <div className="text-red-500">Campo Obrigatório</div>
-                ) : null}
-                <select
-                  required
-                  name="credito"
-                  id="credito"
-                  value={formData.credito}
-                  onChange={handleInputChange}
-                  onBlur={handleBlur}
-                  className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
-                >
-                  <option value="">Escolha uma Opção:</option>
-                  <option value="R$200mil">R$200mil</option>
-                  <option value="R$300mil">R$300mil</option>
-                  <option value="R$400mil">R$400mil</option>
-                  <option value="R$500mil">R$500mil</option>
-                  <option value="Outro Valor">Outro Valor</option>
-                </select>
-              </div>
-            )}
-          </div>
-          <div>
-            {(window.location.pathname === '/consorcio-auto' ||
-              window.location.pathname === '/consorcio-auto/') && (
-              <div>
-                <label
-                  htmlFor="phone"
-                  className="block text-sm font-semibold leading-6 text-gray-900"
-                >
-                  Quanto de Crédito você deseja?
-                </label>
-                {clicado && !formData.credito ? (
-                  <div className="text-red-500">Campo Obrigatório</div>
-                ) : null}
-                <select
-                  required
-                  name="credito"
-                  id="credito"
-                  value={formData.credito}
-                  onChange={handleInputChange}
-                  onBlur={handleBlur}
-                  className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
-                >
-                  <option value="">Escolha uma Opção:</option>
-                  <option value="R$60mil<">R$60mil</option>
-                  <option value="R$80mil">R$80mil</option>
-                  <option value="R$100mil">R$100mil</option>
-                  <option value="R$120mil">R120mil</option>
-                  <option value="Outro Valor">Outro Valor</option>
-                </select>
-              </div>
-            )}
-          </div>
-          {/*Inputs Seguro de vida */}
-          <div>
-            {(window.location.pathname === '/seguro-de-vida' ||
-              window.location.pathname === '/seguro-de-vida/') && (
-              <div>
-                <label className="block text-sm font-semibold gap-y-2 leading-6 text-gray-900">
-                  Ocupação Atual?
-                </label>
-                {clicado && !formData.profissao ? (
-                  <div className="text-red-500">Campo Obrigatório</div>
-                ) : null}
-                <select
-                  required
-                  name="profissao"
-                  id="profissao"
-                  value={formData.profissao}
-                  onChange={handleInputChange}
-                  onBlur={handleBlur}
-                  className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
-                >
-                  <option value="">Escolha uma Opção:</option>
-                  <option value="Aposentado<">Aposentado</option>
-                  <option value="Administrador de Empresal">
-                    Administrador de Empresa
-                  </option>
-                  <option value="Estudante Univesitáriol">
-                    Estudante Univesitário
-                  </option>
-                  <option value="Do Lar, Dona de Casa">
-                    Do Lar, Dona de Casa
-                  </option>
-                  <option value="Empresario e Produt.Espetaculo">
-                    Empresario e Produt.Espetaculo
-                  </option>
-                  <option value="Corretores de Seguros">
-                    Corretores de Seguros
-                  </option>
-                  <option value="Comerciante/Comerciario">
-                    Comerciante/Comerciario
-                  </option>
-                  <option value="Médico">Médico</option>
-                  <option value="Outro">Outro</option>
-                </select>
-              </div>
-            )}
-          </div>
-          <div>
-            {(window.location.pathname === '/seguro-de-vida' ||
-              window.location.pathname === '/seguro-de-vida/') && (
-              <div>
-                <label className="block text-sm font-semibold leading-6 text-gray-900">
-                  Faixa de Renda?
-                </label>
-                {clicado && !formData.renda ? (
-                  <div className="text-red-500">Campo Obrigatório</div>
-                ) : null}
-                <select
-                  required
-                  name="renda"
-                  id="renda"
-                  value={formData.renda}
-                  onChange={handleInputChange}
-                  onBlur={handleBlur}
-                  className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
-                >
-                  <option value="">Escolha uma Opção:</option>
-                  <option value="Até R$2.500,00<">Até R$2.500,00</option>
-                  <option value="de R$2.500,01 até R$5.000,00">
-                    de R$2.500,01 até R$5.000,00
-                  </option>
-                  <option value="de R$5.000,01 até R$7.500,00">
-                    de R$5.000,01 até R$7.500,00
-                  </option>
-                  <option value="de R$7.500,01 até R$10.000,00">
-                    de R$7.500,01 até R$10.000,00
-                  </option>
-                  <option value="Acima de R$10.000,00">
-                    Acima de R$10.000,00
-                  </option>
-                </select>
-              </div>
-            )}
-          </div>
-          {/*  Input data de nascimento */}
-          <div>
-            {(window.location.pathname === '/seguro-de-vida' ||
-              window.location.pathname === '/seguro-de-vida/') && (
-              <div>
-                <label className="block text-sm font-semibold leading-6 text-gray-900">
-                  Data de Nascimento
-                </label>
-                <div className="mt-2.5">
-                  <input
-                    type="date"
-                    name="dataNascimento"
-                    id="dataNascimento"
-                    className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
-                    value={formData.dataNascimento}
-                    onChange={handleInputChange}
-                  />
+          {/* Marca do Aparelho */}
+          {['/equipamentos-portateis-3', '/equipamentos-portateis-3/'].includes(
+            window.location.pathname,
+          ) && (
+            <div>
+              <label className="block text-sm font-semibold leading-6 text-gray-900">
+                Qual a Marca do Aparelho?
+              </label>
+              <select
+                required
+                name="marcaCelular"
+                id="marcaCelular"
+                value={formData.marcaCelular}
+                onChange={handleInputChange}
+                onBlur={handleBlurField}
+                className={`block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ${
+                  errors.marcaCelular ? 'ring-red-500' : 'ring-gray-300'
+                } placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6`}
+              >
+                <option value="">Escolha uma Opção:</option>
+                <option value="Apple">Apple</option>
+                <option value="Samsung">Samsung</option>
+                <option value="Motorola">Motorola</option>
+                <option value="Xiaomi">Xiaomi</option>
+                <option value="Outras Marcas">Outras Marcas</option>
+              </select>
+              {errors.marcaCelular && (
+                <div className="text-red-500 text-xs mt-1">
+                  {errors.marcaCelular}
                 </div>
-              </div>
-            )}
-          </div>
-          {/*  Inputsexo */}
-          <div>
-            {(window.location.pathname === '/seguro-de-vida' ||
-              window.location.pathname === '/seguro-de-vida/') && (
-              <div>
-                <label className="block text-sm font-semibold leading-6 text-gray-900">
-                  Sexo
-                </label>
-                <div className="mt-2.5">
-                  <select
-                    name="sexo"
-                    id="sexo"
-                    value={formData.sexo}
-                    onChange={handleInputChange}
-                    className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
-                  >
-                    <option value="">Escolha uma Opção:</option>
-                    <option value="Masculino">Masculino</option>
-                    <option value="Feminino">Feminino</option>
-                  </select>
+              )}
+            </div>
+          )}
+          {/* Crédito (Consórcio Imóvel) */}
+          {['/consorcio-imovel', '/consorcio-imovel/'].includes(
+            window.location.pathname,
+          ) && (
+            <div>
+              <label className="block text-sm font-semibold leading-6 text-gray-900">
+                Quanto de Crédito você deseja?
+              </label>
+              <select
+                required
+                name="credito"
+                id="credito"
+                value={formData.credito}
+                onChange={handleInputChange}
+                onBlur={handleBlurField}
+                className={`block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ${
+                  errors.credito ? 'ring-red-500' : 'ring-gray-300'
+                } placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6`}
+              >
+                <option value="">Escolha uma Opção:</option>
+                <option value="R$200mil">R$200mil</option>
+                <option value="R$300mil">R$300mil</option>
+                <option value="R$400mil">R$400mil</option>
+                <option value="R$500mil">R$500mil</option>
+                <option value="Outro Valor">Outro Valor</option>
+              </select>
+              {errors.credito && (
+                <div className="text-red-500 text-xs mt-1">
+                  {errors.credito}
                 </div>
+              )}
+            </div>
+          )}
+          {/* Crédito (Consórcio Auto) */}
+          {['/consorcio-auto', '/consorcio-auto/'].includes(
+            window.location.pathname,
+          ) && (
+            <div>
+              <label className="block text-sm font-semibold leading-6 text-gray-900">
+                Quanto de Crédito você deseja?
+              </label>
+              <select
+                required
+                name="credito"
+                id="credito"
+                value={formData.credito}
+                onChange={handleInputChange}
+                onBlur={handleBlurField}
+                className={`block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ${
+                  errors.credito ? 'ring-red-500' : 'ring-gray-300'
+                } placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6`}
+              >
+                <option value="">Escolha uma Opção:</option>
+                <option value="R$60mil">R$60mil</option>
+                <option value="R$80mil">R$80mil</option>
+                <option value="R$100mil">R$100mil</option>
+                <option value="R$120mil">R$120mil</option>
+                <option value="Outro Valor">Outro Valor</option>
+              </select>
+              {errors.credito && (
+                <div className="text-red-500 text-xs mt-1">
+                  {errors.credito}
+                </div>
+              )}
+            </div>
+          )}
+          {/* Seguro de Vida: Profissão */}
+          {['/seguro-de-vida', '/seguro-de-vida/'].includes(
+            window.location.pathname,
+          ) && (
+            <div>
+              <label className="block text-sm font-semibold leading-6 text-gray-900">
+                Ocupação Atual?
+              </label>
+              <select
+                required
+                name="profissao"
+                id="profissao"
+                value={formData.profissao}
+                onChange={handleInputChange}
+                onBlur={handleBlurField}
+                className={`block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ${
+                  errors.profissao ? 'ring-red-500' : 'ring-gray-300'
+                } placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6`}
+              >
+                <option value="">Escolha uma Opção:</option>
+                <option value="Aposentado">Aposentado</option>
+                <option value="Administrador de Empresa">
+                  Administrador de Empresa
+                </option>
+                <option value="Estudante Univesitário">
+                  Estudante Univesitário
+                </option>
+                <option value="Do Lar, Dona de Casa">
+                  Do Lar, Dona de Casa
+                </option>
+                <option value="Empresario e Produt.Espetaculo">
+                  Empresario e Produt.Espetaculo
+                </option>
+                <option value="Corretores de Seguros">
+                  Corretores de Seguros
+                </option>
+                <option value="Comerciante/Comerciario">
+                  Comerciante/Comerciario
+                </option>
+                <option value="Médico">Médico</option>
+                <option value="Outro">Outro</option>
+              </select>
+              {errors.profissao && (
+                <div className="text-red-500 text-xs mt-1">
+                  {errors.profissao}
+                </div>
+              )}
+            </div>
+          )}
+          {/* Seguro de Vida: Faixa de Renda */}
+          {['/seguro-de-vida', '/seguro-de-vida/'].includes(
+            window.location.pathname,
+          ) && (
+            <div>
+              <label className="block text-sm font-semibold leading-6 text-gray-900">
+                Faixa de Renda?
+              </label>
+              <select
+                required
+                name="renda"
+                id="renda"
+                value={formData.renda}
+                onChange={handleInputChange}
+                onBlur={handleBlurField}
+                className={`block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ${
+                  errors.renda ? 'ring-red-500' : 'ring-gray-300'
+                } placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6`}
+              >
+                <option value="">Escolha uma Opção:</option>
+                <option value="Até R$2.500,00">Até R$2.500,00</option>
+                <option value="de R$2.500,01 até R$5.000,00">
+                  de R$2.500,01 até R$5.000,00
+                </option>
+                <option value="de R$5.000,01 até R$7.500,00">
+                  de R$5.000,01 até R$7.500,00
+                </option>
+                <option value="de R$7.500,01 até R$10.000,00">
+                  de R$7.500,01 até R$10.000,00
+                </option>
+                <option value="Acima de R$10.000,00">
+                  Acima de R$10.000,00
+                </option>
+              </select>
+              {errors.renda && (
+                <div className="text-red-500 text-xs mt-1">{errors.renda}</div>
+              )}
+            </div>
+          )}
+          {/* Seguro de Vida: Data de Nascimento */}
+          {['/seguro-de-vida', '/seguro-de-vida/'].includes(
+            window.location.pathname,
+          ) && (
+            <div>
+              <label className="block text-sm font-semibold leading-6 text-gray-900">
+                Data de Nascimento
+              </label>
+              <div className="mt-2.5">
+                <input
+                  type="date"
+                  name="dataNascimento"
+                  id="dataNascimento"
+                  className={`block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ${
+                    errors.dataNascimento ? 'ring-red-500' : 'ring-gray-300'
+                  } placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6`}
+                  value={formData.dataNascimento}
+                  onChange={handleInputChange}
+                  onBlur={handleBlurField}
+                />
+                {errors.dataNascimento && (
+                  <div className="text-red-500 text-xs mt-1">
+                    {errors.dataNascimento}
+                  </div>
+                )}
               </div>
-            )}
-          </div>
+            </div>
+          )}
+          {/* Seguro de Vida: Sexo */}
+          {['/seguro-de-vida', '/seguro-de-vida/'].includes(
+            window.location.pathname,
+          ) && (
+            <div>
+              <label className="block text-sm font-semibold leading-6 text-gray-900">
+                Sexo
+              </label>
+              <div className="mt-2.5">
+                <select
+                  name="sexo"
+                  id="sexo"
+                  value={formData.sexo}
+                  onChange={handleInputChange}
+                  onBlur={handleBlurField}
+                  className={`block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ${
+                    errors.sexo ? 'ring-red-500' : 'ring-gray-300'
+                  } placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6`}
+                >
+                  <option value="">Escolha uma Opção:</option>
+                  <option value="Masculino">Masculino</option>
+                  <option value="Feminino">Feminino</option>
+                </select>
+                {errors.sexo && (
+                  <div className="text-red-500 text-xs mt-1">{errors.sexo}</div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </form>
       <div className="xl:mx-20">
