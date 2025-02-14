@@ -1,24 +1,24 @@
 //Components
-import FormSeguroCelularBanner from "./components/FormSeguroCelularBanner";
-import SessaoInformativaProdutosLp from "../globalsubcomponentes/SessaoInformativaProdutosLp";
-import InformacoesProdutos from "../modules/ModuleInformacoesProdutos";
+import FormSeguroCelularBanner from './components/FormSeguroCelularBanner';
+import SessaoInformativaProdutosLp from '../globalsubcomponentes/SessaoInformativaProdutosLp';
+import InformacoesProdutos from '../modules/ModuleInformacoesProdutos';
 //import PlanoSlider from "../globalsubcomponentes/PlanoSlider";
 //import infoPlanos from "../modules/InfoPlanos";
-import ConteudoSessaoInfo from "../globalsubcomponentes/ConteudoSessaoInfo";
-import sessaoInfoLp from "../modules/SessaoInfoLp";
-import SliderCelulares from "./components/SliderCelulares";
-import ContainerBenficios from "./components/subcomponents/ContainerBeneficios";
-import FaqCelular from "./components/subcomponents/FaqCelular";
-import { Helmet } from "react-helmet";
-import CountDown from "./components/subcomponents/CountDown";
-import BannerPromo from "./components/subcomponents/BannerPromosCelular";
+import ConteudoSessaoInfo from '../globalsubcomponentes/ConteudoSessaoInfo';
+import sessaoInfoLp from '../modules/SessaoInfoLp';
+import SliderCelulares from './components/SliderCelulares';
+import ContainerBenficios from './components/subcomponents/ContainerBeneficios';
+import FaqCelular from './components/subcomponents/FaqCelular';
+import { Helmet } from 'react-helmet';
+import CountDown from './components/subcomponents/CountDown';
+import BannerPromo from './components/subcomponents/BannerPromosCelular';
 
 // Importa o ToastContainer e os estilos
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function IndexSeguroCelular() {
-  const targetDate = new Date("December 31, 2023 00:00:00");
+  const targetDate = new Date('December 31, 2023 00:00:00');
 
   return (
     <div className="IndexSeguroCelular">
