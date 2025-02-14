@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useRef } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { useNavigate } from 'react-router-dom';
 // Import Swiper styles
-import "swiper/css/pagination";
-import "swiper/css/navigation";
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 
 export default function BannerPromoPhoneKakau() {
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
@@ -13,7 +13,7 @@ export default function BannerPromoPhoneKakau() {
   const progressCircle = useRef(null);
   const progressContent = useRef(null);
   const onAutoplayTimeLeft = (s, time, progress) => {
-    progressCircle.current.style.setProperty("--progress", 1 - progress);
+    progressCircle.current.style.setProperty('--progress', 1 - progress);
     progressContent.current.textContent = `${Math.ceil(time / 1000)}s`;
   };
 
@@ -22,24 +22,21 @@ export default function BannerPromoPhoneKakau() {
       setViewportWidth(window.innerWidth);
     };
 
-    window.addEventListener("resize", updateScreenWidth);
+    window.addEventListener('resize', updateScreenWidth);
 
     return () => {
-      window.removeEventListener("resize", updateScreenWidth);
+      window.removeEventListener('resize', updateScreenWidth);
     };
   }, []);
 
   const banners = [
     {
       id: 1,
-      srcLarge:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-lp/celular/srclarge-ver%C3%A3o-2025-seguro-celular-kakau.png",
-      srcMedium:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-lp/celular/srcmedium-ver%C3%A3o-2025-seguro-celular-kakau.png",
-      srcMobile:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-lp/celular/srcmobile-ver%C3%A3o-2025-seguro-celular-kakau.png",
-      alt: "Banner de Natal para Telas Grandess",
-      href: "",
+      srcLarge: '',
+      srcMedium: '',
+      srcMobile: '',
+      alt: 'Banner de Natal para Telas Grandess',
+      href: '',
     },
     // Adicione mais banners aqui conforme necessário
   ];
@@ -66,8 +63,8 @@ export default function BannerPromoPhoneKakau() {
                 viewportWidth >= 1500
                   ? banner.srcLarge
                   : viewportWidth >= 1024
-                    ? banner.srcMedium
-                    : banner.srcMobile
+                  ? banner.srcMedium
+                  : banner.srcMobile
               }
               alt={banner.alt}
               className="h-full w-full cursor-pointer mb-[33px] rounded-xl"
