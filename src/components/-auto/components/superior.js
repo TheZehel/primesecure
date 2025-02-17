@@ -10,7 +10,7 @@ export default function Superior() {
     phone: '',
   });
   return (
-    <div className="relative min-h-screen">
+    <div className="relative h-[600px]">
       {/* Container principal com background */}
       <div className="absolute inset-0">
         <img
@@ -21,7 +21,7 @@ export default function Superior() {
       </div>
 
       {/* Conteúdo principal */}
-      <div className="relative min-h-screen flex flex-col lg:flex-row lg:items-center lg:justify-between px-4 py-8 lg:py-6 gap-12 pl-8 lg:pl-16">
+      <div className="relative flex flex-col lg:flex-row lg:items-center lg:justify-between px-4 py-8 lg:py-6 gap-12 pl-8 lg:pl-16">
         {/* Conteúdo à esquerda */}
         <div className="flex-1 flex flex-col items-center lg:items-start text-white max-w-lg">
           <div className="flex flex-col items-center lg:items-center mb-5"></div>
