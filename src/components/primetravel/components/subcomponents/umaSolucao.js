@@ -17,7 +17,7 @@ export default function UmaSolucao() {
     },
     {
       id: 2,
-      image: "https://storage.googleapis.com/primesecure/estudos-intercambio.jpg", 
+      image: "https://storage.googleapis.com/primesecure/estudos-intercambio.jpg",
       title: "ESTUDOS OU INTERCÂMBIO",
       text: "Um Seguro Viagem sob medida para você que planeja uma estadia prolongada no velho continente para aprender coisas novas.",
     },
@@ -36,8 +36,8 @@ export default function UmaSolucao() {
   ];
 
   return (
-    <div className="py-8 bg-white">
-      <div className="text-4xl text-bluePrime font-bold text-center mb-10">
+    <div className="py-8 bg-white mb-10">
+      <div className="text-2xl text-grayPrime font-semibold text-center mb-10">
         <p>Para cada viagem, uma solução.</p>
       </div>
       <div className="relative w-full">

@@ -1,245 +1,267 @@
-import React from "react";
-import { useState, useRef } from "react";
-import InputMask from "react-input-mask";
-import { ccNumberFormated, formatExpirationDate, formatCVC } from "../modules/formatFunctions"
-import chip from "../../../../../src/assets/svg/payment-card/cc-chip.svg";
-import imgDefault from "../../../../../src/assets/svg/payment-card/cc-icon.svg";
-//import LoadingAnimation from "loadingSvg";
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // <-- Importa o useNavigate
+import TabsNavigation from './subcomponents/navigation';
+import DetalhesCompra from './subcomponents/detalhesCompra';
+import { loadFromStorage, saveToStorage } from '../utils/storageUtils';
+import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+//import LoadingAnimation from '../../../../components/globalsubcomponentes/icons/loadingSvg';
+import { getStateCodeFromCity } from '../utils/generateCodigoOrigem';
+
+// Função para extrair DDD e número
+function extractDDDAndNumber(fullPhone) {
+  const digitsOnly = (fullPhone || '').replace(/\D/g, '');
+  if (!digitsOnly) return { ddd: '', numero: '' };
+  const ddd = digitsOnly.slice(0, 2);
+  const numero = digitsOnly.slice(2);
+  return { ddd, numero };
+}
 
 const Payment = () => {
-  //ESTADOS
-  const [cardNumber, setCardNumber] = useState("") //0000 0000 0000 0000
-  const [cardHolder, setCardHolder] = useState("") // Nome Impresso
-  const [expirationDate, setExpirationDate] = useState("") //20/24
-  const [ cvc, setCvc ] = useState("") // 000
-  const [isLoading, setIsLoading] = useState("false") 
-  const [errors, setErrors] = useState({
-    cardNumber: false,
-    cardHolder: false,
-    expirationDate: false,
-    cvc: false,
-  });
+  // Hook para navegar
+  const navigate = useNavigate();
 
-  const cardNumberRef = useRef(null);
-  const cardHolderRef = useRef(null);
-  const expirationDateRef = useRef(null);
-  const cvcRef = useRef(null);
+  const [paymentData, setPaymentData] = useState(null);
+  const [formaPagamento, setFormaPagamento] = useState('TMA'); // "TMA" (cartão) ou "PIX"
+  const [cardData, setCardData] = useState(null);
 
-  const handleAddCard = () => {
-    let hasError = false;
+  // Estado de loading e erros
+  const [loading, setLoading] = useState(false);
 
-    const newErrors = {
-      cardNumber: !cardNumber,
-      cardHolder: !cardHolder,
-      expirationDate: !expirationDate,
-      cvc: !cvc,
+  /**
+   * buildPaymentJSON():
+   * Monta o objeto final que será enviado na requisição.
+   */
+  const buildPaymentJSON = () => {
+    const editQuote = loadFromStorage('editQuote', {});
+    const plans = loadFromStorage('plans', {});
+    const passengers = loadFromStorage('passengers', []);
+    const responsiblePassenger = loadFromStorage('responsiblePassenger', {});
+    const resume = loadFromStorage('resume', {});
+
+    // Monta lista de viajantes
+    const allTravelers = [responsiblePassenger, ...passengers];
+    const viajantesArray = allTravelers.map((person, index) => ({
+      parametername: index === 0 ? 'Viajante' : `Viajante${index + 1}`,
+      parameterlist: [
+        {
+          parametername: 'DataNascimentoViajante',
+          parametervalue: person.birthday || '1999-01-01',
+        },
+        {
+          parametername: 'NomeViajante',
+          parametervalue: person.firstName || `NomeV${index + 1}`,
+        },
+        {
+          parametername: 'SobrenomeViajante',
+          parametervalue: person.secondName || `SobrenomeV${index + 1}`,
+        },
+        {
+          parametername: 'NomeSocialViajante',
+          parametervalue: person.socialName || `NomeSocialV${index + 1}`,
+        },
+        {
+          parametername: 'SexoViajante',
+          parametervalue: person.gender || 'M',
+        },
+        {
+          parametername: 'CPFViajante',
+          parametervalue: person.CPF || '778.261.566-61',
+        },
+        { parametername: 'PPEViajante', parametervalue: '0' },
+        { parametername: 'PPERelacionamentoViajante', parametervalue: '' },
+      ],
+    }));
+
+    const { ddd, numero } = extractDDDAndNumber(
+      responsiblePassenger.tell || '',
+    );
+    const { ddd: emergDDD, numero: emergNumero } = extractDDDAndNumber(
+      responsiblePassenger.TelefoneEmergencia || '',
+    );
+
+    // Aqui usamos a função do generateCodigoOrigem.js
+    // Pegamos a cidade do usuário e convertemos para sigla de estado
+    const codigoOrigem = getStateCodeFromCity(responsiblePassenger.city || '');
+
+    return {
+      SessionID: editQuote?.SessionID || '',
+      CodigoMotivoViagem: editQuote.CodigoMotivoViagem || '',
+      CodigoTipoProduto: editQuote.CodigoTipoProduto || '',
+      CodigoProduto: plans.CodigoProduto || '',
+      CodigoOrigem: codigoOrigem || '',
+      CodigoDestino: editQuote.CodigoDestino || '',
+      DataInicioViagem: editQuote.departure || '',
+      DataFinalViagem: editQuote.arrival || '',
+      DiasMultiviagem: editQuote.DiasMultiviagem || '0',
+      CupomDesconto: editQuote.CupomDesconto || '',
+      CNPJ: editQuote.CNPJ || '',
+
+      TipoDocumento: 'CPF',
+      NumeroCPF: responsiblePassenger.CPF || '872.614.621-52',
+      DataNascimento: responsiblePassenger.birthday || '1990-09-01',
+      Nome: responsiblePassenger.firstName || 'CENARIO4',
+      Sobrenome: responsiblePassenger.secondName || 'CENARIO4',
+      NomeSocial: responsiblePassenger.socialName || 'NomeSocial CENARIO4',
+      Sexo: responsiblePassenger.gender || 'M',
+      Email: responsiblePassenger.email || 'test@test.com',
+      CEP: responsiblePassenger.zipCode || '13846555',
+      Rua: responsiblePassenger.address || 'TESTE',
+      Bairro: responsiblePassenger.district || 'TESTE',
+      CodigoEstado: responsiblePassenger.state || 'SP',
+      Cidade: responsiblePassenger.city || 'TESTE',
+      Numero: responsiblePassenger.numberAddress || '123',
+
+      DDD: ddd || '11',
+      NumeroTelefone: numero || '99999999',
+      TipoTelefone: responsiblePassenger.TipoTelefone || 'CELUL',
+
+      DDDEmergencia: ddd || '',
+      TelefoneEmergencia: numero || '',
+      TipoTelefoneEmergencia: responsiblePassenger.TipoTelefone || '',
+      NomeEmergencia: responsiblePassenger.firstName || '',
+      SobrenomeEmergencia: responsiblePassenger.secondName || '',
+      NomeSocialEmergencia: responsiblePassenger.socialName || '',
+
+      QuantidadeViajantes: String(allTravelers.length),
+      Viajantes: viajantesArray,
+
+      CoberturasAdicionais: [],
+
+      FormaPagamento: 'TMA',
+      NumeroParcelas: '1',
+      CartaoDataExpiracao: '12/25',
+      CartaoTitular: 'Nome Titular',
+      CartaoNumero: '0000000000000001',
+      CartaoCodigoSeguranca: '123',
+
+      PrecoTotal: resume.total || 'R$ 0,00',
     };
-
-    Object.values(newErrors).forEach((value) => {
-      if (value) hasError = true;
-    });
-
-    setErrors(newErrors);
-
-    if(hasError){
-      if (newErrors.cardNumber){
-        cardNumberRef.current?.scrollIntoView({behavior: "smooth", block: "center"});
-      } else if (newErrors.cardHolder){
-        cardHolderRef.current?.scrollIntoView({behavior: "smooth", block: "center"});
-      } else if (newErrors.expirationDate){
-        expirationDateRef.current?.scrollIntoView({behavior: "smooth", block: "center"});
-      } else if (newErrors.cvc){
-        cvcRef.current?.scrollIntoView({behavior: "smooth", block: "center"});
-      }
-    }
-
-    // lógica para envio do cartão
-    console.log("Realizando pagamento");
   };
 
-  const handleInputChange = (name, value) => {
-    if(name === "cardNumber"){
-      setCardNumber(value);
-      if(value){
-        setErrors((prev) => ({...prev, cardNumber: false}));
+  // Recalcula o JSON sempre que formaPagamento ou cardData mudar
+  useEffect(() => {
+    const json = buildPaymentJSON();
+    setPaymentData(json);
+    saveToStorage('pagamento', json);
+  }, [formaPagamento, cardData]);
+
+  // Envia para a API
+  const handleEnviarParaAPI = async () => {
+    if (!paymentData) return;
+
+    setLoading(true);
+    try {
+      console.log('Enviando dados de pagamento...', paymentData);
+
+      const response = await axios.post(
+        'http://localhost:3050/omint-viagem/process/emissao-bilhete',
+        paymentData,
+      );
+      console.log('Resposta da API:', response.data);
+
+      // Se deu sucesso, ResponseCode === 0
+      if (response.data?.ResponseCode === 0) {
+        // Exibir um toast de sucesso
+        toast.success('Pagamento efetuado com sucesso!', {
+          position: 'top-right',
+          autoClose: false,
+          theme: 'light',
+        });
+
+        // // Navegar para a página de sucesso
+        // setTimeout(() => {
+        //   navigate('/cotacao-primetravel/obrigado');
+        // }, 2000);
+      } else {
+        // Exibir toast de erro
+        const errorMsg =
+          response.data?.ResponseDescription ||
+          '[ERRO] Pagamento não efetuado.';
+
+        toast.error(errorMsg, {
+          position: 'top-right',
+          autoClose: false,
+          theme: 'light',
+        });
+        console.log('Mostrando toast de erro...');
+
+        // Force um delay antes de qualquer outra ação
+        await new Promise((r) => setTimeout(r, 3000));
       }
-    } else if(name === "cardHolder"){
-      setCardHolder(value);
-      if(value){
-        setErrors((prev) => ({...prev, cardHolder: false}));
-      }
-    } else if(name === "expirationDate"){
-      setExpirationDate(value);
-      if(value){
-        setErrors((prev) => ({...prev, expirationDate: false}));
-      }
-    } else if(name === "cvc"){
-      setCvc(value);
-      if(value){
-        setErrors((prev) => ({...prev, cvc: false}));
-      }
+    } catch (error) {
+      console.error('Erro ao enviar pagamento para API:', error);
+
+      // Erro do servidor ou da própria request
+      const errMessage =
+        error?.response?.data?.ResponseDescription ||
+        error?.message ||
+        'Falha ao processar pagamento.';
+      toast.error(errMessage, {
+        position: 'top-right',
+        autoClose: 4000,
+        theme: 'light',
+      });
+    } finally {
+      setLoading(false);
     }
-  }
+  };
+
+  // Chamado ao finalizar no cartão ou PIX
+  const handleConfirmPayment = async () => {
+    await handleEnviarParaAPI();
+
+    // Atualiza o stepIndex para 4 e força a navegação
+    saveToStorage('stepIndex', 4);
+    setTimeout(() => {
+      navigate('/cotacao-primetravel/obrigado'); // Garante que ele vá para a última etapa
+    }, 500); // Pequeno delay para garantir a atualização
+  };
 
   return (
-    <div className="mx-2 flex flex-col lg:flex-row gap-8">
-      {/* Formulário */}
-      <div className="flex-2 mx-5">
-        <h2 className="text-3xl font-bold text-[#313131] mb-4">Pagamento</h2>
-        <p className="mb-4">Aqui você pode listar os planos disponíveis...</p>
+    <div className="w-full h-auto flex flex-col items-center overflow-x-hidden">
+      <ToastContainer style={{ zIndex: 999999 }} />
 
-        <div className="grid gap-4">
-          <div className="grid gap-1.5">
-            <label htmlFor="card-number" className="font-semibold">
-              Numero do Cartão
-            </label>
-            <InputMask
-            name="cardNumber"
-              inputRef={cardNumberRef}
-              id="card-number"
-              mask={"9999 9999 9999 9999"}
-              maskChar={null}
-              value={cardNumber}
-              placeholder={errors.cardNumber ? "Preencha o número do cartão" : "0000 0000 0000 0000"}
-              onChange={(e) => handleInputChange("cardNumber", e.target.value)}
-              className={`border rounded-md h-10 px-4 w-full focus:outline-none ${
-                errors.cardNumber
-                ? "border-red-500 placeholder:text-red-500 focus:ring-red-500"
-                : "border-bluePrime focus:ring-bluePrime"
-              }`}
-            />
-          </div>
-
-          <div className="grid gap-1.5">
-            <label htmlFor="card-holder" className="font-semibold">
-              Nome do titular
-            </label>
-            <input
-              name="cardHolder"
-            ref={cardHolderRef} 
-              id="card-holder"
-              value={cardHolder}
-              placeholder={errors.cardHolder ? "Preencha o nome do titular" : "NOME COMPLETO"}
-              onChange={(e) => handleInputChange("cardHolder", e.target.value)}
-              className={`border rounded-md h-10 px-4 w-full focus:outline-none ${
-                errors.cardHolder
-                ? "border-red-500 placeholder:text-red-500 focus:ring-red-500"
-                : "border-bluePrime focus:ring-bluePrime"
-              }`}
-              maxLength={40}
-            />
-          </div>
-
-          <div className="flex gap-4">
-            <div className="flex-1 grid gap-1.5">
-              <label htmlFor="expiration-date" className="font-semibold">
-                Expiração
-              </label>
-              <InputMask
-                name="expirationDate"
-                inputRef={expirationDateRef}
-                id="expiration-date"
-                maskChar={null}
-                mask={"99/99"}
-                value={expirationDate}
-                placeholder={errors.expirationDate ? "Preencha a data de expiração" : "00/00"}
-              onChange={(e) => handleInputChange("expirationDate", e.target.value)}
-              className={`border rounded-md h-10 px-4 w-full focus:outline-none ${
-                errors.expirationDate
-                ? "border-red-500 placeholder:text-red-500 focus:ring-red-500"
-                : "border-bluePrime focus:ring-bluePrime"
-              }`}
-              />
-            </div>
-
-            <div className="flex-1 grid gap-1.5">
-              <label htmlFor="secutiry-code" className="font-semibold">
-                CVV
-              </label>
-              <InputMask
-                name="cvc"
-                inputRef={cvcRef}
-                id="secuty-code"
-                mask={"999"}
-                maskChar={null}
-                value={cvc}
-                placeholder={errors.cvc ? "Preencha o CVV" : "000"}
-              onChange={(e) => handleInputChange("cvc", e.target.value)}
-              className={`border rounded-md h-10 px-4 w-full focus:outline-none ${
-                errors.cvc
-                ? "border-red-500 placeholder:text-red-500 focus:ring-red-500"
-                : "border-bluePrime focus:ring-bluePrime"
-              }`}
-              />
-            </div>
+      {/* Se estiver em loading, exibe um overlay */}
+      {loading && (
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-60 z-50 flex justify-center items-center">
+          <div className="p-4 bg-white rounded-md shadow-md">
+            <p>Processando pagamento...</p>
+            {/* <LoadingAnimation /> */}
           </div>
         </div>
+      )}
 
-        <button
-          onClick={handleAddCard}
-          className="mt-4 w-full h-[50px] flex justify-center items-center py-4 bg-bluePrime rounded-md cursor-pointer border-none font-bold text-lg leading-7 transition-all duration-300 hover:brightness-110 text-white"
-        >
-          {/* {isLoading ? <LoadingAnimation /> : "Realizar Pagamento"} */}
-          Realizar pagamento
-        </button>
+      {/* Resumo da Compra (Desktop) */}
+      <div className="hidden sm:block w-full max-w-7xl px-2 sm:px-4">
+        <DetalhesCompra pagamento={paymentData} />
       </div>
 
-      <div className="flex-1 mx-5 flex flex-col">
-        {/* Cartão */}
-        <div className="py-6 px-6 bg-gradient-to-r from-bluePrime to-bluePrime2 rounded-xl shadow-xl  mx-5 justify-center items-center object-center lg:mx-0 lg:max-w-none max-h-[300px]">
-          <div className="">
-            <div className="flex justify-between">
-              <div>
-                <img src={imgDefault} alt="" />
-              </div>
-              {/* <CardBrandImage cardNumber={cardNumber}/> */}
-            </div>
-            <div className="flex justify-between items-center mb-6"></div>
-            <div className="text-white text-2xl font-bold text-start">
-            {cardNumber ? ccNumberFormated(cardNumber) : "0000 0000 0000 0000"}
-            </div>
-            <div className="mt-3">
-              <div className="text-md font-bold text-gray-300 text-start">
-                Nome do titular
-              </div>
-              <div className="text-sm font-bold text-white uppercase text-start">
-                {cardHolder || "NOME DO TITULAR"}
-                
-              </div>
-            </div>
-            <div className="flex justify-between items-center mt-3">
-              <div>
-                <div className="text-sm text-gray-300">Expiração</div>
-                <div className="text-sm font-bold text-white uppercase">
-                  {expirationDate ? formatExpirationDate(expirationDate) : "00/00"}
-                </div>
-              </div>
-              <div>
-                <div className="text-sm text-gray-300">CVV</div>
-                <div className="text-sm font-bold text-white uppercase">
-                  {cvc ? formatCVC(cvc) : "000"}
-                </div>
-              </div>
-              <div>
-                <img src={chip} alt="" />
-              </div>
-            </div>
-          </div>
+      {/* Conteúdo Principal */}
+      <div className="w-full max-w-5xl p-4 sm:p-6 lg:p-8">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#313131] mb-2 sm:mb-4">
+          Pagamento
+        </h2>
+        <p className="text-base sm:text-lg text-gray-700 mb-4">
+          Escolha o método de pagamento desejado:
+        </p>
 
-        </div>
-        {/* Sessão */}
-        <div className="m-2 p-3 bg-white rounded-lg shadow-md border-2 border-bluePrime">
-          <div className="text-black font-bold text-left">Detalhes da compra:</div>
-          <div className="text-left text-gray-600 text-sm">
-          
-          <div>Nome e Sobrenome: </div>
-          <div>Endereço com numero: </div>
-          <div>CPF: </div>
-          <div>Preço: </div>
-          <div>Destino: </div>
-          <div>Data e hora da viagem: ida-volta</div>
-          </div>
+        {/* TabsNavigation que chama onCreditCardSubmit ou onPixConfirm */}
+        <TabsNavigation
+          setFormaPagamento={setFormaPagamento}
+          onCreditCardSubmit={(dadosCartao) => {
+            setCardData(dadosCartao);
+            handleConfirmPayment();
+          }}
+          onPixConfirm={() => {
+            handleConfirmPayment();
+          }}
+        />
 
+        {/* Resumo da Compra (Mobile) */}
+        <div className="block sm:hidden w-full max-w-7xl px-2 sm:px-4 mt-4">
+          <DetalhesCompra pagamento={paymentData} />
         </div>
       </div>
     </div>

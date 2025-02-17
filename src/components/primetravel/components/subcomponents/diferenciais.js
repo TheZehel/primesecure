@@ -56,7 +56,7 @@ export default function Diferenciais() {
     <section className="passos">
       <div className="container mx-auto px-4">
         <div className="text-center mb-6">
-          <h2 className="text-4xl font-bold text-grayPrime">Nossos Diferenciais</h2>
+          <h2 className="text-2xl font-semibold text-grayPrime mt-20 mb-16">Nossos Diferenciais</h2>
         </div>
         <div className="relative w-full">
           <Swiper

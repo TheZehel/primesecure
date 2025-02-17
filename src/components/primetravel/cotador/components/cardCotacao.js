@@ -3,6 +3,7 @@ import Select from "react-select";
 import { DatePicker } from "antd";
 import Modal from "react-modal";
 import moment from "moment";
+import { loadFromStorage } from "../utils/storageUtils";
 
 export default function CardCotacao() {
   const [errorList, setErrorList] = useState([]);
