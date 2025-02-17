@@ -10,7 +10,7 @@ export default function Superior() {
     phone: '',
   });
   return (
-    <div className="relative h-[600px]">
+    <div className="relative h-[550px]">
       {/* Container principal com background */}
       <div className="absolute inset-0">
         <img

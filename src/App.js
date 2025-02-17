@@ -75,7 +75,7 @@ import IndexConsorcioImovel from './components/consorcio-imovel/index.js';
 import IndexConsorcioAuto from './components/consorcio-auto/index.js';
 import IndexCotacaoTravel from './components/primetravel/cotador/indexCotacaoTravel.js';
 import IndexVidaOmint from './components/vida-omint/indexVidaOmint.js';
-import IndexAuto from './components/-auto/indexAuto.js';
+import IndexAuto from './components/seguro-auto/indexAuto.js';
 
 /**
  *  Componente para fazer o scroll para o topo da página

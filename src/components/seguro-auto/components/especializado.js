@@ -52,7 +52,7 @@ export default function ServicoEspecializado() {
           <div className="w-full sm:w-1/2 max-w-md mt-8 sm:mt-0">
             <img
               src={
-                'https://storage.googleapis.com/primesecure/seguro-auto/atendimento2.png'
+                'https://storage.googleapis.com/primesecure/seguro-auto/atendimento4.png'
               }
               alt="Imagem de um carro moderno e protegido"
               className="w-[90%] h-auto"
