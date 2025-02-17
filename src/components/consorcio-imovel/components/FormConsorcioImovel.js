@@ -11,6 +11,13 @@ export default function FormConsorcioImovel() {
     credito: "",
   });
 
+  // Defina a função submit conforme sua lógica. Exemplo:
+  const handleSubmit = (form) => {
+    console.log("Dados enviados:", form);
+    // Aqui você pode tratar os dados ou redirecionar o usuário
+    window.location.href = "/cotacao-imovel";
+  };
+
   return (
     <section
       className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center justify-center p-2"
@@ -27,7 +34,12 @@ export default function FormConsorcioImovel() {
         descriptionText="Diversas Opções de Crédito Para Você!"
         imageUrl={ImageManagerConsorcioImovel.Logos.logoPorto}
       />
-      <SimpleFormSection formData={formData} setFormData={setFormData} />
+      <SimpleFormSection
+        formData={formData}
+        setFormData={setFormData}
+        submit={handleSubmit}
+        showToast={true}  // Ativa a exibição do toast se a validação falhar
+      />
     </section>
   );
 }

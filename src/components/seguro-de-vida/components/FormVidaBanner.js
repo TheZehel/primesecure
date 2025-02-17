@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import BannerSection from "../../globalsubcomponentes/BannerSection";
 import SimpleFormSection from "../../globalsubcomponentes/SimpleFormSection";
 import imageManagerVida from "../bancodeimagens/BancoDeImagensVida";
@@ -12,20 +12,16 @@ export default function FormBannerVida() {
 
   const handleSubmit = (form) => {
     console.log("Submit Form:", form);
-    var { email, name, phone } = form;
-
+    let { email, name, phone } = form;
     phone = phone.replace(".", "");
 
-    var storage = localStorage.getItem("formData");
-
+    let storage = localStorage.getItem("formData");
     try {
       storage = JSON.parse(storage) || {};
     } catch (e) {
       storage = {};
     }
-
     storage = { ...storage, name, email, phone };
-
     localStorage.setItem("formData", JSON.stringify(storage));
 
     window.location.href = "/cotacao-vida-sulamerica";
@@ -51,6 +47,7 @@ export default function FormBannerVida() {
         formData={formData}
         setFormData={setFormData}
         submit={handleSubmit}
+        showToast={true}  // Ativa a exibição do toast em caso de validação falha
       />
     </section>
   );

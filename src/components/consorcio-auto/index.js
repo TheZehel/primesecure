@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet";
 
-//Componentes
+// Componentes
 import FormConsorcioAuto from "./components/FormConsorcioAuto";
 import Assistance from "./components/Assistances";
 import Investment from "./components/Investment";
@@ -10,15 +10,20 @@ import CenteredImage from "./components/Table";
 import GridImages from "./components/GridImages";
 import BannerPromo from "./components/Banners";
 
+// Importe o ToastContainer e os estilos
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function IndexConsorcioAuto() {
   const targetDate = new Date("December 31, 2023 00:00:00");
   return (
     <div>
       <Helmet>
+        {/* <!-- Primary Meta Tags --> */}
         <title>Consórcio Auto Porto | Prime Secure Marketplace</title>
         <meta
           name="description"
-          content=" Consórcio Auto Port Bank, Realize o sonho do carro novo com o consórcio Porto Seguro. "
+          content="Consórcio Auto Port Bank, Realize o sonho do carro novo com o consórcio Porto Seguro."
         />
         <meta
           name="keywords"
@@ -32,7 +37,6 @@ function IndexConsorcioAuto() {
           property="og:description"
           content="Consórcio Auto Port Bank, Realize o sonho do carro novo com o consórcio Porto Seguro."
         />
-
         <meta
           property="og:url"
           content="https://primesecure.com.br/consorcio-imovel"
@@ -49,6 +53,8 @@ function IndexConsorcioAuto() {
       <Contemplados />
       <GridImages />
       <Benefits />
+      {/* ToastContainer para renderizar os toasts */}
+      <ToastContainer />
     </div>
   );
 }
