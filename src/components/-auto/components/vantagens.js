@@ -1,48 +1,30 @@
-import { Check } from 'lucide-react';
+import { Phone, Glasses, Car, Clipboard } from 'lucide-react';
 
 const vantagens = [
   {
     id: 1,
-    titulo: 'Proteção Contra Roubo e Furto',
-    descricao: 'Indenização caso o veículo seja roubado e não recuperado.',
+    titulo: 'Atendimento',
+    descricao: 'Atendimento humanizado.',
+    icon: Phone,
   },
   {
     id: 2,
-    titulo: 'Cobertura para Colisões',
-    descricao: 'Cobre danos ao seu carro em caso de acidente.',
+    titulo: 'Vidros',
+    descricao:
+      'Garantia automática dos vidros básicos (laterais, traseiros e para-brisa).',
+    icon: Glasses,
   },
   {
     id: 3,
-    titulo: 'Danos a Terceiros',
-    descricao:
-      'Indenização para danos materiais e corporais causados a terceiros.',
+    titulo: 'Concessionárias',
+    descricao: 'Concessionárias e oficinas especializadas.',
+    icon: Car,
   },
   {
     id: 4,
-    titulo: 'Cobertura Contra Fenômenos Naturais',
-    descricao: 'Proteção contra enchentes, granizo, quedas de árvores e mais.',
-  },
-  {
-    id: 5,
-    titulo: 'Carro Reserva',
-    descricao:
-      'Disponibilização de um carro extra enquanto o veículo segurado está em reparo.',
-  },
-  {
-    id: 6,
-    titulo: 'Assistência 24h',
-    descricao: 'Socorro mecânico, reboque, troca de pneus e muito mais.',
-  },
-  {
-    id: 7,
-    titulo: 'Seguro para Passageiros',
-    descricao:
-      'Cobertura para despesas médicas e hospitalares dos ocupantes do veículo.',
-  },
-  {
-    id: 8,
-    titulo: 'Facilidade de Pagamento',
-    descricao: 'Parcelamento flexível sem comprometer seu orçamento.',
+    titulo: 'Contratação',
+    descricao: 'Contratação simples.',
+    icon: Clipboard,
   },
 ];
 
@@ -69,27 +51,25 @@ export default function Vantagens() {
           Vantagens Exclusivas
         </h2>
 
-        <div className="flex justify-center">
-          <div className="w-full max-w-3xl">
-            {vantagens.map(({ id, titulo, descricao }) => (
-              <div
-                key={id}
-                className="flex items-start gap-4 p-4 hover:bg-gray-50 rounded-lg transition-colors"
-              >
-                <div className="bg-bluePrime2/10 rounded-full p-2 flex-shrink-0">
-                  <Check className="w-6 h-6 text-bluePrime" />
-                </div>
-                <div className="text-left">
-                  <h3 className="text-lg font-semibold text-grayPrime mb-1">
-                    {titulo}
-                  </h3>
-                  <p className="text-grayPrime text-sm leading-relaxed">
-                    {descricao}
-                  </p>
-                </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {vantagens.map(({ id, titulo, descricao, icon: Icon }) => (
+            <div
+              key={id}
+              className="flex items-start gap-4 p-4 hover:bg-gray-50 rounded-lg transition-colors"
+            >
+              <div className="bg-bluePrime2/10 rounded-full p-2 flex-shrink-0">
+                <Icon className="w-6 h-6 text-bluePrime" />
               </div>
-            ))}
-          </div>
+              <div className="text-left">
+                <h3 className="text-lg font-semibold text-grayPrime mb-1">
+                  {titulo}
+                </h3>
+                <p className="text-grayPrime text-sm leading-relaxed">
+                  {descricao}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

@@ -30,7 +30,8 @@ export default function Superior() {
           </h1>
 
           <p className="text-sm sm:text-lg lg:text-xl mb-6 text-center lg:text-left leading-relaxed">
-            Cobertura completa com preços que cabem no seu bolso.
+            Seguro para clientes únicos com veículos a partir de R$ 220 mil
+            reais.
             <br /> Solicite uma cotação gratuita hoje mesmo!
           </p>
 

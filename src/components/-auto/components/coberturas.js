@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -7,96 +7,82 @@ import { Pagination, Autoplay } from 'swiper/modules';
 const coberturas = [
   {
     id: 1,
-    titulo: 'Colisão, Batidas e Acidentes',
-    descricao: 'Cobre danos ao seu veículo em caso de colisão.',
+    titulo: 'Compreensiva',
+    descricao:
+      'Cobertura ampla que protege contra diversos riscos, como colisões, incêndios, roubos, furtos e outros danos acidentais, oferecendo tranquilidade completa ao segurado.',
     imageUrl:
       'https://storage.googleapis.com/primesecure/seguro-auto/colisao.png',
   },
   {
     id: 2,
-    titulo: 'Roubo e Furto',
-    descricao: 'Indenização caso o veículo seja roubado e não recuperado.',
+    titulo: 'Incêndio e roubo',
+    descricao: 'Protege o veículo contra danos causados por incêndio e roubo',
     imageUrl:
       'https://storage.googleapis.com/primesecure/seguro-auto/roubo.png',
   },
   {
-    id: 3,
-    titulo: 'Danos a Terceiros',
+    id: 9,
+    titulo: 'Indenização por roubo e/ou furto',
     descricao:
-      'Indenização para danos materiais e corporais causados a terceiros.',
-    imageUrl:
-      'https://storage.googleapis.com/primesecure/seguro-auto/danos.png',
-  },
-  {
-    id: 4,
-    titulo: 'Fenômenos Naturais',
-    descricao: 'Proteção contra enchentes, granizo, quedas de árvores e mais.',
-    imageUrl:
-      'https://storage.googleapis.com/primesecure/seguro-auto/fenomeno.png',
-  },
-  {
-    id: 5,
-    titulo: 'Incêndio e Explosão',
-    descricao: 'Cobertura contra incêndios e explosões acidentais.',
-    imageUrl:
-      'https://storage.googleapis.com/primesecure/seguro-auto/incendio.png',
-  },
-  {
-    id: 6,
-    titulo: 'Carro Reserva',
-    descricao:
-      'Disponibilização de um carro extra enquanto o veículo segurado está em reparo.',
-    imageUrl:
-      'https://storage.googleapis.com/primesecure/seguro-auto/reserva.png',
-  },
-  {
-    id: 7,
-    titulo: 'Assistência 24h',
-    descricao: 'Socorro mecânico, reboque, troca de pneus e muito mais.',
-    imageUrl:
-      'https://storage.googleapis.com/primesecure/seguro-auto/mecanico.png',
-  },
-  {
-    id: 8,
-    titulo: 'Seguro para Passageiros',
-    descricao:
-      'Cobertura para despesas médicas e hospitalares dos ocupantes do veículo.',
+      'Combina diversas proteções, cobrindo não só roubos e furtos, mas também colisões',
     imageUrl:
       'https://storage.googleapis.com/primesecure/seguro-auto/seguro.png',
   },
   {
-    id: 9,
-    titulo: 'Vidros, Faróis e Retrovisores',
+    id: 5,
+    titulo: 'Incêndio',
     descricao:
-      'Troca ou reparo de vidros, faróis e retrovisores em caso de danos.',
+      'Foca na proteção contra danos decorrentes de incêndios, assegurando que o veículo seja reparado ou substituído em caso de sinistro.',
     imageUrl:
-      'https://storage.googleapis.com/primesecure/seguro-auto/vidros.png',
+      'https://storage.googleapis.com/primesecure/seguro-auto/incendio.png',
+  },
+  {
+    id: 8,
+    titulo: 'Indenização integral por roubo e/ou furto',
+    descricao:
+      'Oferece cobertura que garante o valor total do veículo em caso de roubo ou furto',
+    imageUrl:
+      'https://storage.googleapis.com/primesecure/seguro-auto/seguro.png',
   },
   {
     id: 10,
-    titulo: 'Atos de Vandalismo',
-    descricao: 'Indenização em caso de depredação do veículo.',
+    titulo: 'Responsabilidade civil facultativa de veículos – RCFV',
+    descricao:
+      'Cobre danos materiais e corporais causados a terceiros em decorrência de acidentes com o veículo.',
     imageUrl:
       'https://storage.googleapis.com/primesecure/seguro-auto/vandalismo.png',
   },
 ];
 
 const Coberturas = () => {
+  const swiperRef = useRef(null);
+
   return (
     <>
-      {/* Bloco de estilo para reposicionar a paginação */}
+      {/* Estilização para reposicionar a paginação */}
       <style>{`
         .swiper-pagination {
           bottom: -20px !important;
         }
       `}</style>
+
       <div className="container mx-auto px-4 py-12">
-        <h2 className="text-grayPrime text-xl sm:text-4xl text-center mb-12">
-          Nossas Coberturas
+        <h1 className="text-bluePrime text-xl sm:text-4xl text-center">
+          Conheça as nossas principais coberturas
+        </h1>
+      </div>
+
+      <div className="container mx-auto px-4 py-12">
+        <h2 className="text-grayPrime text-base sm:text-4xl text-center mb-12">
+          Coberturas Básicas
         </h2>
 
-        <div className="max-w-6xl mx-auto">
+        {/* Container relativo para posicionar os botões de navegação */}
+        <div className="relative max-w-6xl mx-auto">
           <Swiper
+            onSwiper={(swiper) => {
+              swiperRef.current = swiper;
+            }}
             modules={[Pagination, Autoplay]}
             spaceBetween={24}
             slidesPerView={1}
@@ -109,21 +95,15 @@ const Coberturas = () => {
               disableOnInteraction: false,
             }}
             breakpoints={{
-              640: {
-                slidesPerView: 2,
-              },
-              768: {
-                slidesPerView: 3,
-              },
-              1024: {
-                slidesPerView: 4,
-              },
+              640: { slidesPerView: 2 },
+              768: { slidesPerView: 3 },
+              1024: { slidesPerView: 4 },
             }}
             className="py-8"
           >
             {coberturas.map(({ id, titulo, descricao, imageUrl }) => (
               <SwiperSlide key={id} className="h-auto">
-                <div className="bg-white rounded-lg shadow-lg h-80 flex flex-col transition-transform hover:scale-105 overflow-hidden border border-bluePrime">
+                <div className="bg-white rounded-lg shadow-lg h-80 flex flex-col transition-transform hover:scale-105 overflow-hidden border border-bluePrime cursor-grab active:cursor-grabbing">
                   {/* Imagem ocupando a parte superior */}
                   <img
                     src={imageUrl}
@@ -143,6 +123,46 @@ const Coberturas = () => {
               </SwiperSlide>
             ))}
           </Swiper>
+
+          {/* Botões de navegação customizados, responsivos */}
+          <button
+            onClick={() => swiperRef.current?.slidePrev()}
+            className="absolute left-2 sm:left-[-50px] top-1/2 transform -translate-y-1/2 bg-bluePrime2 text-white rounded-full p-3 hover:bg-bluePrime transition-colors z-10"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-6 h-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </button>
+          <button
+            onClick={() => swiperRef.current?.slideNext()}
+            className="absolute right-2 sm:right-[-50px] top-1/2 transform -translate-y-1/2 bg-bluePrime2 text-white rounded-full p-3 hover:bg-bluePrime transition-colors z-10"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-6 h-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
         </div>
       </div>
     </>
