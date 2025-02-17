@@ -34,6 +34,7 @@ import {
   faPhoneSlash,
   faPhoneAlt,
   faMobilePhone,
+  faCarCrash,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -97,6 +98,13 @@ const products = [
     href: '/seguro-de-vida',
     icon: FontAwesomeIcon,
     iconProps: { icon: faHeart },
+  },
+  {
+    name: 'Seguro Auto',
+    description: 'Planos de Proteção Para o Seu Veículo',
+    href: '/seguro-auto',
+    icon: FontAwesomeIcon,
+    iconProps: { icon: faCarCrash },
   },
   {
     name: 'Celular',
