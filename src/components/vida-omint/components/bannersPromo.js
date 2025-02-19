@@ -7,7 +7,7 @@ import 'swiper/css/navigation';
 
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 
-export default function BannerPromo() {
+export default function BannersPromos() {
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
 
   const progressCircle = useRef(null);
@@ -33,11 +33,11 @@ export default function BannerPromo() {
     {
       id: 1,
       srcLarge:
-        'https://storage.googleapis.com/primesecure/banners/banners-carnaval-25/produtos/pet/srclarge-25-carnaval-pet.png',
+        'https://storage.googleapis.com/primesecure/banners/banners-carnaval-25/produtos/vida/srclarge-25-carnaval-vida.png',
       srcMedium:
-        'https://storage.googleapis.com/primesecure/banners/banners-carnaval-25/produtos/pet/srcmedium-25-carnaval-pet.png',
+        'https://storage.googleapis.com/primesecure/banners/banners-carnaval-25/produtos/vida/srcmedium-25-carnaval-vida.png',
       srcMobile:
-        'https://storage.googleapis.com/primesecure/banners/banners-carnaval-25/produtos/pet/srcmobile-25-carnaval-pet.png',
+        'https://storage.googleapis.com/primesecure/banners/banners-carnaval-25/produtos/vida/srcmobile-25-carnaval-vida.png',
       alt: 'Banner de Natal para Telas Grandes',
       href: '',
     },

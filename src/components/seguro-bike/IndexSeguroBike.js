@@ -1,23 +1,23 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router';
 
-import Assistance from "./components/Assistance";
-import FormSeguroBikeBanner from "./components/FormSeguroBikeBanner";
-import NoBureaucracy from "./components/NoBureaucracy";
-import Plans from "./components/Plans";
-import Faq from "./components/Faq";
-import Virtual from "./components/Virtual";
-import Benefits from "./components/Benefits";
-import Advantages from "./components/Advantages";
-import CustomeFooter from "./cotacao-seguro-bike/components/subcomponents/CustomFooter";
-import BannerPromoBike from "./components/BannersPromoBike";
+import Assistance from './components/Assistance';
+import FormSeguroBikeBanner from './components/FormSeguroBikeBanner';
+import NoBureaucracy from './components/NoBureaucracy';
+import Plans from './components/Plans';
+import Faq from './components/Faq';
+import Virtual from './components/Virtual';
+import Benefits from './components/Benefits';
+import Advantages from './components/Advantages';
+import CustomeFooter from './cotacao-seguro-bike/components/subcomponents/CustomFooter';
+import BannerPromoBike from './components/BannersPromoBike';
 
 export default function IndexSeguroBike() {
   const [lastStep, setLastStep] = useState(0);
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
+    name: '',
+    email: '',
+    phone: '',
   });
 
   const navigate = useNavigate();
@@ -28,14 +28,14 @@ export default function IndexSeguroBike() {
       ...data,
     };
 
-    console.log("Enviando Formulário:", form);
+    console.log('Enviando Formulário:', form);
 
-    var sessionData = sessionStorage.getItem("formBikeData");
+    var sessionData = sessionStorage.getItem('formBikeData');
 
     try {
       sessionData = JSON.parse(sessionData);
     } catch (error) {
-      console.error("Session Error:", error);
+      console.error('Session Error:', error);
       sessionData = {};
     }
 
@@ -61,11 +61,11 @@ export default function IndexSeguroBike() {
       userData: userData,
     };
 
-    sessionStorage.setItem("formBikeData", JSON.stringify(sessionData));
+    sessionStorage.setItem('formBikeData', JSON.stringify(sessionData));
 
     setFormData(form);
 
-    navigate("/seguro-bike/cotacao");
+    navigate('/seguro-bike/cotacao');
   };
 
   return (
