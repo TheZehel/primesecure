@@ -14,7 +14,7 @@ import BannerPromoPhoneKakau from './components/BannerPromoPhoneKakau';
 export default function IndexSeguroCelularKakau() {
   return (
     <div>
-      {/* <BannerPromoPhoneKakau /> */}
+      <BannerPromoPhoneKakau />
       <FormSeguroCelularKakau
         callback={(data) => {
           SVGAnimatedTransformList({ ...data });

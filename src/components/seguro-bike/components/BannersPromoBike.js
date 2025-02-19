@@ -32,9 +32,12 @@ export default function BannerPromoBike() {
   const banners = [
     {
       id: 1,
-      srcLarge: '',
-      srcMedium: '',
-      srcMobile: '',
+      srcLarge:
+        'https://storage.googleapis.com/primesecure/banners/banners-carnaval-25/produtos/bike/srclarge-25-carnaval-bike.png',
+      srcMedium:
+        'https://storage.googleapis.com/primesecure/banners/banners-carnaval-25/produtos/bike/srcmedium-25-carnaval-bike.png',
+      srcMobile:
+        'https://storage.googleapis.com/primesecure/banners/banners-carnaval-25/produtos/bike/srcmobile-25-carnaval-bike.png',
       alt: 'Banner de Natal para Telas Grandess',
       href: '',
     },
