@@ -70,7 +70,7 @@ export default function IndexSeguroBike() {
 
   return (
     <div>
-      {/* <BannerPromoBike /> */}
+      <BannerPromoBike />
       <FormSeguroBikeBanner
         callback={(data) => {
           sendForm({ ...data });

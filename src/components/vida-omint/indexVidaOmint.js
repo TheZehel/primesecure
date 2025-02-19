@@ -7,10 +7,12 @@ import NamuSection from '../seguro-de-vida/components/subcomponents/namu';
 import FaqOmint from './components/faq';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import BannersPromos from './components/bannersPromo';
 
 export default function IndexVidaOmint() {
   return (
     <div>
+      <BannersPromos />
       <Superior />
 
       <div>
@@ -19,9 +21,12 @@ export default function IndexVidaOmint() {
           Para você
         </h1>
         <p className="font-light max-w-4xl text-gray-500 text-center mx-auto pb-10 px-4 sm:px-6">
-          A base de um bom planejamento financeiro está na proteção do seu patrimônio. Na hora de compor uma rentável carteira de investimentos,
-          lembre-se de escolher o melhor em Seguro de Vida. Nós da Omint preparamos uma série de diferenciais para você incluir nos seus planos
-          o amparo que a sua família precisa em uma trajetória de acumulação tranquila, independentemente dos seus objetivos.
+          A base de um bom planejamento financeiro está na proteção do seu
+          patrimônio. Na hora de compor uma rentável carteira de investimentos,
+          lembre-se de escolher o melhor em Seguro de Vida. Nós da Omint
+          preparamos uma série de diferenciais para você incluir nos seus planos
+          o amparo que a sua família precisa em uma trajetória de acumulação
+          tranquila, independentemente dos seus objetivos.
         </p>
 
         {/* Grid de cards */}
@@ -37,7 +42,8 @@ export default function IndexVidaOmint() {
             </h2>
             <hr className="border-gray-300 my-2" />
             <p className="text-sm text-gray-600 text-justify">
-              Amparo financeiro para projetos pessoais, educação e manutenção do padrão de vida.
+              Amparo financeiro para projetos pessoais, educação e manutenção do
+              padrão de vida.
             </p>
           </div>
 
@@ -49,7 +55,8 @@ export default function IndexVidaOmint() {
             </h2>
             <hr className="border-gray-300 my-2" />
             <p className="text-sm text-gray-600 text-justify">
-              Ativo essencial para estruturar investimentos, gerir riscos e proteger recursos acumulados.
+              Ativo essencial para estruturar investimentos, gerir riscos e
+              proteger recursos acumulados.
             </p>
           </div>
 
@@ -61,7 +68,8 @@ export default function IndexVidaOmint() {
             </h2>
             <hr className="border-gray-300 my-2" />
             <p className="text-sm text-gray-600 text-justify">
-              Recursos isentos de impostos, garantindo liquidez e liberdade na escolha de beneficiários.
+              Recursos isentos de impostos, garantindo liquidez e liberdade na
+              escolha de beneficiários.
             </p>
           </div>
         </div>

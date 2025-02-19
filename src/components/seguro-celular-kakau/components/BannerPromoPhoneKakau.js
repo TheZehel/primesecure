@@ -32,9 +32,12 @@ export default function BannerPromoPhoneKakau() {
   const banners = [
     {
       id: 1,
-      srcLarge: '',
-      srcMedium: '',
-      srcMobile: '',
+      srcLarge:
+        'https://storage.googleapis.com/primesecure/banners/banners-carnaval-25/produtos/celular-kakau/srclarge-25-carnaval-cellkakau.png',
+      srcMedium:
+        'https://storage.googleapis.com/primesecure/banners/banners-carnaval-25/produtos/celular-kakau/srcmedium-25-carnaval-cellkakau.png',
+      srcMobile:
+        'https://storage.googleapis.com/primesecure/banners/banners-carnaval-25/produtos/celular-kakau/srcmobile-25-carnaval-cellkakau.png',
       alt: 'Banner de Natal para Telas Grandess',
       href: '',
     },
