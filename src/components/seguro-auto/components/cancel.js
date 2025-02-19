@@ -35,7 +35,7 @@ export default function Cancel() {
                 className="text-primary w-6 h-6 text-white"
               />
               <p className="text-lg text-start font-normal text-white  py-4">
-                Temos mais de 96% de avaliação positiva nos atendimentos
+                Temos mais de 98% de avaliação positiva nos atendimentos
                 realizados.
               </p>
             </div>
@@ -45,7 +45,7 @@ export default function Cancel() {
                 className="text-primary w-6 h-6 text-white"
               />
               <p className="text-lg font-normal text-white text-justify py-4">
-                Economize até 80% com gastos veterinários.
+                Economize com gastos do seu automóvel da melhor forma.
               </p>
             </div>
           </div>

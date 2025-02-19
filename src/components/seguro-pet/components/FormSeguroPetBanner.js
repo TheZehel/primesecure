@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import BannerSection from "../../globalsubcomponentes/BannerSection";
-import SimpleFormSection from "../../globalsubcomponentes/SimpleFormSection";
-import imageManagerSeguroPet from "../bancodeimagens/BancoDeImagensSeguroPet";
-import { ToastContainer, toast } from "react-toastify"; // importe o ToastContainer e o toast
-import "react-toastify/dist/ReactToastify.css"; // importe os estilos do toast
+import React, { useState } from 'react';
+import BannerSection from '../../globalsubcomponentes/BannerSection';
+import SimpleFormSection from '../../globalsubcomponentes/SimpleFormSection';
+import imageManagerSeguroPet from '../bancodeimagens/BancoDeImagensSeguroPet';
+import { ToastContainer, toast } from 'react-toastify'; // importe o ToastContainer e o toast
+import 'react-toastify/dist/ReactToastify.css'; // importe os estilos do toast
 
 export default function FormSeguroPetBanner({ callback }) {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    utm_source: "",
-    utm_medium: "",
-    utm_campaign: "",
+    name: '',
+    email: '',
+    phone: '',
+    utm_source: '',
+    utm_medium: '',
+    utm_campaign: '',
   });
 
   const getFormData = (data) => {
@@ -23,16 +23,16 @@ export default function FormSeguroPetBanner({ callback }) {
     callback(data);
   };
 
-  console.log("Seguro Pet:", formData);
+  console.log('Seguro Pet:', formData);
 
   return (
     <section
       className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center justify-center p-2"
       style={{
         backgroundImage: `url(${imageManagerSeguroPet.banners.BannerSeguroPet})`,
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
       }}
     >
       <BannerSection
