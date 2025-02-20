@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useRef } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { useNavigate } from 'react-router-dom';
 // Import Swiper styles
-import "swiper/css/pagination";
-import "swiper/css/navigation";
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 
 export default function BannerPromo() {
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
@@ -13,7 +13,7 @@ export default function BannerPromo() {
   const progressCircle = useRef(null);
   const progressContent = useRef(null);
   const onAutoplayTimeLeft = (s, time, progress) => {
-    progressCircle.current.style.setProperty("--progress", 1 - progress);
+    progressCircle.current.style.setProperty('--progress', 1 - progress);
     progressContent.current.textContent = `${Math.ceil(time / 1000)}s`;
   };
 
@@ -22,10 +22,10 @@ export default function BannerPromo() {
       setViewportWidth(window.innerWidth);
     };
 
-    window.addEventListener("resize", updateScreenWidth);
+    window.addEventListener('resize', updateScreenWidth);
 
     return () => {
-      window.removeEventListener("resize", updateScreenWidth);
+      window.removeEventListener('resize', updateScreenWidth);
     };
   }, []);
 
@@ -33,13 +33,13 @@ export default function BannerPromo() {
     {
       id: 1,
       srcLarge:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-lp/pet/srclarge-ver%C3%A3o-2025-seguro-pet.png",
+        'https://storage.googleapis.com/primesecure/banners/banners-carnaval-25/produtos/pet/srclarge-25-carnaval-pet.png',
       srcMedium:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-lp/pet/srcmedium-ver%C3%A3o-2025-seguro-pet.png",
+        'https://storage.googleapis.com/primesecure/banners/banners-carnaval-25/produtos/pet/srcmedium-25-carnaval-pet.png',
       srcMobile:
-        "https://storage.googleapis.com/primesecure/janeiro-2025/banners-lp/pet/srcmobile-ver%C3%A3o-2025-seguro-pet.png",
-      alt: "Banner de Natal para Telas Grandes",
-      href: "",
+        'https://storage.googleapis.com/primesecure/banners/banners-carnaval-25/produtos/pet/srcmobile-25-carnaval-pet.png',
+      alt: 'Banner de Natal para Telas Grandes',
+      href: '',
     },
 
     // Adicione mais banners aqui conforme necessário
@@ -67,8 +67,8 @@ export default function BannerPromo() {
                 viewportWidth >= 1500
                   ? banner.srcLarge
                   : viewportWidth >= 1024
-                    ? banner.srcMedium
-                    : banner.srcMobile
+                  ? banner.srcMedium
+                  : banner.srcMobile
               }
               alt={banner.alt}
               className="h-full w-full cursor-pointer mb-[33px] rounded-xl"

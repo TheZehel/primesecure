@@ -33,11 +33,11 @@ export default function BannerPromo() {
     {
       id: 1,
       srcLarge:
-        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-lp/primetravel/srclarge-ver%C3%A3o-2025-seguro-viagem.png',
+        'https://storage.googleapis.com/primesecure/banners/banners-carnaval-25/produtos/primetravel/srclarge-25-carnaval-viagem.png',
       srcMedium:
-        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-lp/primetravel/srcmedium-ver%C3%A3o-2025-seguro-viagem.png',
+        'https://storage.googleapis.com/primesecure/banners/banners-carnaval-25/produtos/primetravel/srcmedium-25-carnaval-viagem.png',
       srcMobile:
-        'https://storage.googleapis.com/primesecure/janeiro-2025/banners-lp/primetravel/srcmobile-ver%C3%A3o-2025-seguro-viagem.png',
+        'https://storage.googleapis.com/primesecure/banners/banners-carnaval-25/produtos/primetravel/srcmobile-25-carnaval-viagem.png',
       alt: 'Banner de Natal para Telas Grandes',
       href: '',
     },

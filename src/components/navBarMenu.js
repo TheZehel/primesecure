@@ -34,6 +34,7 @@ import {
   faPhoneSlash,
   faPhoneAlt,
   faMobilePhone,
+  faCarCrash,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -98,6 +99,13 @@ const products = [
     icon: FontAwesomeIcon,
     iconProps: { icon: faHeart },
   },
+  // {
+  //   name: 'Seguro Auto',
+  //   description: 'Planos de Proteção Para o Seu Veículo',
+  //   href: '/seguro-auto',
+  //   icon: FontAwesomeIcon,
+  //   iconProps: { icon: faCarCrash },
+  // },
   {
     name: 'Celular',
     description: 'Planos de Proteção Para o Seu Celular',
@@ -568,17 +576,40 @@ function NavBarMenu() {
                         />
                       </Disclosure.Button>
                       <Disclosure.Panel className="mt-2 space-y-2">
-                        {[...productList, ...callsToAction].map((item) =>
-                          item.href.startsWith('/') ? (
-                            <Link
-                              to={item.href}
-                              key={item.name}
-                              className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                              onClick={() => setMobileMenuOpen(false)}
-                            >
-                              {item.name}
-                            </Link>
-                          ) : (
+                        {[...productList, ...callsToAction].map((item) => {
+                          // Se for link interno (começa com '/'), utiliza o componente Link do React Router
+                          if (item.href.startsWith('/')) {
+                            return (
+                              <Link
+                                to={item.href}
+                                key={item.name}
+                                className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                                onClick={() => setMobileMenuOpen(false)}
+                              >
+                                {item.name}
+                              </Link>
+                            );
+                          }
+                          // Se for link externo (começa com 'http://' ou 'https://'), renderiza uma tag <a>
+                          else if (
+                            item.href.startsWith('http://') ||
+                            item.href.startsWith('https://')
+                          ) {
+                            return (
+                              <a
+                                key={item.name}
+                                href={item.href}
+                                target="_blank" // ou "_self", se preferir abrir na mesma aba
+                                rel="noopener noreferrer"
+                                className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                                onClick={() => setMobileMenuOpen(false)}
+                              >
+                                {item.name}
+                              </a>
+                            );
+                          }
+                          // Caso não se enquadre nos anteriores, utiliza o LinkScroller (para links de âncora interna, por exemplo)
+                          return (
                             <LinkScroller
                               key={item.name}
                               to={item.href.substring(1)}
@@ -594,8 +625,8 @@ function NavBarMenu() {
                             >
                               {item.name}
                             </LinkScroller>
-                          ),
-                        )}
+                          );
+                        })}
                       </Disclosure.Panel>
                     </>
                   )}

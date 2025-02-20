@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 //Seo
 import { Helmet } from 'react-helmet';
 
@@ -97,7 +98,7 @@ const plans = [
     award: '',
     resume: '',
     resumeDesc: '',
-    features: [], // Inicialize como um array vazio
+    features: [],
     bgColor: 'bluePrime',
     textColor: 'white',
     planId: 0,
@@ -135,7 +136,7 @@ const plans = [
     award: 'Sorteio de R$20.000,00',
     resume: 'Detalhes:',
     resumeDesc:
-      'Assistência Pessoal + App Namu + Faz tudo (Assistência Residencial) + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar + Rede Saúde Familiar.',
+      'Assistência Pessoal + Assistência Residencial + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar.',
     //"Assistência pessoal + residencial + dezenas de serviços Desconto em farmácia + funeral familiar + Médico na Tela Familiar.",
     features: [
       {
@@ -206,23 +207,6 @@ const plans = [
     bgColor: 'bluePrime',
     textColor: 'white',
     planId: 4,
-  },
-  {
-    headTitle: 'PRIME DIAMOND',
-    title: 'Pacote 5',
-    price: '160,20', //"65,31",
-    award: 'Sorteio de R$20.000,00',
-    resume: 'Detalhes:',
-    resumeDesc:
-      'Assistência Pessoal + App Namu + Faz tudo (Assistência Residencial) + Desconto Farmácia + Funeral Familiar + Médico na Tela Familiar + Rede Saúde Familiar.',
-    features: [
-      'Morte Acidental - 500 mil',
-      'Invalidez Permanente Total por Acidente - 500 mil',
-      'Funeral Familiar Até 10 mil',
-    ],
-    bgColor: 'bluePrime',
-    textColor: 'white',
-    planId: 6,
   },
 ];
 
@@ -794,13 +778,9 @@ function InvoicePaymentVida() {
     cycle: invoice.cycle ? invoice.cycle.cycle : '',
   };
 
-  //   let plan = { ...plans[0] };
-  //   if (document && document.plan && document.plan.id !== undefined)
-  //     plan = { ...plans[document.plan.id] };
-
-  const plan = plans.find((p) => p.planId === document.plan?.id) || plans[0];
-
-  console.log('Plan Features:', plan.features);
+  let plan = { ...plans[0] };
+  if (document && document.plan && document.plan.id)
+    plan = { ...plans[document.plan.id] };
 
   try {
     if (invoiceData.date) {
@@ -921,26 +901,25 @@ function InvoicePaymentVida() {
                       Detalhes:
                     </div>
                     <div className="text-[10px] sm:text-[11px">
-                      {Array.isArray(plan.features) &&
-                        plan.features.map((feature, idx) => {
-                          return (
+                      {plan.features.map((feature, idx) => {
+                        return (
+                          <div
+                            key={idx}
+                            className={`flex items-center justify-between py-[1px] px-[5px] bg-[#313131]/5 rounded-lg mb-[8px] flex`}
+                          >
                             <div
-                              key={idx}
-                              className={`flex items-center justify-between py-[1px] px-[5px] bg-[#313131]/5 rounded-lg mb-[8px] flex`}
+                              className={`text-left text-grayPrime font-medium py-[3px] px-[8px] flex font-semibold w-full`}
                             >
-                              <div
-                                className={`text-left text-grayPrime font-medium py-[3px] px-[8px] flex font-semibold w-full`}
-                              >
-                                <div className="w-max my-auto opacity-80]">
-                                  {feature.label}
-                                </div>
-                                <div className="w-fit my-auto ml-auto text-right break-keep opacity-80">
-                                  {feature.value}
-                                </div>
+                              <div className="w-max my-auto opacity-80]">
+                                {feature.label}
+                              </div>
+                              <div className="w-fit my-auto ml-auto text-right break-keep opacity-80">
+                                {feature.value}
                               </div>
                             </div>
-                          );
-                        })}
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                   <div className="text-left mt-3 mx-1">
