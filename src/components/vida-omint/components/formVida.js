@@ -117,14 +117,15 @@ export default function FormVidaOmint() {
   };
 
   const handleButtonClick = async () => {
-    // Se a validação falhar, exibe o toast e interrompe a execução
+    // Se a validação falhar, exibe o toast, toca som de erro e interrompe a execução
     if (!validateForm()) {
       toast.error('Preencha todos os dados para continuar');
 
-      // Toca o som de erro
+      // Toca o som de erro com volume definido para 20%
       const errorAudio = new Audio(
         'https://storage.googleapis.com/primesecure/audios-site/mixkit-wrong-electricity-buzz-955.wav',
       );
+      errorAudio.volume = 0.2;
       errorAudio.play();
 
       return;
@@ -174,10 +175,11 @@ export default function FormVidaOmint() {
       );
       console.log('Backend Response:', responseBackend);
 
-      // Toca o som de sucesso
+      // Toca o som de sucesso com volume definido para 20%
       const successAudio = new Audio(
         'https://storage.googleapis.com/primesecure/audios-site/mixkit-fantasy-game-success-notification-270.wav',
       );
+      successAudio.volume = 0.1;
       successAudio.play();
 
       sessionStorage.setItem('formData', JSON.stringify(formData));
@@ -195,10 +197,11 @@ export default function FormVidaOmint() {
         toast.error('Ocorreu um erro, tente novamente.');
       }
 
-      // Toca o som de erro
+      // Toca o som de erro com volume definido para 20%
       const errorAudio = new Audio(
         'https://storage.googleapis.com/primesecure/audios-site/mixkit-wrong-electricity-buzz-955.wav',
       );
+      errorAudio.volume = 0.1;
       errorAudio.play();
     } finally {
       setIsLoading(false);
