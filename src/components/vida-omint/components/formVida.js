@@ -17,7 +17,10 @@ const ocupationOptions = [
   { value: 'Administrador de Empresa', label: 'Administrador de Empresa' },
   { value: 'Estudante Universitário', label: 'Estudante Universitário' },
   { value: 'Dona de casa', label: 'Dona de casa' },
-  { value: 'Empresário e Prodt.Espetáculo', label: 'Empresário e Prodt.Espetáculo' },
+  {
+    value: 'Empresário e Prodt.Espetáculo',
+    label: 'Empresário e Prodt.Espetáculo',
+  },
   { value: 'Corretores de seguros', label: 'Corretores de seguros' },
   { value: 'Comerciante/Comerciario', label: 'Comerciante/Comerciario' },
   { value: 'Médico', label: 'Médico' },
@@ -74,13 +77,22 @@ export default function FormVidaOmint() {
   };
 
   const validateForm = () => {
-    const { name, email, phone, dataNascimento, ocupation, incomeRange, gender } = formData;
+    const {
+      name,
+      email,
+      phone,
+      dataNascimento,
+      ocupation,
+      incomeRange,
+      gender,
+    } = formData;
     let newErrors = {};
 
     if (!name) newErrors.name = 'Nome é obrigatório.';
     if (!email) newErrors.email = 'Email é obrigatório.';
     if (!phone) newErrors.phone = 'Telefone é obrigatório.';
-    if (!dataNascimento) newErrors.dataNascimento = 'Data de nascimento é obrigatória.';
+    if (!dataNascimento)
+      newErrors.dataNascimento = 'Data de nascimento é obrigatória.';
     if (!ocupation) newErrors.ocupation = 'Ocupação é obrigatória.';
     if (!incomeRange) newErrors.incomeRange = 'Faixa de renda é obrigatória.';
     if (!gender) newErrors.gender = 'Sexo é obrigatório.';
@@ -107,7 +119,14 @@ export default function FormVidaOmint() {
   const handleButtonClick = async () => {
     // Se a validação falhar, exibe o toast e interrompe a execução
     if (!validateForm()) {
-      toast.error("Preencha todos os dados para continuar");
+      toast.error('Preencha todos os dados para continuar');
+
+      // Toca o som de erro
+      const errorAudio = new Audio(
+        'https://storage.googleapis.com/primesecure/audios-site/mixkit-wrong-electricity-buzz-955.wav',
+      );
+      errorAudio.play();
+
       return;
     }
 
@@ -155,11 +174,32 @@ export default function FormVidaOmint() {
       );
       console.log('Backend Response:', responseBackend);
 
+      // Toca o som de sucesso
+      const successAudio = new Audio(
+        'https://storage.googleapis.com/primesecure/audios-site/mixkit-fantasy-game-success-notification-270.wav',
+      );
+      successAudio.play();
+
       sessionStorage.setItem('formData', JSON.stringify(formData));
       navigateBasedOnPath();
     } catch (error) {
-      console.error('Error in RD Station or Backend:', error);
-      toast.error("Ocorreu um erro, tente novamente.");
+      console.error('Erro na comunicação com RD Station ou Backend:', error);
+
+      // Se houver uma resposta da API, exibe o erro específico
+      if (error.response) {
+        console.error('Detalhes do erro:', error.response.data);
+        toast.error(
+          `Erro: ${error.response.data.message || 'Falha na requisição'}`,
+        );
+      } else {
+        toast.error('Ocorreu um erro, tente novamente.');
+      }
+
+      // Toca o som de erro
+      const errorAudio = new Audio(
+        'https://storage.googleapis.com/primesecure/audios-site/mixkit-wrong-electricity-buzz-955.wav',
+      );
+      errorAudio.play();
     } finally {
       setIsLoading(false);
     }
@@ -174,14 +214,19 @@ export default function FormVidaOmint() {
           handleButtonClick();
         }}
       >
-        <h2 className="text-xl font-bold mb-2 text-grayPrime text-center">Faça Sua Cotação</h2>
+        <h2 className="text-xl font-bold mb-2 text-grayPrime text-center">
+          Faça Sua Cotação
+        </h2>
         <p className="text-sm mb-4 text-gray-600 text-center">
           Preencha o formulário abaixo para iniciar sua cotação.
         </p>
 
         {/* Nome */}
         <div className="col-span-1">
-          <label htmlFor="name" className="block font-bold text-grayPrime text-sm">
+          <label
+            htmlFor="name"
+            className="block font-bold text-grayPrime text-sm"
+          >
             Nome Completo
           </label>
           <div className="mb-4">
@@ -190,17 +235,23 @@ export default function FormVidaOmint() {
               type="text"
               value={formData.name}
               onChange={inputHandler}
-              className={`w-full mt-1 p-1.5 border rounded-md focus:outline-none focus:ring-2 text-sm ${errors.name ? 'border-red-500' : 'border-gray-300'
-                }`}
+              className={`w-full mt-1 p-1.5 border rounded-md focus:outline-none focus:ring-2 text-sm ${
+                errors.name ? 'border-red-500' : 'border-gray-300'
+              }`}
               placeholder="Seu nome"
             />
-            {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+            {errors.name && (
+              <p className="text-red-500 text-xs mt-1">{errors.name}</p>
+            )}
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-4">
           {/* Data de Nascimento */}
           <div className="col-span-1">
-            <label htmlFor="dataNascimento" className="block text-sm font-bold text-grayPrime">
+            <label
+              htmlFor="dataNascimento"
+              className="block text-sm font-bold text-grayPrime"
+            >
               Data de Nascimento
             </label>
             <div className="mt-1">
@@ -210,19 +261,25 @@ export default function FormVidaOmint() {
                 id="dataNascimento"
                 value={formData.dataNascimento}
                 onChange={inputHandler}
-                className={`w-full mt-1 p-1.5 border rounded-md focus:outline-none focus:ring-2 text-sm ${errors.dataNascimento ? 'border-red-500' : 'border-gray-300'
-                  }`}
+                className={`w-full mt-1 p-1.5 border rounded-md focus:outline-none focus:ring-2 text-sm ${
+                  errors.dataNascimento ? 'border-red-500' : 'border-gray-300'
+                }`}
                 placeholder="Data de nascimento"
               />
               {errors.dataNascimento && (
-                <p className="text-red-500 text-xs mt-1">{errors.dataNascimento}</p>
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.dataNascimento}
+                </p>
               )}
             </div>
           </div>
 
           {/* Email */}
           <div className="col-span-1">
-            <label htmlFor="email" className="block font-bold text-grayPrime text-sm">
+            <label
+              htmlFor="email"
+              className="block font-bold text-grayPrime text-sm"
+            >
               Email
             </label>
             <input
@@ -230,16 +287,22 @@ export default function FormVidaOmint() {
               type="email"
               value={formData.email}
               onChange={inputHandler}
-              className={`w-full mt-1 p-1.5 border rounded-md focus:outline-none focus:ring-2 text-sm ${errors.email ? 'border-red-500' : 'border-gray-300'
-                }`}
+              className={`w-full mt-1 p-1.5 border rounded-md focus:outline-none focus:ring-2 text-sm ${
+                errors.email ? 'border-red-500' : 'border-gray-300'
+              }`}
               placeholder="Seu email"
             />
-            {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+            {errors.email && (
+              <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+            )}
           </div>
 
           {/* Telefone */}
           <div className="col-span-1">
-            <label htmlFor="phone" className="block font-bold text-grayPrime text-sm">
+            <label
+              htmlFor="phone"
+              className="block font-bold text-grayPrime text-sm"
+            >
               Telefone
             </label>
             <InputMask
@@ -247,16 +310,22 @@ export default function FormVidaOmint() {
               id="phone"
               value={formData.phone}
               onChange={inputHandler}
-              className={`w-full mt-1 p-1.5 border rounded-md focus:outline-none focus:ring-2 text-sm ${errors.phone ? 'border-red-500' : 'border-gray-300'
-                }`}
+              className={`w-full mt-1 p-1.5 border rounded-md focus:outline-none focus:ring-2 text-sm ${
+                errors.phone ? 'border-red-500' : 'border-gray-300'
+              }`}
               placeholder="Seu telefone"
             />
-            {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
+            {errors.phone && (
+              <p className="text-red-500 text-xs mt-1">{errors.phone}</p>
+            )}
           </div>
 
           {/* Ocupação */}
           <div className="col-span-1">
-            <label htmlFor="ocupation" className="block font-bold text-grayPrime text-sm">
+            <label
+              htmlFor="ocupation"
+              className="block font-bold text-grayPrime text-sm"
+            >
               Ocupação Atual
             </label>
             <Select
@@ -264,18 +333,24 @@ export default function FormVidaOmint() {
               value={formData.ocupation}
               onChange={handleOcupationChange}
               options={ocupationOptions}
-              className={`w-full mt-1 p-1.5 border rounded-md focus:outline-none focus:ring-2 text-sm ${errors.ocupation ? 'border-red-500' : 'border-white'
-                }`}
+              className={`w-full mt-1 p-1.5 border rounded-md focus:outline-none focus:ring-2 text-sm ${
+                errors.ocupation ? 'border-red-500' : 'border-white'
+              }`}
               placeholder="Sua ocupação"
             />
-            {errors.ocupation && <p className="text-red-500 text-xs mt-1">{errors.ocupation}</p>}
+            {errors.ocupation && (
+              <p className="text-red-500 text-xs mt-1">{errors.ocupation}</p>
+            )}
           </div>
         </div>
 
         {/* Faixa de Renda + Sexo */}
         <div className="grid grid-cols-2 gap-x-3 mt-4">
           <div className="col-span-1">
-            <label htmlFor="incomeRange" className="block font-bold text-grayPrime text-sm">
+            <label
+              htmlFor="incomeRange"
+              className="block font-bold text-grayPrime text-sm"
+            >
               Faixa de Renda
             </label>
             <Select
@@ -283,15 +358,21 @@ export default function FormVidaOmint() {
               value={formData.incomeRange}
               onChange={handleIncomeRangeChange}
               options={incomeRangeOptions}
-              className={`w-full mt-1 p-1.5 border rounded-md focus:outline-none focus:ring-2 text-sm ${errors.incomeRange ? 'border-red-500' : 'border-white'
-                }`}
+              className={`w-full mt-1 p-1.5 border rounded-md focus:outline-none focus:ring-2 text-sm ${
+                errors.incomeRange ? 'border-red-500' : 'border-white'
+              }`}
               placeholder="Sua renda"
             />
-            {errors.incomeRange && <p className="text-red-500 text-xs mt-1">{errors.incomeRange}</p>}
+            {errors.incomeRange && (
+              <p className="text-red-500 text-xs mt-1">{errors.incomeRange}</p>
+            )}
           </div>
 
           <div className="col-span-1">
-            <label htmlFor="gender" className="block font-bold text-grayPrime text-sm">
+            <label
+              htmlFor="gender"
+              className="block font-bold text-grayPrime text-sm"
+            >
               Sexo
             </label>
             <Select
@@ -299,11 +380,14 @@ export default function FormVidaOmint() {
               value={formData.gender}
               onChange={handleGenderChange}
               options={genderOptions}
-              className={`w-full mt-1 p-1.5 border rounded-md focus:outline-none focus:ring-2 text-sm ${errors.gender ? 'border-red-500' : 'border-white'
-                }`}
+              className={`w-full mt-1 p-1.5 border rounded-md focus:outline-none focus:ring-2 text-sm ${
+                errors.gender ? 'border-red-500' : 'border-white'
+              }`}
               placeholder="Seu gênero"
             />
-            {errors.gender && <p className="text-red-500 text-xs mt-1">{errors.gender}</p>}
+            {errors.gender && (
+              <p className="text-red-500 text-xs mt-1">{errors.gender}</p>
+            )}
           </div>
         </div>
 
