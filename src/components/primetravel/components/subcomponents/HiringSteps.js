@@ -33,7 +33,7 @@ export default function StepsHiring() {
   return (
     <div className="mt-[30px] sm:mt-[60px]">
       <div className="text-grayPrime ">
-        <h2 className="text-2xl sm:text-5xl font-bold my-6 mx-2">
+        <h2 className="text-2xl sm:text-2xl font-bold my-6 mx-2">
           São poucas etapas para contratar
         </h2>
       </div>
