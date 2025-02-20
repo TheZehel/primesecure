@@ -915,9 +915,8 @@ export default function PaymentPhone({
         <div className="form bg-[#ffffff] rounded-lg flex flex-col gap-4 w-full md:w-1/2 ">
           <div className="grid gap-1.5">
             <div
-              className={`font-semibold text-bluePrime text-[16px] w-fit ml-[5px] mr-auto cursor-pointer hover:text-bluePrime2 ${
-                displayCoupon ? "" : ""
-              }`}
+              className={`font-semibold text-bluePrime text-[16px] w-fit ml-[5px] mr-auto cursor-pointer hover:text-bluePrime2 ${displayCoupon ? "" : ""
+                }`}
               onClick={() => setDisplayCoupon(!displayCoupon)}
             >
               Tem um cupom de desconto? Clique aqui.

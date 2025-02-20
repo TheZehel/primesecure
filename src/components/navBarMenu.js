@@ -99,13 +99,13 @@ const products = [
     icon: FontAwesomeIcon,
     iconProps: { icon: faHeart },
   },
-  {
-    name: 'Seguro Auto',
-    description: 'Planos de Proteção Para o Seu Veículo',
-    href: '/seguro-auto',
-    icon: FontAwesomeIcon,
-    iconProps: { icon: faCarCrash },
-  },
+  // {
+  //   name: 'Seguro Auto',
+  //   description: 'Planos de Proteção Para o Seu Veículo',
+  //   href: '/seguro-auto',
+  //   icon: FontAwesomeIcon,
+  //   iconProps: { icon: faCarCrash },
+  // },
   {
     name: 'Celular',
     description: 'Planos de Proteção Para o Seu Celular',

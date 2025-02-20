@@ -1,21 +1,21 @@
-import React, { useState } from "react";
-import BannerSection from "../../globalsubcomponentes/BannerSection";
-import SimpleFormSection from "../../globalsubcomponentes/SimpleFormSection";
-import imageManagerSeguroCelular from "../bancodeimagens/BancoDeImagensSeguroCelular";
+import React, { useState } from 'react';
+import BannerSection from '../../globalsubcomponentes/BannerSection';
+import SimpleFormSection from '../../globalsubcomponentes/SimpleFormSection';
+import imageManagerSeguroCelular from '../bancodeimagens/BancoDeImagensSeguroCelular';
 
 export default function FormSeguroCelularBanner() {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    marcaCelular: "",
+    name: '',
+    email: '',
+    phone: '',
+    marcaCelular: '',
   });
 
   // Se necessário, defina a função submit. Exemplo:
   const handleSubmit = (form) => {
     // Aqui você pode tratar os dados ou redirecionar para outra página
-    console.log("Dados enviados:", form);
-    window.location.href = "/cotacao-celular";
+    console.log('Dados enviados:', form);
+    window.location.href = '/cotacao-celular';
   };
 
   return (
@@ -23,9 +23,9 @@ export default function FormSeguroCelularBanner() {
       className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center justify-center p-2"
       style={{
         backgroundImage: `url(${imageManagerSeguroCelular.banners.BannerSeguroCelular})`,
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
       }}
     >
       <BannerSection
@@ -38,7 +38,7 @@ export default function FormSeguroCelularBanner() {
         formData={formData}
         setFormData={setFormData}
         submit={handleSubmit}
-        showToast={true}  // Ativa a exibição do toast em caso de validação falha
+        showToast={true} // Ativa a exibição do toast em caso de validação falha
       />
     </section>
   );

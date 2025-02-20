@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import BannerSection from "../../globalsubcomponentes/BannerSection";
-import SimpleFormSection from "../../globalsubcomponentes/SimpleFormSection";
-import imageManagerSeguroResidencial from "../bancodeimagens/BancoDeImagensResidencial";
+import React, { useState } from 'react';
+import BannerSection from '../../globalsubcomponentes/BannerSection';
+import SimpleFormSection from '../../globalsubcomponentes/SimpleFormSection';
+import imageManagerSeguroResidencial from '../bancodeimagens/BancoDeImagensResidencial';
 //import Form from "./Form";
-import { ToastContainer, toast } from "react-toastify"; // importe o ToastContainer e o toast
-import "react-toastify/dist/ReactToastify.css"; // importe os estilos do toast
+import { ToastContainer, toast } from 'react-toastify'; // importe o ToastContainer e o toast
+import 'react-toastify/dist/ReactToastify.css'; // importe os estilos do toast
 
 export default function FormSeguroResidencialBanner() {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
+    name: '',
+    email: '',
+    phone: '',
   });
 
   return (
@@ -18,9 +18,9 @@ export default function FormSeguroResidencialBanner() {
       className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center justify-center p-2"
       style={{
         backgroundImage: `url(${imageManagerSeguroResidencial.banners.BannerSeguroResidencial})`,
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
       }}
     >
       <BannerSection
