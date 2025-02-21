@@ -28,6 +28,8 @@ import BannerPromos from './components/subcomponents/BannerPromos';
 import StepsHiring from './components/subcomponents/HiringSteps';
 import BannerPromo from './components/subcomponents/BannerPromo';
 import confetti from 'canvas-confetti';
+import { ToastContainer } from 'react-toastify';
+
 
 function IndexTravel() {
   const FaqRef = useRef();
@@ -129,6 +131,7 @@ function IndexTravel() {
       </Helmet>
       {/*<BannerPromos />*/}
       <BannerPromo />
+      <ToastContainer />
       {/*<CountDown targetDate={targetDate} />*/}
       <FormTravelBanner />
       <FaixaBanner />
