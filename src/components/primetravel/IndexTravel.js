@@ -30,7 +30,6 @@ import BannerPromo from './components/subcomponents/BannerPromo';
 import confetti from 'canvas-confetti';
 import { ToastContainer } from 'react-toastify';
 
-
 function IndexTravel() {
   const FaqRef = useRef();
   const scrollToFaq = () => {
