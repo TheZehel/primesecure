@@ -1,36 +1,37 @@
 //Seo
-import { Helmet } from "react-helmet";
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Helmet } from 'react-helmet';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 //Components
 
-import FormSeguroPetBanner from "./components/FormSeguroPetBanner";
+import FormSeguroPetBanner from './components/FormSeguroPetBanner';
 //import SessaoInformativaProdutosLp from "../globalsubcomponentes/SessaoInformativaProdutosLp";
 //import InformacoesProdutos from "../modules/ModuleInformacoesProdutos";
 //import PlanoSlider from "../globalsubcomponentes/PlanoSlider";
 //import infoPlanos from "../modules/InfoPlanos";
-import ConteudoSessaoInfo from "../globalsubcomponentes/ConteudoSessaoInfo";
-import sessaoInfoLp from "../modules/SessaoInfoLp";
-import FaqPet from "./components/subcomponents/FaqPet";
-import PlanSlider from "./components/planSlider";
-import ModalPet from "./components/modalPet";
-import CountDown from "./components/subcomponents/CountDownBanner";
-import DiscountsAndAdvantages from "./components/DiscountsAndAdvantages";
-import HealthDecisionSection from "./components/HealthDecisionSection";
-import HowItWorksSection from "./components/HowItWorksSection";
-import MicroChipSection from "./components/MicroChipSection";
-import Partners from "./components/Partners";
-import PetLocator from "./components/PetLocator";
-import TestimonialVideos from "./components/TestimonialVideos";
-import BestClinics from "./components/BestClinics";
-import LifePet from "./components/LifePet";
-import SpecializedService from "./components/SpecializedService";
-import SomeQuestions from "./components/SomeQuestions";
-import Cancel from "./components/Cancel";
-import CoParticipation from "./components/CoParticipation";
-import CredentialNetworkBanner from "./components/CredentialNetworkBanner";
-import BannerPromos from "./components/BannerPromosPet";
+import ConteudoSessaoInfo from '../globalsubcomponentes/ConteudoSessaoInfo';
+import sessaoInfoLp from '../modules/SessaoInfoLp';
+import FaqPet from './components/subcomponents/FaqPet';
+import PlanSlider from './components/planSlider';
+import ModalPet from './components/modalPet';
+import CountDown from './components/subcomponents/CountDownBanner';
+import DiscountsAndAdvantages from './components/DiscountsAndAdvantages';
+import HealthDecisionSection from './components/HealthDecisionSection';
+import HowItWorksSection from './components/HowItWorksSection';
+import MicroChipSection from './components/MicroChipSection';
+import Partners from './components/Partners';
+import PetLocator from './components/PetLocator';
+import TestimonialVideos from './components/TestimonialVideos';
+import BestClinics from './components/BestClinics';
+import LifePet from './components/LifePet';
+import SpecializedService from './components/SpecializedService';
+import SomeQuestions from './components/SomeQuestions';
+import Cancel from './components/Cancel';
+import CoParticipation from './components/CoParticipation';
+import CredentialNetworkBanner from './components/CredentialNetworkBanner';
+import BannerPromos from './components/BannerPromosPet';
+import confetti from 'canvas-confetti';
 
 function IndexSeguroPet() {
   const [lastStep, setLastStep] = useState(0);
@@ -38,12 +39,65 @@ function IndexSeguroPet() {
   const [modalOpen, setModalIsOpen] = useState(false);
 
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    region: "",
-    ibge: "",
+    name: '',
+    email: '',
+    phone: '',
+    region: '',
+    ibge: '',
   });
+
+  useEffect(() => {
+    const hasVisited = localStorage.getItem('visited');
+    if (!hasVisited) {
+      const audio = new Audio(
+        'https://storage.googleapis.com/primesecure/audios-site/carnaval-eft.mp3',
+      );
+      audio.volume = 0.1;
+      audio
+        .play()
+        .then(() => {
+          // Dispara confetes durante 3 segundos
+          const duration = 3000;
+          const animationEnd = Date.now() + duration;
+          const defaults = {
+            startVelocity: 30,
+            spread: 360,
+            ticks: 60,
+            zIndex: 0,
+          };
+
+          function randomInRange(min, max) {
+            return Math.random() * (max - min) + min;
+          }
+
+          const interval = setInterval(() => {
+            const timeLeft = animationEnd - Date.now();
+            if (timeLeft <= 0) {
+              clearInterval(interval);
+              return;
+            }
+            const particleCount = 50 * (timeLeft / duration);
+            confetti(
+              Object.assign({}, defaults, {
+                particleCount,
+                origin: { x: randomInRange(0, 0.5), y: Math.random() - 0.2 },
+              }),
+            );
+            confetti(
+              Object.assign({}, defaults, {
+                particleCount,
+                origin: { x: randomInRange(0.5, 1), y: Math.random() - 0.2 },
+              }),
+            );
+          }, 250);
+        })
+        .catch((error) => {
+          console.error('Erro ao reproduzir o áudio:', error);
+        });
+
+      localStorage.setItem('visited', 'true');
+    }
+  }, []);
 
   const navigate = useNavigate();
 
@@ -62,14 +116,14 @@ function IndexSeguroPet() {
       ...data,
     };
 
-    console.log("Enviando Formulário:", form);
+    console.log('Enviando Formulário:', form);
 
-    var sessionData = sessionStorage.getItem("formPetData");
+    var sessionData = sessionStorage.getItem('formPetData');
 
     try {
       sessionData = JSON.parse(sessionData);
     } catch (error) {
-      console.error("Session Error:", error);
+      console.error('Session Error:', error);
       sessionData = {};
     }
 
@@ -95,26 +149,26 @@ function IndexSeguroPet() {
       userData: userData,
     };
 
-    sessionStorage.setItem("formPetData", JSON.stringify(sessionData));
+    sessionStorage.setItem('formPetData', JSON.stringify(sessionData));
 
     setFormData(form);
 
-    navigate("/cotacao-pet-love");
+    navigate('/cotacao-pet-love');
   };
 
   useEffect(() => {
     if (modalOpen) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = 'unset';
     }
 
     return () => {
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = 'unset';
     };
   }, [modalOpen]);
 
-  const targetDate = new Date("December 31, 2023 00:00:00");
+  const targetDate = new Date('December 31, 2023 00:00:00');
   return (
     <div className="IndexSeguroPet">
       <Helmet>

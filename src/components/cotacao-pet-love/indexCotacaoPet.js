@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
-import PriceContainer from "./components/priceContainer";
-import BuyerData from "./components/buyerData";
-import PaymentStep from "./components/paymentStep";
-import GlobalFuntions from "../globalsubcomponentes/globalFunctions";
-import HeaderCotacao from "./components/HeaderCotacao";
-import PetStepValidation from "./components/stepsValidation";
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
+import PriceContainer from './components/priceContainer';
+import BuyerData from './components/buyerData';
+import PaymentStep from './components/paymentStep';
+import GlobalFuntions from '../globalsubcomponentes/globalFunctions';
+import HeaderCotacao from './components/HeaderCotacao';
+import PetStepValidation from './components/stepsValidation';
 
-import ModalPet from "../seguro-pet/components/modalPet";
+import ModalPet from '../seguro-pet/components/modalPet';
 
-import ThankYouPage from "./components/ThankYouPage";
-import axios from "axios";
+import ThankYouPage from './components/ThankYouPage';
+import axios from 'axios';
+import confetti from 'canvas-confetti';
 
 const globalFunctions = new GlobalFuntions();
 
@@ -44,23 +45,23 @@ export default function IndexCotacaoPetlove() {
       ibge: null,
     },
     userData: {
-      name: "",
-      email: "",
-      phone: "",
+      name: '',
+      email: '',
+      phone: '',
       check: false,
     },
     checkoutData: {
       customer: {
-        cpf: "",
+        cpf: '',
       },
       address: {
-        zipcode: "",
-        address: "",
-        number: "",
-        additional: "",
-        neighborhood: "",
-        city: "",
-        state: "",
+        zipcode: '',
+        address: '',
+        number: '',
+        additional: '',
+        neighborhood: '',
+        city: '',
+        state: '',
       },
       region: {
         ibge: null,
@@ -70,23 +71,23 @@ export default function IndexCotacaoPetlove() {
         selected: null,
         values: [0, 0, 0, 0, 0], //[ No discount, Pet discount, Annual discount, Coupon discount, Final value ]
         coupon: {
-          code: "",
+          code: '',
           value: 0,
-          type: "percentage",
+          type: 'percentage',
           valid: null,
         },
         cc: {
           monthly: {
-            number: "",
-            name: "",
-            expiration: "",
-            cvv: "",
+            number: '',
+            name: '',
+            expiration: '',
+            cvv: '',
           },
           annual: {
-            number: "",
-            name: "",
-            expiration: "",
-            cvv: "",
+            number: '',
+            name: '',
+            expiration: '',
+            cvv: '',
           },
         },
         pix: {},
@@ -96,16 +97,16 @@ export default function IndexCotacaoPetlove() {
 
   const emptyCC = {
     monthly: {
-      number: "",
-      name: "",
-      expiration: "",
-      cvv: "",
+      number: '',
+      name: '',
+      expiration: '',
+      cvv: '',
     },
     annual: {
-      number: "",
-      name: "",
-      expiration: "",
-      cvv: "",
+      number: '',
+      name: '',
+      expiration: '',
+      cvv: '',
     },
   };
 
@@ -142,12 +143,13 @@ export default function IndexCotacaoPetlove() {
 
     //console.log('Upload', formUpload)
 
-    axios.post(`${apiUrl}/petlove/process/save-progress`, { ...formUpload })
+    axios
+      .post(`${apiUrl}/petlove/process/save-progress`, { ...formUpload })
       .then((response) => {
         let { data: _form } = response;
 
         console.log('Save', _form);
-        
+
         if (_form.token) {
           _token = `?token=${_form.token}`;
 
@@ -159,7 +161,7 @@ export default function IndexCotacaoPetlove() {
 
         let ccForm = { ...form.checkoutData.payment.cc };
 
-        if (Object.keys(ccForm).length < 1){
+        if (Object.keys(ccForm).length < 1) {
           ccForm = { ...emptyCC };
         }
 
@@ -186,16 +188,16 @@ export default function IndexCotacaoPetlove() {
           error = error.data;
         }
 
-        console.error("Token Load Error:", error);
+        console.error('Token Load Error:', error);
 
         setFormData({ ...form });
-        setLoading(false); 
+        setLoading(false);
 
         if (redirect) {
           navigate(`/${pageSlug}/${slug}${_token}`);
         }
       });
-  }
+  };
 
   const nextStep = (step, data) => {
     var form = { ...formData };
@@ -204,17 +206,17 @@ export default function IndexCotacaoPetlove() {
 
     if (step == 2) {
       if (
-        slugArray.includes("dados-pessoais") ||
-        slugArray.includes("pagamento")
+        slugArray.includes('dados-pessoais') ||
+        slugArray.includes('pagamento')
       ) {
-        console.error("Error:", slugArray);
+        console.error('Error:', slugArray);
         return;
       }
 
       if (!Array.isArray(data) || data.length < 1) {
         console.error(data);
         return;
-      }      
+      }
 
       form.petList = data;
 
@@ -231,7 +233,7 @@ export default function IndexCotacaoPetlove() {
         !data.email ||
         !data.phone ||
         !data.check ||
-        !slugArray.includes("dados-pessoais")
+        !slugArray.includes('dados-pessoais')
       ) {
         return;
       }
@@ -254,9 +256,9 @@ export default function IndexCotacaoPetlove() {
       return;
     }
 
-    const pages = ["", "dados-pessoais", "pagamento", "obrigado"];
+    const pages = ['', 'dados-pessoais', 'pagamento', 'obrigado'];
     //const page = `/${pageSlug}${pages[step - 1]}`;
-    
+
     saveProgress(formData, pages[step - 1], true);
   };
 
@@ -294,7 +296,8 @@ export default function IndexCotacaoPetlove() {
   };
 
   const loadProgress = async (token) => {
-    axios.get(`${apiUrl}/petlove/process/get-progress/${token}`)
+    axios
+      .get(`${apiUrl}/petlove/process/get-progress/${token}`)
       .then((response) => {
         let { data: form } = response;
         //let { form } = data;
@@ -302,11 +305,11 @@ export default function IndexCotacaoPetlove() {
         //console.log('Load Progress:', form);
 
         delete form.token;
-        let _form = { ...formData, ...form };   
+        let _form = { ...formData, ...form };
 
         let ccForm = { ...form.checkoutData.payment.cc };
 
-        if (Object.keys(ccForm).length < 1){
+        if (Object.keys(ccForm).length < 1) {
           ccForm = { ...emptyCC };
         }
 
@@ -316,7 +319,7 @@ export default function IndexCotacaoPetlove() {
 
         console.log('Load Form:', _form);
 
-        let formPet = sessionStorage.getItem("formPetData");
+        let formPet = sessionStorage.getItem('formPetData');
 
         try {
           formPet = JSON.parse(formPet);
@@ -324,40 +327,40 @@ export default function IndexCotacaoPetlove() {
 
         formPet = { ...formPet };
 
-        formPet.petList = [ ..._form.petList ];
+        formPet.petList = [..._form.petList];
         formPet.petRegion = { ..._form.regionData };
         formPet.userData = { ..._form.userData };
 
         if (Array.isArray(formData.petList) && formData.petList.length > 0) {
-          console.log(formData.petList)
-  
+          console.log(formData.petList);
+
           let sortedPets = formData.petList.sort((a, b) => {
             let price = [
-              a.plan.price.replace(/[^0-9]/g, ""),
-              b.plan.price.replace(/[^0-9]/g, ""),
+              a.plan.price.replace(/[^0-9]/g, ''),
+              b.plan.price.replace(/[^0-9]/g, ''),
             ];
-    
+
             price[0] = parseInt(price[0]);
             price[1] = parseInt(price[1]);
-    
+
             if (price[0] > price[1]) {
               return 1;
             }
-    
+
             if (price[0] < price[1]) {
               return -1;
             }
-    
+
             return 0;
           });
-  
-          console.log('Loaded:', sortedPets)
-  
-          formData.petList = [ ...sortedPets ];
+
+          console.log('Loaded:', sortedPets);
+
+          formData.petList = [...sortedPets];
         }
 
-        sessionStorage.setItem("formPetData", JSON.stringify(formPet));
-        
+        sessionStorage.setItem('formPetData', JSON.stringify(formPet));
+
         setFormData(_form);
 
         setScreenReady(true);
@@ -365,7 +368,7 @@ export default function IndexCotacaoPetlove() {
       .catch((err) => {
         let error = { ...err };
 
-        if ( error && error.response ) {
+        if (error && error.response) {
           error = error.response;
         }
 
@@ -379,21 +382,21 @@ export default function IndexCotacaoPetlove() {
 
         setScreenReady(true);
       });
-  }
+  };
 
   useEffect(() => {
     const initScreen = async () => {
       var currentStep = 0;
 
-      if (slugArray.includes("dados-pessoais")) {
+      if (slugArray.includes('dados-pessoais')) {
         currentStep = 1;
       }
 
-      if (slugArray.includes("pagamento")) {
+      if (slugArray.includes('pagamento')) {
         currentStep = 2;
       }
 
-      var sessionData = sessionStorage.getItem("formPetData");
+      var sessionData = sessionStorage.getItem('formPetData');
 
       try {
         sessionData = JSON.parse(sessionData);
@@ -413,7 +416,7 @@ export default function IndexCotacaoPetlove() {
       ) {
         sessionData.petList = [];
 
-        sessionStorage.setItem("formPetData", JSON.stringify(sessionData));
+        sessionStorage.setItem('formPetData', JSON.stringify(sessionData));
 
         setModalPetState(true);
       }
@@ -439,41 +442,41 @@ export default function IndexCotacaoPetlove() {
           formData.regionData = data.petRegion;
         }
       } catch (error) {
-        console.error("Init pet data error:", error);
+        console.error('Init pet data error:', error);
       }
 
       try {
         formData.petList = petStepValidation.firstStepValidation(data.petList);
       } catch (error) {
-        console.error("Init pet data error:", error);
+        console.error('Init pet data error:', error);
       }
 
       if (Array.isArray(formData.petList) && formData.petList.length > 0) {
-        console.log(formData.petList)
+        console.log(formData.petList);
 
         let sortedPets = formData.petList.sort((a, b) => {
           let price = [
-            a.plan.price.replace(/[^0-9]/g, ""),
-            b.plan.price.replace(/[^0-9]/g, ""),
+            a.plan.price.replace(/[^0-9]/g, ''),
+            b.plan.price.replace(/[^0-9]/g, ''),
           ];
-  
+
           price[0] = parseInt(price[0]);
           price[1] = parseInt(price[1]);
-  
+
           if (price[0] > price[1]) {
             return 1;
           }
-  
+
           if (price[0] < price[1]) {
             return -1;
           }
-  
+
           return 0;
         });
 
-        console.log(sortedPets)
+        console.log(sortedPets);
 
-        formData.petList = [ ...sortedPets ];
+        formData.petList = [...sortedPets];
       }
 
       var userData = data.userData || {};
@@ -486,9 +489,9 @@ export default function IndexCotacaoPetlove() {
 
       try {
         formData.userData = {
-          name: userData.name || "",
-          email: userData.email || "",
-          phone: userData.phone || "",
+          name: userData.name || '',
+          email: userData.email || '',
+          phone: userData.phone || '',
           check: userData.check || false,
           //cpf: userData.cpf || '',
           //address: { ...userData }
@@ -499,11 +502,11 @@ export default function IndexCotacaoPetlove() {
           ibge: regionData.ibge || null,
         };
       } catch (error) {
-        console.error("Init user data error:", error);
+        console.error('Init user data error:', error);
       }
 
       try {
-        formData.checkoutData.customer.cpf = userData.cpf || "";
+        formData.checkoutData.customer.cpf = userData.cpf || '';
 
         formData.checkoutData.address = {
           ...formData.checkoutData.address,
@@ -516,7 +519,7 @@ export default function IndexCotacaoPetlove() {
           name: regionData.region || null,
         };
       } catch (error) {
-        console.error("Init checkout data error:", error);
+        console.error('Init checkout data error:', error);
       }
 
       //console.log("Form Data:", formData);
@@ -536,22 +539,26 @@ export default function IndexCotacaoPetlove() {
       const params = new URLSearchParams(window.location.search);
       token = params.get('token');
 
-      if (token && token.length > 10){
+      if (token && token.length > 10) {
         //token = token.toLocaleUpperCase();
         initToken(token);
-      }else{
+      } else {
         initScreen();
       }
     } catch (error) {
-      console.error("Form Load Error:", error);
+      console.error('Form Load Error:', error);
     }
 
     try {
-      if (token){
+      if (token) {
         return;
       }
 
-      if (formData.regionData.error || !formData.regionData.ibge || !formData.regionData.region) {
+      if (
+        formData.regionData.error ||
+        !formData.regionData.ibge ||
+        !formData.regionData.region
+      ) {
         setModalPetState(true);
 
         let form = {
@@ -582,11 +589,11 @@ export default function IndexCotacaoPetlove() {
         }
       }
     } catch (error) {
-      console.error("Init Form Error:", error);
+      console.error('Init Form Error:', error);
     }
   }, []);
 
-  if (slugArray.includes("dados-pessoais") && screenReady) {
+  if (slugArray.includes('dados-pessoais') && screenReady) {
     return (
       <div>
         <BuyerData
@@ -599,7 +606,7 @@ export default function IndexCotacaoPetlove() {
         <ModalPet
           openModal={modalPetState}
           closeModal={() => {
-            console.log("Close Modal");
+            console.log('Close Modal');
           }}
           sendForm={petModalHandler}
           lastStep={true}
@@ -609,7 +616,7 @@ export default function IndexCotacaoPetlove() {
     );
   }
 
-  if (slugArray.includes("pagamento") && screenReady) {
+  if (slugArray.includes('pagamento') && screenReady) {
     return (
       <div>
         <PaymentStep
@@ -618,14 +625,14 @@ export default function IndexCotacaoPetlove() {
           formData={formData}
           reload={reloadComponent}
           applyCoupon={applyCoupon}
-          uploadToken={()=>{
+          uploadToken={() => {
             saveProgress(formData, 'pagamento', false);
           }}
         />
         <ModalPet
           openModal={modalPetState}
           closeModal={() => {
-            console.log("Close Modal");
+            console.log('Close Modal');
           }}
           sendForm={petModalHandler}
           lastStep={true}
@@ -635,7 +642,7 @@ export default function IndexCotacaoPetlove() {
     );
   }
 
-  if (slugArray.includes("obrigado") && screenReady) {
+  if (slugArray.includes('obrigado') && screenReady) {
     return (
       <div>
         <ThankYouPage />
@@ -653,7 +660,7 @@ export default function IndexCotacaoPetlove() {
       <ModalPet
         openModal={modalPetState}
         closeModal={() => {
-          console.log("Close Modal");
+          console.log('Close Modal');
         }}
         sendForm={petModalHandler}
         lastStep={true}
