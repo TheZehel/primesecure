@@ -264,9 +264,9 @@ export default function FormTravelBanner() {
         const errorAudio = new Audio(
           'https://storage.googleapis.com/primesecure/audios-site/mixkit-wrong-electricity-buzz-955.wav',
         );
+        errorAudio.volume = 0.1; // define o volume para 10%
         errorAudio.play();
       }
-
       setIsLoading(false);
       return;
     }
@@ -299,7 +299,6 @@ export default function FormTravelBanner() {
         },
       );
       console.log('Dados enviados para RD Station com sucesso!');
-      // Toca áudio de sucesso
       // Toca áudio de sucesso e aguarda 500ms antes de redirecionar
       const successAudio = new Audio(
         'https://storage.googleapis.com/primesecure/audios-site/mixkit-fantasy-game-success-notification-270.wav',
