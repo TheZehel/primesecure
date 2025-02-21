@@ -18,6 +18,7 @@ import LoadingAnimation from '../../globalsubcomponentes/icons/loadingSvg';
 import imageManagerPrimeTravel from '../bancodeimagens/BancoDeImagensPrimeTravel';
 import BannerPix from './subcomponents/BannerPix';
 import BannerParcelamento from './subcomponents/BannerParcelamento';
+import { toast } from 'react-toastify';
 
 const getUtmParams = () => {
   let params = {};
@@ -257,7 +258,15 @@ export default function FormTravelBanner() {
     const errors = customValidation.validarTravelPayload(payload);
     if (errors.length > 0) {
       setErrorList(errors);
-      alert('Existem erros no formulário. Verifique e tente novamente.');
+      // Exibe o toast com a mensagem de erro
+      toast.error('Preencha todos os dados antes de continuar!');
+      if (typeof Audio !== 'undefined') {
+        const errorAudio = new Audio(
+          'https://storage.googleapis.com/primesecure/audios-site/mixkit-wrong-electricity-buzz-955.wav',
+        );
+        errorAudio.play();
+      }
+
       setIsLoading(false);
       return;
     }
@@ -290,6 +299,53 @@ export default function FormTravelBanner() {
         },
       );
       console.log('Dados enviados para RD Station com sucesso!');
+      // Toca áudio de sucesso
+      // Toca áudio de sucesso e aguarda 500ms antes de redirecionar
+      const successAudio = new Audio(
+        'https://storage.googleapis.com/primesecure/audios-site/mixkit-fantasy-game-success-notification-270.wav',
+      );
+
+      // Função para lidar com o redirecionamento após o áudio terminar
+      const handleRedirect = () => {
+        let redirectUrl =
+          'https://primetravel.primesecure.com.br/cotacao-rapida?';
+        Object.entries(payload).forEach(([key, value], index, array) => {
+          if (
+            value &&
+            !['cf_source', 'cf_medium', 'cf_campaign'].includes(key)
+          ) {
+            redirectUrl += `${key}=${encodeURIComponent(value)}${
+              index < array.length - 1 ? '&' : ''
+            }`;
+          }
+        });
+        window.location.href = redirectUrl;
+      };
+
+      // Garantir que o áudio esteja pronto para ser reproduzido
+      successAudio.addEventListener('canplaythrough', () => {
+        // Tocar o áudio
+        successAudio.play().catch((error) => {
+          console.error('Erro ao reproduzir o áudio:', error);
+          // Se houver erro ao tocar o áudio, redirecionar imediatamente
+          handleRedirect();
+        });
+
+        // Redirecionar após o áudio terminar
+        successAudio.onended = () => {
+          handleRedirect();
+        };
+      });
+
+      // Caso o áudio não carregue corretamente, definir um timeout máximo
+      setTimeout(() => {
+        if (!successAudio.ended) {
+          console.warn('Áudio não terminou a tempo. Redirecionando...');
+          handleRedirect();
+        }
+      }, 5000); // Timeout máximo de 5 segundos
+
+      // Redirecionamento deve estar fora do setTimeout
       let redirectUrl =
         'https://primetravel.primesecure.com.br/cotacao-rapida?';
       Object.entries(payload).forEach(([key, value], index, array) => {
@@ -739,9 +795,9 @@ export default function FormTravelBanner() {
                 <div>
                   <label
                     id="label-name"
-                    htmlFor=""
+                    htmlFor="name"
                     className={
-                      errorList.includes('name')
+                      errorList.includes('full-name')
                         ? 'block text-sm font-semibold leading-6 text-alertRed'
                         : 'block text-sm font-semibold leading-6 text-gray-900'
                     }
