@@ -185,7 +185,10 @@ export default function SimpleFormSection({
       const errorAudio = new Audio(
         'https://storage.googleapis.com/primesecure/audios-site/mixkit-wrong-electricity-buzz-955.wav',
       );
-      errorAudio.play();
+      errorAudio.volume = 0.1;
+      errorAudio.addEventListener('canplaythrough', () => {
+        errorAudio.play();
+      });
       return;
     }
 
@@ -301,6 +304,7 @@ export default function SimpleFormSection({
       const successAudio = new Audio(
         'https://storage.googleapis.com/primesecure/audios-site/mixkit-fantasy-game-success-notification-270.wav',
       );
+      successAudio.volume = 0.1; // Define o volume para 50%
       successAudio.play();
 
       navigateBasedOnPath();
