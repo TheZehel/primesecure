@@ -125,7 +125,7 @@ export default function FormVidaOmint() {
       const errorAudio = new Audio(
         'https://storage.googleapis.com/primesecure/audios-site/mixkit-wrong-electricity-buzz-955.wav',
       );
-      errorAudio.volume = 0.2;
+      errorAudio.volume = 0.1;
       errorAudio.play();
 
       return;
