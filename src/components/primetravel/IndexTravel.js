@@ -1,5 +1,5 @@
 //Configs
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 //Seo
 import { Helmet } from 'react-helmet';
@@ -27,6 +27,7 @@ import SomeToppings from './components/subcomponents/SomeToppings';
 import BannerPromos from './components/subcomponents/BannerPromos';
 import StepsHiring from './components/subcomponents/HiringSteps';
 import BannerPromo from './components/subcomponents/BannerPromo';
+import confetti from 'canvas-confetti';
 import { ToastContainer } from 'react-toastify';
 
 function IndexTravel() {
@@ -39,6 +40,58 @@ function IndexTravel() {
       behavior: 'smooth',
     });
   };
+  useEffect(() => {
+    const hasVisited = localStorage.getItem('visited');
+    if (!hasVisited) {
+      const audio = new Audio(
+        'https://storage.googleapis.com/primesecure/audios-site/carnaval-eft.mp3',
+      );
+      audio.volume = 0.1;
+      audio
+        .play()
+        .then(() => {
+          // Dispara confetes durante 3 segundos
+          const duration = 3000;
+          const animationEnd = Date.now() + duration;
+          const defaults = {
+            startVelocity: 30,
+            spread: 360,
+            ticks: 60,
+            zIndex: 0,
+          };
+
+          function randomInRange(min, max) {
+            return Math.random() * (max - min) + min;
+          }
+
+          const interval = setInterval(() => {
+            const timeLeft = animationEnd - Date.now();
+            if (timeLeft <= 0) {
+              clearInterval(interval);
+              return;
+            }
+            const particleCount = 50 * (timeLeft / duration);
+            confetti(
+              Object.assign({}, defaults, {
+                particleCount,
+                origin: { x: randomInRange(0, 0.5), y: Math.random() - 0.2 },
+              }),
+            );
+            confetti(
+              Object.assign({}, defaults, {
+                particleCount,
+                origin: { x: randomInRange(0.5, 1), y: Math.random() - 0.2 },
+              }),
+            );
+          }, 250);
+        })
+        .catch((error) => {
+          console.error('Erro ao reproduzir o áudio:', error);
+        });
+
+      localStorage.setItem('visited', 'true');
+    }
+  }, []); // Removeu a verificação de "visited" para que ocorra sempre
   // time do countdown
   //const targetDate = new Date("December 31, 2023 00:00:00");
   return (
