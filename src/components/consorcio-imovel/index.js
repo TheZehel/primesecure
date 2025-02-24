@@ -15,6 +15,9 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import confetti from 'canvas-confetti';
 import { useEffect } from 'react';
+import PromoPopup, {
+  PromotionPopup,
+} from '../globalsubcomponentes/PopupPromotion';
 
 function IndexConsorcioImovel() {
   const targetDate = new Date('December 31, 2023 00:00:00');
@@ -73,6 +76,7 @@ function IndexConsorcioImovel() {
   }, []);
   return (
     <div>
+      <PromotionPopup />
       <Helmet>
         <title>Consórcio Imóvel Porto | Prime Secure Marketplace</title>
         <meta

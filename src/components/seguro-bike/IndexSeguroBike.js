@@ -12,6 +12,10 @@ import Advantages from './components/Advantages';
 import CustomeFooter from './cotacao-seguro-bike/components/subcomponents/CustomFooter';
 import BannerPromoBike from './components/BannersPromoBike';
 import confetti from 'canvas-confetti';
+import PromotionPopup, {
+  PromoPopup,
+} from '../globalsubcomponentes/PopupPromotion';
+import TemCerteza, { PopupBack } from '../globalsubcomponentes/BackPopup';
 
 export default function IndexSeguroBike() {
   const [lastStep, setLastStep] = useState(0);
@@ -124,6 +128,8 @@ export default function IndexSeguroBike() {
 
   return (
     <div>
+      {/* <PopupBack /> */}
+      <PromotionPopup />
       <BannerPromoBike />
       <FormSeguroBikeBanner
         callback={(data) => {

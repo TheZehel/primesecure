@@ -21,6 +21,9 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useEffect } from 'react';
 import confetti from 'canvas-confetti';
+import PromoPopup, {
+  PromotionPopup,
+} from '../globalsubcomponentes/PopupPromotion';
 
 function IndexVida() {
   const targetDate = new Date('December 31, 2023 00:00:00');
@@ -78,6 +81,7 @@ function IndexVida() {
   }, []);
   return (
     <div className="IndexVida">
+      <PromotionPopup />
       <Helmet>
         <title>Seguro De Vida SulAmérica | Prime Secure Marketplace</title>
         <meta

@@ -11,6 +11,9 @@ import Benefits from './components/Benefits';
 import CustomFooter from './cotacao-seguro-celular-kakau/components/subcomponents/CustomFooter';
 import BannerPromoPhoneKakau from './components/BannerPromoPhoneKakau';
 import confetti from 'canvas-confetti';
+import PromoPopup, {
+  PromotionPopup,
+} from '../globalsubcomponentes/PopupPromotion';
 
 export default function IndexSeguroCelularKakau() {
   useEffect(() => {
@@ -67,6 +70,7 @@ export default function IndexSeguroCelularKakau() {
   }, []);
   return (
     <div>
+      <PromotionPopup />
       <BannerPromoPhoneKakau />
       <FormSeguroCelularKakau
         callback={(data) => {

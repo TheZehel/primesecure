@@ -11,6 +11,9 @@ import CountDown from './components/subcomponents/CountDown';
 import BannerPromo from './components/subcomponents/BannerPromos';
 import confetti from 'canvas-confetti';
 import { useEffect } from 'react';
+import PromoPopup, {
+  PromotionPopup,
+} from '../globalsubcomponentes/PopupPromotion';
 
 function IndexSeguroResidencial() {
   const targetDate = new Date('December 31, 2023 00:00:00');
@@ -69,6 +72,7 @@ function IndexSeguroResidencial() {
   }, []);
   return (
     <div className="IndexSeguroResidencial">
+      <PromotionPopup />
       <Helmet>
         <title>Seguro Residencial Porto | Prime Secure Marketplace</title>
         <meta
