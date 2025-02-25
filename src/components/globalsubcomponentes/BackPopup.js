@@ -9,10 +9,15 @@ import {
 } from '@material-tailwind/react';
 import { useNavigate } from 'react-router-dom';
 import ReactInputMask from 'react-input-mask';
+import { useDispatch, useSelector } from 'react-redux';
+import { incrementOpenCount } from './modalSlice'; // ajuste o caminho conforme sua estrutura
 
 export function PopupBack() {
   const [open, setOpen] = React.useState(false);
   const [isMouseNearTop, setIsMouseNearTop] = React.useState(false);
+  // Usando Redux para armazenar a contagem de aberturas
+  const openCount = useSelector((state) => state.modal.openCount);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   // Função para mapear o caminho para um identificador de conversão (se necessário)
@@ -38,7 +43,11 @@ export function PopupBack() {
   const handleOpen = () => {
     const conversionIdentifier = getConversionIdentifier();
     console.log('Conversion Identifier:', conversionIdentifier);
-    // Aqui, a abertura do modal será feita via lógica de exit-intent (abaixo)
+    // Se estiver abrindo (modal fechado) e ainda não ultrapassou o limite, incrementa a contagem
+    if (!open) {
+      if (openCount >= 2) return;
+      dispatch(incrementOpenCount());
+    }
     setOpen((cur) => !cur);
   };
 
@@ -46,21 +55,23 @@ export function PopupBack() {
     navigate('/politicas-de-privacidade');
   };
 
-  // Detecta se o mouse está perto do topo e, nesse caso, abre o modal com a mensagem "Você tem certeza?"
+  // Detecta se o mouse está perto do topo e, nesse caso, abre o modal
   React.useEffect(() => {
     const threshold = 50; // distância em pixels do topo para disparar a ação
 
     const handleMouseMove = (event) => {
       const mouseY = event.clientY;
-      if (mouseY < threshold && !open) {
+      // Abre o modal via exit-intent somente se o modal estiver fechado e o limite não foi atingido
+      if (mouseY < threshold && !open && openCount < 2) {
         setIsMouseNearTop(true);
         setOpen(true);
+        dispatch(incrementOpenCount());
       }
     };
 
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [open]);
+  }, [open, openCount, dispatch]);
 
   // Ações dos botões da confirmação
   const handleConfirmYes = () => {
