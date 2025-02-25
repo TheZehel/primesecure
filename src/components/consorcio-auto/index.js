@@ -16,11 +16,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import PromoPopup, {
   PromotionPopup,
 } from '../globalsubcomponentes/PopupPromotion';
+import PopupBack from '../globalsubcomponentes/BackPopup';
 
 function IndexConsorcioAuto() {
   const targetDate = new Date('December 31, 2023 00:00:00');
+  const productId = 'consorcio-auto';
   return (
     <div>
+      <PopupBack productId={productId} />
       <PromotionPopup />
       <Helmet>
         {/* <!-- Primary Meta Tags --> */}

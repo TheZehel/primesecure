@@ -24,6 +24,7 @@ export default function IndexSeguroBike() {
     email: '',
     phone: '',
   });
+  const productId = 'seguro-bike';
 
   useEffect(() => {
     const hasVisited = localStorage.getItem('visited');
@@ -128,7 +129,7 @@ export default function IndexSeguroBike() {
 
   return (
     <div>
-      {/* <PopupBack /> */}
+      <PopupBack productId={productId} />
       <PromotionPopup />
       <BannerPromoBike />
       <FormSeguroBikeBanner

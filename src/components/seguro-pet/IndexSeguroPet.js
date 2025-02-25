@@ -35,6 +35,7 @@ import confetti from 'canvas-confetti';
 import PromoPopup, {
   PromotionPopup,
 } from '../globalsubcomponentes/PopupPromotion';
+import PopupBack from '../globalsubcomponentes/BackPopup';
 
 function IndexSeguroPet() {
   const [lastStep, setLastStep] = useState(0);
@@ -170,10 +171,13 @@ function IndexSeguroPet() {
       document.body.style.overflow = 'unset';
     };
   }, [modalOpen]);
+  const productId = 'IndexSeguroPet';
 
   const targetDate = new Date('December 31, 2023 00:00:00');
+
   return (
     <div className="IndexSeguroPet">
+      <PopupBack productId={productId} />
       <PromotionPopup />
       <Helmet>
         <title>Plano de Saúde PetLove | Prime Secure Marketplace</title>

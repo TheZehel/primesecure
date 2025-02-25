@@ -18,9 +18,11 @@ import { useEffect } from 'react';
 import PromoPopup, {
   PromotionPopup,
 } from '../globalsubcomponentes/PopupPromotion';
+import PopupBack from '../globalsubcomponentes/BackPopup';
 
 function IndexConsorcioImovel() {
   const targetDate = new Date('December 31, 2023 00:00:00');
+  const productId = 'consorcio-imovel';
 
   useEffect(() => {
     const hasVisited = localStorage.getItem('visited');
@@ -76,6 +78,7 @@ function IndexConsorcioImovel() {
   }, []);
   return (
     <div>
+      <PopupBack productId={productId} />
       <PromotionPopup />
       <Helmet>
         <title>Consórcio Imóvel Porto | Prime Secure Marketplace</title>

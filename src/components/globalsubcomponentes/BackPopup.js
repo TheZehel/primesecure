@@ -10,17 +10,28 @@ import {
 import { useNavigate } from 'react-router-dom';
 import ReactInputMask from 'react-input-mask';
 import { useDispatch, useSelector } from 'react-redux';
-import { incrementOpenCount } from './modalSlice'; // ajuste o caminho conforme sua estrutura
+import { incrementProductCount } from './modalSlice'; // ajuste o caminho conforme necessário
 
-export function PopupBack() {
+export function PopupBack({ productId, delay = 10800000, banner }) {
   const [open, setOpen] = React.useState(false);
   const [isMouseNearTop, setIsMouseNearTop] = React.useState(false);
-  // Usando Redux para armazenar a contagem de aberturas
-  const openCount = useSelector((state) => state.modal.openCount);
+  // Estado para armazenar o timestamp da última abertura
+  const [lastOpenTime, setLastOpenTime] = React.useState(0);
+  // Estado para armazenar a largura da viewport
+  const [viewportWidth, setViewportWidth] = React.useState(window.innerWidth);
+
+  // Atualiza a largura da viewport ao redimensionar a janela
+  React.useEffect(() => {
+    const handleResize = () => setViewportWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Busca a contagem específica para este produto
+  const openCount = useSelector((state) => state.modal.counts[productId] || 0);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Função para mapear o caminho para um identificador de conversão (se necessário)
   const getConversionIdentifier = () => {
     const pathToIdentifierMap = {
       '/primetravel': 'lead-primetravel-api',
@@ -39,14 +50,18 @@ export function PopupBack() {
     );
   };
 
-  // Função que pode ser usada para disparar algum evento com o identificador (se necessário)
   const handleOpen = () => {
-    const conversionIdentifier = getConversionIdentifier();
-    console.log('Conversion Identifier:', conversionIdentifier);
-    // Se estiver abrindo (modal fechado) e ainda não ultrapassou o limite, incrementa a contagem
+    const now = Date.now();
+    // Se o modal estiver fechado, verifica se já atingiu o limite ou se o delay não foi cumprido
     if (!open) {
       if (openCount >= 2) return;
-      dispatch(incrementOpenCount());
+      if (lastOpenTime && now - lastOpenTime < delay) {
+        console.log('Delay não cumprido, aguarde um pouco.');
+        return;
+      }
+      // Atualiza o timestamp e incrementa a contagem para este produto
+      setLastOpenTime(now);
+      dispatch(incrementProductCount(productId));
     }
     setOpen((cur) => !cur);
   };
@@ -55,58 +70,73 @@ export function PopupBack() {
     navigate('/politicas-de-privacidade');
   };
 
-  // Detecta se o mouse está perto do topo e, nesse caso, abre o modal
+  // Lógica de exit-intent com delay
   React.useEffect(() => {
     const threshold = 50; // distância em pixels do topo para disparar a ação
 
     const handleMouseMove = (event) => {
+      const now = Date.now();
       const mouseY = event.clientY;
-      // Abre o modal via exit-intent somente se o modal estiver fechado e o limite não foi atingido
       if (mouseY < threshold && !open && openCount < 2) {
+        if (lastOpenTime && now - lastOpenTime < delay) {
+          return; // Não abre se o delay não foi cumprido
+        }
         setIsMouseNearTop(true);
         setOpen(true);
-        dispatch(incrementOpenCount());
+        setLastOpenTime(now);
+        dispatch(incrementProductCount(productId));
       }
     };
 
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [open, openCount, dispatch]);
+  }, [open, openCount, dispatch, productId, lastOpenTime, delay]);
 
   // Ações dos botões da confirmação
   const handleConfirmYes = () => {
     setOpen(false);
     setIsMouseNearTop(false);
-    navigate(-1); // Exemplo: volta uma página (pode ser ajustado conforme necessário)
+    navigate(-1);
   };
 
   const handleConfirmNo = () => {
     setOpen(false);
     setIsMouseNearTop(false);
-    window.focus(); // Tenta recuperar o foco para a janela atual
+    window.focus();
   };
+
+  // Lógica de imagem: se a prop banner for informada, usa-a para escolher entre srcLarge e srcMobile.
+  // Se viewportWidth >= 1500, utiliza banner.srcLarge; caso contrário, utiliza banner.srcMobile.
+  // Se não houver banner, mantém os valores padrão.
+  const mobileImageSrc = banner
+    ? viewportWidth >= 1500
+      ? banner.srcLarge
+      : banner.srcMobile
+    : 'https://placehold.co/600x300';
+  const desktopImageSrc = banner
+    ? viewportWidth >= 1500
+      ? banner.srcLarge
+      : banner.srcMobile
+    : 'https://placehold.co/800';
 
   return (
     <>
-      {/* O modal é aberto somente se o estado "open" estiver verdadeiro */}
       {open && (
         <Dialog
           size="lg"
           open={open}
           handler={handleOpen}
-          className="bg-transparent shadow-none"
+          className="bg-transparent shadow-none overflow-hidden"
         >
           <Card className="mx-auto w-full max-w-[55rem] border border-bluePrime2/30">
-            {/* Layout para telas pequenas: mostra a imagem mobile e o formulário em coluna */}
+            {/* Layout para telas pequenas */}
             <div className="block md:hidden relative">
-              {/* Imagem Mobile */}
               <div className="border border-bluePrime2/30">
                 <img
-                  src="https://placehold.co/600x300"
+                  src={mobileImageSrc}
                   alt="Promoção - Mobile"
                   className="object-cover w-full h-auto"
                 />
-                {/* Botão "X" posicionado em cima da imagem */}
                 <button
                   onClick={handleOpen}
                   className="absolute top-2 right-2 text-bluePrime hover:text-bluePrime2 transition-colors z-10"
@@ -127,7 +157,6 @@ export function PopupBack() {
                   </svg>
                 </button>
               </div>
-              {/* Formulário */}
               <div className="p-4 border border-bluePrime2/30">
                 <CardBody className="flex flex-col gap-4">
                   <Typography
@@ -143,7 +172,6 @@ export function PopupBack() {
                   >
                     Seja notificado sobre nossas promoções e novidades.
                   </Typography>
-                  {/* Input para Nome */}
                   <Typography className="-mb-2 text-grayPrime" variant="h6">
                     Seu nome:
                   </Typography>
@@ -163,7 +191,7 @@ export function PopupBack() {
                     autoComplete="family-name"
                     className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
                   />
-                  <Typography className="-mb-2 text-grayPrime" variant="h6">
+                  {/* <Typography className="-mb-2 text-grayPrime" variant="h6">
                     Seu telefone:
                   </Typography>
                   <ReactInputMask
@@ -175,7 +203,7 @@ export function PopupBack() {
                     name="phone"
                     id="phone"
                     className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
-                  />
+                  /> */}
                 </CardBody>
                 <CardFooter className="pt-0">
                   <Button
@@ -206,19 +234,16 @@ export function PopupBack() {
               </div>
             </div>
 
-            {/* Layout para telas médias e maiores: duas colunas */}
+            {/* Layout para telas maiores */}
             <div className="hidden md:flex">
-              {/* Coluna esquerda: imagem desktop */}
               <div className="w-1/2 border border-bluePrime2/30">
                 <img
-                  src="https://placehold.co/800"
+                  src={desktopImageSrc}
                   alt="Promoção - Desktop"
                   className="object-cover w-full h-full"
                 />
               </div>
-              {/* Coluna direita: formulário */}
               <div className="w-1/2 p-4 flex flex-col border border-bluePrime2/30">
-                {/* Botão "X" */}
                 <div className="flex justify-end">
                   <button
                     onClick={handleOpen}
@@ -254,7 +279,6 @@ export function PopupBack() {
                   >
                     Seja notificado sobre nossas promoções e novidades.
                   </Typography>
-                  {/* Input para Nome */}
                   <Typography className="-mb-2 text-grayPrime" variant="h6">
                     Seu nome:
                   </Typography>

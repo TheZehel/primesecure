@@ -14,8 +14,10 @@ import confetti from 'canvas-confetti';
 import PromoPopup, {
   PromotionPopup,
 } from '../globalsubcomponentes/PopupPromotion';
+import PopupBack from '../globalsubcomponentes/BackPopup';
 
 export default function IndexSeguroCelularKakau() {
+  const productId = 'seguro-celular-kakau';
   useEffect(() => {
     const hasVisited = localStorage.getItem('visited');
     if (!hasVisited) {
@@ -70,6 +72,7 @@ export default function IndexSeguroCelularKakau() {
   }, []);
   return (
     <div>
+      <PopupBack productId={productId} />
       <PromotionPopup />
       <BannerPromoPhoneKakau />
       <FormSeguroCelularKakau

@@ -11,9 +11,31 @@ import {
 import { useNavigate } from 'react-router-dom';
 import ReactInputMask from 'react-input-mask';
 
-export function PromotionPopup() {
+export function PromotionPopup({ banner }) {
   const [open, setOpen] = React.useState(true);
   const navigate = useNavigate();
+
+  // Lógica para obter a largura da viewport
+  const [viewportWidth, setViewportWidth] = React.useState(window.innerWidth);
+  React.useEffect(() => {
+    const handleResize = () => setViewportWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Lógica para definir as imagens com base na largura da viewport
+  // Se banner for informado, utiliza banner.srcLarge quando viewportWidth >= 1500; caso contrário, utiliza banner.srcMobile.
+  // Se não houver banner, utiliza os placeholders padrão.
+  const mobileImageSrc = banner
+    ? viewportWidth >= 1500
+      ? banner.srcLarge
+      : banner.srcMobile
+    : 'https://placehold.co/600x300';
+  const desktopImageSrc = banner
+    ? viewportWidth >= 1500
+      ? banner.srcLarge
+      : banner.srcMobile
+    : 'https://placehold.co/400';
 
   // Função para mapear o caminho para um identificador de conversão
   const getConversionIdentifier = () => {
@@ -47,11 +69,9 @@ export function PromotionPopup() {
 
   // Exemplo de uso do identificador no handleOpen
   const handleOpen = () => {
-    // Obtenha o identificador com base na URL atual
     const conversionIdentifier = getConversionIdentifier();
     console.log('Conversion Identifier:', conversionIdentifier);
     // Aqui você pode disparar algum evento ou executar alguma ação com esse identificador
-
     setOpen((cur) => !cur);
   };
 
@@ -70,10 +90,10 @@ export function PromotionPopup() {
         <Card className="mx-auto w-full max-w-[55rem] border border-bluePrime2/30">
           {/* Layout para telas pequenas: mostra a imagem mobile e o formulário em coluna */}
           <div className="block md:hidden relative">
-            {/* Imagem Mobile */}
+            {/* Imagem Mobile com a lógica de dimensão aplicada */}
             <div className="border border-bluePrime2/30">
               <img
-                src="https://placehold.co/600x300"
+                src={mobileImageSrc}
                 alt="Promoção - Mobile"
                 className="object-cover w-full h-auto"
               />
@@ -179,10 +199,10 @@ export function PromotionPopup() {
 
           {/* Layout para telas médias e maiores: duas colunas */}
           <div className="hidden md:flex">
-            {/* Coluna esquerda: imagem desktop */}
+            {/* Coluna esquerda: imagem desktop com a lógica de dimensão aplicada */}
             <div className="w-1/2 border border-bluePrime2/30">
               <img
-                src="https://placehold.co/800"
+                src={desktopImageSrc}
                 alt="Promoção - Desktop"
                 className="object-cover w-full h-full"
               />
