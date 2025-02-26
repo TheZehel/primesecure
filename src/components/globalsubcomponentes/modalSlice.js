@@ -4,6 +4,7 @@ const modalSlice = createSlice({
   name: 'modal',
   initialState: {
     counts: {}, // Objeto para armazenar a contagem por productId
+    isPromotionOpen: true, // Estado para controle do popup de promoção
   },
   reducers: {
     incrementProductCount: (state, action) => {
@@ -13,9 +14,15 @@ const modalSlice = createSlice({
       }
       state.counts[productId] += 1;
     },
-    // Se precisar, adicione outros reducers, como resetProductCount, etc.
+    closePromotion: (state) => {
+      state.isPromotionOpen = false;
+    },
+    openPromotion: (state) => {
+      state.isPromotionOpen = true;
+    },
   },
 });
 
-export const { incrementProductCount } = modalSlice.actions;
+export const { incrementProductCount, closePromotion, openPromotion } =
+  modalSlice.actions;
 export default modalSlice.reducer;

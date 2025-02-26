@@ -77,6 +77,8 @@ import IndexCotacaoTravel from './components/primetravel/cotador/indexCotacaoTra
 import IndexVidaOmint from './components/vida-omint/indexVidaOmint.js';
 import IndexAuto from './components/seguro-auto/indexAuto.js';
 import PopupBack from './components/globalsubcomponentes/BackPopup.js';
+import PromotionPopup from './components/globalsubcomponentes/PopupPromotion.js';
+import ModalContainer from './components/globalsubcomponentes/ModalContainer.js';
 
 /**
  *  Componente para fazer o scroll para o topo da página
@@ -312,6 +314,7 @@ function App() {
         {!_pathname.includes('/seguro-bike') &&
           !_pathname.includes('/seguro-celular-kakau') &&
           !_pathname.includes('/seguro-celular-kakau') && <Footer />}
+        <ModalContainer />
       </div>
     </Router>
   );

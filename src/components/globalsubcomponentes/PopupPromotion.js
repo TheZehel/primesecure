@@ -11,11 +11,11 @@ import {
 import { useNavigate } from 'react-router-dom';
 import ReactInputMask from 'react-input-mask';
 
-export function PromotionPopup({ banner }) {
+export function PromotionPopup({ banner: bannerProp }) {
   const [open, setOpen] = React.useState(true);
   const navigate = useNavigate();
 
-  // Lógica para obter a largura da viewport
+  // Estado para acompanhar a largura da viewport (caso precise usar em outras lógicas)
   const [viewportWidth, setViewportWidth] = React.useState(window.innerWidth);
   React.useEffect(() => {
     const handleResize = () => setViewportWidth(window.innerWidth);
@@ -23,22 +23,8 @@ export function PromotionPopup({ banner }) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Lógica para definir as imagens com base na largura da viewport
-  // Se banner for informado, utiliza banner.srcLarge quando viewportWidth >= 1500; caso contrário, utiliza banner.srcMobile.
-  // Se não houver banner, utiliza os placeholders padrão.
-  const mobileImageSrc = banner
-    ? viewportWidth >= 1500
-      ? banner.srcLarge
-      : banner.srcMobile
-    : 'https://placehold.co/600x300';
-  const desktopImageSrc = banner
-    ? viewportWidth >= 1500
-      ? banner.srcLarge
-      : banner.srcMobile
-    : 'https://placehold.co/400';
-
-  // Função para mapear o caminho para um identificador de conversão
-  const getConversionIdentifier = () => {
+  // Função que mapeia a rota para o identificador e os banners
+  const getConversionData = () => {
     const pathToIdentifierMap = {
       '/primetravel': 'lead-primetravel-api',
       '/seguro-de-vida': 'lead-seguro-de-vida-api',
@@ -46,32 +32,87 @@ export function PromotionPopup({ banner }) {
       '/seguro-residencial-porto-2': 'lead-seguro-residencial-api',
       '/equipamentos-portateis-3': 'lead-seguro-celular-api',
       '/sulamerica-odonto': 'lead-sulamerica-odonto-api',
-      '/primetravel/': 'lead-primetravel-api',
-      '/seguro-de-vida/': 'lead-seguro-de-vida-api',
-      '/seguro-pet-porto/': 'lead-seguro-pet-api',
-      '/seguro-residencial-porto-2/': 'lead-seguro-residencial-api',
-      '/equipamentos-portateis-3/': 'lead-seguro-celular-api',
-      '/sulamerica-odonto/': 'lead-sulamerica-odonto-api',
       '/seguro-bike': 'lead-seguro-bike-api',
-      '/seguro-bike/': 'lead-seguro-bike-api',
-      '/seguro-celular-kakau': 'seguro-celular-kakau-api',
-      '/seguro-celular-kakau/': 'seguro-celular-kakau-api',
       '/consorcio-imovel': 'lead-consorcio-imovel-api',
-      '/consorcio-imovel/': 'lead-consorcio-imovel-api',
       '/consorcio-auto': 'lead-consorcio-auto',
-      '/consorcio-auto/': 'lead-consorcio-auto',
+      '/seguro-vida-omint': 'lead-vida-omint-api',
     };
 
-    return (
-      pathToIdentifierMap[window.location.pathname] || 'default-identifier'
-    );
+    const productBanners = {
+      '/primetravel': {
+        srcLarge:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/primetravel/desktop.jpeg',
+        srcMobile: '',
+      },
+      '/seguro-de-vida': {
+        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
+        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+      },
+      '/seguro-pet-porto': {
+        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
+        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+      },
+      '/seguro-residencial-porto-2': {
+        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
+        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+      },
+      '/equipamentos-portateis-3': {
+        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
+        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+      },
+      '/sulamerica-odonto': {
+        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
+        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+      },
+      '/seguro-bike': {
+        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
+        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+      },
+      '/consorcio-imovel': {
+        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
+        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+      },
+      '/consorcio-auto': {
+        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
+        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+      },
+      '/seguro-vida-omint': {
+        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
+        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+      },
+    };
+
+    const currentPath = window.location.pathname;
+    const conversionIdentifier =
+      pathToIdentifierMap[currentPath] || 'default-identifier';
+
+    const bannerMapping = productBanners[currentPath] || {
+      srcLarge: 'https://link-default-grande.jpg',
+      srcMobile: 'https://link-default-mobile.jpg',
+    };
+
+    return { conversionIdentifier, banner: bannerMapping };
   };
 
-  // Exemplo de uso do identificador no handleOpen
+  // Se a prop banner for informada, ela tem precedência; caso contrário, usa o mapeamento de rotas.
+  const conversionData = bannerProp
+    ? { banner: bannerProp }
+    : getConversionData();
+  const { banner } = conversionData;
+
+  // Define as URLs de imagem: mobile sempre usa srcMobile e desktop sempre usa srcLarge.
+  const mobileImageSrc = banner.srcMobile;
+  const desktopImageSrc = banner.srcLarge;
+
+  // Função para obter o identificador de conversão (exemplo de uso)
+  const getConversionIdentifier = () => {
+    return getConversionData().conversionIdentifier;
+  };
+
+  // Exemplo de uso do identificador (apenas exibindo no console)
   const handleOpen = () => {
     const conversionIdentifier = getConversionIdentifier();
     console.log('Conversion Identifier:', conversionIdentifier);
-    // Aqui você pode disparar algum evento ou executar alguma ação com esse identificador
     setOpen((cur) => !cur);
   };
 
@@ -88,16 +129,14 @@ export function PromotionPopup({ banner }) {
         className="bg-transparent shadow-none"
       >
         <Card className="mx-auto w-full max-w-[55rem] border border-bluePrime2/30">
-          {/* Layout para telas pequenas: mostra a imagem mobile e o formulário em coluna */}
+          {/* Layout para telas pequenas */}
           <div className="block md:hidden relative">
-            {/* Imagem Mobile com a lógica de dimensão aplicada */}
             <div className="border border-bluePrime2/30">
               <img
                 src={mobileImageSrc}
                 alt="Promoção - Mobile"
                 className="object-cover w-full h-auto"
               />
-              {/* Botão "X" posicionado em cima da imagem */}
               <button
                 onClick={handleOpen}
                 className="absolute top-2 right-2 text-bluePrime hover:text-bluePrime2 transition-colors z-10"
@@ -118,7 +157,6 @@ export function PromotionPopup({ banner }) {
                 </svg>
               </button>
             </div>
-            {/* Formulário */}
             <div className="p-4 border border-bluePrime2/30">
               <CardBody className="flex flex-col gap-4">
                 <Typography
@@ -134,7 +172,6 @@ export function PromotionPopup({ banner }) {
                 >
                   Seja notificado sobre nossas promoções e novidades.
                 </Typography>
-                {/* Input para Nome */}
                 <Typography className="-mb-2 text-grayPrime" variant="h6">
                   Seu nome:
                 </Typography>
@@ -197,9 +234,8 @@ export function PromotionPopup({ banner }) {
             </div>
           </div>
 
-          {/* Layout para telas médias e maiores: duas colunas */}
+          {/* Layout para telas médias e maiores */}
           <div className="hidden md:flex">
-            {/* Coluna esquerda: imagem desktop com a lógica de dimensão aplicada */}
             <div className="w-1/2 border border-bluePrime2/30">
               <img
                 src={desktopImageSrc}
@@ -207,9 +243,7 @@ export function PromotionPopup({ banner }) {
                 className="object-cover w-full h-full"
               />
             </div>
-            {/* Coluna direita: formulário */}
             <div className="w-1/2 p-4 flex flex-col border border-bluePrime2/30">
-              {/* Botão "X" */}
               <div className="flex justify-end">
                 <button
                   onClick={handleOpen}
@@ -245,7 +279,6 @@ export function PromotionPopup({ banner }) {
                 >
                   Seja notificado sobre nossas promoções e novidades.
                 </Typography>
-                {/* Input para Nome */}
                 <Typography className="-mb-2 text-grayPrime" variant="h6">
                   Seu nome:
                 </Typography>

@@ -10,29 +10,27 @@ import {
 import { useNavigate } from 'react-router-dom';
 import ReactInputMask from 'react-input-mask';
 import { useDispatch, useSelector } from 'react-redux';
-import { incrementProductCount } from './modalSlice'; // ajuste o caminho conforme necessário
+import { incrementProductCount } from './modalSlice';
 
-export function PopupBack({ productId, delay = 10800000, banner }) {
+export function PopupBack({
+  productId,
+  delay = 10800000,
+  banner: bannerProp,
+  isPromotionOpen,
+}) {
+  // Lê o estado inicial do pop-up a partir do localStorage
+  const initialPopupShown = localStorage.getItem('popupShown') === 'true';
+  // "open" controla se o pop-up está visível e "alreadyOpened" indica se já foi aberto anteriormente
   const [open, setOpen] = React.useState(false);
+  const [alreadyOpened, setAlreadyOpened] = React.useState(initialPopupShown);
   const [isMouseNearTop, setIsMouseNearTop] = React.useState(false);
-  // Estado para armazenar o timestamp da última abertura
   const [lastOpenTime, setLastOpenTime] = React.useState(0);
-  // Estado para armazenar a largura da viewport
-  const [viewportWidth, setViewportWidth] = React.useState(window.innerWidth);
 
-  // Atualiza a largura da viewport ao redimensionar a janela
-  React.useEffect(() => {
-    const handleResize = () => setViewportWidth(window.innerWidth);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Busca a contagem específica para este produto
-  const openCount = useSelector((state) => state.modal.counts[productId] || 0);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const openCount = useSelector((state) => state.modal.counts[productId] || 0);
 
-  const getConversionIdentifier = () => {
+  const getConversionData = () => {
     const pathToIdentifierMap = {
       '/primetravel': 'lead-primetravel-api',
       '/seguro-de-vida': 'lead-seguro-de-vida-api',
@@ -43,25 +41,91 @@ export function PopupBack({ productId, delay = 10800000, banner }) {
       '/seguro-bike': 'lead-seguro-bike-api',
       '/consorcio-imovel': 'lead-consorcio-imovel-api',
       '/consorcio-auto': 'lead-consorcio-auto',
+      '/seguro-vida-omint': 'lead-vida-omint-api',
     };
 
-    return (
-      pathToIdentifierMap[window.location.pathname] || 'default-identifier'
-    );
+    const productBanners = {
+      '/primetravel': {
+        srcLarge:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/primetravel/desktop.jpeg',
+        srcMobile: '',
+      },
+      '/seguro-de-vida': {
+        srcLarge:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/800x800.jpeg',
+        srcMobile:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/600x300.jpeg',
+      },
+      '/seguro-pet-porto': {
+        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
+        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+      },
+      '/seguro-residencial-porto-2': {
+        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
+        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+      },
+      '/equipamentos-portateis-3': {
+        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
+        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+      },
+      '/sulamerica-odonto': {
+        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
+        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+      },
+      '/seguro-bike': {
+        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
+        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+      },
+      '/consorcio-imovel': {
+        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
+        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+      },
+      '/consorcio-auto': {
+        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
+        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+      },
+      '/seguro-vida-omint': {
+        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
+        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+      },
+    };
+
+    const currentPath = window.location.pathname;
+    const conversionIdentifier =
+      pathToIdentifierMap[currentPath] || 'default-identifier';
+
+    const banner = productBanners[currentPath] || {
+      srcLarge: 'https://link-default-grande.jpg',
+      srcMobile: 'https://link-default-mobile.jpg',
+    };
+
+    return { conversionIdentifier, banner };
   };
 
+  // Se a prop banner não foi passada, utiliza o banner definido na função getConversionData
+  const conversionData = bannerProp
+    ? { banner: bannerProp }
+    : getConversionData();
+  const { banner } = conversionData;
+
+  const mobileImageSrc = banner.srcMobile;
+  const desktopImageSrc = banner.srcLarge;
+
   const handleOpen = () => {
+    // Se o PopupPromotion estiver aberto, não abre o PopupBack
+    if (isPromotionOpen) return;
+
     const now = Date.now();
-    // Se o modal estiver fechado, verifica se já atingiu o limite ou se o delay não foi cumprido
     if (!open) {
       if (openCount >= 2) return;
       if (lastOpenTime && now - lastOpenTime < delay) {
         console.log('Delay não cumprido, aguarde um pouco.');
         return;
       }
-      // Atualiza o timestamp e incrementa a contagem para este produto
       setLastOpenTime(now);
       dispatch(incrementProductCount(productId));
+      localStorage.setItem('popupShown', 'true');
+      setAlreadyOpened(true);
     }
     setOpen((cur) => !cur);
   };
@@ -70,29 +134,74 @@ export function PopupBack({ productId, delay = 10800000, banner }) {
     navigate('/politicas-de-privacidade');
   };
 
-  // Lógica de exit-intent com delay
-  React.useEffect(() => {
-    const threshold = 50; // distância em pixels do topo para disparar a ação
+  // Usamos um ref para manter o timer persistente entre renderizações
+  const timerRef = React.useRef(null);
 
+  React.useEffect(() => {
+    // Se já foi aberto ou se o PopupPromotion estiver aberto, cancela o listener e o timer
+    if (alreadyOpened || isPromotionOpen) {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+        timerRef.current = null;
+      }
+      return;
+    }
+
+    const threshold = 50; // distância em pixels do topo
     const handleMouseMove = (event) => {
+      if (isPromotionOpen) {
+        if (timerRef.current) {
+          clearTimeout(timerRef.current);
+          timerRef.current = null;
+        }
+        return;
+      }
       const now = Date.now();
       const mouseY = event.clientY;
+      // Verifica se o mouse está próximo do topo e se as condições para abrir o PopupBack são atendidas
       if (mouseY < threshold && !open && openCount < 2) {
         if (lastOpenTime && now - lastOpenTime < delay) {
-          return; // Não abre se o delay não foi cumprido
+          return;
         }
-        setIsMouseNearTop(true);
-        setOpen(true);
-        setLastOpenTime(now);
-        dispatch(incrementProductCount(productId));
+        // Se o timer ainda não foi iniciado, inicia um timer de 1 segundo
+        if (!timerRef.current) {
+          timerRef.current = setTimeout(() => {
+            setOpen(true);
+            setLastOpenTime(now);
+            dispatch(incrementProductCount(productId));
+            localStorage.setItem('popupShown', 'true');
+            setAlreadyOpened(true);
+            timerRef.current = null;
+          }, 1000); // Alterado para 1 segundo (1000ms)
+        }
+      } else {
+        // Se o mouse se afastar da área, cancela o timer se existir
+        if (timerRef.current) {
+          clearTimeout(timerRef.current);
+          timerRef.current = null;
+        }
       }
     };
 
     window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [open, openCount, dispatch, productId, lastOpenTime, delay]);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+        timerRef.current = null;
+      }
+    };
+  }, [
+    open,
+    openCount,
+    dispatch,
+    productId,
+    lastOpenTime,
+    delay,
+    alreadyOpened,
+    isPromotionOpen,
+  ]);
 
-  // Ações dos botões da confirmação
   const handleConfirmYes = () => {
     setOpen(false);
     setIsMouseNearTop(false);
@@ -104,20 +213,6 @@ export function PopupBack({ productId, delay = 10800000, banner }) {
     setIsMouseNearTop(false);
     window.focus();
   };
-
-  // Lógica de imagem: se a prop banner for informada, usa-a para escolher entre srcLarge e srcMobile.
-  // Se viewportWidth >= 1500, utiliza banner.srcLarge; caso contrário, utiliza banner.srcMobile.
-  // Se não houver banner, mantém os valores padrão.
-  const mobileImageSrc = banner
-    ? viewportWidth >= 1500
-      ? banner.srcLarge
-      : banner.srcMobile
-    : 'https://placehold.co/600x300';
-  const desktopImageSrc = banner
-    ? viewportWidth >= 1500
-      ? banner.srcLarge
-      : banner.srcMobile
-    : 'https://placehold.co/800';
 
   return (
     <>
@@ -191,19 +286,6 @@ export function PopupBack({ productId, delay = 10800000, banner }) {
                     autoComplete="family-name"
                     className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
                   />
-                  {/* <Typography className="-mb-2 text-grayPrime" variant="h6">
-                    Seu telefone:
-                  </Typography>
-                  <ReactInputMask
-                    size="lg"
-                    mask="(99) 9.9999-9999"
-                    maskChar={null}
-                    maxLength="16"
-                    type="text"
-                    name="phone"
-                    id="phone"
-                    className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
-                  /> */}
                 </CardBody>
                 <CardFooter className="pt-0">
                   <Button
