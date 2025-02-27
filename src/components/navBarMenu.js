@@ -57,13 +57,13 @@ const products = [
     icon: FontAwesomeIcon,
     iconProps: { icon: faBicycle },
   },
-  {
-    name: 'Seguro Celular Kakau',
-    description: 'Proteção para o Seu Celular',
-    href: `/seguro-celular-kakau${utmParams ? '?' + utmParams : ''}`,
-    icon: FontAwesomeIcon,
-    iconProps: { icon: faMobilePhone },
-  },
+  // {
+  //   name: 'Seguro Celular Kakau',
+  //   description: 'Proteção para o Seu Celular',
+  //   href: `/seguro-celular-kakau${utmParams ? '?' + utmParams : ''}`,
+  //   icon: FontAwesomeIcon,
+  //   iconProps: { icon: faMobilePhone },
+  // },
   {
     name: 'Seguro Residencial',
     description: 'Planos de Proteção Para a Sua Residencia.',
@@ -86,14 +86,14 @@ const products = [
     iconProps: { icon: faPaw },
   },
   {
-    name: 'Odonto',
+    name: 'Plano Odonto',
     description: 'Planos de Proteção Odonto.',
     href: 'https://odontosulamerica.com.br/',
     icon: FontAwesomeIcon,
     iconProps: { icon: faTooth },
   },
   {
-    name: 'Vida',
+    name: 'Seguro de Vida',
     description: 'Planos de Proteção Para Sua Vida',
     href: '/seguro-de-vida',
     icon: FontAwesomeIcon,
@@ -107,9 +107,9 @@ const products = [
   //   iconProps: { icon: faCarCrash },
   // },
   {
-    name: 'Celular',
+    name: 'Seguro Celular',
     description: 'Planos de Proteção Para o Seu Celular',
-    href: '/equipamentos-portateis-3',
+    href: 'https://compre.simple2u.com.br/IniciarSimulacao/primesecure',
     icon: FontAwesomeIcon,
     iconProps: { icon: faMobile },
   },
@@ -128,7 +128,7 @@ const products = [
     iconProps: { icon: faCarOn },
   },
   {
-    name: 'Saúde',
+    name: 'Plano de Saúde',
     description: 'Para quem busca cuidar de si próprio',
     href: 'https://primesecureprodutos.com.br/planos-de-saude/',
     icon: FontAwesomeIcon,
@@ -442,10 +442,10 @@ function NavBarMenu() {
                           )}
                         </div>
                         <div className="flex-auto">
-                          <span className="block font-semibold text-gray-900">
+                          <span className="block font-semibold text-gray-900 text-left">
                             {item.name}
                           </span>
-                          <p className="mt-1 text-gray-600">
+                          <p className="mt-1 text-gray-600 text-left">
                             {item.description}
                           </p>
                         </div>
