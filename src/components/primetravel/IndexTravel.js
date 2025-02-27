@@ -34,8 +34,6 @@ import PromoPopup, {
 import PopupBack from '../globalsubcomponentes/BackPopup';
 import { ToastContainer } from 'react-toastify';
 
-
-
 function IndexTravel() {
   const FaqRef = useRef();
   const productId = 'primetravel';
