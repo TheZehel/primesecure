@@ -1,11 +1,14 @@
-import CardsContato from "./components/subcomponents/CardsContato";
-import HeaderContato from "./components/subcomponents/HeaderContato";
-import IconsSocial from "./components/subcomponents/IconsSocial";
-import { Helmet } from "react-helmet";
+import PopupBack from '../globalsubcomponentes/BackPopup';
+import CardsContato from './components/subcomponents/CardsContato';
+import HeaderContato from './components/subcomponents/HeaderContato';
+import IconsSocial from './components/subcomponents/IconsSocial';
+import { Helmet } from 'react-helmet';
 
 function IndexContato() {
+  const productId = 'Contato';
   return (
     <div className="Indexcontato">
+      <PopupBack productId={productId} />
       <Helmet>
         <title>Entre Em Contato | Prime Secure</title>
         <meta

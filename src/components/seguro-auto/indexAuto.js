@@ -10,10 +10,14 @@ import Cancel from './components/cancel';
 import CoberturasAdicionais from './components/adicionais';
 import FAQ from './components/perguntas';
 import ServicoEspecializado from './components/especializado';
+import PromoPopup, {
+  PromotionPopup,
+} from '../globalsubcomponentes/PopupPromotion';
 
 export default function IndexAuto() {
   return (
     <div>
+      <PromotionPopup />
       <Superior />
       <div>
         {/* Título e descrição inicial */}
