@@ -42,51 +42,69 @@ export function PopupBack({
       '/consorcio-imovel': 'lead-consorcio-imovel-api',
       '/consorcio-auto': 'lead-consorcio-auto',
       '/seguro-vida-omint': 'lead-vida-omint-api',
+      '/seguro-celular-kakau': 'lead-seguro-celular-kakau-api',
     };
 
     const productBanners = {
       '/primetravel': {
         srcLarge:
-          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/primetravel/desktop.jpeg',
-        srcMobile: '',
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-primetravel.png',
+        srcMobile:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-primetravel.png',
       },
       '/seguro-de-vida': {
-        srcLarge:
-          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/800x800.jpeg',
-        srcMobile:
-          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/600x300.jpeg',
+        // srcLarge:
+        //   'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-vida.png',
+        // srcMobile:
+        //   'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-vida.png',
       },
       '/seguro-pet-porto': {
-        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
-        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+        srcLarge:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-pet.png',
+        srcMobile:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-pet.png',
       },
       '/seguro-residencial-porto-2': {
-        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
-        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+        srcLarge:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-residencial.png',
+        srcMobile:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-residencial.png',
       },
       '/equipamentos-portateis-3': {
-        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
-        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+        srcLarge:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-celularPorto.png',
+        srcMobile:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-celularPorto.png',
       },
-      '/sulamerica-odonto': {
-        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
-        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+      '/seguro-celular-kakau': {
+        srcLarge:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-cell.png',
+        srcMobile:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-celular.png',
       },
       '/seguro-bike': {
-        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
-        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+        srcLarge:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-bike.png',
+        srcMobile:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-bike.png',
       },
       '/consorcio-imovel': {
-        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
-        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+        srcLarge:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-imovel.png',
+        srcMobile:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-imovel.png',
       },
       '/consorcio-auto': {
-        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
-        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+        srcLarge:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-auto.png',
+        srcMobile:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-auto.png',
       },
       '/seguro-vida-omint': {
-        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
-        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+        srcLarge:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-vida.png',
+        srcMobile:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-vida.png',
       },
     };
 
@@ -172,7 +190,7 @@ export function PopupBack({
             localStorage.setItem('popupShown', 'true');
             setAlreadyOpened(true);
             timerRef.current = null;
-          }, 1000); // Alterado para 1 segundo (1000ms)
+          }, 300); // Alterado para 1 segundo (1000ms)
         }
       } else {
         // Se o mouse se afastar da área, cancela o timer se existir
@@ -284,6 +302,19 @@ export function PopupBack({
                     name="email"
                     id="email-address"
                     autoComplete="family-name"
+                    className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
+                  />
+                  <Typography className="-mb-2 text-grayPrime" variant="h6">
+                    Seu telefone:
+                  </Typography>
+                  <ReactInputMask
+                    size="lg"
+                    mask="(99) 9.9999-9999"
+                    maskChar={null}
+                    maxLength="16"
+                    type="text"
+                    name="phone"
+                    id="phone"
                     className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
                   />
                 </CardBody>

@@ -83,8 +83,8 @@ function IndexVida() {
   }, []);
   return (
     <div className="IndexVida">
-      <PopupBack productId={productId} />
-      <PromotionPopup />
+      {/* <PopupBack productId={productId} />
+      <PromotionPopup /> */}
       <Helmet>
         <title>Seguro De Vida SulAmérica | Prime Secure Marketplace</title>
         <meta

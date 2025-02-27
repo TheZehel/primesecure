@@ -36,49 +36,69 @@ export function PromotionPopup({ banner: bannerProp }) {
       '/consorcio-imovel': 'lead-consorcio-imovel-api',
       '/consorcio-auto': 'lead-consorcio-auto',
       '/seguro-vida-omint': 'lead-vida-omint-api',
+      '/seguro-celular-kakau': 'lead-seguro-celular-kakau-api',
     };
 
     const productBanners = {
       '/primetravel': {
         srcLarge:
-          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/primetravel/desktop.jpeg',
-        srcMobile: '',
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-primetravel.png',
+        srcMobile:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-primetravel.png',
       },
       '/seguro-de-vida': {
-        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
-        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+        // srcLarge:
+        //   'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-vida.png',
+        // srcMobile:
+        //   'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-vida.png',
       },
       '/seguro-pet-porto': {
-        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
-        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+        srcLarge:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-pet.png',
+        srcMobile:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-pet.png',
       },
       '/seguro-residencial-porto-2': {
-        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
-        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+        srcLarge:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-residencial.png',
+        srcMobile:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-residencial.png',
       },
       '/equipamentos-portateis-3': {
-        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
-        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+        srcLarge:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-celularPorto.png',
+        srcMobile:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-celularPorto.png',
       },
-      '/sulamerica-odonto': {
-        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
-        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+      '/seguro-celular-kakau': {
+        srcLarge:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-cell.png',
+        srcMobile:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-celular.png',
       },
       '/seguro-bike': {
-        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
-        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+        srcLarge:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-bike.png',
+        srcMobile:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-bike.png',
       },
       '/consorcio-imovel': {
-        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
-        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+        srcLarge:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-imovel.png',
+        srcMobile:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-imovel.png',
       },
       '/consorcio-auto': {
-        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
-        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+        srcLarge:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-auto.png',
+        srcMobile:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-auto.png',
       },
       '/seguro-vida-omint': {
-        srcLarge: 'https://link-para-imagem-grande-seguro-de-vida.jpg',
-        srcMobile: 'https://link-para-imagem-mobile-seguro-de-vida.jpg',
+        srcLarge:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-vida.png',
+        srcMobile:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-vida.png',
       },
     };
 
