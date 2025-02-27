@@ -1,15 +1,18 @@
 //SEO
-import { Helmet } from "react-helmet";
+import { Helmet } from 'react-helmet';
 
 //Componentes
-import HeaderSobre from "./components/HeaderSobre";
-import FaqSobre from "./components/FaqSobre";
-import BannerImg from "./components/BannerImg";
-import IndexTrophySection from "../trophy-section/IndexTrophySection";
+import HeaderSobre from './components/HeaderSobre';
+import FaqSobre from './components/FaqSobre';
+import BannerImg from './components/BannerImg';
+import IndexTrophySection from '../trophy-section/IndexTrophySection';
+import PopupBack from '../globalsubcomponentes/BackPopup';
 
 function IndexSobrePrime() {
+  const productId = 'SobrePrime';
   return (
     <div className="IndexSobrePrime">
+      <PopupBack productId={productId} />
       <Helmet>
         <title>Sobre | Prime Secure</title>
         <meta

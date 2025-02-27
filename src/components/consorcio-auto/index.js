@@ -13,11 +13,17 @@ import BannerPromo from './components/Banners';
 // Importe o ToastContainer e os estilos
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 import { useEffect } from 'react';
 import confetti from 'canvas-confetti';
+import PromoPopup, {
+  PromotionPopup,
+} from '../globalsubcomponentes/PopupPromotion';
+import PopupBack from '../globalsubcomponentes/BackPopup';
 
 function IndexConsorcioAuto() {
   const targetDate = new Date('December 31, 2023 00:00:00');
+  const productId = 'consorcio-auto';
 
   useEffect(() => {
     const hasVisited = localStorage.getItem('visited');
@@ -69,8 +75,11 @@ function IndexConsorcioAuto() {
       localStorage.setItem('visited', 'true');
     }
   }, []);
+
   return (
     <div>
+      <PopupBack productId={productId} />
+      <PromotionPopup />
       <Helmet>
         {/* <!-- Primary Meta Tags --> */}
         <title>Consórcio Auto Porto | Prime Secure Marketplace</title>

@@ -10,8 +10,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import BannersPromos from './components/bannersPromo';
 import { useEffect } from 'react';
 import confetti from 'canvas-confetti';
+import PromotionPopup from '../globalsubcomponentes/PopupPromotion';
+import PopupBack from '../globalsubcomponentes/BackPopup';
 
 export default function IndexVidaOmint() {
+  const productId = 'vida-omint';
   useEffect(() => {
     const hasVisited = localStorage.getItem('visited');
     if (!hasVisited) {
@@ -66,6 +69,8 @@ export default function IndexVidaOmint() {
   }, []);
   return (
     <div>
+      <PopupBack productId={productId} />
+      <PromotionPopup />
       <BannersPromos />
       <Superior />
 

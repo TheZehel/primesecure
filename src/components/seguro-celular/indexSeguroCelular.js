@@ -18,10 +18,14 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import confetti from 'canvas-confetti';
 import { useEffect } from 'react';
+import PromoPopup, {
+  PromotionPopup,
+} from '../globalsubcomponentes/PopupPromotion';
+import PopupBack from '../globalsubcomponentes/BackPopup';
 
 function IndexSeguroCelular() {
   const targetDate = new Date('December 31, 2023 00:00:00');
-
+  const productId = 'seguro-celular';
   useEffect(() => {
     const hasVisited = localStorage.getItem('visited');
     if (!hasVisited) {
@@ -77,6 +81,8 @@ function IndexSeguroCelular() {
 
   return (
     <div className="IndexSeguroCelular">
+      <PopupBack productId={productId} />
+      <PromotionPopup />
       <Helmet>
         <title>Seguro Celular Porto | Prime Secure Marketplace</title>
         <meta

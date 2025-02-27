@@ -28,10 +28,15 @@ import BannerPromos from './components/subcomponents/BannerPromos';
 import StepsHiring from './components/subcomponents/HiringSteps';
 import BannerPromo from './components/subcomponents/BannerPromo';
 import confetti from 'canvas-confetti';
+import PromoPopup, {
+  PromotionPopup,
+} from '../globalsubcomponentes/PopupPromotion';
+import PopupBack from '../globalsubcomponentes/BackPopup';
 import { ToastContainer } from 'react-toastify';
 
 function IndexTravel() {
   const FaqRef = useRef();
+  const productId = 'primetravel';
   const scrollToFaq = () => {
     const faqPosition = FaqRef.current.getBoundingClientRect();
     window.scrollBy({
@@ -96,6 +101,8 @@ function IndexTravel() {
   //const targetDate = new Date("December 31, 2023 00:00:00");
   return (
     <div className="IndexTravel">
+      <PopupBack productId={productId} />
+      <PromotionPopup />
       <Helmet>
         <title>Seguro de Viagem Prime Travel | Prime Secure Marketplace</title>
         <meta
