@@ -32,6 +32,9 @@ import PromoPopup, {
   PromotionPopup,
 } from '../globalsubcomponentes/PopupPromotion';
 import PopupBack from '../globalsubcomponentes/BackPopup';
+import { ToastContainer } from 'react-toastify';
+
+
 
 function IndexTravel() {
   const FaqRef = useRef();
@@ -136,6 +139,7 @@ function IndexTravel() {
       </Helmet>
       {/*<BannerPromos />*/}
       <BannerPromo />
+      <ToastContainer />
       {/*<CountDown targetDate={targetDate} />*/}
       <FormTravelBanner />
       <FaixaBanner />
