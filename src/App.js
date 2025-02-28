@@ -314,7 +314,7 @@ function App() {
         {!_pathname.includes('/seguro-bike') &&
           !_pathname.includes('/seguro-celular-kakau') &&
           !_pathname.includes('/seguro-celular-kakau') && <Footer />}
-        <ModalContainer />
+        {/* <ModalContainer /> */}
       </div>
     </Router>
   );
