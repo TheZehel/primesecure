@@ -11,10 +11,14 @@ import CountDown from './components/subcomponents/CountDown';
 import BannerPromo from './components/subcomponents/BannerPromos';
 import confetti from 'canvas-confetti';
 import { useEffect } from 'react';
+import PromoPopup, {
+  PromotionPopup,
+} from '../globalsubcomponentes/PopupPromotion';
+import PopupBack from '../globalsubcomponentes/BackPopup';
 
 function IndexSeguroResidencial() {
   const targetDate = new Date('December 31, 2023 00:00:00');
-
+  const productId = 'Residencial';
   useEffect(() => {
     const hasVisited = localStorage.getItem('visited');
     if (!hasVisited) {
@@ -69,6 +73,8 @@ function IndexSeguroResidencial() {
   }, []);
   return (
     <div className="IndexSeguroResidencial">
+      <PopupBack productId={productId} />
+      <PromotionPopup />
       <Helmet>
         <title>Seguro Residencial Porto | Prime Secure Marketplace</title>
         <meta

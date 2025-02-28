@@ -21,9 +21,14 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useEffect } from 'react';
 import confetti from 'canvas-confetti';
+import PromoPopup, {
+  PromotionPopup,
+} from '../globalsubcomponentes/PopupPromotion';
+import PopupBack from '../globalsubcomponentes/BackPopup';
 
 function IndexVida() {
   const targetDate = new Date('December 31, 2023 00:00:00');
+  const productId = 'seguro-de-vida';
   useEffect(() => {
     const hasVisited = localStorage.getItem('visited');
     if (!hasVisited) {
@@ -78,6 +83,8 @@ function IndexVida() {
   }, []);
   return (
     <div className="IndexVida">
+      {/* <PopupBack productId={productId} />
+      <PromotionPopup /> */}
       <Helmet>
         <title>Seguro De Vida SulAmérica | Prime Secure Marketplace</title>
         <meta
