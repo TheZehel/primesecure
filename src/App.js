@@ -79,6 +79,7 @@ import IndexAuto from './components/seguro-auto/indexAuto.js';
 import PopupBack from './components/globalsubcomponentes/BackPopup.js';
 import PromotionPopup from './components/globalsubcomponentes/PopupPromotion.js';
 import ModalContainer from './components/globalsubcomponentes/ModalContainer.js';
+import IndexSimpleTwoYou from './components/seguro-simpletwoyou/IndexSimpleTwoYou.js';
 
 /**
  *  Componente para fazer o scroll para o topo da página
@@ -305,6 +306,7 @@ function App() {
             element={<IndexSeguroResidencial />}
           />
           <Route path="/sulamerica-odonto" element={<IndexOdonto />} />
+          <Route path="/simple2you" element={<IndexSimpleTwoYou />} />
           <Route path="/consorcio-imovel" element={<IndexConsorcioImovel />} />
           <Route path="/consorcio-auto" element={<IndexConsorcioAuto />} />
           <Route path="/obrigado" element={<PaginaObrigadoLP />} />
