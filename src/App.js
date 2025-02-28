@@ -166,7 +166,7 @@ function App() {
                 <CardGraaac />
                 <Selos />
                 <IndexContactSection />
-                <PopupBack />
+                {/* <PopupBack /> */}
               </>
             }
           />
