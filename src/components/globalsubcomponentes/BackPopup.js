@@ -7,7 +7,7 @@ import {
   CardFooter,
   Typography,
 } from '@material-tailwind/react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import ReactInputMask from 'react-input-mask';
 import { useDispatch, useSelector } from 'react-redux';
 import { incrementProductCount } from './modalSlice';
@@ -18,145 +18,19 @@ export function PopupBack({
   banner: bannerProp,
   isPromotionOpen,
 }) {
-  // Lê o estado inicial do pop-up a partir do localStorage
+  // Chama todos os hooks incondicionalmente
+  const { pathname } = useLocation();
   const initialPopupShown = localStorage.getItem('popupShown') === 'true';
-  // "open" controla se o pop-up está visível e "alreadyOpened" indica se já foi aberto anteriormente
   const [open, setOpen] = React.useState(false);
   const [alreadyOpened, setAlreadyOpened] = React.useState(initialPopupShown);
   const [isMouseNearTop, setIsMouseNearTop] = React.useState(false);
   const [lastOpenTime, setLastOpenTime] = React.useState(0);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const openCount = useSelector((state) => state.modal.counts[productId] || 0);
-
-  const getConversionData = () => {
-    const pathToIdentifierMap = {
-      '/primetravel': 'lead-primetravel-api',
-      '/seguro-de-vida': 'lead-seguro-de-vida-api',
-      '/seguro-pet-porto': 'lead-seguro-pet-api',
-      '/seguro-residencial-porto-2': 'lead-seguro-residencial-api',
-      '/equipamentos-portateis-3': 'lead-seguro-celular-api',
-      '/sulamerica-odonto': 'lead-sulamerica-odonto-api',
-      '/seguro-bike': 'lead-seguro-bike-api',
-      '/consorcio-imovel': 'lead-consorcio-imovel-api',
-      '/consorcio-auto': 'lead-consorcio-auto',
-      '/seguro-vida-omint': 'lead-vida-omint-api',
-      '/seguro-celular-kakau': 'lead-seguro-celular-kakau-api',
-    };
-
-    const productBanners = {
-      '/primetravel': {
-        srcLarge:
-          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-primetravel.png',
-        srcMobile:
-          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-primetravel.png',
-      },
-      '/seguro-de-vida': {
-        // srcLarge:
-        //   'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-vida.png',
-        // srcMobile:
-        //   'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-vida.png',
-      },
-      '/seguro-pet-porto': {
-        srcLarge:
-          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-pet.png',
-        srcMobile:
-          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-pet.png',
-      },
-      '/seguro-residencial-porto-2': {
-        srcLarge:
-          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-residencial.png',
-        srcMobile:
-          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-residencial.png',
-      },
-      '/equipamentos-portateis-3': {
-        srcLarge:
-          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-celularPorto.png',
-        srcMobile:
-          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-celularPorto.png',
-      },
-      '/seguro-celular-kakau': {
-        srcLarge:
-          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-cell.png',
-        srcMobile:
-          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-celular.png',
-      },
-      '/seguro-bike': {
-        srcLarge:
-          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-bike.png',
-        srcMobile:
-          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-bike.png',
-      },
-      '/consorcio-imovel': {
-        srcLarge:
-          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-imovel.png',
-        srcMobile:
-          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-imovel.png',
-      },
-      '/consorcio-auto': {
-        srcLarge:
-          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-auto.png',
-        srcMobile:
-          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-auto.png',
-      },
-      '/seguro-vida-omint': {
-        srcLarge:
-          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-vida.png',
-        srcMobile:
-          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-vida.png',
-      },
-    };
-
-    const currentPath = window.location.pathname;
-    const conversionIdentifier =
-      pathToIdentifierMap[currentPath] || 'default-identifier';
-
-    const banner = productBanners[currentPath] || {
-      srcLarge: 'https://link-default-grande.jpg',
-      srcMobile: 'https://link-default-mobile.jpg',
-    };
-
-    return { conversionIdentifier, banner };
-  };
-
-  // Se a prop banner não foi passada, utiliza o banner definido na função getConversionData
-  const conversionData = bannerProp
-    ? { banner: bannerProp }
-    : getConversionData();
-  const { banner } = conversionData;
-
-  const mobileImageSrc = banner.srcMobile;
-  const desktopImageSrc = banner.srcLarge;
-
-  const handleOpen = () => {
-    // Se o PopupPromotion estiver aberto, não abre o PopupBack
-    if (isPromotionOpen) return;
-
-    const now = Date.now();
-    if (!open) {
-      if (openCount >= 2) return;
-      if (lastOpenTime && now - lastOpenTime < delay) {
-        console.log('Delay não cumprido, aguarde um pouco.');
-        return;
-      }
-      setLastOpenTime(now);
-      dispatch(incrementProductCount(productId));
-      localStorage.setItem('popupShown', 'true');
-      setAlreadyOpened(true);
-    }
-    setOpen((cur) => !cur);
-  };
-
-  const handleNavigateToPrivacyPolicy = () => {
-    navigate('/politicas-de-privacidade');
-  };
-
-  // Usamos um ref para manter o timer persistente entre renderizações
   const timerRef = React.useRef(null);
 
   React.useEffect(() => {
-    // Se já foi aberto ou se o PopupPromotion estiver aberto, cancela o listener e o timer
     if (alreadyOpened || isPromotionOpen) {
       if (timerRef.current) {
         clearTimeout(timerRef.current);
@@ -176,12 +50,10 @@ export function PopupBack({
       }
       const now = Date.now();
       const mouseY = event.clientY;
-      // Verifica se o mouse está próximo do topo e se as condições para abrir o PopupBack são atendidas
       if (mouseY < threshold && !open && openCount < 2) {
         if (lastOpenTime && now - lastOpenTime < delay) {
           return;
         }
-        // Se o timer ainda não foi iniciado, inicia um timer de 1 segundo
         if (!timerRef.current) {
           timerRef.current = setTimeout(() => {
             setOpen(true);
@@ -190,10 +62,9 @@ export function PopupBack({
             localStorage.setItem('popupShown', 'true');
             setAlreadyOpened(true);
             timerRef.current = null;
-          }, 300); // Alterado para 1 segundo (1000ms)
+          }, 300);
         }
       } else {
-        // Se o mouse se afastar da área, cancela o timer se existir
         if (timerRef.current) {
           clearTimeout(timerRef.current);
           timerRef.current = null;
@@ -220,6 +91,28 @@ export function PopupBack({
     isPromotionOpen,
   ]);
 
+  const handleOpen = () => {
+    if (isPromotionOpen) return;
+
+    const now = Date.now();
+    if (!open) {
+      if (openCount >= 2) return;
+      if (lastOpenTime && now - lastOpenTime < delay) {
+        console.log('Delay não cumprido, aguarde um pouco.');
+        return;
+      }
+      setLastOpenTime(now);
+      dispatch(incrementProductCount(productId));
+      localStorage.setItem('popupShown', 'true');
+      setAlreadyOpened(true);
+    }
+    setOpen((cur) => !cur);
+  };
+
+  const handleNavigateToPrivacyPolicy = () => {
+    navigate('/politicas-de-privacidade');
+  };
+
   const handleConfirmYes = () => {
     setOpen(false);
     setIsMouseNearTop(false);
@@ -231,6 +124,12 @@ export function PopupBack({
     setIsMouseNearTop(false);
     window.focus();
   };
+
+  // Na saída, se estivermos na rota raiz, renderiza null.
+  // Dessa forma, todos os hooks foram chamados incondicionalmente.
+  if (pathname === '/') {
+    return <></>;
+  }
 
   return (
     <>
@@ -246,7 +145,11 @@ export function PopupBack({
             <div className="block md:hidden relative">
               <div className="border border-bluePrime2/30">
                 <img
-                  src={mobileImageSrc}
+                  src={
+                    bannerProp
+                      ? bannerProp.srcMobile
+                      : 'https://link-default-mobile.jpg'
+                  }
                   alt="Promoção - Mobile"
                   className="object-cover w-full h-auto"
                 />
@@ -338,7 +241,7 @@ export function PopupBack({
                           onClick={handleNavigateToPrivacyPolicy}
                           className="font-medium text-grayPrime hover:text-bluePrime transition-colors"
                         >
-                          &nbsp;Termos & Condições
+                          &nbsp;Termos &amp; Condições
                         </button>
                       </Typography>
                     </div>
@@ -346,12 +249,15 @@ export function PopupBack({
                 </CardFooter>
               </div>
             </div>
-
             {/* Layout para telas maiores */}
             <div className="hidden md:flex">
               <div className="w-1/2 border border-bluePrime2/30">
                 <img
-                  src={desktopImageSrc}
+                  src={
+                    bannerProp
+                      ? bannerProp.srcLarge
+                      : 'https://link-default-grande.jpg'
+                  }
                   alt="Promoção - Desktop"
                   className="object-cover w-full h-full"
                 />
@@ -445,7 +351,7 @@ export function PopupBack({
                           onClick={handleNavigateToPrivacyPolicy}
                           className="font-medium text-grayPrime hover:text-bluePrime transition-colors"
                         >
-                          &nbsp;Termos & Condições
+                          &nbsp;Termos &amp; Condições
                         </button>
                       </Typography>
                     </div>
