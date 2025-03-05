@@ -127,6 +127,8 @@ export default function SimpleFormSection({
       '/consorcio-imovel/': 'lead-consorcio-imovel-api',
       '/consorcio-auto': 'lead-consorcio-auto',
       '/consorcio-auto/': 'lead-consorcio-auto',
+      '/simple2you': 'lead-simple2you-api',
+      '/simple2you/': 'lead-simple2you-api',
     };
 
     const pathname = window.location.pathname;
@@ -155,6 +157,8 @@ export default function SimpleFormSection({
     '/consorcio-imovel/': 'lead-consorcio-imovel',
     '/consorcio-auto': 'lead-consorcio-auto',
     '/consorcio-auto/': 'lead-consorcio-auto',
+    '/simple2you': 'lead-simple2you',
+    '/simple2you/': 'lead-simple2you',
   };
 
   const emitDataLayerEvent = () => {
@@ -319,6 +323,9 @@ export default function SimpleFormSection({
   const navigateBasedOnPath = () => {
     if (window.location.pathname.includes('/seguro-residencial-porto-2')) {
       window.location.href = 'https://residencial.primesecure.com.br/';
+    } else if (window.location.pathname.includes('/simple2you')) {
+      window.location.href =
+        'https://compre.simple2u.com.br/IniciarSimulacao/primesecure';
     } else if (
       window.location.pathname.includes('seguro-pet-porto') ||
       window.location.pathname.includes('seguro-bike') ||

@@ -1,4 +1,4 @@
-import { Chip } from "@material-tailwind/react";
+import { Chip } from '@material-tailwind/react';
 
 export default function BannerSection({
   chipText,
@@ -13,11 +13,11 @@ export default function BannerSection({
       {imageUrl && (
         <img
           loading="lazy"
-          className="w-6/12 mx-auto backdrop-blur-sm"
+          className="w-6/12 mx-auto backdrop-blur-sm bg-white p-3 rounded-md"
           src={imageUrl}
           alt={titleText}
         />
-      )}{" "}
+      )}{' '}
       {/**/}
       <p className="text-white text-xl font-semibold  ddecoration-wavy decoration-2 ddecoration-greenPromo">
         {descriptionText}
