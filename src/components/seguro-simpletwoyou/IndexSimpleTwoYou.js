@@ -22,7 +22,6 @@ import PromoPopup, {
 } from '../globalsubcomponentes/PopupPromotion';
 import PopupBack from '../globalsubcomponentes/BackPopup';
 import Cancel from './components/subcomponents/cancel';
-//import PlanoIdealCard from './components/subcomponents/PlanoIdeal';
 import PersonalizarContainer from './components/subcomponents/Personalize';
 import ContratePoucosCliques from './components/subcomponents/Contrate';
 import PlanosIdeais from './components/subcomponents/Planos';
