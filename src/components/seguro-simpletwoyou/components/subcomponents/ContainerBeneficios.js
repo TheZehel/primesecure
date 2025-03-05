@@ -5,13 +5,16 @@ export default function ContainerBeneficios() {
   return (
     <div className="bg-transparent font-montserrat my-12">
       <div className="bg-transparent mx-auto max-w-7xl px-6 lg:px-8">
-        <h2 className="text-center text-blueprime2 font-bold mb-8 text-2xl sm:text-5xl">
+        <h2 className="text-center text-grayPrime font-bold mb-8 text-2xl sm:text-5xl">
           Coberturas que fazem sentido para seu dia
         </h2>
-        <p className="text-center mb-12 text-grayPrime">
+        <p className="text-center mb-5 text-grayPrime">
           Proteja o seu aparelho contra roubo ou furto qualificado e escolha as
           coberturas que se encaixam às suas necessidades. E o melhor? Tudo pelo
           aplicativo, na palma da sua mão.
+        </p>
+        <p className="text-center mb-12 text-bluePrime font-semibold">
+          Clique abaixo para ver mais!
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">

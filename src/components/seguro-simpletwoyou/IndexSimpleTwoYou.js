@@ -6,7 +6,6 @@ import InformacoesProdutos from '../modules/ModuleInformacoesProdutos';
 //import infoPlanos from "../modules/InfoPlanos";
 import ConteudoSessaoInfo from '../globalsubcomponentes/ConteudoSessaoInfo';
 import sessaoInfoLp from '../modules/SessaoInfoLp';
-import SliderCelulares from './components/SliderCelulares';
 import ContainerBenficios from './components/subcomponents/ContainerBeneficios';
 import FaqCelular from './components/subcomponents/FaqCelular';
 import { Helmet } from 'react-helmet';
@@ -23,7 +22,9 @@ import PromoPopup, {
 } from '../globalsubcomponentes/PopupPromotion';
 import PopupBack from '../globalsubcomponentes/BackPopup';
 import Cancel from './components/subcomponents/cancel';
-import PlanoIdeal from './components/subcomponents/planoIdeal';
+import PlanoIdealCard from './components/subcomponents/PlanoIdeal';
+import PersonalizarContainer from './components/subcomponents/Personalize';
+import ContratePoucosCliques from './components/subcomponents/Contrate';
 
 function IndexSimpleTwoYou() {
   const targetDate = new Date('December 31, 2023 00:00:00');
@@ -123,7 +124,9 @@ function IndexSimpleTwoYou() {
 
       <ContainerBenficios />
       <Cancel />
-      <PlanoIdeal />
+      <PlanoIdealCard />
+      <PersonalizarContainer />
+      <ContratePoucosCliques />
 
       {/* ToastContainer para renderizar os toasts */}
       <ToastContainer />

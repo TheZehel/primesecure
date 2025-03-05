@@ -11,11 +11,11 @@ export default function Cancel() {
         <h2 className="text-center text-3xl sm:text-5xl text-primary font-bold mb-6 text-white">
           Pacotes de assistências pensados para você e para o seu celular
         </h2>
-        <div className="flex flex-col sm:flex-row items-start justify-center gap-8 p-5 sm:p-2">
+        <div className="flex flex-col sm:flex-row items-start justify-center gap-4 p-5 sm:p-2">
           {/* Container para as duas listas lado a lado */}
-          <div className="flex flex-col sm:flex-row w-full justify-center gap-8 sm:gap-16">
+          <div className="flex flex-col sm:flex-row w-full justify-center gap-4">
             {/* Primeira lista - Assistência Bike */}
-            <div className="mb-6">
+            <div className="w-full sm:w-auto mb-6 text-left">
               <div className="flex items-center space-x-3 mb-2">
                 <FontAwesomeIcon
                   icon={faCircleCheck}
@@ -25,7 +25,7 @@ export default function Cancel() {
                   Assistência Bike
                 </p>
               </div>
-              <ul className="ml-10 text-white">
+              <ul className="pl-6 text-white">
                 <li className="flex items-center mb-2">
                   <span className="w-2 h-2 bg-white rounded-full mr-2"></span>
                   Manutenção
@@ -42,7 +42,7 @@ export default function Cancel() {
             </div>
 
             {/* Segunda lista - Assistência Auto */}
-            <div className="mb-6">
+            <div className="w-full sm:w-auto mb-6 text-left">
               <div className="flex items-center space-x-3 mb-2">
                 <FontAwesomeIcon
                   icon={faCircleCheck}
@@ -52,7 +52,7 @@ export default function Cancel() {
                   Assistência Auto
                 </p>
               </div>
-              <ul className="ml-10 text-white">
+              <ul className="pl-6 text-white">
                 <li className="flex items-center mb-2">
                   <span className="w-2 h-2 bg-white rounded-full mr-2"></span>
                   Reboque

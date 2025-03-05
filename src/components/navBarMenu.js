@@ -109,7 +109,7 @@ const products = [
   {
     name: 'Seguro Celular',
     description: 'Planos de Proteção Para o Seu Celular',
-    href: 'https://compre.simple2u.com.br/IniciarSimulacao/primesecure',
+    href: '/simple2you',
     icon: FontAwesomeIcon,
     iconProps: { icon: faMobile },
   },
