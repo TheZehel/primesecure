@@ -1,6 +1,6 @@
 import { CheckCircle, ShieldCheck, Wrench } from 'lucide-react';
 
-export default function PlanoIdealCard() {
+export default function PlanosIdeais() {
   return (
     <section className="text-grayPrime">
       {/* Título e Subtítulo */}
