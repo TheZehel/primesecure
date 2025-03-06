@@ -12,7 +12,7 @@ function IndexSobrePrime() {
   const productId = 'SobrePrime';
   return (
     <div className="IndexSobrePrime">
-      <PopupBack productId={productId} />
+      {/* <PopupBack productId={productId} /> */}
       <Helmet>
         <title>Sobre | Prime Secure</title>
         <meta
