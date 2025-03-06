@@ -23,7 +23,6 @@ export function PopupBack({
   // "open" controla se o pop-up está visível e "alreadyOpened" indica se já foi aberto anteriormente
   const [open, setOpen] = React.useState(false);
   const [alreadyOpened, setAlreadyOpened] = React.useState(initialPopupShown);
-  const [isMouseNearTop, setIsMouseNearTop] = React.useState(false);
   const [lastOpenTime, setLastOpenTime] = React.useState(0);
 
   const dispatch = useDispatch();
@@ -162,82 +161,23 @@ export function PopupBack({
   // Usamos um ref para manter o timer persistente entre renderizações
   const timerRef = React.useRef(null);
 
-  React.useEffect(() => {
-    // Se já foi aberto ou se o PopupPromotion estiver aberto, cancela o listener e o timer
-    if (alreadyOpened || isPromotionOpen) {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-        timerRef.current = null;
-      }
-      return;
-    }
+  // Removendo o efeito que monitora a posição do mouse para abrir o popup automaticamente
+  // React.useEffect(() => {
+  //   // Todo o código do useEffect para detectar movimento do mouse foi removido
+  //   // Isso impede que o popup abra automaticamente quando o mouse se move para o topo
+  // }, []);
 
-    const threshold = 50; // distância em pixels do topo
-    const handleMouseMove = (event) => {
-      if (isPromotionOpen) {
-        if (timerRef.current) {
-          clearTimeout(timerRef.current);
-          timerRef.current = null;
-        }
-        return;
-      }
-      const now = Date.now();
-      const mouseY = event.clientY;
-      // Verifica se o mouse está próximo do topo e se as condições para abrir o PopupBack são atendidas
-      if (mouseY < threshold && !open && openCount < 2) {
-        if (lastOpenTime && now - lastOpenTime < delay) {
-          return;
-        }
-        // Se o timer ainda não foi iniciado, inicia um timer de 1 segundo
-        if (!timerRef.current) {
-          timerRef.current = setTimeout(() => {
-            setOpen(true);
-            setLastOpenTime(now);
-            dispatch(incrementProductCount(productId));
-            localStorage.setItem('popupShown', 'true');
-            setAlreadyOpened(true);
-            timerRef.current = null;
-          }, 300); // Alterado para 1 segundo (1000ms)
-        }
-      } else {
-        // Se o mouse se afastar da área, cancela o timer se existir
-        if (timerRef.current) {
-          clearTimeout(timerRef.current);
-          timerRef.current = null;
-        }
-      }
-    };
+  // const handleConfirmYes = () => {
+  //   setOpen(false);
+  //   setIsMouseNearTop(false);
+  //   navigate(-1);
+  // };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-        timerRef.current = null;
-      }
-    };
-  }, [
-    open,
-    openCount,
-    dispatch,
-    productId,
-    lastOpenTime,
-    delay,
-    alreadyOpened,
-    isPromotionOpen,
-  ]);
-
-  const handleConfirmYes = () => {
-    setOpen(false);
-    setIsMouseNearTop(false);
-    navigate(-1);
-  };
-
-  const handleConfirmNo = () => {
-    setOpen(false);
-    setIsMouseNearTop(false);
-    window.focus();
-  };
+  // const handleConfirmNo = () => {
+  //   setOpen(false);
+  //   setIsMouseNearTop(false);
+  //   window.focus();
+  // };
 
   return (
     <>

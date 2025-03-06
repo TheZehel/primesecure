@@ -69,8 +69,8 @@ export default function IndexVidaOmint() {
   }, []);
   return (
     <div>
-      <PopupBack productId={productId} />
-      <PromotionPopup />
+      {/* <PopupBack productId={productId} />
+      <PromotionPopup /> */}
       <BannersPromos />
       <Superior />
 
