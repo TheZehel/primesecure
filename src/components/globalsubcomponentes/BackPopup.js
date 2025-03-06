@@ -43,6 +43,7 @@ export function PopupBack({
       '/consorcio-auto': 'lead-consorcio-auto',
       '/seguro-vida-omint': 'lead-vida-omint-api',
       '/seguro-celular-kakau': 'lead-seguro-celular-kakau-api',
+      '/': '/',
     };
 
     const productBanners = {
@@ -105,6 +106,12 @@ export function PopupBack({
           'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-vida.png',
         srcMobile:
           'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-vida.png',
+      },
+      '/': {
+        srcLarge:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-home.png',
+        srcMobile:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-home.png',
       },
     };
 
