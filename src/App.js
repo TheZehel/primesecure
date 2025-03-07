@@ -172,7 +172,7 @@ function App() {
                   <Selos />
                   <IndexContactSection />
                   {/* <PopupBack /> */}
-                  <PromotionPopup />
+                  {/* <PromotionPopup /> */}
                 </>
               }
             />
