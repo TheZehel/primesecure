@@ -73,8 +73,10 @@ function IndexSeguroResidencial() {
   }, []);
   return (
     <div className="IndexSeguroResidencial">
+
       {/* <PopupBack productId={productId} /> */}
       <PromotionPopup />
+
       <Helmet>
         <title>Seguro Residencial Porto | Prime Secure Marketplace</title>
         <meta

@@ -20,9 +20,12 @@ export function PopupBack({
 }) {
   // State variables
   const initialPopupShown = localStorage.getItem('popupShown') === 'true';
+
   const [open, setOpen] = useState(false);
   const [alreadyOpened, setAlreadyOpened] = useState(initialPopupShown);
   const [lastOpenTime, setLastOpenTime] = useState(0);
+
+
 
   // Redux
   const dispatch = useDispatch();
@@ -163,6 +166,7 @@ export function PopupBack({
   useEffect(() => {
     console.log('BackPopup setup: isPromotionOpen =', isPromotionOpen);
 
+
     // IMPORTANT: If promotion is open, don't track mouse movement
     if (isPromotionOpen) {
       console.log('Promotion popup is open, not tracking mouse for BackPopup');
@@ -275,6 +279,7 @@ export function PopupBack({
     console.log('PromotionPopup is open - preventing BackPopup render');
     return null;
   }
+
 
   return (
     <>

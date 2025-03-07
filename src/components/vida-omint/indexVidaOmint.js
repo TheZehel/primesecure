@@ -99,6 +99,7 @@ export default function IndexVidaOmint() {
 
   return (
     <div>
+
       {/* Commented out BackPopup component
       <PopupBack
         productId={productId}
@@ -107,6 +108,7 @@ export default function IndexVidaOmint() {
       /> */}
 
       {showPromotionPopup && <PromotionPopup onClose={handlePromotionClose} />}
+
 
       <BannersPromos />
       <Superior />
