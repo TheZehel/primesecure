@@ -184,6 +184,9 @@ function App() {
               path="/politicas-de-privacidade"
               element={<PrivacyPolicy />}
             />
+            {/* ROTAS SIMPLE TWO YOU */}
+            <Route path="/simple2you" element={<IndexSimpleTwoYou />} />
+            {/* ROTAS PETLOVE */}
             <Route path="/rede-credenciada" element={<CredentialNetwork />} />
             {/* ROTAS PETLOVE */}
             <Route
@@ -235,7 +238,6 @@ function App() {
               path="/fatura-petlove/:subscriptionId/1"
               element={<InvoicePayment newer={true} />}
             />
-
 
             <Route path="/cotacao-pet-love" element={<IndexCotacaoPetlove />} />
             {/*ROTAS SEGURO AUTO*/}
@@ -334,8 +336,6 @@ function App() {
         </div>
       </Router>
     </Provider>
-
-
   );
 }
 
