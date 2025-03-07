@@ -72,8 +72,8 @@ export default function IndexSeguroCelularKakau() {
   }, []);
   return (
     <div>
-      {/* <PopupBack productId={productId} />
-      <PromotionPopup /> */}
+      {/* <PopupBack productId={productId} /> */}
+      <PromotionPopup />
       <BannerPromoPhoneKakau />
       <FormSeguroCelularKakau
         callback={(data) => {

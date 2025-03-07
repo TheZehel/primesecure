@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Button,
   Dialog,
@@ -18,18 +18,32 @@ export function PopupBack({
   banner: bannerProp,
   isPromotionOpen,
 }) {
-  // Lê o estado inicial do pop-up a partir do localStorage
+  // State variables
   const initialPopupShown = localStorage.getItem('popupShown') === 'true';
-  // "open" controla se o pop-up está visível e "alreadyOpened" indica se já foi aberto anteriormente
-  const [open, setOpen] = React.useState(false);
-  const [alreadyOpened, setAlreadyOpened] = React.useState(initialPopupShown);
-  const [lastOpenTime, setLastOpenTime] = React.useState(0);
+  const [open, setOpen] = useState(false);
+  const [alreadyOpened, setAlreadyOpened] = useState(initialPopupShown);
+  const [lastOpenTime, setLastOpenTime] = useState(0);
 
+  // Redux
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const openCount = useSelector((state) => state.modal.counts[productId] || 0);
 
-  const getConversionData = () => {
+  // Refs for tracking mouse position
+  const mouseTimerRef = useRef(null);
+  const mouseEnteredTimeRef = useRef(null);
+
+  // Get banner data
+  const conversionData = bannerProp
+    ? { banner: bannerProp }
+    : getConversionData();
+  const { banner } = conversionData;
+  const mobileImageSrc = banner.srcMobile;
+  const desktopImageSrc = banner.srcLarge;
+
+  // Function to get banner and conversion data
+  function getConversionData() {
+    // ... existing banner mapping code
     const pathToIdentifierMap = {
       '/primetravel': 'lead-primetravel-api',
       '/seguro-de-vida': 'lead-seguro-de-vida-api',
@@ -44,7 +58,6 @@ export function PopupBack({
       '/seguro-celular-kakau': 'lead-seguro-celular-kakau-api',
       '/': '/',
     };
-
     const productBanners = {
       '/primetravel': {
         srcLarge:
@@ -113,31 +126,19 @@ export function PopupBack({
           'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-home.png',
       },
     };
-
     const currentPath = window.location.pathname;
     const conversionIdentifier =
       pathToIdentifierMap[currentPath] || 'default-identifier';
-
     const banner = productBanners[currentPath] || {
       srcLarge: 'https://link-default-grande.jpg',
       srcMobile: 'https://link-default-mobile.jpg',
     };
-
     return { conversionIdentifier, banner };
-  };
+  }
 
-  // Se a prop banner não foi passada, utiliza o banner definido na função getConversionData
-  const conversionData = bannerProp
-    ? { banner: bannerProp }
-    : getConversionData();
-  const { banner } = conversionData;
-
-  const mobileImageSrc = banner.srcMobile;
-  const desktopImageSrc = banner.srcLarge;
-
+  // Handle opening/closing the popup manually
   const handleOpen = () => {
-    // Se o PopupPromotion estiver aberto, não abre o PopupBack
-    if (isPromotionOpen) return;
+    if (isPromotionOpen) return; // Never open if promotion is open
 
     const now = Date.now();
     if (!open) {
@@ -158,26 +159,122 @@ export function PopupBack({
     navigate('/politicas-de-privacidade');
   };
 
-  // Usamos um ref para manter o timer persistente entre renderizações
-  const timerRef = React.useRef(null);
+  // Effect to track mouse position and open popup
+  useEffect(() => {
+    console.log('BackPopup setup: isPromotionOpen =', isPromotionOpen);
 
-  // Removendo o efeito que monitora a posição do mouse para abrir o popup automaticamente
-  // React.useEffect(() => {
-  //   // Todo o código do useEffect para detectar movimento do mouse foi removido
-  //   // Isso impede que o popup abra automaticamente quando o mouse se move para o topo
-  // }, []);
+    // IMPORTANT: If promotion is open, don't track mouse movement
+    if (isPromotionOpen) {
+      console.log('Promotion popup is open, not tracking mouse for BackPopup');
+      // Clear any timers
+      if (mouseTimerRef.current) {
+        clearTimeout(mouseTimerRef.current);
+        mouseTimerRef.current = null;
+      }
+      mouseEnteredTimeRef.current = null;
+      return;
+    }
 
-  // const handleConfirmYes = () => {
-  //   setOpen(false);
-  //   setIsMouseNearTop(false);
-  //   navigate(-1);
-  // };
+    // Skip if we've already opened the popup too many times
+    if (openCount >= 2) {
+      return;
+    }
 
-  // const handleConfirmNo = () => {
-  //   setOpen(false);
-  //   setIsMouseNearTop(false);
-  //   window.focus();
-  // };
+    const threshold = 50; // Distance from top in pixels
+    const hoverDelay = 3000; // Time mouse must stay at top (3 seconds)
+
+    const handleMouseMove = (event) => {
+      // DOUBLE CHECK: Never proceed if promotion popup is open
+      if (isPromotionOpen) {
+        if (mouseTimerRef.current) {
+          clearTimeout(mouseTimerRef.current);
+          mouseTimerRef.current = null;
+        }
+        mouseEnteredTimeRef.current = null;
+        return;
+      }
+
+      const mouseY = event.clientY;
+      const now = Date.now();
+
+      // Mouse is near the top edge of the browser
+      if (mouseY < threshold) {
+        // Start tracking time if not already tracking
+        if (!mouseEnteredTimeRef.current) {
+          console.log('Mouse entered top area, starting timer');
+          mouseEnteredTimeRef.current = now;
+
+          // Set a timer to open the popup if mouse stays at top
+          mouseTimerRef.current = setTimeout(() => {
+            // Final check before showing popup
+            if (!isPromotionOpen && mouseEnteredTimeRef.current) {
+              // Calculate how long mouse has been at top
+              const timeInTopArea = now - mouseEnteredTimeRef.current;
+
+              if (timeInTopArea >= hoverDelay) {
+                console.log('Mouse stayed at top for 3s, showing BackPopup');
+
+                // Make sure promotion is closed and we haven't shown too many times
+                if (!isPromotionOpen && !open && openCount < 2) {
+                  // Check cooldown period
+                  if (lastOpenTime && now - lastOpenTime < delay) {
+                    console.log('Still in cooldown, not showing BackPopup');
+                    return;
+                  }
+
+                  // Show popup
+                  setOpen(true);
+                  setLastOpenTime(now);
+                  dispatch(incrementProductCount(productId));
+                  localStorage.setItem('popupShown', 'true');
+                  setAlreadyOpened(true);
+                }
+              }
+            }
+            mouseTimerRef.current = null;
+          }, hoverDelay);
+        }
+      } else {
+        // Mouse moved away from top - reset timer
+        if (mouseEnteredTimeRef.current) {
+          console.log('Mouse moved away from top area, canceling timer');
+          mouseEnteredTimeRef.current = null;
+
+          // Clear the timer
+          if (mouseTimerRef.current) {
+            clearTimeout(mouseTimerRef.current);
+            mouseTimerRef.current = null;
+          }
+        }
+      }
+    };
+
+    // Add mouse movement listener
+    window.addEventListener('mousemove', handleMouseMove);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      if (mouseTimerRef.current) {
+        clearTimeout(mouseTimerRef.current);
+        mouseTimerRef.current = null;
+      }
+    };
+  }, [
+    isPromotionOpen,
+    open,
+    openCount,
+    lastOpenTime,
+    delay,
+    productId,
+    dispatch,
+  ]);
+
+  // IMPORTANT: Return null if the promotion popup is open
+  if (isPromotionOpen) {
+    console.log('PromotionPopup is open - preventing BackPopup render');
+    return null;
+  }
 
   return (
     <>
@@ -189,7 +286,7 @@ export function PopupBack({
           className="bg-transparent shadow-none overflow-hidden"
         >
           <Card className="mx-auto w-full max-w-[55rem] border border-bluePrime2/30">
-            {/* Layout para telas pequenas */}
+            {/* Mobile layout */}
             <div className="block md:hidden relative">
               <div className="border border-bluePrime2/30">
                 <img
@@ -294,7 +391,7 @@ export function PopupBack({
               </div>
             </div>
 
-            {/* Layout para telas maiores */}
+            {/* Desktop layout */}
             <div className="hidden md:flex">
               <div className="w-1/2 border border-bluePrime2/30">
                 <img
@@ -345,7 +442,7 @@ export function PopupBack({
                   <input
                     type="text"
                     name="name"
-                    id="name"
+                    id="name-desktop"
                     className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
                   />
                   <Typography className="-mb-2 text-grayPrime" variant="h6">
@@ -354,7 +451,7 @@ export function PopupBack({
                   <input
                     type="email"
                     name="email"
-                    id="email-address"
+                    id="email-address-desktop"
                     autoComplete="family-name"
                     className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
                   />
@@ -368,7 +465,7 @@ export function PopupBack({
                     maxLength="16"
                     type="text"
                     name="phone"
-                    id="phone"
+                    id="phone-desktop"
                     className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
                   />
                 </CardBody>

@@ -78,8 +78,8 @@ function IndexConsorcioAuto() {
 
   return (
     <div>
-      {/* <PopupBack productId={productId} />
-      <PromotionPopup /> */}
+      {/* <PopupBack productId={productId} /> */}
+      <PromotionPopup />
       <Helmet>
         {/* <!-- Primary Meta Tags --> */}
         <title>Consórcio Auto Porto | Prime Secure Marketplace</title>
