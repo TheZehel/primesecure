@@ -5,6 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import { Checkbox, Typography } from '@material-tailwind/react';
 import LoadingAnimation from './icons/loadingSvg';
 import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  updateFormField,
+  updateMultipleFields,
+  clearFormData,
+} from '../../redux/slices/formSlice';
 
 const getUtmParams = () => {
   let params = {};
@@ -33,22 +39,40 @@ export default function SimpleFormSection({
   submit,
   showToast = false,
 }) {
+  // Use Redux instead of FormContext
+  const reduxFormData = useSelector((state) => state.form);
+  const dispatch = useDispatch();
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Initialize with Redux form data
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
+    name: reduxFormData.name || '',
+    email: reduxFormData.email || '',
+    phone: reduxFormData.phone || '',
     marcaCelular: '',
     credito: '',
     profissao: '',
     renda: '',
     sexo: '',
     dataNascimento: '',
-    utm_source: '',
-    utm_medium: '',
-    utm_campaign: '',
+    utm_source: reduxFormData.utm_source || '',
+    utm_medium: reduxFormData.utm_medium || '',
+    utm_campaign: reduxFormData.utm_campaign || '',
   });
 
-  const [isLoading, setIsLoading] = useState(false);
+  // Update local form data when Redux state changes
+  useEffect(() => {
+    setFormData((prevData) => ({
+      ...prevData,
+      name: reduxFormData.name || prevData.name,
+      email: reduxFormData.email || prevData.email,
+      phone: reduxFormData.phone || prevData.phone,
+      utm_source: reduxFormData.utm_source || prevData.utm_source,
+      utm_medium: reduxFormData.utm_medium || prevData.utm_medium,
+      utm_campaign: reduxFormData.utm_campaign || prevData.utm_campaign,
+    }));
+  }, [reduxFormData]);
 
   useEffect(() => {
     const utmParams = getUtmParams();
@@ -75,10 +99,25 @@ export default function SimpleFormSection({
       value = event.target.value[0];
     }
 
+    // Update local state
     setFormData({
       ...formData,
       [name]: value,
     });
+
+    // Update Redux state for common fields
+    if (
+      [
+        'name',
+        'email',
+        'phone',
+        'utm_source',
+        'utm_medium',
+        'utm_campaign',
+      ].includes(name)
+    ) {
+      dispatch(updateFormField({ field: name, value }));
+    }
   };
 
   const validateForm = () => {
@@ -192,7 +231,7 @@ export default function SimpleFormSection({
       return;
     }
 
-    setIsLoading(true);
+    setIsLoading(true); // Now correctly defined
 
     const apiKey = process.env.REACT_APP_API_KEY_RD_STATION;
     const optionsRD = {
@@ -300,6 +339,9 @@ export default function SimpleFormSection({
         );
       }
 
+      // Clear Redux form data after successful submission
+      dispatch(clearFormData());
+
       // Toca o som de sucesso antes de navegar
       const successAudio = new Audio(
         'https://storage.googleapis.com/primesecure/audios-site/mixkit-fantasy-game-success-notification-270.wav',
@@ -312,7 +354,7 @@ export default function SimpleFormSection({
       console.error('Error in RD Station or Data Layer event:', error);
       navigateBasedOnPath();
     } finally {
-      setIsLoading(false);
+      setIsLoading(false); // Now correctly defined
     }
   };
 
@@ -717,9 +759,11 @@ export default function SimpleFormSection({
         <button
           type="submit"
           onClick={handleButtonClick}
-          className="bg-bluePrime hover:bg-bluePrime2 text-white font-bold py-2 px-4 rounded w-full flex mt-3 justify-center items-center max-h-10"
+          disabled={isLoading} // Now correctly defined
+          className="bg-bluePrime hover:bg-bluePrime2 text-white font-bold py-2 px-4 rounded w-full flex h-10 justify-center items-center"
         >
-          {isLoading ? <LoadingAnimation /> : 'Cotar Agora'}
+          {isLoading ? <LoadingAnimation size="24" /> : 'Cotar Agora'}{' '}
+          {/* Now correctly defined */}
         </button>
       </div>
       <div className="sm:w-4/4 flex mt-5 text-start">

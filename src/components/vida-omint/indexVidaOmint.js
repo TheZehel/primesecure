@@ -8,13 +8,32 @@ import FaqOmint from './components/faq';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import BannersPromos from './components/bannersPromo';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import confetti from 'canvas-confetti';
 import PromotionPopup from '../globalsubcomponentes/PopupPromotion';
-import PopupBack from '../globalsubcomponentes/BackPopup';
+// Commented out BackPopup import
+// import PopupBack from '../globalsubcomponentes/BackPopup';
 
 export default function IndexVidaOmint() {
   const productId = 'vida-omint';
+  const [showPromotionPopup, setShowPromotionPopup] = useState(true);
+
+  // Commented out BackPopup related states
+  // const [promotionPopupClosed, setPromotionPopupClosed] = useState(false);
+  // const [backPopupCooldown, setBackPopupCooldown] = useState(false);
+
+  // This function handles promotion popup close - simplified to remove BackPopup logic
+  const handlePromotionClose = () => {
+    setShowPromotionPopup(false);
+
+    // Commented out BackPopup related state updates
+    // setBackPopupCooldown(true);
+    // setTimeout(() => {
+    //   setPromotionPopupClosed(true);
+    //   setBackPopupCooldown(false);
+    // }, 10000);
+  };
+
   useEffect(() => {
     const hasVisited = localStorage.getItem('visited');
     if (!hasVisited) {
@@ -66,11 +85,29 @@ export default function IndexVidaOmint() {
 
       localStorage.setItem('visited', 'true');
     }
+
+    // Reset popup state on component mount to ensure it appears
+    localStorage.removeItem('popupShown');
+
+    // Allow small delay before setting popup states
+    const timer = setTimeout(() => {
+      setShowPromotionPopup(true);
+    }, 500);
+
+    return () => clearTimeout(timer);
   }, []);
+
   return (
     <div>
-      {/* <PopupBack productId={productId} />
-      <PromotionPopup /> */}
+      {/* Commented out BackPopup component
+      <PopupBack
+        productId={productId}
+        isPromotionOpen={showPromotionPopup || backPopupCooldown}
+        canShowAfterPromotion={promotionPopupClosed && !backPopupCooldown}
+      /> */}
+
+      {showPromotionPopup && <PromotionPopup onClose={handlePromotionClose} />}
+
       <BannersPromos />
       <Superior />
 

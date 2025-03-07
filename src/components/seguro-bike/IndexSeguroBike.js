@@ -129,8 +129,8 @@ export default function IndexSeguroBike() {
 
   return (
     <div>
-      {/* <PopupBack productId={productId} />
-      <PromotionPopup /> */}
+      {/* <PopupBack productId={productId} /> */}
+      <PromotionPopup />
       <BannerPromoBike />
       <FormSeguroBikeBanner
         callback={(data) => {

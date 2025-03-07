@@ -1,7 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-import store from './components/store/store';
+import store from './redux/store'; // Fix the path here
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
