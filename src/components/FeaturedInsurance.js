@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faBagShopping,
   faCashRegister,
@@ -9,7 +9,7 @@ import {
   faPhone,
   faSuitcase,
   faTeeth,
-} from "@fortawesome/free-solid-svg-icons";
+} from '@fortawesome/free-solid-svg-icons';
 
 export default function FeaturedInsurance() {
   const [hoverStates, setHoverStates] = useState({});
@@ -17,45 +17,45 @@ export default function FeaturedInsurance() {
   const cards = [
     {
       id: 1,
-      href: "/primetravel",
-      title: "Seguro Viagem",
-      hoverTitle: "Seguro Aparelhos Portateis",
-      feature: "Novo",
+      href: '/primetravel',
+      title: 'Seguro Viagem',
+      hoverTitle: 'Seguro Aparelhos Portateis',
+      feature: 'Novo',
       icon: faSuitcase,
     },
     {
       id: 2,
-      href: "/seguro-pet-porto",
-      title: "Saúde Pet",
-      hoverTitle: "Seguro Aparelhos Portateis",
+      href: '/seguro-pet-porto',
+      title: 'Saúde Pet',
+      hoverTitle: 'Seguro Aparelhos Portateis',
       icon: faDog,
     },
     {
       id: 3,
-      href: "/seguro-residencial-porto-2",
-      title: "Seguro Residencial",
-      hoverTitle: "Seguro Aparelhos Portateis",
+      href: '/seguro-residencial-porto-2',
+      title: 'Seguro Residencial',
+      hoverTitle: 'Seguro Aparelhos Portateis',
       icon: faHouse,
     },
     {
       id: 4,
-      href: "/seguro-de-vida",
-      title: "Seguro de Vida",
-      hoverTitle: "Seguro Aparelhos Portateis",
+      href: '/seguro-de-vida',
+      title: 'Seguro de Vida',
+      hoverTitle: 'Seguro Aparelhos Portateis',
       icon: faHeart,
     },
     {
       id: 5,
-      href: "/equipamentos-portateis-3",
-      title: "Seguro Celular",
-      hoverTitle: "Seguro Aparelhos Portateis",
+      href: 'https://compre.simple2u.com.br/IniciarSimulacao/primesecure',
+      title: 'Seguro Celular',
+      hoverTitle: 'Seguro Aparelhos Portateis',
       icon: faPhone,
     },
     {
       id: 6,
-      href: "/consorcio-imovel",
-      title: "Consórcio",
-      hoverTitle: "Seguro Aparelhos Portateis",
+      href: '/consorcio-imovel',
+      title: 'Consórcio',
+      hoverTitle: 'Seguro Aparelhos Portateis',
       icon: faCashRegister,
     },
   ];
@@ -77,17 +77,17 @@ export default function FeaturedInsurance() {
               className="border p-4 rounded-lg h-[130px] hover:h-[150px] group hover:bg-bluePrime hover:text-white transition  ease-linear hover:gap-[24px]"
               style={{
                 transition:
-                  "height 0.2s linear, backgroundColor 0.1s linear, gap 0.1s linear",
+                  'height 0.2s linear, backgroundColor 0.1s linear, gap 0.1s linear',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.height = "150px"; // novo valor de altura
-                e.currentTarget.style.backgroundColor = "#03a8db"; // nova cor de fundo
-                e.currentTarget.style.gap = "4px"; // novo valor de gap
+                e.currentTarget.style.height = '150px'; // novo valor de altura
+                e.currentTarget.style.backgroundColor = '#03a8db'; // nova cor de fundo
+                e.currentTarget.style.gap = '4px'; // novo valor de gap
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.height = "130px"; // valor original de altura
-                e.currentTarget.style.backgroundColor = "initial"; // cor original de fundo
-                e.currentTarget.style.gap = "initial"; // valor original de gap
+                e.currentTarget.style.height = '130px'; // valor original de altura
+                e.currentTarget.style.backgroundColor = 'initial'; // cor original de fundo
+                e.currentTarget.style.gap = 'initial'; // valor original de gap
               }}
             >
               <div className="flex items-center justify-between mb-4 pt-2">
