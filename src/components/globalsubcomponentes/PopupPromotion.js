@@ -208,6 +208,7 @@ export function PromotionPopup({ banner: bannerProp, onClose }) {
         '/consorcio-imovel/': 'lead-consorcio-imovel-popup',
         '/consorcio-auto': 'lead-consorcio-auto-popup',
         '/consorcio-auto/': 'lead-consorcio-auto-popup',
+        '/': 'lead-home-popup',
       };
       const path = window.location.pathname;
       const eventIdentifier = urlToEventMap[path];
