@@ -82,6 +82,7 @@ import IndexAuto from './components/seguro-auto/indexAuto.js';
 import PopupBack from './components/globalsubcomponentes/BackPopup.js';
 import PromotionPopup from './components/globalsubcomponentes/PopupPromotion.js';
 import ModalContainer from './components/globalsubcomponentes/ModalContainer.js';
+import IndexSimpleTwoYou from './components/seguro-simpletwoyou/IndexSimpleTwoYou.js';
 
 /**
  *  Componente para fazer o scroll para o topo da página
@@ -235,6 +236,7 @@ function App() {
               element={<InvoicePayment newer={true} />}
             />
 
+
             <Route path="/cotacao-pet-love" element={<IndexCotacaoPetlove />} />
             {/*ROTAS SEGURO AUTO*/}
             <Route path="/seguro-auto" element={<IndexAuto />} />
@@ -332,6 +334,7 @@ function App() {
         </div>
       </Router>
     </Provider>
+
   );
 }
 
