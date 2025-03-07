@@ -109,6 +109,7 @@ const products = [
   {
     name: 'Seguro Celular',
     description: 'Planos de Proteção Para o Seu Celular',
+
     href: '/simple2you',
     icon: FontAwesomeIcon,
     iconProps: { icon: faMobile },

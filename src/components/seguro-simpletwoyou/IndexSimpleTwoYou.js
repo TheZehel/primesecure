@@ -85,9 +85,6 @@ function IndexSimpleTwoYou() {
   return (
     <div className="IndexSeguroCelular">
 
-      {/* <PopupBack productId={productId} />
-      <PromotionPopup /> */}
-
       <Helmet>
         <title>Seguro Celular Porto | Prime Secure Marketplace</title>
         <meta

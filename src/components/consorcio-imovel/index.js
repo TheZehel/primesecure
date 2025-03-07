@@ -78,8 +78,11 @@ function IndexConsorcioImovel() {
   }, []);
   return (
     <div>
-      {/* <PopupBack productId={productId} />
-      <PromotionPopup /> */}
+
+      {/* <PopupBack productId={productId} /> */}
+      <PromotionPopup />
+
+
       <Helmet>
         <title>Consórcio Imóvel Porto | Prime Secure Marketplace</title>
         <meta

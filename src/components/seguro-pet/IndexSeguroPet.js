@@ -177,8 +177,10 @@ function IndexSeguroPet() {
 
   return (
     <div className="IndexSeguroPet">
-      {/* <PopupBack productId={productId} />
-      <PromotionPopup /> */}
+
+      {/* <PopupBack productId={productId} /> */}
+      <PromotionPopup />
+
       <Helmet>
         <title>Plano de Saúde PetLove | Prime Secure Marketplace</title>
         <meta

@@ -6,6 +6,9 @@ import {
 } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
+import React from 'react';
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
 // CSS
 import './App.css';
@@ -108,217 +111,231 @@ function App() {
   const targetDate = new Date('December 31, 2023 00:00:00');
 
   return (
-    <Router>
-      <ScrollToTop />
-      <div className="App font-montserrat">
-        <Helmet>
-          <title>
-            Prime Secure Marketplace - Protegendo Todos os Seus Momentos
-          </title>
-          <meta
-            name="description"
-            content="A Prime Secure é um marketplace de seguros que oferece uma variedade de seguros para proteger todos os seus momentos. Encontre o seguro perfeito para você e contrate online em minutos."
-          />
-          <meta
-            name="keywords"
-            content="Prime Secure, Seguros, Insurance, Insurtech, Corretora de Seguros, Marketplace de Seguros, Seguro Celular, Seguro de Vida, Plano de Saúde, Seguro Pet, Seguro Auto, Seguro Residencial, Seguro Odontológico, Plano de Saúde Pet, Prime, Corretora, Seguro Viagem, Secure, Seguro Empresarial, Seguro de Acidentes Pessoais, Seguro de Responsabilidade Civil, Seguro de Equipamentos, Seguro Garantia, Seguro de Transporte, Seguro de Crédito, Seguro Ambiental, Seguro Agrícola, Seguro de Eventos"
-          />
+    <Provider store={store}>
+      <Router>
+        <ScrollToTop />
+        <div className="App font-montserrat">
+          <Helmet>
+            <title>
+              Prime Secure Marketplace - Protegendo Todos os Seus Momentos
+            </title>
+            <meta
+              name="description"
+              content="A Prime Secure é um marketplace de seguros que oferece uma variedade de seguros para proteger todos os seus momentos. Encontre o seguro perfeito para você e contrate online em minutos."
+            />
+            <meta
+              name="keywords"
+              content="Prime Secure, Seguros, Insurance, Insurtech, Corretora de Seguros, Marketplace de Seguros, Seguro Celular, Seguro de Vida, Plano de Saúde, Seguro Pet, Seguro Auto, Seguro Residencial, Seguro Odontológico, Plano de Saúde Pet, Prime, Corretora, Seguro Viagem, Secure, Seguro Empresarial, Seguro de Acidentes Pessoais, Seguro de Responsabilidade Civil, Seguro de Equipamentos, Seguro Garantia, Seguro de Transporte, Seguro de Crédito, Seguro Ambiental, Seguro Agrícola, Seguro de Eventos"
+            />
 
-          <meta property="og:url" content="https://primesecure.com.br" />
-          <link rel="canonical" href="https://primesecure.com.br" />
-        </Helmet>
+            <meta property="og:url" content="https://primesecure.com.br" />
+            <link rel="canonical" href="https://primesecure.com.br" />
+          </Helmet>
 
-        <NavBarMenu />
+          <NavBarMenu />
 
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                {/* <CountDown targetDate={targetDate} /> */}
-                <IndexBannerMktplace />
-                {/* <Banner /> */}
-                <FeaturedInsurance />
-                <IndexMiniBanner />
-                {/*<Pet />*/}
-                {/*<div id="Travel1">
-                  <Travel />
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  {/* <CountDown targetDate={targetDate} /> */}
+                  <IndexBannerMktplace />
+                  {/* <Banner /> */}
+                  <FeaturedInsurance />
+                  <IndexMiniBanner />
+                  {/*<Pet />*/}
+                  {/*<div id="Travel1">
+                    <Travel />
+              </div>*/}
+                  {/* <div id="Residencial">
+                    <Residencial />
             </div>*/}
-                {/* <div id="Residencial">
-                  <Residencial />
-          </div>*/}
-                {/*<SliderSegurosHome />*/}
-                <IndexBenefits />
-                <div id="Logos" className="sm:mt-[100px]">
-                  <CarouselCustomArrows />
-                </div>
-                <div id="sobrePrime">
-                  <SobrePrime />
-                </div>
-                <div id="Newsletter">
-                  <Newsletter />
-                </div>
-                {/*<SliderTrofeusHome />*/}
-                <IndexTrophySection />
-                <div id="Faq">
-                  <Faq />
-                </div>
-                <IndexLastPostsBlog />
-                <CardGraaac />
-                <Selos />
-                <IndexContactSection />
-                {/* <PopupBack /> */}
-              </>
-            }
-          />
-          <Route path="/login" element={<PaginaLogin />} />
-          <Route path="/registre-se" element={<SignUp />} />
-          <Route path="/contratos" element={<Contracts />} />
-          <Route path="/contrato" element={<PageContract />} />
-          <Route path="/politicas-de-privacidade" element={<PrivacyPolicy />} />
-          <Route path="/rede-credenciada" element={<CredentialNetwork />} />
-          {/* ROTAS PETLOVE */}
-          <Route
-            path="/cotacao-pet-love/planos"
-            element={<IndexCotacaoPetlove />}
-          />
-          <Route
-            path="/cotacao-vida-sulamerica"
-            element={<IndexCotacaoVidaSulamerica />}
-          />
-          <Route
-            path="/cotacao-vida-sulamerica/planos"
-            element={<IndexCotacaoVidaSulamerica />}
-          />
-          <Route
-            path="/cotacao-vida-sulamerica/endereco"
-            element={<IndexCotacaoVidaSulamerica />}
-          />
-          <Route
-            path="/cotacao-vida-sulamerica/pagamento"
-            element={<IndexCotacaoVidaSulamerica />}
-          />
-          <Route
-            path="/cotacao-vida-sulamerica/obrigado"
-            element={<IndexCotacaoVidaSulamerica />}
-          />
-          <Route
-            path="/fatura-vida-sulamerica/:subscriptionId"
-            element={<InvoicePaymentVida />}
-          />
+                  {/*<SliderSegurosHome />*/}
+                  <IndexBenefits />
+                  <div id="Logos" className="sm:mt-[100px]">
+                    <CarouselCustomArrows />
+                  </div>
+                  <div id="sobrePrime">
+                    <SobrePrime />
+                  </div>
+                  <div id="Newsletter">
+                    <Newsletter />
+                  </div>
+                  {/*<SliderTrofeusHome />*/}
+                  <IndexTrophySection />
+                  <div id="Faq">
+                    <Faq />
+                  </div>
+                  <IndexLastPostsBlog />
+                  <CardGraaac />
+                  <Selos />
+                  <IndexContactSection />
+                  {/* <PopupBack /> */}
+                  <PromotionPopup />
+                </>
+              }
+            />
+            <Route path="/login" element={<PaginaLogin />} />
+            <Route path="/registre-se" element={<SignUp />} />
+            <Route path="/contratos" element={<Contracts />} />
+            <Route path="/contrato" element={<PageContract />} />
+            <Route
+              path="/politicas-de-privacidade"
+              element={<PrivacyPolicy />}
+            />
+            <Route path="/rede-credenciada" element={<CredentialNetwork />} />
+            {/* ROTAS PETLOVE */}
+            <Route
+              path="/cotacao-pet-love/planos"
+              element={<IndexCotacaoPetlove />}
+            />
+            <Route
+              path="/cotacao-vida-sulamerica"
+              element={<IndexCotacaoVidaSulamerica />}
+            />
+            <Route
+              path="/cotacao-vida-sulamerica/planos"
+              element={<IndexCotacaoVidaSulamerica />}
+            />
+            <Route
+              path="/cotacao-vida-sulamerica/endereco"
+              element={<IndexCotacaoVidaSulamerica />}
+            />
+            <Route
+              path="/cotacao-vida-sulamerica/pagamento"
+              element={<IndexCotacaoVidaSulamerica />}
+            />
+            <Route
+              path="/cotacao-vida-sulamerica/obrigado"
+              element={<IndexCotacaoVidaSulamerica />}
+            />
+            <Route
+              path="/fatura-vida-sulamerica/:subscriptionId"
+              element={<InvoicePaymentVida />}
+            />
 
-          <Route
-            path="/cotacao-pet-love/dados-pessoais"
-            element={<IndexCotacaoPetlove />}
-          />
-          <Route
-            path="/cotacao-pet-love/pagamento"
-            element={<IndexCotacaoPetlove />}
-          />
-          <Route
-            path="/cotacao-pet-love/obrigado"
-            element={<IndexCotacaoPetlove />}
-          />
-          <Route
-            path="/fatura-petlove/:subscriptionId"
-            element={<InvoicePayment />}
-          />
-          <Route
-            path="/fatura-petlove/:subscriptionId/1"
-            element={<InvoicePayment newer={true} />}
-          />
+            <Route
+              path="/cotacao-pet-love/dados-pessoais"
+              element={<IndexCotacaoPetlove />}
+            />
+            <Route
+              path="/cotacao-pet-love/pagamento"
+              element={<IndexCotacaoPetlove />}
+            />
+            <Route
+              path="/cotacao-pet-love/obrigado"
+              element={<IndexCotacaoPetlove />}
+            />
+            <Route
+              path="/fatura-petlove/:subscriptionId"
+              element={<InvoicePayment />}
+            />
+            <Route
+              path="/fatura-petlove/:subscriptionId/1"
+              element={<InvoicePayment newer={true} />}
+            />
 
-          <Route path="/cotacao-pet-love" element={<IndexCotacaoPetlove />} />
-          {/*ROTAS SEGURO AUTO*/}
-          <Route path="/seguro-auto" element={<IndexAuto />} />
-          {/* ROTAS SEGURO BIKE KAKAU */}
-          <Route path="/seguro-bike" element={<IndexSeguroBike />} />
-          <Route
-            path="/seguro-bike/cotacao"
-            element={<IndexCotacaoSeguroBike />}
-          />
-          <Route
-            path="/seguro-bike/cotacao/dados-cadastrais"
-            element={<IndexCotacaoSeguroBike />}
-          />
-          <Route
-            path="/seguro-bike/cotacao/endereco"
-            element={<IndexCotacaoSeguroBike />}
-          />
-          <Route
-            path="/seguro-bike/cotacao/cadastro-bike"
-            element={<IndexCotacaoSeguroBike />}
-          />
-          <Route
-            path="/seguro-bike/cotacao/pagamento"
-            element={<IndexCotacaoSeguroBike />}
-          />
-          <Route
-            path="/seguro-bike/cotacao/pagamento-confirmado"
-            element={<IndexCotacaoSeguroBike />}
-          />
-          {/* ROTAS SEGURO OMINT VIDA */}
-          <Route path="/seguro-vida-omint" element={<IndexVidaOmint />} />
-          {/* ROTAS SEGURO CELULAR KAKAU */}
-          <Route
-            path="/seguro-celular-kakau"
-            element={<IndexSeguroCelularKakau />}
-          />
-          <Route
-            path="/seguro-celular-kakau/cotacao"
-            element={<IndexCotacaoSeguroCelularkakau />}
-          />
-          <Route
-            path="/seguro-celular-kakau/cotacao/dados-cadastrais"
-            element={<IndexCotacaoSeguroCelularkakau />}
-          />
-          <Route
-            path="/seguro-celular-kakau/cotacao/endereco"
-            element={<IndexCotacaoSeguroCelularkakau />}
-          />
-          <Route
-            path="/seguro-celular-kakau/cotacao/cadastro-celular"
-            element={<IndexCotacaoSeguroCelularkakau />}
-          />
-          <Route
-            path="/seguro-celular-kakau/cotacao/pagamento"
-            element={<IndexCotacaoSeguroCelularkakau />}
-          />
-          <Route
-            path="/seguro-celular-kakau/cotacao/pagamento-confirmado"
-            element={<IndexCotacaoSeguroCelularkakau />}
-          />
-          {/* ROTAS COTAÇÃO PRIMETRAVEL */}
-          <Route path="/cotacao-primetravel" element={<IndexCotacaoTravel />} />
-          {/* ROTAS PAGES HOME */}
-          <Route path="/sobre" element={<IndexSobrePrime />} />
-          <Route path="/contato" element={<IndexContato />} />
-          <Route path="/primetravel" element={<IndexTravel />} />
-          <Route path="/seguro-viagem" element={<IndexTravelVenda />} />
-          <Route path="/seguro-de-vida" element={<IndexVida />} />
-          <Route
-            path="/equipamentos-portateis-3"
-            element={<IndexSeguroCelular />}
-          />
-          <Route path="/seguro-pet-porto" element={<IndexSeguroPet />} />
-          <Route
-            path="/seguro-residencial-porto-2"
-            element={<IndexSeguroResidencial />}
-          />
-          <Route path="/sulamerica-odonto" element={<IndexOdonto />} />
-          <Route path="/simple2you" element={<IndexSimpleTwoYou />} />
-          <Route path="/consorcio-imovel" element={<IndexConsorcioImovel />} />
-          <Route path="/consorcio-auto" element={<IndexConsorcioAuto />} />
-          <Route path="/obrigado" element={<PaginaObrigadoLP />} />
-          <Route path="/cotacao" element={<Cotacao />} />
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-        {!_pathname.includes('/seguro-bike') &&
-          !_pathname.includes('/seguro-celular-kakau') &&
-          !_pathname.includes('/seguro-celular-kakau') && <Footer />}
-        {/* <ModalContainer /> */}
-      </div>
-    </Router>
+
+            <Route path="/cotacao-pet-love" element={<IndexCotacaoPetlove />} />
+            {/*ROTAS SEGURO AUTO*/}
+            <Route path="/seguro-auto" element={<IndexAuto />} />
+            {/* ROTAS SEGURO BIKE KAKAU */}
+            <Route path="/seguro-bike" element={<IndexSeguroBike />} />
+            <Route
+              path="/seguro-bike/cotacao"
+              element={<IndexCotacaoSeguroBike />}
+            />
+            <Route
+              path="/seguro-bike/cotacao/dados-cadastrais"
+              element={<IndexCotacaoSeguroBike />}
+            />
+            <Route
+              path="/seguro-bike/cotacao/endereco"
+              element={<IndexCotacaoSeguroBike />}
+            />
+            <Route
+              path="/seguro-bike/cotacao/cadastro-bike"
+              element={<IndexCotacaoSeguroBike />}
+            />
+            <Route
+              path="/seguro-bike/cotacao/pagamento"
+              element={<IndexCotacaoSeguroBike />}
+            />
+            <Route
+              path="/seguro-bike/cotacao/pagamento-confirmado"
+              element={<IndexCotacaoSeguroBike />}
+            />
+            {/* ROTAS SEGURO OMINT VIDA */}
+            <Route path="/seguro-vida-omint" element={<IndexVidaOmint />} />
+            {/* ROTAS SEGURO CELULAR KAKAU */}
+            <Route
+              path="/seguro-celular-kakau"
+              element={<IndexSeguroCelularKakau />}
+            />
+            <Route
+              path="/seguro-celular-kakau/cotacao"
+              element={<IndexCotacaoSeguroCelularkakau />}
+            />
+            <Route
+              path="/seguro-celular-kakau/cotacao/dados-cadastrais"
+              element={<IndexCotacaoSeguroCelularkakau />}
+            />
+            <Route
+              path="/seguro-celular-kakau/cotacao/endereco"
+              element={<IndexCotacaoSeguroCelularkakau />}
+            />
+            <Route
+              path="/seguro-celular-kakau/cotacao/cadastro-celular"
+              element={<IndexCotacaoSeguroCelularkakau />}
+            />
+            <Route
+              path="/seguro-celular-kakau/cotacao/pagamento"
+              element={<IndexCotacaoSeguroCelularkakau />}
+            />
+            <Route
+              path="/seguro-celular-kakau/cotacao/pagamento-confirmado"
+              element={<IndexCotacaoSeguroCelularkakau />}
+            />
+            {/* ROTAS COTAÇÃO PRIMETRAVEL */}
+            <Route
+              path="/cotacao-primetravel"
+              element={<IndexCotacaoTravel />}
+            />
+            {/* ROTAS PAGES HOME */}
+            <Route path="/sobre" element={<IndexSobrePrime />} />
+            <Route path="/contato" element={<IndexContato />} />
+            <Route path="/primetravel" element={<IndexTravel />} />
+            <Route path="/seguro-viagem" element={<IndexTravelVenda />} />
+            <Route path="/seguro-de-vida" element={<IndexVida />} />
+            <Route
+              path="/equipamentos-portateis-3"
+              element={<IndexSeguroCelular />}
+            />
+            <Route path="/seguro-pet-porto" element={<IndexSeguroPet />} />
+            <Route
+              path="/seguro-residencial-porto-2"
+              element={<IndexSeguroResidencial />}
+            />
+            <Route path="/sulamerica-odonto" element={<IndexOdonto />} />
+            <Route
+              path="/consorcio-imovel"
+              element={<IndexConsorcioImovel />}
+            />
+            <Route path="/consorcio-auto" element={<IndexConsorcioAuto />} />
+            <Route path="/obrigado" element={<PaginaObrigadoLP />} />
+            <Route path="/cotacao" element={<Cotacao />} />
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+          {!_pathname.includes('/seguro-bike') &&
+            !_pathname.includes('/seguro-celular-kakau') &&
+            !_pathname.includes('/seguro-celular-kakau') && <Footer />}
+          <ModalContainer />
+        </div>
+      </Router>
+    </Provider>
+
+
   );
 }
 
