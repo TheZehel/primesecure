@@ -9,7 +9,7 @@ export default function ContactSection() {
 
   return (
     <div className="flex flex-col items-center justify-center mt-24">
-      <PopupBack productId={productId} />
+      {/* <PopupBack productId={productId} /> */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 sm:w-[1300px]  ">
         <p className="text-center text-xl sm:text-4xl mb-4 text-grayPrime">
           Fale conosco

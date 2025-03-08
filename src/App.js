@@ -175,8 +175,10 @@ function App() {
                   <CardGraaac />
                   <Selos />
                   <IndexContactSection />
+
                   {POPUP_BACK_ENABLED && <PopupBack />}
                   {POPUP_PROMOTION_ENABLED && <PromotionPopup />}
+
                 </>
               }
             />
@@ -188,6 +190,9 @@ function App() {
               path="/politicas-de-privacidade"
               element={<PrivacyPolicy />}
             />
+            {/* ROTAS SIMPLE TWO YOU */}
+            <Route path="/simple2you" element={<IndexSimpleTwoYou />} />
+            {/* ROTAS PETLOVE */}
             <Route path="/rede-credenciada" element={<CredentialNetwork />} />
             {/* ROTAS PETLOVE */}
             <Route
