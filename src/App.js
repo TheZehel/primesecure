@@ -176,7 +176,7 @@ function App() {
                   <Selos />
                   <IndexContactSection />
                   {POPUP_BACK_ENABLED && <PopupBack />}
-                  {POPUP_PROMOTION_ENABLED && <PromotionPopup />}
+                  {/* {POPUP_PROMOTION_ENABLED && <PromotionPopup />} */}
                 </>
               }
             />
