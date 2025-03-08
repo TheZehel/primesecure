@@ -326,7 +326,7 @@ export function PromotionPopup({ banner: bannerProp, onClose }) {
         handler={handleClose}
         className="bg-transparent shadow-none"
       >
-        <Card className="mx-2 sm:m-auto sm:w-[58%] max-h-[70%] border border-bluePrime2/30">
+        <Card className="mx-2 w-full sm:m-auto sm:w-[58%] max-h-[70%] border border-bluePrime2/30">
           {/* Layout para telas pequenas */}
           <div className="block md:hidden">
             <div className="border border-bluePrime2/30">
