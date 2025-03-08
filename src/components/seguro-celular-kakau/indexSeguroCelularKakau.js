@@ -15,6 +15,10 @@ import PromoPopup, {
   PromotionPopup,
 } from '../globalsubcomponentes/PopupPromotion';
 import PopupBack from '../globalsubcomponentes/BackPopup';
+import {
+  POPUP_BACK_ENABLED,
+  POPUP_PROMOTION_ENABLED,
+} from '../globalsubcomponentes/popupsConfig';
 
 export default function IndexSeguroCelularKakau() {
   const productId = 'seguro-celular-kakau';
@@ -72,9 +76,8 @@ export default function IndexSeguroCelularKakau() {
   }, []);
   return (
     <div>
-
-      {/* <PopupBack productId={productId} /> */}
-      <PromotionPopup />
+      {POPUP_BACK_ENABLED && <PopupBack productId={productId} />}
+      {POPUP_PROMOTION_ENABLED && <PromotionPopup />}
 
       <BannerPromoPhoneKakau />
       <FormSeguroCelularKakau

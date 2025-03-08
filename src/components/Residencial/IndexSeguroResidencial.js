@@ -15,6 +15,10 @@ import PromoPopup, {
   PromotionPopup,
 } from '../globalsubcomponentes/PopupPromotion';
 import PopupBack from '../globalsubcomponentes/BackPopup';
+import {
+  POPUP_BACK_ENABLED,
+  POPUP_PROMOTION_ENABLED,
+} from '../globalsubcomponentes/popupsConfig';
 
 function IndexSeguroResidencial() {
   const targetDate = new Date('December 31, 2023 00:00:00');
@@ -73,9 +77,8 @@ function IndexSeguroResidencial() {
   }, []);
   return (
     <div className="IndexSeguroResidencial">
-
-      {/* <PopupBack productId={productId} /> */}
-      <PromotionPopup />
+      {POPUP_BACK_ENABLED && <PopupBack productId={productId} />}
+      {POPUP_PROMOTION_ENABLED && <PromotionPopup />}
 
       <Helmet>
         <title>Seguro Residencial Porto | Prime Secure Marketplace</title>

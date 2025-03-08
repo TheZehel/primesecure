@@ -11,6 +11,7 @@ import BannersPromos from './components/bannersPromo';
 import { useEffect, useState } from 'react';
 import confetti from 'canvas-confetti';
 import PromotionPopup from '../globalsubcomponentes/PopupPromotion';
+import { POPUP_PROMOTION_ENABLED } from '../globalsubcomponentes/popupsConfig';
 // Commented out BackPopup import
 // import PopupBack from '../globalsubcomponentes/BackPopup';
 
@@ -99,16 +100,17 @@ export default function IndexVidaOmint() {
 
   return (
     <div>
-
       {/* Commented out BackPopup component
+      {POPUP_BACK_ENABLED &&
       <PopupBack
         productId={productId}
         isPromotionOpen={showPromotionPopup || backPopupCooldown}
         canShowAfterPromotion={promotionPopupClosed && !backPopupCooldown}
-      /> */}
+      /> }*/}
 
-      {showPromotionPopup && <PromotionPopup onClose={handlePromotionClose} />}
-
+      {POPUP_PROMOTION_ENABLED && showPromotionPopup && (
+        <PromotionPopup onClose={handlePromotionClose} />
+      )}
 
       <BannersPromos />
       <Superior />
