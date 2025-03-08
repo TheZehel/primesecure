@@ -42,36 +42,39 @@ export function PromotionPopup({ banner: bannerProp, onClose }) {
   useEffect(() => {
     const utmParams = getUtmParams();
     if (Object.keys(utmParams).length > 0) {
-      // Update both local state and Redux
+      // Atualiza tanto o estado local quanto o Redux
       setLocalFormData((prev) => ({ ...prev, ...utmParams }));
       dispatch(updateMultipleFields(utmParams));
     }
   }, [dispatch]);
 
-  // Update form input handler
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-
-    // Update local state
-    setLocalFormData((prev) => ({ ...prev, [name]: value }));
-
-    // Update Redux state
-    dispatch(updateFormField({ field: name, value }));
-  };
-
-  // Update local state when Redux state changes
+  // Atualiza o estado local quando o estado do Redux mudar
   useEffect(() => {
     setLocalFormData(formData);
   }, [formData]);
 
-  // Estado e lógica original do popup
-  const [open, setOpen] = useState(true);
+  // Estado do popup: inicializa como false e será aberto conforme a condição
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+
   useEffect(() => {
     const handleResize = () => setViewportWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Lógica para exibir o popup somente se já se passaram 3 horas desde o último fechamento
+  useEffect(() => {
+    const lastPopupTimestamp = localStorage.getItem('lastPopupTimestamp');
+    const now = Date.now();
+    const threeHours = 3 * 60 * 60 * 1000;
+    if (
+      !lastPopupTimestamp ||
+      now - parseInt(lastPopupTimestamp, 10) >= threeHours
+    ) {
+      setOpen(true);
+    }
   }, []);
 
   // Mapeia a rota para identificador de conversão e banners
@@ -98,6 +101,8 @@ export function PromotionPopup({ banner: bannerProp, onClose }) {
       '/consorcio-auto': 'lead-consorcio-auto-popup',
       '/consorcio-auto/': 'lead-consorcio-auto-popup',
       '/': 'lead-home-popup',
+      '/sobre': 'lead-sobre-popup',
+      '/contato': 'lead-contato-popup',
     };
 
     const productBanners = {
@@ -108,6 +113,18 @@ export function PromotionPopup({ banner: bannerProp, onClose }) {
           'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-primetravel.png',
       },
       '/': {
+        srcLarge:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-home.png',
+        srcMobile:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-home.png',
+      },
+      '/sobre': {
+        srcLarge:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-home.png',
+        srcMobile:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-home.png',
+      },
+      '/contato': {
         srcLarge:
           'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-home.png',
         srcMobile:
@@ -209,6 +226,8 @@ export function PromotionPopup({ banner: bannerProp, onClose }) {
         '/consorcio-auto': 'lead-consorcio-auto-popup',
         '/consorcio-auto/': 'lead-consorcio-auto-popup',
         '/': 'lead-home-popup',
+        '/sobre': 'lead-sobre-popup',
+        '/contato': 'lead-contato-popup',
       };
       const path = window.location.pathname;
       const eventIdentifier = urlToEventMap[path];
@@ -225,25 +244,23 @@ export function PromotionPopup({ banner: bannerProp, onClose }) {
   };
 
   const navigateBasedOnPath = () => {
-    // Don't redirect anywhere, just manage state
-    setSubmitSuccess(true); // Set success state
+    // Apenas gerencia o estado, sem redirecionar
+    setSubmitSuccess(true);
     setTimeout(() => {
       finalizeAndClosePopup();
-    }, 1500); // Close popup after 1.5 seconds of showing success message
+    }, 1500);
   };
 
-  // Função para fechar o popup e fazer outras ações finais
+  // Função para fechar o popup e realizar ações finais
   const finalizeAndClosePopup = () => {
-    handleClose(); // This will close the popup and notify the parent
-    setIsLoading(false); // Garante que loading esteja desativado
+    handleClose();
+    setIsLoading(false);
   };
 
   // Função de envio do formulário com integração RD Station
   const handleSubmit = async () => {
-    // Removida a validação de campos - procede diretamente para envio
     setIsLoading(true);
-
-    // Update Redux store with all local form data
+    // Atualiza o estado do Redux com todos os dados locais do formulário
     dispatch(updateMultipleFields(localFormData));
 
     const apiKey = process.env.REACT_APP_API_KEY_RD_STATION;
@@ -274,16 +291,14 @@ export function PromotionPopup({ banner: bannerProp, onClose }) {
       console.log('RD Station Response:', responseRD);
       await emitDataLayerEvent();
 
-      // Success! Show success message but don't navigate away
+      // Exibe mensagem de sucesso sem redirecionar
       setSubmitSuccess(true);
-
-      // Wait a moment to show success message, then close popup
       setTimeout(() => {
         finalizeAndClosePopup();
       }, 1500);
     } catch (error) {
       console.error('Error in RD Station or Data Layer event:', error);
-      setSubmitSuccess(true); // Even on error, we'll show success to user
+      setSubmitSuccess(true);
       setTimeout(() => {
         finalizeAndClosePopup();
       }, 1500);
@@ -294,9 +309,10 @@ export function PromotionPopup({ banner: bannerProp, onClose }) {
     navigate('/politicas-de-privacidade');
   };
 
-  // Handle popup close and notify parent component
+  // Ao fechar o popup, registra o horário no localStorage e notifica o componente pai
   const handleClose = () => {
     setOpen(false);
+    localStorage.setItem('lastPopupTimestamp', Date.now().toString());
     if (onClose && typeof onClose === 'function') {
       onClose();
     }
@@ -307,10 +323,10 @@ export function PromotionPopup({ banner: bannerProp, onClose }) {
       <Dialog
         size="lg"
         open={open}
-        handler={handleClose} // Updated handler to use the new handleClose method
+        handler={handleClose}
         className="bg-transparent shadow-none"
       >
-        <Card className="mx-2 sm:m-auto sm:w-[58%] max-h-[70%] border border-bluePrime2/30">
+        <Card className="mx-2 w-full sm:m-auto sm:w-[58%] max-h-[70%] border border-bluePrime2/30">
           {/* Layout para telas pequenas */}
           <div className="block md:hidden">
             <div className="border border-bluePrime2/30">
@@ -320,7 +336,6 @@ export function PromotionPopup({ banner: bannerProp, onClose }) {
                 className="object-cover w-full h-auto rounded-t-lg"
               />
             </div>
-            {/* Seção com conteúdo, inputs controlados e botão de fechar reposicionado */}
             <div
               className="p-4 border border-bluePrime2/30 overflow-y-auto"
               style={{ maxHeight: '50vh' }}
@@ -334,7 +349,7 @@ export function PromotionPopup({ banner: bannerProp, onClose }) {
                   🎉 Promoção de carnaval! 🎉
                 </Typography>
                 <button
-                  onClick={handleClose} // Updated onClick to use the new handleClose method
+                  onClick={handleClose}
                   className="absolute top-0 right-0 mt-1 mr-1 text-bluePrime hover:text-bluePrime2 transition-colors"
                 >
                   <svg
@@ -368,7 +383,11 @@ export function PromotionPopup({ banner: bannerProp, onClose }) {
                   name="name"
                   id="name"
                   value={localFormData.name}
-                  onChange={handleInputChange}
+                  onChange={(e) => {
+                    const { name, value } = e.target;
+                    setLocalFormData((prev) => ({ ...prev, [name]: value }));
+                    dispatch(updateFormField({ field: name, value }));
+                  }}
                   className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
                 />
                 <Typography className="-mb-2 text-grayPrime" variant="h6">
@@ -380,7 +399,11 @@ export function PromotionPopup({ banner: bannerProp, onClose }) {
                   id="email-address"
                   autoComplete="family-name"
                   value={localFormData.email}
-                  onChange={handleInputChange}
+                  onChange={(e) => {
+                    const { name, value } = e.target;
+                    setLocalFormData((prev) => ({ ...prev, [name]: value }));
+                    dispatch(updateFormField({ field: name, value }));
+                  }}
                   className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
                 />
                 <Typography className="-mb-2 text-grayPrime" variant="h6">
@@ -395,7 +418,11 @@ export function PromotionPopup({ banner: bannerProp, onClose }) {
                   name="phone"
                   id="phone"
                   value={localFormData.phone}
-                  onChange={handleInputChange}
+                  onChange={(e) => {
+                    const { name, value } = e.target;
+                    setLocalFormData((prev) => ({ ...prev, [name]: value }));
+                    dispatch(updateFormField({ field: name, value }));
+                  }}
                   className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
                 />
               </CardBody>
@@ -448,7 +475,7 @@ export function PromotionPopup({ banner: bannerProp, onClose }) {
             <div className="w-1/2 p-4 flex flex-col border border-bluePrime2/30">
               <div className="flex justify-end">
                 <button
-                  onClick={handleClose} // Updated onClick to use the new handleClose method
+                  onClick={handleClose}
                   className="text-bluePrime hover:text-bluePrime2 transition-colors"
                 >
                   <svg
@@ -489,7 +516,11 @@ export function PromotionPopup({ banner: bannerProp, onClose }) {
                   name="name"
                   id="name"
                   value={localFormData.name}
-                  onChange={handleInputChange}
+                  onChange={(e) => {
+                    const { name, value } = e.target;
+                    setLocalFormData((prev) => ({ ...prev, [name]: value }));
+                    dispatch(updateFormField({ field: name, value }));
+                  }}
                   className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
                 />
                 <Typography className="-mb-2 text-grayPrime" variant="h6">
@@ -501,7 +532,11 @@ export function PromotionPopup({ banner: bannerProp, onClose }) {
                   id="email-address"
                   autoComplete="family-name"
                   value={localFormData.email}
-                  onChange={handleInputChange}
+                  onChange={(e) => {
+                    const { name, value } = e.target;
+                    setLocalFormData((prev) => ({ ...prev, [name]: value }));
+                    dispatch(updateFormField({ field: name, value }));
+                  }}
                   className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
                 />
                 <Typography className="-mb-2 text-grayPrime" variant="h6">
@@ -516,7 +551,11 @@ export function PromotionPopup({ banner: bannerProp, onClose }) {
                   name="phone"
                   id="phone"
                   value={localFormData.phone}
-                  onChange={handleInputChange}
+                  onChange={(e) => {
+                    const { name, value } = e.target;
+                    setLocalFormData((prev) => ({ ...prev, [name]: value }));
+                    dispatch(updateFormField({ field: name, value }));
+                  }}
                   className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-bluePrime sm:text-sm sm:leading-6"
                 />
               </CardBody>

@@ -1,83 +1,56 @@
-import React, { useState, useEffect } from 'react';
-import PopupBack from './BackPopup';
-import PromotionPopup from './PopupPromotion';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import PopupBack from '../globalsubcomponentes/BackPopup';
+import PromotionPopup from '../globalsubcomponentes/PopupPromotion';
+import {
+  closePromotionPopupWithCooldown,
+  enableBackPopup,
+  openPromotionPopup,
+} from '../../redux/slices/popupsSlice';
 
 const ModalContainer = () => {
-  // State to track popup visibility
-  const [showPromotionPopup, setShowPromotionPopup] = useState(false);
-  const [canShowBackPopup, setCanShowBackPopup] = useState(false);
-  const productId = 'global';
+  const dispatch = useDispatch();
+  const promotionPopupOpen = useSelector(
+    (state) => state.popups.promotionPopupOpen,
+  );
+  const backPopupAllowed = useSelector(
+    (state) => state.popups.backPopupAllowed,
+  );
 
-  // Function to handle when promotion popup is closed
-  const handlePromotionClose = () => {
-    setShowPromotionPopup(false);
-    // Allow a delay before the back popup can appear
-    setTimeout(() => {
-      setCanShowBackPopup(true);
-    }, 5000); // 5 second delay before back popup can appear
-  };
-
-  // Determine if we should show popups on this page
   useEffect(() => {
-    // Skip certain routes where we don't want popups
     const skipRoutes = [
       '/obrigado',
       '/login',
       '/registre-se',
       '/politicas-de-privacidade',
-      // Add other routes to skip as needed
     ];
-
-    // Get current path
     const currentPath = window.location.pathname;
-
-    // Check if current path is in skip list
     const shouldSkip = skipRoutes.some((route) => currentPath.includes(route));
 
     if (!shouldSkip) {
-      // Check if we've shown promotion popup for this page in this session
       const hasVisitedPage = sessionStorage.getItem(`visited_${currentPath}`);
-
       if (!hasVisitedPage) {
-        // First visit - show promotion popup
         setTimeout(() => {
-          setShowPromotionPopup(true);
-          setCanShowBackPopup(false);
+          dispatch(openPromotionPopup());
           sessionStorage.setItem(`visited_${currentPath}`, 'true');
         }, 1000);
       } else {
-        // Returning visit - allow back popup
-        setShowPromotionPopup(false);
-        setCanShowBackPopup(true);
+        dispatch(enableBackPopup());
       }
     }
-
-    // Reset popup state
     localStorage.removeItem('popupShown');
-  }, []);
-
-  // Only render on paths where we want popups
-  const currentPath = window.location.pathname;
-  const shouldRender = ![
-    '/obrigado',
-    '/login',
-    '/registre-se',
-    '/politicas-de-privacidade',
-    // Add other routes to skip as needed
-  ].some((route) => currentPath.includes(route));
-
-  if (!shouldRender) return null;
+  }, [dispatch]);
 
   return (
     <>
-      {/* Pass isPromotionOpen as a prop to BackPopup to control its behavior */}
-      <PopupBack
-        productId={productId}
-        isPromotionOpen={showPromotionPopup}
-        canOpenPopup={canShowBackPopup}
-      />
-
-      {showPromotionPopup && <PromotionPopup onClose={handlePromotionClose} />}
+      {promotionPopupOpen ? (
+        <PromotionPopup
+          onClose={() => dispatch(closePromotionPopupWithCooldown())}
+        />
+      ) : backPopupAllowed ? (
+        // Passa isPromotionOpen para que o PopupBack saiba quando a promoção está fechada
+        <PopupBack productId="global" isPromotionOpen={promotionPopupOpen} />
+      ) : null}
     </>
   );
 };

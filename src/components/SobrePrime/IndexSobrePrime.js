@@ -7,12 +7,13 @@ import FaqSobre from './components/FaqSobre';
 import BannerImg from './components/BannerImg';
 import IndexTrophySection from '../trophy-section/IndexTrophySection';
 import PopupBack from '../globalsubcomponentes/BackPopup';
+import { POPUP_BACK_ENABLED } from '../globalsubcomponentes/popupsConfig';
 
 function IndexSobrePrime() {
   const productId = 'SobrePrime';
   return (
     <div className="IndexSobrePrime">
-      {/* <PopupBack productId={productId} /> */}
+      {/* {POPUP_BACK_ENABLED && <PopupBack productId={productId} />} */}
       <Helmet>
         <title>Sobre | Prime Secure</title>
         <meta
