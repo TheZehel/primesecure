@@ -98,6 +98,8 @@ export function PromotionPopup({ banner: bannerProp, onClose }) {
       '/consorcio-auto': 'lead-consorcio-auto-popup',
       '/consorcio-auto/': 'lead-consorcio-auto-popup',
       '/': 'lead-home-popup',
+      '/sobre': 'lead-sobre-popup',
+      '/contato': 'lead-contato-popup',
     };
 
     const productBanners = {
@@ -108,6 +110,18 @@ export function PromotionPopup({ banner: bannerProp, onClose }) {
           'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-primetravel.png',
       },
       '/': {
+        srcLarge:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-home.png',
+        srcMobile:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-home.png',
+      },
+      '/sobre': {
+        srcLarge:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-home.png',
+        srcMobile:
+          'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/mobile/srcmobile-carnaval-2025-home.png',
+      },
+      '/contato': {
         srcLarge:
           'https://storage.googleapis.com/primesecure/pop-promo%C3%A7%C3%A3o/desktop/srclarge-carnaval-2025-home.png',
         srcMobile:
@@ -209,6 +223,8 @@ export function PromotionPopup({ banner: bannerProp, onClose }) {
         '/consorcio-auto': 'lead-consorcio-auto-popup',
         '/consorcio-auto/': 'lead-consorcio-auto-popup',
         '/': 'lead-home-popup',
+        '/sobre': 'lead-sobre-popup',
+        '/contato': 'lead-contato-popup',
       };
       const path = window.location.pathname;
       const eventIdentifier = urlToEventMap[path];

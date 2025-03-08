@@ -36,6 +36,10 @@ import PromoPopup, {
   PromotionPopup,
 } from '../globalsubcomponentes/PopupPromotion';
 import PopupBack from '../globalsubcomponentes/BackPopup';
+import {
+  POPUP_BACK_ENABLED,
+  POPUP_PROMOTION_ENABLED,
+} from '../globalsubcomponentes/popupsConfig';
 
 function IndexSeguroPet() {
   const [lastStep, setLastStep] = useState(0);
@@ -177,9 +181,8 @@ function IndexSeguroPet() {
 
   return (
     <div className="IndexSeguroPet">
-
-      {/* <PopupBack productId={productId} /> */}
-      <PromotionPopup />
+      {POPUP_BACK_ENABLED && <PopupBack productId={productId} />}
+      {POPUP_PROMOTION_ENABLED && <PromotionPopup />}
 
       <Helmet>
         <title>Plano de Saúde PetLove | Prime Secure Marketplace</title>

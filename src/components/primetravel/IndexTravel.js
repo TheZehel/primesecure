@@ -33,6 +33,10 @@ import PromoPopup, {
 } from '../globalsubcomponentes/PopupPromotion';
 import PopupBack from '../globalsubcomponentes/BackPopup';
 import { ToastContainer } from 'react-toastify';
+import {
+  POPUP_BACK_ENABLED,
+  POPUP_PROMOTION_ENABLED,
+} from '../globalsubcomponentes/popupsConfig';
 
 function IndexTravel() {
   const FaqRef = useRef();
@@ -101,9 +105,8 @@ function IndexTravel() {
   //const targetDate = new Date("December 31, 2023 00:00:00");
   return (
     <div className="IndexTravel">
-
-      {/* <PopupBack productId={productId} /> */}
-      <PromotionPopup />
+      {POPUP_BACK_ENABLED && <PopupBack productId={productId} />}
+      {POPUP_PROMOTION_ENABLED && <PromotionPopup />}
 
       <Helmet>
         <title>Seguro de Viagem Prime Travel | Prime Secure Marketplace</title>

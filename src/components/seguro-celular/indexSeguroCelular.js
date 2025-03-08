@@ -22,6 +22,10 @@ import PromoPopup, {
   PromotionPopup,
 } from '../globalsubcomponentes/PopupPromotion';
 import PopupBack from '../globalsubcomponentes/BackPopup';
+import {
+  POPUP_BACK_ENABLED,
+  POPUP_PROMOTION_ENABLED,
+} from '../globalsubcomponentes/popupsConfig';
 
 function IndexSeguroCelular() {
   const targetDate = new Date('December 31, 2023 00:00:00');
@@ -81,10 +85,8 @@ function IndexSeguroCelular() {
 
   return (
     <div className="IndexSeguroCelular">
-
-      {/* <PopupBack productId={productId} /> */}
-      <PromotionPopup />
-
+      {POPUP_BACK_ENABLED && <PopupBack productId={productId} />}
+      {POPUP_PROMOTION_ENABLED && <PromotionPopup />}
 
       <Helmet>
         <title>Seguro Celular Porto | Prime Secure Marketplace</title>

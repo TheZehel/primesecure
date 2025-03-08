@@ -83,6 +83,10 @@ import PopupBack from './components/globalsubcomponentes/BackPopup.js';
 import PromotionPopup from './components/globalsubcomponentes/PopupPromotion.js';
 import ModalContainer from './components/globalsubcomponentes/ModalContainer.js';
 import IndexSimpleTwoYou from './components/seguro-simpletwoyou/IndexSimpleTwoYou.js';
+import {
+  POPUP_BACK_ENABLED,
+  POPUP_PROMOTION_ENABLED,
+} from './components/globalsubcomponentes/popupsConfig.js';
 
 /**
  *  Componente para fazer o scroll para o topo da página
@@ -171,8 +175,10 @@ function App() {
                   <CardGraaac />
                   <Selos />
                   <IndexContactSection />
-                  {/* <PopupBack /> */}
-                  {/* <PromotionPopup /> */}
+
+                  {POPUP_BACK_ENABLED && <PopupBack />}
+                  {POPUP_PROMOTION_ENABLED && <PromotionPopup />}
+
                 </>
               }
             />
