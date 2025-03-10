@@ -33,11 +33,11 @@ export default function BannersPromos() {
     {
       id: 1,
       srcLarge:
-        'https://storage.googleapis.com/primesecure/banners/banners-carnaval-25/produtos/vida/srclarge-25-carnaval-vida.png',
+        'https://storage.googleapis.com/primesecure/produtos/mes-consumidor/large/srclarge-consumidor-vidaomint.png',
       srcMedium:
-        'https://storage.googleapis.com/primesecure/banners/banners-carnaval-25/produtos/vida/srcmedium-25-carnaval-vida.png',
+        'https://storage.googleapis.com/primesecure/produtos/mes-consumidor/medium/srcmedium-consumidor-vidaomint.png',
       srcMobile:
-        'https://storage.googleapis.com/primesecure/banners/banners-carnaval-25/produtos/vida/srcmobile-25-carnaval-vida.png',
+        'https://storage.googleapis.com/primesecure/produtos/mes-consumidor/mobile/srcmobile-consumidor-vidaomint.png',
       alt: 'Banner de Natal para Telas Grandes',
       href: '',
     },

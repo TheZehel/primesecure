@@ -33,11 +33,11 @@ export default function BannerPromo() {
     {
       id: 1,
       srcLarge:
-        'https://storage.googleapis.com/primesecure/banners/banners-carnaval-25/produtos/imovel/srclarge-25-carnaval-imovel.png',
+        'https://storage.googleapis.com/primesecure/produtos/mes-consumidor/large/srclarge-consumidor-imovel.png',
       srcMedium:
-        'https://storage.googleapis.com/primesecure/banners/banners-carnaval-25/produtos/imovel/srcmedium-25-carnaval-imovel.png',
+        'https://storage.googleapis.com/primesecure/produtos/mes-consumidor/medium/srcmedium-consumidor-imovel.png',
       srcMobile:
-        'https://storage.googleapis.com/primesecure/banners/banners-carnaval-25/produtos/imovel/srcmobile-25-carnaval-imovel.png',
+        'https://storage.googleapis.com/primesecure/produtos/mes-consumidor/mobile/srcmobile-consumidor-imovel.png',
       alt: 'Banner de Natal para Telas Grandes',
       href: '',
     },

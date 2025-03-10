@@ -33,11 +33,11 @@ export default function BannerPromo() {
     {
       id: 1,
       srcLarge:
-        'https://storage.googleapis.com/primesecure/banners/banners-carnaval-25/produtos/auto/srclarge-25-carnaval-auto.png',
+        'https://storage.googleapis.com/primesecure/produtos/mes-consumidor/large/srclarge-consumidor-auto.png',
       srcMedium:
-        'https://storage.googleapis.com/primesecure/banners/banners-carnaval-25/produtos/auto/srcmedium-25-carnaval-auto.png',
+        'https://storage.googleapis.com/primesecure/produtos/mes-consumidor/medium/srcmedium-consumidor-auto.png',
       srcMobile:
-        'https://storage.googleapis.com/primesecure/banners/banners-carnaval-25/produtos/auto/srcmobile-25-carnaval-auto.png',
+        'https://storage.googleapis.com/primesecure/produtos/mes-consumidor/mobile/srcmobile-consumidor-auto.png',
       alt: 'Banner para Telas Grandes',
       href: '',
     },
